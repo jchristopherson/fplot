@@ -1,9 +1,5 @@
-# fplot
-A Fortran library providing a convenient interface for plotting with Gnuplot.
+! fplot_2d_1.f90
 
-## Example 1
-This example illustrates how to plot two-dimensional data.
-```fortran
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -68,6 +64,3 @@ program example
     ! Let GNUPLOT draw the plot
     call plt%draw()
 end program
-```
-This is the graph resulting from the above program.
-![](images/example_2d_plot_1.png?raw=true)
