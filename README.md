@@ -1,6 +1,12 @@
 # fplot
 A Fortran library providing a convenient interface for plotting with Gnuplot.
 
+## Status
+![Build Status](https://travis-ci.org/jchristopherson/fplot.svg?branch=master)
+
+## Gnuplot
+This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
+
 ## Example 1
 This example illustrates how to plot two-dimensional data.
 ```fortran
