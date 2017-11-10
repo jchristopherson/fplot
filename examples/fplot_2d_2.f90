@@ -1,4 +1,4 @@
-! fplot_2d_1.f90
+! fplot_2d_2.f90
 
 program example
     use, intrinsic :: iso_fortran_env
@@ -15,22 +15,33 @@ program example
     type(scatter_plot) :: plt
     type(scatter_plot_data) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
+    type(legend), pointer :: lgnd
     
     ! Initialize the plot object
     call plt%initialize()
+    
+    ! Set plot properties
+    call plt%set_draw_border(.false.)
+    call plt%set_show_gridlines(.false.)
+
+    ! Define the legend location
+    lgnd => plt%get_legend()
+    call lgnd%set_draw_inside_axes(.false.)
 
     ! Define titles
-    call plt%set_title("2D Example Plot 1")
+    call plt%set_title("2D Example Plot 2")
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
+    call xAxis%set_zero_axis(.true.)
+    call xAxis%set_zero_axis_line_width(1.0)
 
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
 
     ! Define the data, and then add it to the plot
     x(1) = 0.0d0
-    do i = 1, n
+    do i = 2, n
         x(i) = x(i-1) + dx
     end do
     y1 = sin(5.0d0 * x)
@@ -43,10 +54,7 @@ program example
     call d1%set_name("Data Set 1")
     call d1%set_use_auto_color(.false.)
     call d1%set_line_color(CLR_BLUE)
-    call d1%set_draw_markers(.true.)
-    call d1%set_marker_frequency(10)
-    call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
-    call d1%set_marker_scaling(2.0)
+    call d1%set_line_width(1.0)
 
     call d2%set_name("Data Set 2")
     call d2%set_use_auto_color(.false.)

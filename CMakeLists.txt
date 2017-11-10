@@ -109,4 +109,8 @@ if (BUILD_EXAMPLES)
     # Example 1
     add_executable(fplot_2d_1 examples/fplot_2d_1.f90)
     target_link_libraries(fplot_2d_1 fplot)
+
+    # Example 2
+    add_executable(fplot_2d_2 examples/fplot_2d_2.f90)
+    target_link_libraries(fplot_2d_2 fplot)
 endif()
