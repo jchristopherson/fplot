@@ -1870,8 +1870,7 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Parameters
-        character(len = *), parameter :: defaultFilename = &
-            "temp_gnuplot_file.plt"
+        character(len = *), parameter :: fname = "temp_gnuplot_file.plt"
 
         ! Local Variables
         logical :: p
@@ -1879,9 +1878,6 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
-        character(len = :), allocatable :: fname
-        class(terminal), pointer :: term
-        logical :: saveToDiskTerm
 
         ! Initialization
         if (present(persist)) then
@@ -1894,17 +1890,6 @@ contains
         else
             errmgr => deferr
         end if
-
-        ! Determine the filename
-        term => this%get_terminal()
-        select type (term)
-        class is (png_terminal)
-            fname = term%get_filename()
-            saveToDiskTerm = .true.
-        class default
-            fname = defaultFilename
-            saveToDiskTerm = .false.
-        end select
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -1920,7 +1905,7 @@ contains
         close(fid)
 
         ! Launch GNUPLOT
-        if (p .and. .not.saveToDiskTerm) then
+        if (p) then
             call execute_command_line("gnuplot -persist " // fname)
         else
             call execute_command_line("gnuplot " // fname)
