@@ -518,6 +518,8 @@ module fplot_core
         !> @brief Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
         procedure, public :: draw => plt_draw
+        !> @brief Saves a GNUPLOT command file.
+        procedure, public :: save_file => plt_save
     end type
 
 ! ******************************************************************************
@@ -1860,6 +1862,7 @@ contains
     !!  execution.  If not provided, a default implementation of the errors
     !!  class is used internally to provide error handling.  Possible errors and
     !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
     subroutine plt_draw(this, persist, err)
         ! Arguments
         class(plot), intent(in) :: this
@@ -1867,7 +1870,8 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Parameters
-        character(len = *), parameter :: fname = "temp_gnuplot_file.plt"
+        character(len = *), parameter :: defaultFilename = &
+            "temp_gnuplot_file.plt"
 
         ! Local Variables
         logical :: p
@@ -1875,6 +1879,9 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        character(len = :), allocatable :: fname
+        class(terminal), pointer :: term
+        logical :: saveToDiskTerm
 
         ! Initialization
         if (present(persist)) then
@@ -1888,18 +1895,32 @@ contains
             errmgr => deferr
         end if
 
+        ! Determine the filename
+        term => this%get_terminal()
+        select type (term)
+        class is (png_terminal)
+            fname = term%get_filename()
+            saveToDiskTerm = .true.
+        class default
+            fname = defaultFilename
+            saveToDiskTerm = .false.
+        end select
+
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
             write(errmsg, "(AI0A)") &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
+            call errmgr%report_error("plt_save", trim(errmsg), &
+                PLOT_GNUPLOT_FILE_ERROR)
+            return
         end if
         write(fid, '(A)') this%get_command_string()
         close(fid)
 
         ! Launch GNUPLOT
-        if (p) then
+        if (p .and. .not.saveToDiskTerm) then
             call execute_command_line("gnuplot -persist " // fname)
         else
             call execute_command_line("gnuplot " // fname)
@@ -1908,6 +1929,43 @@ contains
         ! Clean up by deleting the file
         open(newunit = fid, file = fname)
         close(fid, status = "delete")
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Saves a GNUPLOT command file.
+    !!
+    !! @param[in] this The plot object.
+    !! @param[in] fname The filename.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
+    subroutine plt_save(this, fname, err)
+        ! Arguments
+        class(plot), intent(in) :: this
+        character(len = *), intent(in) :: fname
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: fid, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+        character(len = 256) :: errmsg
+
+        ! Open the file for writing, and write the contents to file
+        open(newunit = fid, file = fname, iostat = flag)
+        if (flag > 0) then
+            write(errmsg, "(AI0A)") &
+                "The file could not be opened/created.  Error code ", flag, &
+                " was encountered."
+            call errmgr%report_error("plt_save", trim(errmsg), &
+                PLOT_GNUPLOT_FILE_ERROR)
+            return
+        end if
+        write(fid, '(A)') this%get_command_string()
+        close(fid)
     end subroutine
 
 ! ******************************************************************************

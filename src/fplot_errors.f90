@@ -17,4 +17,6 @@ module fplot_errors
     integer(int32), parameter :: PLOT_INVALID_OPERATION_ERROR = 1002
     !> @brief Occurs if there is an array size mismatch error.
     integer(int32), parameter :: PLOT_ARRAY_SIZE_MISMATCH_ERROR = 1003
+    !> @brief Occurs if there is a GNUPLOT file error.
+    integer(int32), parameter :: PLOT_GNUPLOT_FILE_ERROR = 1004
 end module
