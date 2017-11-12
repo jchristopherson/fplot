@@ -308,6 +308,9 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT Win32 terminal object.
     type, extends(terminal) :: windows_terminal
+    private
+        !> The terminal ID string
+        character(len = 3) :: m_id = "win"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
         procedure, public :: get_id_string => wt_get_term_string
@@ -316,6 +319,9 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT QT terminal object.
     type, extends(terminal) :: qt_terminal
+    private
+        !> The terminal ID string
+        character(len = 2) :: m_id = "qt"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
         procedure, public :: get_id_string => qt_get_term_string
@@ -324,6 +330,9 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT WXT terminal object.
     type, extends(terminal) :: wxt_terminal
+    private
+        !> The terminal ID string
+        character(len = 3) :: m_id = "wxt"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
         procedure, public :: get_id_string => wxt_get_term_string
@@ -333,6 +342,8 @@ module fplot_core
     !> @brief Defines a GNUPLOT PNG terminal object.
     type, extends(terminal) :: png_terminal
     private
+        !> The terminal ID string
+        character(len = 3) :: m_id = "png"
         !> The filename of the PNG file to write.
         character(len = GNUPLOT_MAX_PATH_LENGTH) :: m_fname = "default.png"
     contains
@@ -520,6 +531,14 @@ module fplot_core
         procedure, public :: draw => plt_draw
         !> @brief Saves a GNUPLOT command file.
         procedure, public :: save_file => plt_save
+        !> @brief Gets the name of the font used for plot text.
+        procedure, public :: get_font_name => plt_get_font
+        !> @brief Sets the name of the font used for plot text.
+        procedure, public :: set_font_name => plt_set_font
+        !> @brief Gets the size of the font used by the plot.
+        procedure, public :: get_font_size => plt_get_font_size
+        !> @brief Sets the size of the font used by the plot.
+        procedure, public :: set_font_size => plt_set_font_size
     end type
 
 ! ******************************************************************************
@@ -679,6 +698,8 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief An x-axis object.
     type, extends(plot_axis) :: x_axis
+        !> The ID character
+        character :: m_id = "x"
     contains
         !> @brief Gets the axis identification string.
         procedure, public :: get_id_string => xa_get_id
@@ -687,6 +708,8 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief A y-axis object.
     type, extends(plot_axis) :: y_axis
+        !> The ID character
+        character :: m_id = "y"
     contains
         !> @brief Gets the axis identification string.
         procedure, public :: get_id_string => ya_get_id
@@ -695,6 +718,8 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief A secondary y-axis object.
     type, extends(plot_axis) :: y2_axis
+        !> The ID character
+        character(len = 2) :: m_id = "y2"
     contains
         !> @brief Gets the axis identification string.
         procedure, public :: get_id_string => y2a_get_id
@@ -1025,7 +1050,7 @@ contains
     pure function wt_get_term_string(this) result(x)
         class(windows_terminal), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "win"
+        x = this%m_id
     end function
 
 ! ******************************************************************************
@@ -1038,7 +1063,7 @@ contains
     pure function qt_get_term_string(this) result(x)
         class(qt_terminal), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "qt"
+        x = this%m_id
     end function
 
 
@@ -1052,7 +1077,7 @@ contains
     pure function wxt_get_term_string(this) result(x)
         class(wxt_terminal), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "wxt"
+        x = this%m_id
     end function
 
 ! ******************************************************************************
@@ -1065,7 +1090,7 @@ contains
     pure function png_get_term_string(this) result(x)
         class(png_terminal), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "png"
+        x = this%m_id
     end function
 
 ! ------------------------------------------------------------------------------
@@ -1746,7 +1771,12 @@ contains
     !!
     !! @param[in,out] this The plot object.
     !! @param[in] x The plot_data object.
-    !! @param[out] err
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
     subroutine plt_push_data(this, x, err)
         ! Arguments
         class(plot), intent(inout) :: this
@@ -1754,7 +1784,7 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Process
-        call this%m_data%push(x) ! Include err
+        call this%m_data%push(x, err)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -1897,7 +1927,7 @@ contains
             write(errmsg, "(AI0A)") &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
-            call errmgr%report_error("plt_save", trim(errmsg), &
+            call errmgr%report_error("plt_draw", trim(errmsg), &
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
@@ -1939,6 +1969,13 @@ contains
         type(errors), target :: deferr
         character(len = 256) :: errmsg
 
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
@@ -1951,6 +1988,60 @@ contains
         end if
         write(fid, '(A)') this%get_command_string()
         close(fid)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the name of the font used for plot text.
+    !!
+    !! @param[in] this The plot object.
+    !! @return The font name.
+    function plt_get_font(this) result(x)
+        class(plot), intent(in) :: this
+        character(len = :), allocatable :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        x = term%get_font_name()
+    end function
+
+! --------------------
+    !> @brief Sets the name of the font used for plot text.
+    !!
+    !! @param[in,out] this The plot object.
+    !! @param[in] x The font name.
+    subroutine plt_set_font(this, x)
+        class(plot), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        call term%set_font_name(x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the size of the font used by the plot.
+    !!
+    !! @param[in] this The plot object.
+    !! @return The size of the font, in points.
+    function plt_get_font_size(this) result(x)
+        class(plot), intent(in) :: this
+        integer(int32) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        x = term%get_font_size()
+    end function
+
+! --------------------
+    !> @brief Sets the size of the font used by the plot.
+    !!
+    !! @param[in,out] this The plot object.
+    !! @param[in] x The font size, in points.  If a value of zero is provided,
+    !! the font size is reset to its default value; or, if a negative value
+    !! is provided, the absolute value of the supplied value is utilized.
+    subroutine plt_set_font_size(this, x)
+        class(plot), intent(inout) :: this
+        integer(int32), intent(in) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        call term%set_font_size(x)
     end subroutine
 
 ! ******************************************************************************
@@ -2868,7 +2959,7 @@ contains
     function xa_get_id(this) result(x)
         class(x_axis), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "x"
+        x = this%m_id
     end function
 
 ! ******************************************************************************
@@ -2881,7 +2972,7 @@ contains
     function ya_get_id(this) result(x)
         class(y_axis), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "y"
+        x = this%m_id
     end function
 
 ! ******************************************************************************
@@ -2894,7 +2985,7 @@ contains
     function y2a_get_id(this) result(x)
         class(y2_axis), intent(in) :: this
         character(len = :), allocatable :: x
-        x = "y2"
+        x = this%m_id
     end function
 
 ! ------------------------------------------------------------------------------
