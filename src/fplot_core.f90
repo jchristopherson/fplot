@@ -75,7 +75,8 @@ module fplot_core
     public :: legend
     public :: plot
     public :: scatter_plot_data
-    public :: scatter_plot
+    public :: plot_data_2d
+    public :: plot_2d
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -542,10 +543,10 @@ module fplot_core
     end type
 
 ! ******************************************************************************
-! CONCRETE PLOT_DATA TYPES
+! PLOT_DATA BASED TYPES
 ! ------------------------------------------------------------------------------
-    !> @brief A plot_data object for describing 2D scatter plot data sets.
-    type, extends(plot_data) :: scatter_plot_data
+    !> @brief A plot_data object for describing scatter plot data sets.
+    type, abstract, extends(plot_data) :: scatter_plot_data
     private
         !> Draw the line?
         logical :: m_drawLine = .true.
@@ -565,17 +566,10 @@ module fplot_core
         real(real32) :: m_markerSize = 1.0
         !> Let GNUPLOT choose colors automatically
         logical :: m_useAutoColor = .true.
-        !> An N-by-2 matrix containing the x and y data points.
-        real(real64), allocatable, dimension(:,:) :: m_data
-        !> Draw against the secondary y axis?
-        logical :: m_useY2 = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
         procedure, public :: get_command_string => spd_get_cmd
-        !> @brief Gets the GNUPLOT command string containing the actual data
-        !! to plot.
-        procedure, public :: get_data_string => spd_get_data_cmd
         !> @brief Gets the width of the line, in pixels.
         procedure, public :: get_line_width => spd_get_line_width
         !> @brief Sets the width of the line, in pixels.
@@ -617,37 +611,64 @@ module fplot_core
         !! choose line colors.
         procedure, public :: set_use_auto_color => spd_set_use_auto_colors
         !> @brief Gets the number of data points.
-        procedure, public :: get_count => spd_get_data_count
+        procedure(spd_get_int_value), deferred, public :: get_count
         !> @brief Gets the requested X data point.
-        procedure, public :: get_x => spd_get_x_data
+        procedure(spd_get_value), deferred, public :: get_x
         !> @brief Sets the requested X data point.
-        procedure, public :: set_x => spd_set_x_data
+        procedure(spd_set_value), deferred, public :: set_x
         !> @brief Gets the requested Y data point.
-        procedure, public :: get_y => spd_get_y_data
+        procedure(spd_get_value), deferred, public :: get_y
         !> @brief Sets the requested X data point.
-        procedure, public :: set_y => spd_set_y_data
-        !> @brief Defines the data set.
-        generic, public :: define_data => spd_set_data_1, spd_set_data_2
-        !> @brief Gets a value determining if the data should be plotted against
-        !! the secondary y-axis.
-        procedure, public :: get_draw_against_y2 => spd_get_draw_against_y2
-        !> @brief Sets a value determining if the data should be plotted against
-        !! the secondary y-axis.
-        procedure, public :: set_draw_against_y2 => spd_set_draw_against_y2
-
-        procedure :: spd_set_data_1
-        procedure :: spd_set_data_2
+        procedure(spd_set_value), deferred, public :: set_y
+        !> @brief Gets the GNUPLOT command string defining which axes the data
+        !! is to be plotted against.
+        procedure(spd_get_string_result), deferred, public :: get_axes_string
     end type
 
 ! ------------------------------------------------------------------------------
+    !> @brief Defines a two-dimensional plot data set.
+    type, extends(scatter_plot_data) :: plot_data_2d
+    private
+        !> An N-by-2 matrix containing the x and y data points.
+        real(real64), allocatable, dimension(:,:) :: m_data
+        !> Draw against the secondary y axis?
+        logical :: m_useY2 = .false.
+    contains
+        !> @brief Gets the GNUPLOT command string defining which axes the data
+        !! is to be plotted against.
+        procedure, public :: get_axes_string => pd2d_get_axes_cmd
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        procedure, public :: get_data_string => pd2d_get_data_cmd
+        !> @brief Gets the number of data points.
+        procedure, public :: get_count => pd2d_get_data_count
+        !> @brief Gets the requested X data point.
+        procedure, public :: get_x => pd2d_get_x_data
+        !> @brief Sets the requested X data point.
+        procedure, public :: set_x => pd2d_set_x_data
+        !> @brief Gets the requested Y data point.
+        procedure, public :: get_y => pd2d_get_y_data
+        !> @brief Sets the requested X data point.
+        procedure, public :: set_y => pd2d_set_y_data
+        !> @brief Gets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        procedure, public :: get_draw_against_y2 => pd2d_get_draw_against_y2
+        !> @brief Sets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        procedure, public :: set_draw_against_y2 => pd2d_set_draw_against_y2
+        !> @brief Defines the data set.
+        generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
+        procedure :: pd2d_set_data_1
+        procedure :: pd2d_set_data_2
+    end type
 
 ! ------------------------------------------------------------------------------
 
 ! ******************************************************************************
 ! CONCRETE PLOT TYPES
 ! ------------------------------------------------------------------------------
-    !> @brief A plot object defining a 2D scatter plot.
-    type, extends(plot) :: scatter_plot
+    !> @brief A plot object defining a 2D plot.
+    type, extends(plot) :: plot_2d
     private
         !> The x-axis.
         type(x_axis), pointer :: m_xAxis => null()
@@ -662,35 +683,35 @@ module fplot_core
         !> Draw the border?
         logical :: m_drawBorder = .true.
     contains
-        !> @brief Cleans up resources held by the scatter_plot object.
-        final :: sp_clean_up
-        !> @brief Initializes the scatter_plot object.
-        procedure, public :: initialize => sp_init
-        !> @brief Gets the GNUPLOT command string to represent this scatter_plot
+        !> @brief Cleans up resources held by the plot_2d object.
+        final :: p2d_clean_up
+        !> @brief Initializes the plot_2d object.
+        procedure, public :: initialize => p2d_init
+        !> @brief Gets the GNUPLOT command string to represent this plot_2d
         !! object.
-        procedure, public :: get_command_string => sp_get_cmd
+        procedure, public :: get_command_string => p2d_get_cmd
         !> @brief Gets the x-axis object.
-        procedure, public :: get_x_axis => sp_get_x_axis
+        procedure, public :: get_x_axis => p2d_get_x_axis
         !> @brief Gets the y-axis object.
-        procedure, public :: get_y_axis => sp_get_y_axis
+        procedure, public :: get_y_axis => p2d_get_y_axis
         !> @brief Gets the secondary y-axis object.
-        procedure, public :: get_y2_axis => sp_get_y2_axis
+        procedure, public :: get_y2_axis => p2d_get_y2_axis
         !> @brief Gets a flag determining if the secondary y-axis should be
         !! displayed.
-        procedure, public :: get_use_y2_axis => sp_get_use_y2
+        procedure, public :: get_use_y2_axis => p2d_get_use_y2
         !> @brief Sets a flag determining if the secondary y-axis should be
         !! displayed.
-        procedure, public :: set_use_y2_axis => sp_set_use_y2
+        procedure, public :: set_use_y2_axis => p2d_set_use_y2
         !> @brief Gets a value determining if the axis tic marks should point
         !! inwards.
-        procedure, public :: get_tics_inward => sp_get_tics_in
+        procedure, public :: get_tics_inward => p2d_get_tics_in
         !> @brief Sets a value determining if the axis tic marks should point
         !! inwards.
-        procedure, public :: set_tics_inward => sp_set_tics_in
+        procedure, public :: set_tics_inward => p2d_set_tics_in
         !> @brief Gets a value determining if the border should be drawn.
-        procedure, public :: get_draw_border => sp_get_draw_border
+        procedure, public :: get_draw_border => p2d_get_draw_border
         !> @brief Sets a value determining if the border should be drawn.
-        procedure, public :: set_draw_border => sp_set_draw_border
+        procedure, public :: set_draw_border => p2d_set_draw_border
     end type
 
 ! ******************************************************************************
@@ -766,6 +787,53 @@ module fplot_core
         function pa_get_string_result(this) result(x)
             import plot_axis
             class(plot_axis), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        !> @brief Retrieves a numeric value from a scatter_plot_data object.
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @param[in] index The index of the value to retrieve.
+        !! @return The requested value.
+        pure function spd_get_value(this, index) result(x)
+            use, intrinsic :: iso_fortran_env, only : int32, real64
+            import scatter_plot_data
+            class(scatter_plot_data), intent(in) :: this
+            integer(int32), intent(in) :: index
+            real(real64) :: x
+        end function
+
+        !> @brief Sets a numeric value into a scatter_plot_data object.
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] index The index of the value to retrieve.
+        !! @param[in] x The value.
+        subroutine spd_set_value(this, index, x)
+            use, intrinsic :: iso_fortran_env, only : int32, real64
+            import scatter_plot_data
+            class(scatter_plot_data), intent(inout) :: this
+            integer(int32), intent(in) :: index
+            real(real64), intent(in) :: x
+        end subroutine
+
+        !> @brief Retrieves an integer value from a scatter_plot_data object.
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The requested value.
+        pure function spd_get_int_value(this) result(x)
+            use, intrinsic :: iso_fortran_env, only : int32
+            import scatter_plot_data
+            class(scatter_plot_data), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        !> @brief Retrieves a string from a scatter_plot_data object.
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The string.
+        function spd_get_string_result(this) result(x)
+            import scatter_plot_data
+            class(scatter_plot_data), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
@@ -2114,46 +2182,9 @@ contains
             call str%append(to_string(this%get_marker_scaling()))
         end if
 
-        ! Define which axes the data is to be plotted against
-        if (this%get_draw_against_y2()) then
-            call str%append(" axes x1y2")
-        else
-            call str%append(" axes x1y1")
-        end if
-
-        ! End
-        x = str%to_string()
-    end function
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string containing the actual data
-    !! to plot.
-    !!
-    !! @param[in] this The scatter_plot_data object.
-    !! @return The command string.
-    function spd_get_data_cmd(this) result(x)
-        ! Arguments
-        class(scatter_plot_data), intent(in) :: this
-        character(len = :), allocatable :: x
-
-        ! Local Variables
-        type(string_builder) :: str
-        integer(int32) :: i, n
-        character :: delimiter, nl
-
-        ! Initialization
-        call str%initialize()
-        delimiter = achar(9) ! tab delimiter
-        nl = new_line(nl)
-        n = this%get_count()
-
-        ! Process
-        do i = 1, n
-            call str%append(to_string(this%get_x(i)))
-            call str%append(delimiter)
-            call str%append(to_string(this%get_y(i)))
-            call str%append(nl)
-        end do
+        ! Define the axes structure
+        call str%append(" ")
+        call str%append(this%get_axes_string())
 
         ! End
         x = str%to_string()
@@ -2420,219 +2451,14 @@ contains
         this%m_useAutoColor = x
     end subroutine
 
-! ------------------------------------------------------------------------------
-    !> @brief Gets the number of data points.
-    !!
-    !! @param[in] this The scatter_plot_data object.
-    !! @return The number of data points.
-    pure function spd_get_data_count(this) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        integer(int32) :: x
-        if (allocated(this%m_data)) then
-            x = size(this%m_data, 1)
-        else
-            x = 0
-        end if
-    end function
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the requested X data point.
-    !!
-    !! @param[in] this The scatter_plot_data object.
-    !! @param[in] i The index of the data point to retrieve.
-    !! @return The requested data point.
-    pure function spd_get_x_data(this, i) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        integer(int32), intent(in) :: i
-        real(real64) :: x
-        if (allocated(this%m_data)) then
-            x = this%m_data(i, 1)
-        else
-            x = 0.0d0
-        end if
-    end function
-
-! --------------------
-    !> @brief Sets the requested X data point.
-    !!
-    !! @param[in,out] this The scatter_plot_data object.
-    !! @param[in] i The index of the data point to replace.
-    !! @param[in] x The data point.
-    subroutine spd_set_x_data(this, i, x)
-        class(scatter_plot_data), intent(inout) :: this
-        integer(int32), intent(in) :: i
-        real(real64), intent(in) :: x
-        if (allocated(this%m_data)) then
-            this%m_data(i, 1) = x
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the requested Y data point.
-    !!
-    !! @param[in] this The scatter_plot_data object.
-    !! @param[in] i The index of the data point to retrieve.
-    !! @return The requested data point.
-    pure function spd_get_y_data(this, i) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        integer(int32), intent(in) :: i
-        real(real64) :: x
-        if (allocated(this%m_data)) then
-            x = this%m_data(i, 2)
-        else
-            x = 0.0d0
-        end if
-    end function
-
-! --------------------
-    !> @brief Sets the requested Y data point.
-    !!
-    !! @param[in,out] this The scatter_plot_data object.
-    !! @param[in] i The index of the data point to replace.
-    !! @param[in] x The data point.
-    subroutine spd_set_y_data(this, i, x)
-        class(scatter_plot_data), intent(inout) :: this
-        integer(int32), intent(in) :: i
-        real(real64), intent(in) :: x
-        if (allocated(this%m_data)) then
-            this%m_data(i, 2) = x
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines the data set.
-    !!
-    !! @param[in,out] this The scatter_plot_data object.
-    !! @param[in] x An N-element array containing the x coordinate data.
-    !! @param[in] y An N-element array containing the y coordinate data.
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
-    !!      same size.
-    subroutine spd_set_data_1(this, x, y, err)
-        ! Arguments
-        class(scatter_plot_data), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y
-        class(errors), intent(inout), optional, target :: err
-
-        ! Local Variables
-        integer(int32) :: i, n, flag
-        class(errors), pointer :: errmgr
-        type(errors), target :: deferr
-
-        ! Initialization
-        n = size(x)
-        if (present(err)) then
-            errmgr => err
-        else
-            errmgr => deferr
-        end if
-
-        ! Input Check
-        if (size(y) /= n) then
-            call errmgr%report_error("spd_set_data_1", &
-                "The input arrays are not the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
-            return
-        end if
-
-        ! Process
-        if (allocated(this%m_data)) deallocate(this%m_data)
-        allocate(this%m_data(n, 2), stat = flag)
-        if (flag /= 0) then
-            call errmgr%report_error("spd_set_data_1", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
-            return
-        end if
-        do concurrent (i = 1:n)
-            this%m_data(i, 1) = x(i)
-            this%m_data(i, 2) = y(i)
-        end do
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines the data set.
-    !!
-    !! @param[in,out] this The scatter_plot_data object.
-    !! @param[in] y An N-element array containing the y-coordinate data.  This
-    !!  data will be plotted against its own index.
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    subroutine spd_set_data_2(this, y, err)
-        ! Arguments
-        class(scatter_plot_data), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: y
-        class(errors), intent(inout), optional, target :: err
-
-        ! Local Variables
-        integer(int32) :: i, n, flag
-        class(errors), pointer :: errmgr
-        type(errors), target :: deferr
-
-        ! Initialization
-        n = size(y)
-        if (present(err)) then
-            errmgr => err
-        else
-            errmgr => deferr
-        end if
-
-        ! Process
-        if (allocated(this%m_data)) deallocate(this%m_data)
-        allocate(this%m_data(n, 2), stat = flag)
-        if (flag /= 0) then
-            call errmgr%report_error("spd_set_data_2", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
-            return
-        end if
-        do concurrent (i = 1:n)
-            this%m_data(i, 1) = real(i, real64)
-            this%m_data(i, 2) = y(i)
-        end do
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the data should be plotted against the
-    !! secondary y-axis.
-    !!
-    !! @param[in] this The scatter_plot_data object.
-    !! @return Returns true if the data should be plotted against the secondary
-    !!  y-axis; else, false to plot against the primary y-axis.
-    pure function spd_get_draw_against_y2(this) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        logical :: x
-        x = this%m_useY2
-    end function
-
-! --------------------
-    !> @brief Sets a value determining if the data should be plotted against the
-    !! secondary y-axis.
-    !!
-    !! @param[in,out] this The scatter_plot_data object.
-    !! @param[in] x Set to true if the data should be plotted against the
-    !!  secondary y-axis; else, false to plot against the primary y-axis.
-    subroutine spd_set_draw_against_y2(this, x)
-        class(scatter_plot_data), intent(inout) :: this
-        logical, intent(in) :: x
-        this%m_useY2 = x
-    end subroutine
-
 ! ******************************************************************************
-! SCATTER_PLOT MEMBERS
+! PLOT_2D MEMBERS
 ! ------------------------------------------------------------------------------
-    !> @brief Cleans up resources held by the scatter_plot object.
+    !> @brief Cleans up resources held by the plot_2d object.
     !!
-    !! @param[in,out] this The scatter_plot object.
-    subroutine sp_clean_up(this)
-        type(scatter_plot), intent(inout) :: this
+    !! @param[in,out] this The plot_2d object.
+    subroutine p2d_clean_up(this)
+        type(plot_2d), intent(inout) :: this
         call this%free_resources()
         if (associated(this%m_xAxis)) then
             deallocate(this%m_xAxis)
@@ -2649,9 +2475,9 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Initializes the scatter_plot object.
+    !> @brief Initializes the plot_2d object.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @param[in] term An optional input that is used to define the terminal.
     !!  The default terminal is a WXT terminal.  The acceptable inputs are:
     !!  - GNUPLOT_TERMINAL_PNG
@@ -2664,9 +2490,9 @@ contains
     !!  class is used internally to provide error handling.  Possible errors and
     !!  warning messages that may be encountered are as follows.
     !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    subroutine sp_init(this, term, err)
+    subroutine p2d_init(this, term, err)
         ! Arguments
-        class(scatter_plot), intent(inout) :: this
+        class(plot_2d), intent(inout) :: this
         integer(int32), intent(in), optional :: term
         class(errors), intent(inout), optional, target :: err
 
@@ -2700,21 +2526,21 @@ contains
 
         ! Error Checking
         if (flag /= 0) then
-            call errmgr%report_error("sp_init", &
+            call errmgr%report_error("p2d_init", &
                 "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
             return
         end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this scatter_plot
+    !> @brief Gets the GNUPLOT command string to represent this plot_2d
     !! object.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return The command string.
-    function sp_get_cmd(this) result(x)
+    function p2d_get_cmd(this) result(x)
         ! Arguments
-        class(scatter_plot), intent(in) :: this
+        class(plot_2d), intent(in) :: this
         character(len = :), allocatable :: x
 
         ! Local Variables
@@ -2836,7 +2662,6 @@ contains
             call str%append(ptr%get_data_string())
             if (i /= n) then
                 call str%append("e")
-                call str%append(new_line('a'))
             end if
         end do
 
@@ -2847,10 +2672,10 @@ contains
 ! ------------------------------------------------------------------------------
     !> @brief Gets the x-axis object.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return A pointer to the x-axis object.
-    function sp_get_x_axis(this) result(ptr)
-        class(scatter_plot), intent(in) :: this
+    function p2d_get_x_axis(this) result(ptr)
+        class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
         ptr => this%m_xAxis
     end function
@@ -2858,10 +2683,10 @@ contains
 ! ------------------------------------------------------------------------------
     !> @brief Gets the y-axis object.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return A pointer to the y-axis object.
-    function sp_get_y_axis(this) result(ptr)
-        class(scatter_plot), intent(in) :: this
+    function p2d_get_y_axis(this) result(ptr)
+        class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
         ptr => this%m_yAxis
     end function
@@ -2869,10 +2694,10 @@ contains
 ! ------------------------------------------------------------------------------
     !> @brief Gets the secondary y-axis object.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return A pointer to the secondary y-axis object.
-    function sp_get_y2_axis(this) result(ptr)
-        class(scatter_plot), intent(in) :: this
+    function p2d_get_y2_axis(this) result(ptr)
+        class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
         ptr => this%m_y2Axis
     end function
@@ -2881,10 +2706,10 @@ contains
     !> @brief Gets a flag determining if the secondary y-axis should be
     !! displayed.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return Returns true if the axis should be displayed; else, false.
-    pure function sp_get_use_y2(this) result(x)
-        class(scatter_plot), intent(in) :: this
+    pure function p2d_get_use_y2(this) result(x)
+        class(plot_2d), intent(in) :: this
         logical :: x
         x = this%m_useY2
     end function
@@ -2893,10 +2718,10 @@ contains
     !> @brief Sets a flag determining if the secondary y-axis should be
     !! displayed.
     !!
-    !! @param[in,out] this The scatter_plot object.
+    !! @param[in,out] this The plot_2d object.
     !! @param[in] x Set to true if the axis should be displayed; else, false.
-    subroutine sp_set_use_y2(this, x)
-        class(scatter_plot), intent(inout) :: this
+    subroutine p2d_set_use_y2(this, x)
+        class(plot_2d), intent(inout) :: this
         logical, intent(in) :: x
         this%m_useY2 = x
     end subroutine
@@ -2905,11 +2730,11 @@ contains
     !> @brief Gets a value determining if the axis tic marks should point
     !! inwards.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return Returns true if the tic marks should point inwards; else, false
     !!  if the tic marks should point outwards.
-    pure function sp_get_tics_in(this) result(x)
-        class(scatter_plot), intent(in) :: this
+    pure function p2d_get_tics_in(this) result(x)
+        class(plot_2d), intent(in) :: this
         logical :: x
         x = this%m_ticsIn
     end function
@@ -2918,11 +2743,11 @@ contains
     !> @brief Sets a value determining if the axis tic marks should point
     !! inwards.
     !!
-    !! @param[in,out] this The scatter_plot object.
+    !! @param[in,out] this The plot_2d object.
     !! @param[in] x Set to true if the tic marks should point inwards; else,
     !!  false if the tic marks should point outwards.
-    subroutine sp_set_tics_in(this, x)
-        class(scatter_plot), intent(inout) :: this
+    subroutine p2d_set_tics_in(this, x)
+        class(plot_2d), intent(inout) :: this
         logical, intent(in) :: x
         this%m_ticsIn = x
     end subroutine
@@ -2930,10 +2755,10 @@ contains
 ! ------------------------------------------------------------------------------
     !> @brief Gets a value determining if the border should be drawn.
     !!
-    !! @param[in] this The scatter_plot object.
+    !! @param[in] this The plot_2d object.
     !! @return Returns true if the border should be drawn; else, false.
-    pure function sp_get_draw_border(this) result(x)
-        class(scatter_plot), intent(in) :: this
+    pure function p2d_get_draw_border(this) result(x)
+        class(plot_2d), intent(in) :: this
         logical :: x
         x = this%m_drawBorder
     end function
@@ -2941,10 +2766,10 @@ contains
 ! --------------------
     !> @brief Sets a value determining if the border should be drawn.
     !!
-    !! @param[in,out] this The scatter_plot object.
+    !! @param[in,out] this The plot_2d object.
     !! @param[in] x Set to true if the border should be drawn; else, false.
-    subroutine sp_set_draw_border(this, x)
-        class(scatter_plot), intent(inout) :: this
+    subroutine p2d_set_draw_border(this, x)
+        class(plot_2d), intent(inout) :: this
         logical, intent(in) :: x
         this%m_drawBorder = x
     end subroutine
@@ -2988,5 +2813,288 @@ contains
         x = this%m_id
     end function
 
+! ******************************************************************************
+! PLOT_DATA_2D MEMBERS
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string defining which axes the data is
+    !! to be plotted against.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @return The command string.
+    function pd2d_get_axes_cmd(this) result(x)
+        ! Arguments
+        class(plot_data_2d), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Define which axes the data is to be plotted against
+        if (this%get_draw_against_y2()) then
+            x = "axes x1y2"
+        else
+            x = "axes x1y1"
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string containing the actual data
+    !! to plot.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @return The command string.
+    function pd2d_get_data_cmd(this) result(x)
+        ! Arguments
+        class(plot_data_2d), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: i, n
+        character :: delimiter, nl
+
+        ! Initialization
+        call str%initialize()
+        delimiter = achar(9) ! tab delimiter
+        nl = new_line(nl)
+        n = this%get_count()
+
+        ! Process
+        do i = 1, n
+            call str%append(to_string(this%get_x(i)))
+            call str%append(delimiter)
+            call str%append(to_string(this%get_y(i)))
+            call str%append(nl)
+        end do
+
+        ! End
+        x = str%to_string()
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the number of data points.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @return The number of data points.
+    pure function pd2d_get_data_count(this) result(x)
+        class(plot_data_2d), intent(in) :: this
+        integer(int32) :: x
+        if (allocated(this%m_data)) then
+            x = size(this%m_data, 1)
+        else
+            x = 0
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the requested X data point.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @param[in] index The index of the data point to retrieve.
+    !! @return The requested data point.
+    pure function pd2d_get_x_data(this, index) result(x)
+        class(plot_data_2d), intent(in) :: this
+        integer(int32), intent(in) :: index
+        real(real64) :: x
+        if (allocated(this%m_data)) then
+            x = this%m_data(index, 1)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested X data point.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] index The index of the data point to replace.
+    !! @param[in] x The data point.
+    subroutine pd2d_set_x_data(this, index, x)
+        class(plot_data_2d), intent(inout) :: this
+        integer(int32), intent(in) :: index
+        real(real64), intent(in) :: x
+        if (allocated(this%m_data)) then
+            this%m_data(index, 1) = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the requested Y data point.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @param[in] index The index of the data point to retrieve.
+    !! @return The requested data point.
+    pure function pd2d_get_y_data(this, index) result(x)
+        class(plot_data_2d), intent(in) :: this
+        integer(int32), intent(in) :: index
+        real(real64) :: x
+        if (allocated(this%m_data)) then
+            x = this%m_data(index, 2)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested Y data point.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] index The index of the data point to replace.
+    !! @param[in] x The data point.
+    subroutine pd2d_set_y_data(this, index, x)
+        class(plot_data_2d), intent(inout) :: this
+        integer(int32), intent(in) :: index
+        real(real64), intent(in) :: x
+        if (allocated(this%m_data)) then
+            this%m_data(index, 2) = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines the data set.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] x An N-element array containing the x coordinate data.
+    !! @param[in] y An N-element array containing the y coordinate data.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+    !!      same size.
+    subroutine pd2d_set_data_1(this, x, y, err)
+        ! Arguments
+        class(plot_data_2d), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: x, y
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(x)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Check
+        if (size(y) /= n) then
+            call errmgr%report_error("pd2d_set_data_1", &
+                "The input arrays are not the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 2), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pd2d_set_data_1", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do concurrent (i = 1:n)
+            this%m_data(i, 1) = x(i)
+            this%m_data(i, 2) = y(i)
+        end do
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the data should be plotted against the
+    !! secondary y-axis.
+    !!
+    !! @param[in] this The plot_data_2d object.
+    !! @return Returns true if the data should be plotted against the secondary
+    !!  y-axis; else, false to plot against the primary y-axis.
+    pure function pd2d_get_draw_against_y2(this) result(x)
+        class(plot_data_2d), intent(in) :: this
+        logical :: x
+        x = this%m_useY2
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the data should be plotted against the
+    !! secondary y-axis.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] x Set to true if the data should be plotted against the
+    !!  secondary y-axis; else, false to plot against the primary y-axis.
+    subroutine pd2d_set_draw_against_y2(this, x)
+        class(plot_data_2d), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_useY2 = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines the data set.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] y An N-element array containing the y-coordinate data.  This
+    !!  data will be plotted against its own index.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    subroutine pd2d_set_data_2(this, y, err)
+        ! Arguments
+        class(plot_data_2d), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: y
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(y)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Process
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 2), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pd2d_set_data_2", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do concurrent (i = 1:n)
+            this%m_data(i, 1) = real(i, real64)
+            this%m_data(i, 2) = y(i)
+        end do
+    end subroutine
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
 end module

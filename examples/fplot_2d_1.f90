@@ -12,8 +12,8 @@ program example
     ! Local Variables
     integer(int32) :: i
     real(real64), dimension(n) :: x, y1, y2
-    type(scatter_plot) :: plt
-    type(scatter_plot_data) :: d1, d2
+    type(plot_2d) :: plt
+    type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
     
     ! Initialize the plot object
