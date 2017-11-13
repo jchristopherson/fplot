@@ -19,6 +19,8 @@ program example
     ! Initialize the plot object
     call plt%initialize()
 
+    call plt%set_draw_border(.false.)
+
     ! Define titles
     call plt%set_title("3D Example Plot 1")
 

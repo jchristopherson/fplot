@@ -497,6 +497,11 @@ module fplot_core
         type(legend), pointer :: m_legend => null()
         !> Show grid lines?
         logical :: m_showGrid = .true.
+
+        !> Point tic marks in?
+        logical :: m_ticsIn = .true.
+        !> Draw the border?
+        logical :: m_drawBorder = .true.
     contains
         !> @brief Cleans up resources held by the plot object.
         procedure, public :: free_resources => plt_clean_up
@@ -542,6 +547,16 @@ module fplot_core
         procedure, public :: get_font_size => plt_get_font_size
         !> @brief Sets the size of the font used by the plot.
         procedure, public :: set_font_size => plt_set_font_size
+        !> @brief Gets a value determining if the axis tic marks should point
+        !! inwards.
+        procedure, public :: get_tics_inward => plt_get_tics_in
+        !> @brief Sets a value determining if the axis tic marks should point
+        !! inwards.
+        procedure, public :: set_tics_inward => plt_set_tics_in
+        !> @brief Gets a value determining if the border should be drawn.
+        procedure, public :: get_draw_border => plt_get_draw_border
+        !> @brief Sets a value determining if the border should be drawn.
+        procedure, public :: set_draw_border => plt_set_draw_border
     end type
 
 ! ******************************************************************************
@@ -709,10 +724,6 @@ module fplot_core
         type(y2_axis), pointer :: m_y2Axis => null()
         !> Display the secondary y axis?
         logical :: m_useY2 = .false.
-        !> Point tic marks in?
-        logical :: m_ticsIn = .true.
-        !> Draw the border?
-        logical :: m_drawBorder = .true.
     contains
         !> @brief Cleans up resources held by the plot_2d object.
         final :: p2d_clean_up
@@ -733,16 +744,6 @@ module fplot_core
         !> @brief Sets a flag determining if the secondary y-axis should be
         !! displayed.
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
-        !> @brief Gets a value determining if the axis tic marks should point
-        !! inwards.
-        procedure, public :: get_tics_inward => p2d_get_tics_in
-        !> @brief Sets a value determining if the axis tic marks should point
-        !! inwards.
-        procedure, public :: set_tics_inward => p2d_set_tics_in
-        !> @brief Gets a value determining if the border should be drawn.
-        procedure, public :: get_draw_border => p2d_get_draw_border
-        !> @brief Sets a value determining if the border should be drawn.
-        procedure, public :: set_draw_border => p2d_set_draw_border
     end type
 
 ! ------------------------------------------------------------------------------
@@ -2191,6 +2192,54 @@ contains
         call term%set_font_size(x)
     end subroutine
 
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the axis tic marks should point
+    !! inwards.
+    !!
+    !! @param[in] this The plot object.
+    !! @return Returns true if the tic marks should point inwards; else, false
+    !!  if the tic marks should point outwards.
+    pure function plt_get_tics_in(this) result(x)
+        class(plot), intent(in) :: this
+        logical :: x
+        x = this%m_ticsIn
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the axis tic marks should point
+    !! inwards.
+    !!
+    !! @param[in,out] this The plot object.
+    !! @param[in] x Set to true if the tic marks should point inwards; else,
+    !!  false if the tic marks should point outwards.
+    subroutine plt_set_tics_in(this, x)
+        class(plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_ticsIn = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the border should be drawn.
+    !!
+    !! @param[in] this The plot object.
+    !! @return Returns true if the border should be drawn; else, false.
+    pure function plt_get_draw_border(this) result(x)
+        class(plot), intent(in) :: this
+        logical :: x
+        x = this%m_drawBorder
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the border should be drawn.
+    !!
+    !! @param[in,out] this The plot object.
+    !! @param[in] x Set to true if the border should be drawn; else, false.
+    subroutine plt_set_draw_border(this, x)
+        class(plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_drawBorder = x
+    end subroutine
+
 ! ******************************************************************************
 ! SCATTER_PLOT_DATA MEMBERS
 ! ------------------------------------------------------------------------------
@@ -2803,54 +2852,6 @@ contains
         class(plot_2d), intent(inout) :: this
         logical, intent(in) :: x
         this%m_useY2 = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the axis tic marks should point
-    !! inwards.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return Returns true if the tic marks should point inwards; else, false
-    !!  if the tic marks should point outwards.
-    pure function p2d_get_tics_in(this) result(x)
-        class(plot_2d), intent(in) :: this
-        logical :: x
-        x = this%m_ticsIn
-    end function
-
-! --------------------
-    !> @brief Sets a value determining if the axis tic marks should point
-    !! inwards.
-    !!
-    !! @param[in,out] this The plot_2d object.
-    !! @param[in] x Set to true if the tic marks should point inwards; else,
-    !!  false if the tic marks should point outwards.
-    subroutine p2d_set_tics_in(this, x)
-        class(plot_2d), intent(inout) :: this
-        logical, intent(in) :: x
-        this%m_ticsIn = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the border should be drawn.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return Returns true if the border should be drawn; else, false.
-    pure function p2d_get_draw_border(this) result(x)
-        class(plot_2d), intent(in) :: this
-        logical :: x
-        x = this%m_drawBorder
-    end function
-
-! --------------------
-    !> @brief Sets a value determining if the border should be drawn.
-    !!
-    !! @param[in,out] this The plot_2d object.
-    !! @param[in] x Set to true if the border should be drawn; else, false.
-    subroutine p2d_set_draw_border(this, x)
-        class(plot_2d), intent(inout) :: this
-        logical, intent(in) :: x
-        this%m_drawBorder = x
     end subroutine
 
 ! ******************************************************************************
@@ -3522,47 +3523,43 @@ contains
         if (associated(zAxis)) call str%append(zAxis%get_command_string())
 
         ! Tic Marks
-        ! if (.not.this%get_tics_inward()) then
-        !     call str%append(new_line('a'))
-        !     call str%append("set tics out")
-        ! end if
-        ! if ((xAxis%get_zero_axis() .or. yAxis%get_zero_axis()) .and. &
-        !         .not.this%get_use_y2_axis()) then
-        !     ! Set tics to the axis only if there is a zero axis, and no
-        !     ! secondary y axis
-        !     call str%append(new_line('a'))
-        !     call str%append("set tics axis")
-        ! end if
+        if (.not.this%get_tics_inward()) then
+            call str%append(new_line('a'))
+            call str%append("set tics out")
+        end if
+        if (xAxis%get_zero_axis() .or. yAxis%get_zero_axis() .or. &
+                zAxis%get_zero_axis()) then
+            call str%append(new_line('a'))
+            call str%append("set tics axis")
+        end if
 
+        ! Border
+        if (this%get_draw_border()) then
+            n = 31
+        else
+            n = 0
+            if (.not.xAxis%get_zero_axis()) n = n + 1
+            if (.not.yAxis%get_zero_axis()) n = n + 4
+            if (.not.zAxis%get_zero_axis()) n = n + 16
 
-        ! ! Border
-        ! call str%append(new_line('a'))
-        ! call str%append("set border back")
+            call str%append(new_line('a'))
+            call str%append("set xtics nomirror")
+            call str%append(new_line('a'))
+            call str%append("set ytics nomirror")
+            call str%append(new_line('a'))
+            call str%append("set ztics nomirror")
+        end if
+        call str%append(new_line('a'))
+        if (n > 0) then
+            call str%append("set border ")
+            call str%append(to_string(n))
+        else
+            call str%append("unset border")
+        end if
 
-        ! if (this%get_draw_border()) then
-        !     n = 31
-        ! else
-        !     n = 0
-        !     if (.not.xAxis%get_zero_axis()) n = n + 1
-        !     if (.not.yAxis%get_zero_axis()) n = n + 2
-
-        !     call str%append(new_line('a'))
-        !     call str%append("set xtics nomirror")
-        !     call str%append(new_line('a'))
-        !     call str%append("set ytics nomirror")
-
-        !     if (this%get_use_y2_axis()) then
-        !         n = n + 8
-        !     end if
-        ! end if
-
-        ! call str%append(new_line('a'))
-        ! if (n > 0) then
-        !     call str%append("set border ")
-        !     call str%append(to_string(n))
-        ! else
-        !     call str%append("unset border")
-        ! end if
+        ! Force the z-axis to move to the x-y plane
+        call str%append(new_line('a'))
+        call str%append("set ticslevel 0")
 
         ! Legend
         call str%append(new_line('a'))
