@@ -77,6 +77,8 @@ module fplot_core
     public :: scatter_plot_data
     public :: plot_data_2d
     public :: plot_2d
+    public :: plot_data_3d
+    public :: plot_3d
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -392,7 +394,7 @@ module fplot_core
         !> @brief Zero axis?
         logical :: m_zeroAxis = .false.
         !> @brief The width, in pixels, of the zero axis line.
-        real(real32) :: m_axisWidth = 2.5
+        real(real32) :: m_axisWidth = 1.0
     contains
         !> @brief Gets the axis' title.
         procedure, public :: get_title => pa_get_title
@@ -648,7 +650,7 @@ module fplot_core
         procedure, public :: set_x => pd2d_set_x_data
         !> @brief Gets the requested Y data point.
         procedure, public :: get_y => pd2d_get_y_data
-        !> @brief Sets the requested X data point.
+        !> @brief Sets the requested Y data point.
         procedure, public :: set_y => pd2d_set_y_data
         !> @brief Gets a value determining if the data should be plotted against
         !! the secondary y-axis.
@@ -663,6 +665,35 @@ module fplot_core
     end type
 
 ! ------------------------------------------------------------------------------
+    !> @brief Defines a three-dimensional plot data set.
+    type, extends(scatter_plot_data) :: plot_data_3d
+    private
+        !> An N-by-3 matrix containing the x, y, and z data points.
+        real(real64), allocatable, dimension(:,:) :: m_data
+    contains
+        !> @brief Gets the number of data points.
+        procedure, public :: get_count => pd3d_get_data_count
+        !> @brief Gets the requested X data point.
+        procedure, public :: get_x => pd3d_get_x_data
+        !> @brief Sets the requested X data point.
+        procedure, public :: set_x => pd3d_set_x_data
+        !> @brief Gets the requested Y data point.
+        procedure, public :: get_y => pd3d_get_y_data
+        !> @brief Sets the requested Y data point.
+        procedure, public :: set_y => pd3d_set_y_data
+        !> @brief Gets the requested Z data point.
+        procedure, public :: get_z => pd3d_get_z_data
+        !> @brief Sets the requested Z data point.
+        procedure, public :: set_z => pd3d_set_z_data
+        !> @brief Gets the GNUPLOT command string defining which axes the data
+        !! is to be plotted against.
+        procedure, public :: get_axes_string => pd3d_get_axes_cmd
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        procedure, public :: get_data_string => pd3d_get_data_cmd
+        !> @brief Defines the data set.
+        procedure, public :: define_data => pd3d_set_data_1
+    end type
 
 ! ******************************************************************************
 ! CONCRETE PLOT TYPES
@@ -714,6 +745,44 @@ module fplot_core
         procedure, public :: set_draw_border => p2d_set_draw_border
     end type
 
+! ------------------------------------------------------------------------------
+    !> @brief A plot object defining a 3D plot.
+    type, extends(plot) :: plot_3d
+    private
+        !> The x-axis.
+        type(x_axis), pointer :: m_xAxis => null()
+        !> The y-axis.
+        type(y_axis), pointer :: m_yAxis => null()
+        !> The z-axis.
+        type(z_axis), pointer :: m_zAxis => null()
+        !> The elevation angle.
+        real(real64) :: m_elevation = 60.0d0
+        !> The azimuth.
+        real(real64) :: m_azimuth = 30.0d0
+    contains
+        !> @brief Cleans up resources held by the plot_3d object.
+        final :: p3d_clean_up
+        !> @brief Initializes the plot_3d object.
+        procedure, public :: initialize => p3d_init
+        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !! object.
+        procedure, public :: get_command_string => p3d_get_cmd
+        !> @brief Gets the x-axis object.
+        procedure, public :: get_x_axis => p3d_get_x_axis
+        !> @brief Gets the y-axis object.
+        procedure, public :: get_y_axis => p3d_get_y_axis
+        !> @brief Gets the z-axis object.
+        procedure, public :: get_z_axis => p3d_get_z_axis
+        !> @brief Gets the plot elevation angle.
+        procedure, public :: get_elevation => p3d_get_elevation
+        !> @brief Sets the plot elevation angle.
+        procedure, public :: set_elevation => p3d_set_elevation
+        !> @brief Gets the plot azimuth angle.
+        procedure, public :: get_azimuth => p3d_get_azimuth
+        !> @brief Sets the plot azimuth angle.
+        procedure, public :: set_azimuth => p3d_set_azimuth
+    end type
+
 ! ******************************************************************************
 ! CONCRETE PLOT_AXIS TYPES
 ! ------------------------------------------------------------------------------
@@ -744,6 +813,16 @@ module fplot_core
     contains
         !> @brief Gets the axis identification string.
         procedure, public :: get_id_string => y2a_get_id
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief A z-axis object.
+    type, extends(plot_axis) :: z_axis
+        !> The ID character
+        character :: m_id = "z"
+    contains
+        !> @brief Gets the axis identification string.
+        procedure, public :: get_id_string => za_get_id
     end type
 
 ! ******************************************************************************
@@ -2814,6 +2893,19 @@ contains
     end function
 
 ! ******************************************************************************
+! Z_AXIS MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Gets the axis identification string.
+    !!
+    !! @param[in] this The z_axis object.
+    !! @return The string.
+    function za_get_id(this) result(x)
+        class(z_axis), intent(in) :: this
+        character(len = :), allocatable :: x
+        x = this%m_id
+    end function
+
+! ******************************************************************************
 ! PLOT_DATA_2D MEMBERS
 ! ------------------------------------------------------------------------------
     !> @brief Gets the GNUPLOT command string defining which axes the data is
@@ -3073,19 +3165,519 @@ contains
         end do
     end subroutine
 
+! ******************************************************************************
+! PLOT_DATA_3D MEMBERS
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the number of data points.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @return The number of data points.
+    pure function pd3d_get_data_count(this) result(x)
+        class(plot_data_3d), intent(in) :: this
+        integer(int32) :: x
+        if (allocated(this%m_data)) then
+            x = size(this%m_data, 1)
+        else
+            x = 0
+        end if
+    end function
 
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the requested X data point.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to retrieve.
+    !! @return The requested data point.
+    pure function pd3d_get_x_data(this, index) result(x)
+        class(plot_data_3d), intent(in) :: this
+        integer(int32), intent(in) :: index
+        real(real64) :: x
+        if (allocated(this%m_data)) then
+            x = this%m_data(index, 1)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested X data point.
+    !!
+    !! @param[in,out] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to replace.
+    !! @param[in] x The data point.
+    subroutine pd3d_set_x_data(this, index, x)
+        class(plot_data_3d), intent(inout) :: this
+        integer(int32), intent(in) :: index
+        real(real64), intent(in) :: x
+        if (allocated(this%m_data)) then
+            this%m_data(index, 1) = x
+        end if
+    end subroutine
 
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the requested Y data point.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to retrieve.
+    !! @return The requested data point.
+    pure function pd3d_get_y_data(this, index) result(x)
+        class(plot_data_3d), intent(in) :: this
+        integer(int32), intent(in) :: index
+        real(real64) :: x
+        if (allocated(this%m_data)) then
+            x = this%m_data(index, 2)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested Y data point.
+    !!
+    !! @param[in,out] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to replace.
+    !! @param[in] x The data point.
+    subroutine pd3d_set_y_data(this, index, x)
+        class(plot_data_3d), intent(inout) :: this
+        integer(int32), intent(in) :: index
+        real(real64), intent(in) :: x
+        if (allocated(this%m_data)) then
+            this%m_data(index, 2) = x
+        end if
+    end subroutine
 
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the requested Z data point.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to retrieve.
+    !! @return The requested data point.
+    pure function pd3d_get_z_data(this, index) result(x)
+        class(plot_data_3d), intent(in) :: this
+        integer(int32), intent(in) :: index
+        real(real64) :: x
+        if (allocated(this%m_data)) then
+            x = this%m_data(index, 3)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested Z data point.
+    !!
+    !! @param[in,out] this The plot_data_3d object.
+    !! @param[in] index The index of the data point to replace.
+    !! @param[in] x The data point.
+    subroutine pd3d_set_z_data(this, index, x)
+        class(plot_data_3d), intent(inout) :: this
+        integer(int32), intent(in) :: index
+        real(real64), intent(in) :: x
+        if (allocated(this%m_data)) then
+            this%m_data(index, 3) = x
+        end if
+    end subroutine
 
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string defining which axes the data is
+    !! to be plotted against.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @return The command string.
+    function pd3d_get_axes_cmd(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Output
+        x = ""
+    end function
 
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string containing the actual data
+    !! to plot.
+    !!
+    !! @param[in] this The plot_data_3d object.
+    !! @return The command string.
+    function pd3d_get_data_cmd(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: i, n
+        character :: delimiter, nl
+
+        ! Initialization
+        call str%initialize()
+        delimiter = achar(9) ! tab delimiter
+        nl = new_line(nl)
+        n = this%get_count()
+
+        ! Process
+        do i = 1, n
+            call str%append(to_string(this%get_x(i)))
+            call str%append(delimiter)
+            call str%append(to_string(this%get_y(i)))
+            call str%append(delimiter)
+            call str%append(to_string(this%get_z(i)))
+            call str%append(nl)
+        end do
+
+        ! End
+        x = str%to_string()
+    end function
 
 ! ------------------------------------------------------------------------------
+    !> @brief Defines the data set.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] x An N-element array containing the x coordinate data.
+    !! @param[in] y An N-element array containing the y coordinate data.
+    !! @param[in] z An N-element array containing the z coordinate data.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+    !!      same size.
+    subroutine pd3d_set_data_1(this, x, y, z, err)
+        ! Arguments
+        class(plot_data_3d), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: x, y, z
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(x)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Check
+        if (size(y) /= n .or. size(z) /= n) then
+            call errmgr%report_error("pd3d_set_data_1", &
+                "The input arrays are not the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 3), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pd3d_set_data_1", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do concurrent (i = 1:n)
+            this%m_data(i, 1) = x(i)
+            this%m_data(i, 2) = y(i)
+            this%m_data(i, 3) = z(i)
+        end do
+    end subroutine
+
+! ******************************************************************************
+! PLOT_3D MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Cleans up resources held by the plot_3d object.
+    !!
+    !! @param[in,out] this The plot_3d object.
+    subroutine p3d_clean_up(this)
+        type(plot_3d), intent(inout) :: this
+        call this%free_resources()
+        if (associated(this%m_xAxis)) then
+            deallocate(this%m_xAxis)
+            nullify(this%m_xAxis)
+        end if
+        if (associated(this%m_yAxis)) then
+            deallocate(this%m_yAxis)
+            nullify(this%m_yAxis)
+        end if
+        if (associated(this%m_zAxis)) then
+            deallocate(this%m_zAxis)
+            nullify(this%m_zAxis)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Initializes the plot_3d object.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @param[in] term An optional input that is used to define the terminal.
+    !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+    !!  - GNUPLOT_TERMINAL_PNG
+    !!  - GNUPLOT_TERMINAL_QT
+    !!  - GNUPLOT_TERMINAL_WIN32
+    !!  - GNUPLOT_TERMINAL_WXT
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    subroutine p3d_init(this, term, err)
+        ! Arguments
+        class(plot_3d), intent(inout) :: this
+        integer(int32), intent(in), optional :: term
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Initialize the base class
+        call plt_init(this, term, errmgr)
+        if (errmgr%has_error_occurred()) return
+
+        ! Process
+        flag = 0
+        if (.not.associated(this%m_xAxis)) then
+            allocate(this%m_xAxis, stat = flag)
+        end if
+        if (flag == 0 .and. .not.associated(this%m_yAxis)) then
+            allocate(this%m_yAxis, stat = flag)
+        end if
+        if (flag == 0 .and. .not.associated(this%m_zAxis)) then
+            allocate(this%m_zAxis, stat = flag)
+        end if
+
+        ! Error Checking
+        if (flag /= 0) then
+            call errmgr%report_error("p3d_init", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string to represent this plot_3d
+    !! object.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return The command string.
+    function p3d_get_cmd(this) result(x)
+        ! Arguments
+        class(plot_3d), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: i, n
+        class(plot_data), pointer :: ptr
+        class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        class(terminal), pointer :: term
+        type(legend), pointer :: leg
+
+        ! Initialization
+        call str%initialize()
+
+        ! Write the terminal commands
+        term => this%get_terminal()
+        call str%append(term%get_command_string())
+
+        ! Grid
+        if (this%get_show_gridlines()) then
+            call str%append(new_line('a'))
+            call str%append("set grid")
+        end if
+
+        ! Title
+        n = len(this%get_title())
+        if (n > 0) then
+            call str%append(new_line('a'))
+            call str%append('set title "')
+            call str%append(this%get_title())
+            call str%append('"')
+        end if
+
+        ! Axes
+        call str%append(new_line('a'))
+        xAxis => this%get_x_axis()
+        if (associated(xAxis)) call str%append(xAxis%get_command_string())
+
+        call str%append(new_line('a'))
+        yAxis => this%get_y_axis()
+        if (associated(yAxis)) call str%append(yAxis%get_command_string())
+
+        call str%append(new_line('a'))
+        zAxis => this%get_z_axis()
+        if (associated(zAxis)) call str%append(zAxis%get_command_string())
+
+        ! Tic Marks
+        ! if (.not.this%get_tics_inward()) then
+        !     call str%append(new_line('a'))
+        !     call str%append("set tics out")
+        ! end if
+        ! if ((xAxis%get_zero_axis() .or. yAxis%get_zero_axis()) .and. &
+        !         .not.this%get_use_y2_axis()) then
+        !     ! Set tics to the axis only if there is a zero axis, and no
+        !     ! secondary y axis
+        !     call str%append(new_line('a'))
+        !     call str%append("set tics axis")
+        ! end if
+
+
+        ! ! Border
+        ! call str%append(new_line('a'))
+        ! call str%append("set border back")
+
+        ! if (this%get_draw_border()) then
+        !     n = 31
+        ! else
+        !     n = 0
+        !     if (.not.xAxis%get_zero_axis()) n = n + 1
+        !     if (.not.yAxis%get_zero_axis()) n = n + 2
+
+        !     call str%append(new_line('a'))
+        !     call str%append("set xtics nomirror")
+        !     call str%append(new_line('a'))
+        !     call str%append("set ytics nomirror")
+
+        !     if (this%get_use_y2_axis()) then
+        !         n = n + 8
+        !     end if
+        ! end if
+
+        ! call str%append(new_line('a'))
+        ! if (n > 0) then
+        !     call str%append("set border ")
+        !     call str%append(to_string(n))
+        ! else
+        !     call str%append("unset border")
+        ! end if
+
+        ! Legend
+        call str%append(new_line('a'))
+        leg => this%get_legend()
+        if (associated(leg)) call str%append(leg%get_command_string())
+
+        ! Orientation
+        call str%append(new_line('a'))
+        call str%append("set view ")
+        call str%append(to_string(this%get_elevation()))
+        call str%append(",")
+        call str%append(to_string(this%get_azimuth()))
+
+        ! Define the plot function and data formatting commands
+        n = this%get_count()
+        call str%append(new_line('a'))
+        call str%append("splot ")
+        do i = 1, n
+            ptr => this%get(i)
+            if (.not.associated(ptr)) cycle
+            call str%append(ptr%get_command_string())
+            if (i /= n) call str%append(", ")
+        end do
+
+        ! Define the data to plot
+        do i = 1, n
+            ptr => this%get(i)
+            if (.not.associated(ptr)) cycle
+            call str%append(new_line('a'))
+            call str%append(ptr%get_data_string())
+            if (i /= n) then
+                call str%append("e")
+            end if
+        end do
+
+        ! End
+        x = str%to_string()
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the x-axis object.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return A pointer to the x-axis object.
+    function p3d_get_x_axis(this) result(ptr)
+        class(plot_3d), intent(in) :: this
+        class(plot_axis), pointer :: ptr
+        ptr => this%m_xAxis
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the y-axis object.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return A pointer to the y-axis object.
+    function p3d_get_y_axis(this) result(ptr)
+        class(plot_3d), intent(in) :: this
+        class(plot_axis), pointer :: ptr
+        ptr => this%m_yAxis
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the z-axis object.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return A pointer to the z-axis object.
+    function p3d_get_z_axis(this) result(ptr)
+        class(plot_3d), intent(in) :: this
+        class(plot_axis), pointer :: ptr
+        ptr => this%m_zAxis
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the plot elevation angle.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return The elevation angle, in degrees.
+    pure function p3d_get_elevation(this) result(x)
+        class(plot_3d), intent(in) :: this
+        real(real64) :: x
+        x = this%m_elevation
+    end function
+
+! --------------------
+    !> @brief Sets the plot elevation angle.
+    !!
+    !! @param[in,out] this The plot_3d object.
+    !! @param[in] x The elevation angle, in degrees.
+    subroutine p3d_set_elevation(this, x)
+        class(plot_3d), intent(inout) :: this
+        real(real64), intent(in) :: x
+        this%m_elevation = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the plot azimuth angle.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return The azimuth angle, in degrees.
+    pure function p3d_get_azimuth(this) result(x)
+        class(plot_3d), intent(in) :: this
+        real(real64) :: x
+        x = this%m_azimuth
+    end function
+
+! --------------------
+    !> @brief Sets the plot azimuth angle.
+    !!
+    !! @param[in,out] this The plot_3d object.
+    !! @param[in] x The azimuth angle, in degrees.
+    subroutine p3d_set_azimuth(this, x)
+        class(plot_3d), intent(inout) :: this
+        real(real64), intent(in) :: x
+        this%m_azimuth = x
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 

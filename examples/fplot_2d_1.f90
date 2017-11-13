@@ -30,7 +30,7 @@ program example
 
     ! Define the data, and then add it to the plot
     x(1) = 0.0d0
-    do i = 1, n
+    do i = 2, n
         x(i) = x(i-1) + dx
     end do
     y1 = sin(5.0d0 * x)
