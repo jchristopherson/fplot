@@ -2214,7 +2214,7 @@ contains
 
         ! Launch GNUPLOT
         if (p) then
-            call execute_command_line("gnuplot -persist " // fname)
+            call execute_command_line("gnuplot --persist " // fname)
         else
             call execute_command_line("gnuplot " // fname)
         end if
