@@ -825,6 +825,8 @@ module fplot_core
         real(real64) :: m_elevation = 60.0d0
         !> The azimuth.
         real(real64) :: m_azimuth = 30.0d0
+        !> Z-axis intersect X-Y plane?
+        logical :: m_zIntersect = .true.
     contains
         !> @brief Cleans up resources held by the plot_3d object.
         final :: p3d_clean_up
@@ -847,6 +849,12 @@ module fplot_core
         procedure, public :: get_azimuth => p3d_get_azimuth
         !> @brief Sets the plot azimuth angle.
         procedure, public :: set_azimuth => p3d_set_azimuth
+        !> @brief Gets a value determining if the z-axis should intersect the 
+        !! x-y plane.
+        procedure, public :: get_z_intersect_xy => p3d_get_z_axis_intersect
+        !> @brief Sets a value determining if the z-axis should intersect the 
+        !! x-y plane.
+        procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
     end type
 
 ! ------------------------------------------------------------------------------
@@ -859,6 +867,8 @@ module fplot_core
         class(colormap), pointer :: m_colormap
         !> Smooth the surface?
         logical :: m_smooth = .true.
+        !> Show a contour plot as well as the surface plot?
+        logical :: m_contour = .false.
     contains
         !> @brief Cleans up resources held by the surface_plot object.
         final :: surf_clean_up
@@ -881,6 +891,12 @@ module fplot_core
         !> @brief Sets a value determining if the plotted surfaces should be 
         !! smoothed.
         procedure, public :: set_allow_smoothing => surf_set_smooth
+        !> @brief Gets a value determining if a contour plot should be drawn in
+        !! conjunction with the surface plot.
+        procedure, public :: get_show_contours => surf_get_show_contours
+        !> @brief Sets a value determining if a contour plot should be drawn in
+        !! conjunction with the surface plot.
+        procedure, public :: set_show_contours => surf_set_show_contours
     end type
 
 ! ******************************************************************************
@@ -1594,7 +1610,6 @@ contains
         call str%initialize()
 
         ! Axis Limits
-        call str%append(new_line('a'))
         if (this%get_autoscale()) then
             call str%append("set ")
             call str%append(axis)
@@ -3667,8 +3682,10 @@ contains
         end if
 
         ! Force the z-axis to move to the x-y plane
-        call str%append(new_line('a'))
-        call str%append("set ticslevel 0")
+        if (this%get_z_intersect_xy()) then
+            call str%append(new_line('a'))
+            call str%append("set ticslevel 0")
+        end if
 
         ! Legend
         call str%append(new_line('a'))
@@ -3783,6 +3800,32 @@ contains
         class(plot_3d), intent(inout) :: this
         real(real64), intent(in) :: x
         this%m_azimuth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the z-axis should intersect the x-y 
+    !! plane.
+    !!
+    !! @param[in] this The plot_3d object.
+    !! @return Returns true if the z-axis should intersect the x-y plane; else,
+    !!  false to allow the z-axis to float.
+    pure function p3d_get_z_axis_intersect(this) result(x)
+        class(plot_3d), intent(in) :: this
+        logical :: x
+        x = this%m_zIntersect
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the z-axis should intersect the x-y 
+    !! plane.
+    !!
+    !! @param[in,out] this The plot_3d object.
+    !! @param[in] x Set to true if the z-axis should intersect the x-y plane; 
+    !!  else, false to allow the z-axis to float.
+    subroutine p3d_set_z_axis_intersect(this, x)
+        class(plot_3d), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_zIntersect = x
     end subroutine
 
 ! ******************************************************************************
@@ -4184,7 +4227,15 @@ contains
             call str%append("set pm3d interpolate 0,0")
         end if
 
-        ! Utilize the base class
+        ! Draw a contour plot as well?
+        if (this%get_show_contours()) then
+            call str%append(new_line('a'))
+            call str%append("set contour")
+            call str%append(new_line('a'))
+            call str%append("set key")
+        end if
+
+        ! Call the base class to define the rest of the plot commands
         call str%append(new_line('a'))
         call str%append(this%plot_3d%get_command_string())
 
@@ -4267,6 +4318,32 @@ contains
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x
         this%m_smooth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if a contour plot should be drawn in
+    !! conjunction with the surface plot.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return Returns true if the contour plot should be drawn; else, false to
+    !!  only draw the surface.
+    pure function surf_get_show_contours(this) result(x)
+        class(surface_plot), intent(in) :: this
+        logical :: x
+        x = this%m_contour
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if a contour plot should be drawn in
+    !! conjunction with the surface plot.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    !! @param[in] x Set to true if the contour plot should be drawn; else, false
+    !!  to only draw the surface.
+    subroutine surf_set_show_contours(this, x)
+        class(surface_plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_contour = x
     end subroutine
 
 ! ******************************************************************************
