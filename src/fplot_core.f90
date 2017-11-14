@@ -858,7 +858,7 @@ module fplot_core
     end type
 
 ! ------------------------------------------------------------------------------
-    !
+    !> @brief A plot object defining a 3D surface plot.
     type, extends(plot_3d) :: surface_plot
     private
         !> Show hidden lines
