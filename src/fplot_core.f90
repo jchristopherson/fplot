@@ -869,6 +869,8 @@ module fplot_core
         logical :: m_smooth = .true.
         !> Show a contour plot as well as the surface plot?
         logical :: m_contour = .false.
+        !> Show the colorbar?
+        logical :: m_showColorbar = .true.
     contains
         !> @brief Cleans up resources held by the surface_plot object.
         final :: surf_clean_up
@@ -897,6 +899,10 @@ module fplot_core
         !> @brief Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
         procedure, public :: set_show_contours => surf_set_show_contours
+        !> @brief Gets a value determining if the colorbar should be shown.
+        procedure, public :: get_show_colorbar => surf_get_show_colorbar
+        !> @brief Sets a value determining if the colorbar should be shown.
+        procedure, public :: set_show_colorbar => surf_set_show_colorbar
     end type
 
 ! ******************************************************************************
@@ -4231,8 +4237,12 @@ contains
         if (this%get_show_contours()) then
             call str%append(new_line('a'))
             call str%append("set contour")
+        end if
+
+        ! Show colorbar
+        if (.not.this%get_show_colorbar()) then
             call str%append(new_line('a'))
-            call str%append("set key")
+            call str%append("unset colorbox")
         end if
 
         ! Call the base class to define the rest of the plot commands
@@ -4344,6 +4354,28 @@ contains
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x
         this%m_contour = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the colorbar should be shown.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return Returns true if the colorbar should be drawn; else, false.
+    pure function surf_get_show_colorbar(this) result(x)
+        class(surface_plot), intent(in) :: this
+        logical :: x
+        x = this%m_showColorbar
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the colorbar should be shown.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    !! @param[in] x Set to true if the colorbar should be drawn; else, false.
+    subroutine surf_set_show_colorbar(this, x)
+        class(surface_plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_showColorbar = x
     end subroutine
 
 ! ******************************************************************************
