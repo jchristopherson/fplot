@@ -121,4 +121,8 @@ if (BUILD_EXAMPLES)
     # Example 4
     add_executable(fplot_3d_1 examples/fplot_3d_1.f90)
     target_link_libraries(fplot_3d_1 fplot)
+
+    # Example 5
+    add_executable(fplot_surf_1 examples/fplot_surf_1.f90)
+    target_link_libraries(fplot_surf_1 fplot)
 endif()

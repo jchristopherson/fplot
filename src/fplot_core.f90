@@ -56,13 +56,6 @@ module fplot_core
     public :: LEGEND_RIGHT
     public :: LEGEND_TOP
     public :: LEGEND_BOTTOM
-    public :: PALETTE_RAINBOW
-    public :: PALETTE_HOT
-    public :: PALETTE_COOL
-    public :: PALETTE_DARK
-    public :: PALETTE_GREENS
-    public :: PALETTE_BLUES
-    public :: PALETTE_REDS
     public :: PLOTDATA_MAX_NAME_LENGTH
     public :: color
     public :: plot_data
@@ -79,6 +72,10 @@ module fplot_core
     public :: plot_2d
     public :: plot_data_3d
     public :: plot_3d
+    public :: surface_plot_data
+    public :: surface_plot
+    public :: colormap
+    public :: rainbow_colormap
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -135,24 +132,6 @@ module fplot_core
     integer(int32), parameter :: LINE_DASH_DOTTED = 4
     !> @brief Defines a dash-dot-dotted line.
     integer(int32), parameter :: LINE_DASH_DOT_DOT = 5
-
-! ******************************************************************************
-! PALETTE CONSTANTS
-! ------------------------------------------------------------------------------
-    !> @brief Defines a rainbow palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_RAINBOW = 1
-    !> @brief Defines a hot-colored palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_HOT = 2
-    !> @brief Defines a cool-colored palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_COOL = 3
-    !> @brief Defines a dark themed palette for 3D surface plots
-    integer(int32), parameter :: PALETTE_DARK = 4
-    !> @brief Defines a green-colored palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_GREENS = 5
-    !> @brief Defines a blue-colored palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_BLUES = 6
-    !> @brief Defines a red-colored palette for 3D surface plots.
-    integer(int32), parameter :: PALETTE_REDS = 7
 
 ! ******************************************************************************
 ! LEGEND CONSTANTS
@@ -560,6 +539,30 @@ module fplot_core
     end type
 
 ! ******************************************************************************
+! COLORMAP TYPES
+! ------------------------------------------------------------------------------
+    !> @brief A colormap object for a surface plot.
+    type, abstract, extends(plot_object) :: colormap
+    contains
+        !> @brief Gets the GNUPLOT command string to represent this colormap 
+        !! object.
+        procedure, public :: get_command_string => cm_get_cmd
+        !> @brief Gets the GNUPLOT string defining the color distribution.  For
+        !! instance, this routine could return the string: '0 "dark-blue", 
+        !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red", 
+        !! 7 "dark-red"'.  This string would result in a rainbow type map.
+        procedure(cm_get_string_result), deferred, public :: get_color_string
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a rainbow colormap.
+    type, extends(colormap) :: rainbow_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        procedure, public :: get_color_string => rcm_get_clr
+    end type
+
+! ******************************************************************************
 ! PLOT_DATA BASED TYPES
 ! ------------------------------------------------------------------------------
     !> @brief A plot_data object for describing scatter plot data sets.
@@ -710,6 +713,50 @@ module fplot_core
         procedure, public :: define_data => pd3d_set_data_1
     end type
 
+! ------------------------------------------------------------------------------
+    !> @brief Provides a three-dimensional surface plot data set.
+    type, extends(plot_data) :: surface_plot_data
+    private
+        !> Stores the x-coordinate data
+        real(real64), allocatable, dimension(:,:) :: m_x
+        !> Stores the y-coordinate data
+        real(real64), allocatable, dimension(:,:) :: m_y
+        !> Stores the z-coordinate data
+        real(real64), allocatable, dimension(:,:) :: m_z
+        !> Set to true to display a wireframe of the surface; else, just a
+        !! smooth surface will be drawn
+        logical :: m_wireframe = .false.
+    contains
+        !> @brief Gets the size of the stored data set.
+        procedure, public :: get_size => surfd_get_size
+        !> @brief Gets the requested X data point.
+        procedure, public :: get_x => surfd_get_x
+        !> @brief Sets the requested X data point.
+        procedure, public :: set_x => surfd_set_x
+        !> @brief Gets the requested Y data point.
+        procedure, public :: get_y => surfd_get_y
+        !> @brief Sets the requested Y data point.
+        procedure, public :: set_y => surfd_set_y
+        !> @brief Gets the requested Z data point.
+        procedure, public :: get_z => surfd_get_z
+        !> @brief Sets the requested Z data point.
+        procedure, public :: set_z => surfd_set_z
+        !> @brief Gets a value determining if a wireframe mesh should be 
+        !! displayed.
+        procedure, public :: get_use_wireframe => surfd_get_wireframe
+        !> @brief Sets a value determining if a wireframe mesh should be 
+        !! displayed.
+        procedure, public :: set_use_wireframe => surfd_set_wireframe
+        !> @brief Gets the GNUPLOT command string to represent this
+        !! surface_plot_data object.
+        procedure, public :: get_command_string => surfd_get_cmd
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        procedure, public :: get_data_string => surfd_get_data_cmd
+        !> @brief Defines the data set.
+        procedure, public :: define_data => surfd_set_data_1
+    end type
+
 ! ******************************************************************************
 ! CONCRETE PLOT TYPES
 ! ------------------------------------------------------------------------------
@@ -782,6 +829,40 @@ module fplot_core
         procedure, public :: get_azimuth => p3d_get_azimuth
         !> @brief Sets the plot azimuth angle.
         procedure, public :: set_azimuth => p3d_set_azimuth
+    end type
+
+! ------------------------------------------------------------------------------
+    !
+    type, extends(plot_3d) :: surface_plot
+    private
+        !> Show hidden lines
+        logical :: m_showHidden = .false.
+        !> The colormap
+        class(colormap), pointer :: m_colormap
+        !> Smooth the surface?
+        logical :: m_smooth = .true.
+    contains
+        !> @brief Cleans up resources held by the surface_plot object.
+        final :: surf_clean_up
+        !> @brief Initializes the surface_plot object.
+        procedure, public :: initialize => surf_init
+        !> @brief Gets a value indicating if hidden lines should be shown.
+        procedure, public :: get_show_hidden => surf_get_show_hidden
+        !> @brief Sets a value indicating if hidden lines should be shown.
+        procedure, public :: set_show_hidden => surf_set_show_hidden
+        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !! object.
+        procedure, public :: get_command_string => surf_get_cmd
+        !> @brief Gets a pointer to the colormap object.
+        procedure, public :: get_colormap => surf_get_colormap
+        !> @brief Sets the colormap object.
+        procedure, public :: set_colormap => surf_set_colormap
+        !> @brief Gets a value determining if the plotted surfaces should be 
+        !! smoothed.
+        procedure, public :: get_allow_smoothing => surf_get_smooth
+        !> @brief Sets a value determining if the plotted surfaces should be 
+        !! smoothed.
+        procedure, public :: set_allow_smoothing => surf_set_smooth
     end type
 
 ! ******************************************************************************
@@ -914,6 +995,16 @@ module fplot_core
         function spd_get_string_result(this) result(x)
             import scatter_plot_data
             class(scatter_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        !> @brief Retrieves a string from a colormap.
+        !!
+        !! @param[in] this The colormap object.
+        !! @return The string.
+        function cm_get_string_result(this) result(x)
+            import colormap
+            class(colormap), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
@@ -3343,8 +3434,8 @@ contains
     !!  class is used internally to provide error handling.  Possible errors and
     !!  warning messages that may be encountered are as follows.
     !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
-    !!      same size.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
+    !!      not the same size.
     subroutine pd3d_set_data_1(this, x, y, z, err)
         ! Arguments
         class(plot_data_3d), intent(inout) :: this
@@ -3675,6 +3766,531 @@ contains
         real(real64), intent(in) :: x
         this%m_azimuth = x
     end subroutine
+
+! ******************************************************************************
+! SURFACE_PLOT_DATA MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Gets the size of the stored data set.
+    !!
+    !! @param[in] this The suface_plot_data object.
+    !! @param[in] dim The dimension of interest.  Notice, data is stored as a
+    !!  2D matrix (i.e. only 1 and 2 are valid inputs).
+    !! @return The size of the requested dimension.
+    pure function surfd_get_size(this, dim) result(x)
+        class(surface_plot_data), intent(in) :: this
+        integer(int32), intent(in) :: dim
+        integer(int32) :: x
+        if (allocated(this%m_x)) then
+            x = size(this%m_x, dim)
+        else
+            x = 0
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the requested X data point.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @return The value.
+    pure function surfd_get_x(this, i, j) result(x)
+        class(surface_plot_data), intent(in) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64) :: x
+        if (allocated(this%m_x)) then
+            x = this%m_x(i,j)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested X data point.
+    !!
+    !! @param[in,out] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @param[in] x The value.
+    subroutine surfd_set_x(this, i, j, x)
+        class(surface_plot_data), intent(inout) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64), intent(in) :: x
+        if (allocated(this%m_x)) then
+            this%m_x(i,j) = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the requested Y data point.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @return The value.
+    pure function surfd_get_y(this, i, j) result(x)
+        class(surface_plot_data), intent(in) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64) :: x
+        if (allocated(this%m_y)) then
+            x = this%m_y(i,j)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested Y data point.
+    !!
+    !! @param[in,out] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @param[in] x The value.
+    subroutine surfd_set_y(this, i, j, x)
+        class(surface_plot_data), intent(inout) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64), intent(in) :: x
+        if (allocated(this%m_y)) then
+            this%m_y(i,j) = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the requested Z data point.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @return The value.
+    pure function surfd_get_z(this, i, j) result(x)
+        class(surface_plot_data), intent(in) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64) :: x
+        if (allocated(this%m_z)) then
+            x = this%m_z(i,j)
+        else
+            x = 0.0d0
+        end if
+    end function
+
+! --------------------
+    !> @brief Sets the requested Z data point.
+    !!
+    !! @param[in,out] this The surface_plot_data object.
+    !! @param[in] i The row index.
+    !! @param[in] j The column index.
+    !! @param[in] x The value.
+    subroutine surfd_set_z(this, i, j, x)
+        class(surface_plot_data), intent(inout) :: this
+        integer(int32), intent(in) :: i, j
+        real(real64), intent(in) :: x
+        if (allocated(this%m_z)) then
+            this%m_z(i,j) = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if a wireframe mesh should be displayed.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @return Returns true if a wireframe mesh should be displayed; else, false
+    !!  to display a solid surface.
+    pure function surfd_get_wireframe(this) result(x)
+        class(surface_plot_data), intent(in) :: this
+        logical :: x
+        x = this%m_wireframe
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if a wireframe mesh should be displayed.
+    !!
+    !! @param[in,out] this The surface_plot_data object.
+    !! @param[in] x Set to true if a wireframe mesh should be displayed; else, 
+    !!  false to display a solid surface.
+    subroutine surfd_set_wireframe(this, x)
+        class(surface_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_wireframe = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string to represent this
+    !! surface_plot_data object.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @return The command string.
+    function surfd_get_cmd(this) result(x)
+        ! Arguments
+        class(surface_plot_data), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: n
+        
+        ! Initialization
+        call str%initialize()
+
+        ! Title
+        n = len(this%get_name())
+        if (n > 0) then
+            call str%append(' "-" title "')
+            call str%append(this%get_name())
+            call str%append('"')
+        else
+            call str%append(' "-" notitle')
+        end if
+
+        ! PM3D or wireframe?
+        if (this%get_use_wireframe()) then
+            call str%append(" with lines")
+        else
+            call str%append(" with pm3d")
+        end if
+
+        ! End
+        x = str%to_string()
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string containing the actual data
+    !! to plot.
+    !!
+    !! @param[in] this The surface_plot_data object.
+    !! @return The GNUPLOT command string.
+    function surfd_get_data_cmd(this) result(x)
+        ! Arguments
+        class(surface_plot_data), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: i, j, m, n
+        character :: delimiter, nl
+
+        ! Initialization
+        call str%initialize()
+        m = this%get_size(1)
+        n = this%get_size(2)
+        delimiter = achar(9) ! tab delimiter
+        nl = new_line(nl)
+
+        ! Process
+        do j = 1, n
+            do i = 1, m
+                call str%append(to_string(this%get_x(i,j)))
+                call str%append(delimiter)
+                call str%append(to_string(this%get_y(i,j)))
+                call str%append(delimiter)
+                call str%append(to_string(this%get_z(i,j)))
+                call str%append(nl)
+            end do
+            if (j /= n) call str%append(nl)
+        end do
+
+        ! End
+        x = str%to_string()
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines the data set.
+    !!
+    !! @param[in,out] this The plot_data_2d object.
+    !! @param[in] x An M-by-N matrix containing the x-coordinate data.
+    !! @param[in] y An M-by-N matrix containing the y-coordinate data.
+    !! @param[in] z An M-by-N matrix containing the z-coordinate data.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
+    !!      not the same size.
+    subroutine surfd_set_data_1(this, x, y, z, err)
+        ! Arguments
+        class(surface_plot_data), intent(inout) :: this
+        real(real64), intent(in), dimension(:,:) :: x, y, z
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, j, m, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        m = size(x, 1)
+        n = size(x, 2)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Check
+        if (size(y, 1) /= m .or. size(y, 2) /= n .or. size(z, 1) /= m .or. size(z, 2) /= n) then
+            call errmgr%report_error("surfd_set_data_1", &
+                "The input arrays are not the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        if (allocated(this%m_x)) deallocate(this%m_x)
+        if (allocated(this%m_y)) deallocate(this%m_y)
+        if (allocated(this%m_z)) deallocate(this%m_z)
+        allocate(this%m_x(m, n), stat = flag)
+        if (flag == 0) allocate(this%m_y(m, n), stat = flag)
+        if (flag == 0) allocate(this%m_z(m, n), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("surfd_set_data_1", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do concurrent (j = 1:n)
+            do i = 1, m
+                this%m_x(i, j) = x(i, j)
+                this%m_y(i, j) = y(i, j)
+                this%m_z(i, j) = z(i, j)
+            end do
+        end do
+    end subroutine
+
+! ******************************************************************************
+! SURFACE_PLOT MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Cleans up resources held by the surface_plot object.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    subroutine surf_clean_up(this)
+        type(surface_plot), intent(inout) :: this
+        if (associated(this%m_colormap)) then
+            deallocate(this%m_colormap)
+            nullify(this%m_colormap)
+        end if
+
+        ! No need to call the base class finalization routine as the compiler
+        ! takes care of that for us.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Initializes the surface_plot object.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @param[in] term An optional input that is used to define the terminal.
+    !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+    !!  - GNUPLOT_TERMINAL_PNG
+    !!  - GNUPLOT_TERMINAL_QT
+    !!  - GNUPLOT_TERMINAL_WIN32
+    !!  - GNUPLOT_TERMINAL_WXT
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    subroutine surf_init(this, term, err)
+        ! Arguments
+        class(surface_plot), intent(inout) :: this
+        integer(int32), intent(in), optional :: term
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        type(legend), pointer :: lgnd
+
+        ! Initialize the base class
+        call this%plot_3d%initialize(term, err)
+
+        ! Do not display the legend
+        lgnd => this%get_legend()
+        call lgnd%set_is_visible(.false.)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value indicating if hidden lines should be shown.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return Returns true if hidden lines should be shown; else, false.
+    pure function surf_get_show_hidden(this) result(x)
+        class(surface_plot), intent(in) :: this
+        logical :: x
+        x = this%m_showHidden
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Sets a value indicating if hidden lines should be shown.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    !! @param[in] x Set to true if hidden lines should be shown; else, false.
+    subroutine surf_set_show_hidden(this, x)
+        class(surface_plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_showHidden = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string to represent this surface_plot
+    !! object.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return The command string.
+    function surf_get_cmd(this) result(x)
+        ! Arguments
+        class(surface_plot), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        class(colormap), pointer :: clr
+
+        ! Initialization
+        call str%initialize()
+
+        ! Hidden Stuff
+        if (this%get_show_hidden()) then
+            call str%append("unset hidden3d")
+        else
+            call str%append("set hidden3d")
+        end if
+
+        ! Define the colormap
+        clr => this%get_colormap()
+        if (associated(clr)) then
+            call str%append(new_line('a'))
+            call str%append(clr%get_command_string())
+        end if
+
+        ! Allow for smoothing interpolation
+        if (this%get_allow_smoothing()) then
+            call str%append(new_line('a'))
+            call str%append("set pm3d interpolate 0,0")
+        end if
+
+        ! Utilize the base class
+        call str%append(new_line('a'))
+        call str%append(this%plot_3d%get_command_string())
+
+        ! Output
+        x = str%to_string()
+    end function
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a pointer to the colormap object.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return A pointer to the colormap object.  If no colormap is defined, a
+    !!  null pointer is returned.
+    function surf_get_colormap(this) result(x)
+        class(surface_plot), intent(in) :: this
+        class(colormap), pointer :: x
+        x => this%m_colormap
+    end function
+
+! --------------------
+    !> @brief Sets the colormap object.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    !! @param[in] x The colormap object.  Notice, a copy of this object is
+    !!  stored, and the surface_plot object then manages the lifetime of the
+    !!  copy.
+    !! @param[out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    subroutine surf_set_colormap(this, x, err)
+        ! Arguments
+        class(surface_plot), intent(inout) :: this
+        class(colormap), intent(in) :: x
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Process
+        if (associated(this%m_colormap)) deallocate(this%m_colormap)
+        allocate(this%m_colormap, stat = flag, source = x)
+        if (flag /= 0) then
+            call errmgr%report_error("surf_set_colormap", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    !> @brief Gets a value determining if the plotted surfaces should be 
+    !! smoothed.
+    !!
+    !! @param[in] this The surface_plot object.
+    !! @return Returns true if the surface should be smoothed; else, false.
+    pure function surf_get_smooth(this) result(x)
+        class(surface_plot), intent(in) :: this
+        logical :: x
+        x = this%m_smooth
+    end function
+
+! --------------------
+    !> @brief Sets a value determining if the plotted surfaces should be 
+    !! smoothed.
+    !!
+    !! @param[in,out] this The surface_plot object.
+    !! @param[in] x Set to true if the surface should be smoothed; else, false.
+    subroutine surf_set_smooth(this, x)
+        class(surface_plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_smooth = x
+    end subroutine
+
+! ******************************************************************************
+! COLORMAP MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT command string to represent this colormap object.
+    !!
+    !! @param[in] this The colormap object.
+    !! @return The command string.
+    function cm_get_cmd(this) result(x)
+        ! Arguments
+        class(colormap), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+
+        ! Initialization
+        call str%initialize()
+
+        ! Process
+        call str%append("set palette defined (")
+        call str%append(this%get_color_string())
+        call str%append(")")
+
+        ! End
+        x = str%to_string()
+    end function
+
+! ******************************************************************************
+! RAINBOW_COLORMAP MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT string defining the color distribution.
+    !!
+    !! @param[in] this The rainbow_colormap object.
+    !! @return The command string.
+    function rcm_get_clr(this) result(x)
+        class(rainbow_colormap), intent(in) :: this
+        character(len = :), allocatable :: x
+        x = '0 "dark-blue", 1 "blue", 2 "cyan", 3 "green", 4 "yellow", ' // &
+            '5 "orange", 6 "red", 7 "dark-red"'
+    end function
 
 ! ------------------------------------------------------------------------------
 
