@@ -76,6 +76,8 @@ module fplot_core
     public :: surface_plot
     public :: colormap
     public :: rainbow_colormap
+    public :: hot_colormap
+    public :: cool_colormap
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -560,6 +562,22 @@ module fplot_core
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
         procedure, public :: get_color_string => rcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "hot" colors.
+    type, extends(colormap) :: hot_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        procedure, public :: get_color_string => hcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "cool" colors.
+    type, extends(colormap) :: cool_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        procedure, public :: get_color_string => ccm_get_clr
     end type
 
 ! ******************************************************************************
@@ -4292,14 +4310,31 @@ contains
             '5 "orange", 6 "red", 7 "dark-red"'
     end function
 
+! ******************************************************************************
+! HOT_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT string defining the color distribution.
+    !!
+    !! @param[in] this The hot_colormap object.
+    !! @return The command string.
+    function hcm_get_clr(this) result(x)
+        class(hot_colormap), intent(in) :: this
+        character(len = :), allocatable :: x
+        x = '0 "black", 1 "red", 2 "orange", 3 "yellow", 4 "white"'
+    end function
+
+! ******************************************************************************
+! COOL_COLORMAP MEMBERS
+! ------------------------------------------------------------------------------
+    !> @brief Gets the GNUPLOT string defining the color distribution.
+    !!
+    !! @param[in] this The cool_colormap object.
+    !! @return The command string.
+    function ccm_get_clr(this) result(x)
+        class(cool_colormap), intent(in) :: this
+        character(len = :), allocatable :: x
+        x = '0 "blue", 1 "turquoise", 2 "light-green"'
+    end function
 
 ! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
-
 end module
