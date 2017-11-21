@@ -219,6 +219,9 @@ end program
 This is the plot resulting from the above program.
 ![](images/example_surf_plot_1.png?raw=true)
 
+## Documentation
+Documentation can be found [here](doc/refman.pdf)
+
 ## External Libraries
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
