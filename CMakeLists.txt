@@ -72,8 +72,7 @@ else (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g -Wall")
 endif (Fortran_COMPILER_NAME MATCHES "gfortran.*")
 
-# Define sources
-set(fplot_sources src/fplot_core.f90 src/fplot_errors.f90 src/fplot_list.f90)
+#
 if (BUILD_SHARED_LIBS)
     set(ExternalProjectCMakeArgs
         -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
@@ -85,18 +84,10 @@ if (BUILD_SHARED_LIBS)
         -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
-    add_subdirectory(external/ferror)
-    add_subdirectory(external/strings)
-else()
-    # Building a static library, simply add source code to this library
-    list(APPEND fplot_sources external/ferror/src/ferror.f90 
-        external/strings/src/strings.f90)
 endif()
 
-add_library(fplot ${fplot_sources})
-if (BUILD_SHARED_LIBS)
-    target_link_libraries(fplot ferror strings)
-endif()
+# Define sources
+add_subdirectory(src)
 
 # ------------------------------------------------------------------------------
 # EXAMPLES
