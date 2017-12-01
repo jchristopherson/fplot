@@ -8,7 +8,7 @@
 module fplot_core
     use, intrinsic :: iso_fortran_env, only : real64, real32, int32
     use strings
-    use fplot_list
+    use collection_list
     use fplot_errors
     use ferror, only : errors
     implicit none
@@ -2096,12 +2096,10 @@ contains
         class(plot_data), pointer :: x
 
         ! Local Variables
-        type(container) :: cntr
         class(*), pointer :: item
 
         ! Process
-        cntr = this%m_data%get(i)
-        item => cntr%get()
+        item => this%m_data%get(i)
         select type (item)
         class is (plot_data)
             x => item
