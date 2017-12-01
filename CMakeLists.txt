@@ -4,7 +4,7 @@ project(fplot Fortran)
 
 # Define version information
 set(motion_VERSION_MAJOR 1)
-set(motion_VERSION_MINOR 0)
+set(motion_VERSION_MINOR 1)
 set(motion_VERSION_PATCH 0)
 
 # Define output directories, if undefined
