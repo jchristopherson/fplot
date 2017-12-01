@@ -1,3 +1,0 @@
-[submodule "external/ferror"]
-	path = external/ferror
-	url = https://github.com/jchristopherson/ferror.git
