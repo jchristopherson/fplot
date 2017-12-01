@@ -2,3 +2,6 @@
 	path = src/external/strings
 	url = https://github.com/jchristopherson/strings.git
 
+[submodule "src/external/collections"]
+	path = src/external/collections
+	url = https://github.com/jchristopherson/collections.git
