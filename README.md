@@ -219,6 +219,9 @@ end program
 This is the plot resulting from the above program.
 ![](images/example_surf_plot_1.png?raw=true)
 
+## Building FPLOT
+This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+
 ## Documentation
 Documentation can be found [here](doc/refman.pdf)
 
@@ -226,3 +229,4 @@ Documentation can be found [here](doc/refman.pdf)
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
 - [STRINGS](https://github.com/jchristopherson/strings)
+- [COLLECTIONS](https://github.com/jchristopherson/collections)
