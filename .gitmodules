@@ -1,6 +1,3 @@
-[submodule "external/strings"]
-	path = external/strings
-	url = https://github.com/jchristopherson/strings.git
 [submodule "external/ferror"]
 	path = external/ferror
 	url = https://github.com/jchristopherson/ferror.git
