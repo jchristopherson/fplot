@@ -4,8 +4,46 @@ project(fplot Fortran)
 
 # Define version information
 set(motion_VERSION_MAJOR 1)
-set(motion_VERSION_MINOR 1)
+set(motion_VERSION_MINOR 2)
 set(motion_VERSION_PATCH 0)
+
+# Locate Dependencies
+find_package(ferror 1.3.0)
+find_package(collections 1.1.0)
+set(strings_Sources ${PROJECT_SOURCE_DIR}/external/strings/src/strings.f90)
+
+# If FERROR is not installed on the system, build the default implementation
+if (NOT ${ferror_FOUND})
+    message(STATUS "FERROR not found.  The default implementation will be used.")
+    add_subdirectory(external/ferror)
+    include_directories(external/ferror/include)
+    set(FERROR_LIBRARIES ferror)
+    set(ferror_LibLocation ${ferror_BINARY_DIR})
+else()
+    message(STATUS "An acceptable version of FERROR (v" ${ferror_VERSION} ") was found, and will be utilized.")
+    include_directories(${ferror_INCLUDE_DIRS})
+    set(FERROR_LIBRARIES ferror)
+    get_target_property(ferror_LibLocation ferror LOCATION)
+endif()
+
+# If COLLECTIONS is not installed on the system, build the default implementation
+if (NOT ${collections_FOUND})
+    message(STATUS "COLLECTIONS not found.  The default implementation will be used.")
+    add_subdirectory(external/collections)
+    include_directories(external/collections/include)
+    set(COLLECTIONS_LIBRARIES collections)
+    set(collections_LibLocation ${collections_BINARY_DIR})
+else()
+    message(STATUS "An acceptable version of COLLECTIONS (v" ${collections_VERSION} ") was found, and will be utilized.")
+    set(COLLECTIONS_LIBRARIES collections)
+    get_target_property(collections_LibLocation collections LOCATION)
+endif()
+
+# Export all symbols on Windows when building shared libraries
+SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
+# Locate the module files
+set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/include)
 
 # Define output directories, if undefined
 if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
@@ -16,12 +54,10 @@ if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug/mod)
         else()
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug/mod)
         endif()
     elseif (CMAKE_BUILD_TYPE MATCHES Release)
         # Release Build
@@ -29,12 +65,10 @@ if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Release)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Release)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Release)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Release/mod)
         else()
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Release)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Release)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Release)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Release/mod)
         endif()
     else()
         # Default Condition
@@ -42,12 +76,10 @@ if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/Debug/mod)
         else()
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
             set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug)
-            set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/lib/Debug/mod)
         endif()
     endif()
 endif()
@@ -72,48 +104,34 @@ else (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g -Wall")
 endif (Fortran_COMPILER_NAME MATCHES "gfortran.*")
 
-#
-if (BUILD_SHARED_LIBS)
-    set(ExternalProjectCMakeArgs
-        -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-        -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-        -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        -CMAKE_Fortran_MODULE_DIRECTORY=${CMAKE_Fortran_MODULE_DIRECTORY}
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_SOURCE_DIR}/external
-        -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
-        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
-endif()
-
 # Define sources
 add_subdirectory(src)
 
 # ------------------------------------------------------------------------------
 # EXAMPLES
 # ------------------------------------------------------------------------------
-option(BUILD_EXAMPLES "Build examples?" OFF)
-if (BUILD_EXAMPLES)
-    # Inform the user we're building the examples
-    message(STATUS "Building FPLOT examples.")
+# option(BUILD_EXAMPLES "Build examples?" OFF)
+# if (BUILD_EXAMPLES)
+#     # Inform the user we're building the examples
+#     message(STATUS "Building FPLOT examples.")
 
-    # Example 1
-    add_executable(fplot_2d_1 examples/fplot_2d_1.f90)
-    target_link_libraries(fplot_2d_1 fplot)
+#     # Example 1
+#     add_executable(fplot_2d_1 examples/fplot_2d_1.f90)
+#     target_link_libraries(fplot_2d_1 fplot)
 
-    # Example 2
-    add_executable(fplot_2d_2 examples/fplot_2d_2.f90)
-    target_link_libraries(fplot_2d_2 fplot)
+#     # Example 2
+#     add_executable(fplot_2d_2 examples/fplot_2d_2.f90)
+#     target_link_libraries(fplot_2d_2 fplot)
 
-    # Example 3
-    add_executable(fplot_png_1 examples/fplot_png_1.f90)
-    target_link_libraries(fplot_png_1 fplot)
+#     # Example 3
+#     add_executable(fplot_png_1 examples/fplot_png_1.f90)
+#     target_link_libraries(fplot_png_1 fplot)
 
-    # Example 4
-    add_executable(fplot_3d_1 examples/fplot_3d_1.f90)
-    target_link_libraries(fplot_3d_1 fplot)
+#     # Example 4
+#     add_executable(fplot_3d_1 examples/fplot_3d_1.f90)
+#     target_link_libraries(fplot_3d_1 fplot)
 
-    # Example 5
-    add_executable(fplot_surf_1 examples/fplot_surf_1.f90)
-    target_link_libraries(fplot_surf_1 fplot)
-endif()
+#     # Example 5
+#     add_executable(fplot_surf_1 examples/fplot_surf_1.f90)
+#     target_link_libraries(fplot_surf_1 fplot)
+# endif()
