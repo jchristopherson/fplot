@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.0)
 project(fplot Fortran)
 
 # Define version information
-set(motion_VERSION_MAJOR 1)
-set(motion_VERSION_MINOR 2)
-set(motion_VERSION_PATCH 0)
+set(fplot_VERSION_MAJOR 1)
+set(fplot_VERSION_MINOR 2)
+set(fplot_VERSION_PATCH 0)
 
 # Locate Dependencies
 find_package(ferror 1.3.0)
-find_package(collections 1.1.0)
+find_package(collections)
 set(strings_Sources ${PROJECT_SOURCE_DIR}/external/strings/src/strings.f90)
 
 # If FERROR is not installed on the system, build the default implementation

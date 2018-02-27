@@ -9,3 +9,64 @@ target_link_libraries(fplot ${FERROR_LIBRARIES} ${COLLECTIONS_LIBRARIES})
 # ------------------------------------------------------------------------------
 # INSTALLATION
 # ------------------------------------------------------------------------------
+# Define target information
+set_property(TARGET fplot PROPERTY VERSION ${FPLOT_VERSION})
+set_property(TARGET fplot PROPERTY SOVERSION ${FPLOT_MAJOR_VERSION})
+set_property(TARGET fplot PROPERTY INTERFACE_collections_MAJOR_VERSION ${FPLOT_MAJOR_VERSION})
+set_property(TARGET fplot APPEND PROPERTY COMPATIBLE_INTERFACE_STRING fplot_MAJOR_VERSION)
+
+# Locate the "include" directories
+set(fplot_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include)
+
+# Define the installation instructions
+install(TARGETS fplot EXPORT fplotTargets
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    CONFIGURATIONS Release
+    INCLUDES DESTINATION include
+)
+install(
+    DIRECTORY ${PROJECT_SOURCE_DIR}/include 
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    COMPONENT Devel
+)
+
+# Include the documentation
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/doc/html DESTINATION doc)
+install(FILES ${PROJECT_SOURCE_DIR}/doc/refman.pdf DESTINATION doc)
+
+# Define the version file
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/fplotConfigVersion.cmake"
+    VERSION ${FPLOT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(EXPORT fplotTargets
+    FILE "${CMAKE_BINARY_DIR}/fplotTargets.cmake"
+)
+
+# Define the configuration file
+configure_file(
+    "${PROJECT_SOURCE_DIR}/fplotConfig.cmake.in"
+    "${CMAKE_BINARY_DIR}/fplotConfig.cmake"
+    COPYONLY
+)
+
+set(ConfigPackageLocation lib/cmake/fplot)
+install(
+    EXPORT fplotTargets
+    FILE fplotTargets.cmake
+    DESTINATION ${ConfigPackageLocation}
+)
+install(
+    FILES
+        "${CMAKE_BINARY_DIR}/fplotConfig.cmake"
+        "${CMAKE_BINARY_DIR}/fplotConfigVersion.cmake"
+    DESTINATION
+        ${ConfigPackageLocation}
+    COMPONENT
+        Devel
+)
