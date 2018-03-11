@@ -172,22 +172,78 @@ module fplot_core
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
 ! ******************************************************************************
-! COLORS
+! FPLOT_COLORS.F90
 ! ------------------------------------------------------------------------------
     !> @brief Describes an RGB color.
     type color
         !> @brief The red component of the color (must be between 0 and 255).
-        integer(int32) :: red = 0
+        integer(int32), public :: red = 0
         !> @brief The green component of the color (must be between 0 and 255).
-        integer(int32) :: green = 0
+        integer(int32), public :: green = 0
         !> @brief The blue component of the color (must be between 0 and 255).
-        integer(int32) :: blue = 255
+        integer(int32), public :: blue = 255
     contains
         !> @brief Returns the color in hexadecimal format.
-        procedure, pass :: to_hex_string => clr_to_hex_string
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(6) function clr_to_hex_string(class(color) this)
+        !! @endcode
+        !!
+        !! @param[in] this The color object.
+        !! @return A string containing the hexadecimal equivalent.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(color) :: clr
+        !!     character(6) :: hex_str
+        !!
+        !!     ! Return the hexadecimal form of the color
+        !!     hex_str = clr%to_hex_string()
+        !! end program
+        !! @endcode
+        procedure, public, pass :: to_hex_string => clr_to_hex_string
         !> @brief Copies another color to this color.
-        procedure, pass :: copy_from => clr_copy_from
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine copy_from(class(color) this, class(color) clr)
+        !! @endcode
+        !!
+        !! @param[in,out] this The color object.
+        !! @param[in] clr The color to copy.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!     
+        !!     type(color) :: clr1, clr2
+        !!
+        !!     ! Copy clr1 to clr2
+        !!     call clr2%copy_from(clr1)
+        !! end program
+        !! @endcode
+        procedure, public, pass :: copy_from => clr_copy_from
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function clr_to_hex_string(this) result(txt)
+            class(color), intent(in) :: this
+            character(6) :: txt
+        end function
+        
+        module subroutine clr_copy_from(this, clr)
+            class(color), intent(inout) :: this
+            class(color), intent(in) :: clr
+        end subroutine
+    end interface
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a black color.
@@ -234,6 +290,8 @@ module fplot_core
         procedure(get_string_result), deferred, public :: get_command_string
     end type
 
+! ******************************************************************************
+! FPLOT_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT terminal object.
     type, abstract, extends(plot_object) :: terminal
@@ -255,39 +313,264 @@ module fplot_core
         integer(int32) :: m_fontSize = GNUPLOT_DEFAULT_FONT_SIZE
     contains
         !> @brief Gets the width of the plot window.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_window_width(class(terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The width of the plot window.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!     integer(int32) :: width
+        !!
+        !!     ! Get the width of the plot window
+        !!     width = term%get_window_width()
+        !! end program
+        !! @endcode
         procedure, public :: get_window_width => term_get_window_width
         !> @brief Sets the width of the plot window.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_window_width(class(terminal) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] x The width of the plot window.  If a value of zero is
+        !! provided, the window width is reset to its default value; or, if a
+        !! negative value is provided, the absolute value of the supplied value
+        !! is utilized.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!
+        !!     ! Set the width of the plot window to 400 pixels.
+        !!     call term%set_window_width(400)
+        !! end program
+        !! @endcode
         procedure, public :: set_window_width => term_set_window_width
         !> @brief Gets the height of the plot window.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_window_height(class(terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The height of the plot window.
         procedure, public :: get_window_height => term_get_window_height
         !> @brief Sets the height of the plot window.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_window_height(class(terminal) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] x The height of the plot window.  If a value of zero is
+        !! provided, the window height is reset to its default value; or, if a
+        !! negative value is provided, the absolute value of the supplied value is
+        !! utilized.
         procedure, public :: set_window_height => term_set_window_height
         !> @brief Returns the appropriate GNUPLOT command string to establish
         !! appropriate parameters.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :), allocatable function get_command_string(class(terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The GNUPLOT command string.
         procedure, public :: get_command_string => term_get_command_string
         !> @brief Gets the targeted plot window number.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! 
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The plot window number.
         procedure, public :: get_plot_window_number => &
             term_get_plot_window_number
         !> @brief Sets the targeted plot window number.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] x The plot window number.
         procedure, public :: set_plot_window_number => &
             term_set_plot_window_number
         !> @brief Gets the plot window's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The title.
         procedure, public :: get_title => term_get_title
         !> @brief Sets the plot window's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] txt The title.
         procedure, public :: set_title => term_set_title
         !> @brief Gets the name of the font used for text displayed by the
         !! graph.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The font name.
         procedure, public :: get_font_name => term_get_font_name
         !> @brief Sets the name of the font used for text displayed by the
         !! graph.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] name The name of the font.  If no name is supplied, the 
+        !!  name is reset back to its default setting.
         procedure, public :: set_font_name => term_set_font_name
         !> @brief Gets the size of the font used by the graph.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The font size, in points.
         procedure, public :: get_font_size => term_get_font_size
         !> @brief Sets the size of the font used by the graph.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The terminal object.
+        !! @param[in] sz The font size, in points.  If a value of zero is provided,
+        !! the font size is reset to its default value; or, if a negative value
+        !! is provided, the absolute value of the supplied value is utilized.
         procedure, public :: set_font_size => term_set_font_size
         !> @brief Gets the GNUPLOT terminal identification string.
         procedure(term_get_string_result), deferred, public :: get_id_string
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function term_get_window_width(this) result(x)
+            class(terminal), intent(in) :: this
+            integer :: x
+        end function
+        
+        module subroutine term_set_window_width(this, x)
+            class(terminal), intent(inout) :: this
+            integer, intent(in) :: x
+        end subroutine
+        
+        pure module function term_get_window_height(this) result(x)
+            class(terminal), intent(in) :: this
+            integer :: x
+        end function
+        
+        module subroutine term_set_window_height(this, x)
+            class(terminal), intent(inout) :: this
+            integer, intent(in) :: x
+        end subroutine
+        
+        pure module function term_get_plot_window_number(this) result(x)
+            class(terminal), intent(in) :: this
+            integer(int32) :: x
+        end function
+        
+        module subroutine term_set_plot_window_number(this, x)
+            class(terminal), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+        
+        pure module function term_get_title(this) result(str)
+            class(terminal), intent(in) :: this
+            character(len = :), allocatable :: str
+        end function
+        
+        module subroutine term_set_title(this, txt)
+            class(terminal), intent(inout) :: this
+            character(len = *), intent(in) :: txt
+        end subroutine
+        
+        pure module function term_get_font_name(this) result(name)
+            class(terminal), intent(in) :: this
+            character(len = :), allocatable :: name
+        end function
+        
+        module subroutine term_set_font_name(this, name)
+            class(terminal), intent(inout) :: this
+            character(len = *), intent(in) :: name
+        end subroutine
+        
+        pure module function term_get_font_size(this) result(sz)
+            class(terminal), intent(in) :: this
+            integer :: sz
+        end function
+        
+        module subroutine term_set_font_size(this, sz)
+            class(terminal), intent(inout) :: this
+            integer(int32), intent(in) :: sz
+        end subroutine
+        
+        module function term_get_command_string(this) result(x)
+            class(terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT Win32 terminal object.
@@ -1051,274 +1334,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! COLOR MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Returns the color in hexadecimal format.
-    !!
-    !! @param[in] this The color object.
-    !! @return A string containing the hexadecimal equivalent.
-    pure function clr_to_hex_string(this) result(txt)
-        ! Arguments
-        class(color), intent(in) :: this
-        character(6) :: txt
-
-        ! Local Variables
-        integer(int32) :: r, g, b, clr
-
-        ! Clip each color if necessary
-        if (this%red < 0) then
-            r = 0
-        else if (this%red > 255) then
-            r = 255
-        else
-            r = this%red
-        end if
-
-        if (this%green < 0) then
-            g = 0
-        else if (this%green > 255) then
-            g = 255
-        else
-            g = this%green
-        end if
-
-        if (this%blue < 0) then
-            b = 0
-        else if (this%blue > 255) then
-            b = 255
-        else
-            b = this%blue
-        end if
-
-        ! Build the color information
-        clr = ishft(r, 16) + ishft(g, 8) + b
-
-        ! Convert the integer to a hexadecimal string
-        write(txt, '(Z6.6)') clr
-    end function
-
-! ------------------------------------------------------------------------------
-    !> @brief Copies another color to this color.
-    !!
-    !! @param[in,out] this The color object.
-    !! @param[in] clr The color to copy.
-    subroutine clr_copy_from(this, clr)
-        class(color), intent(inout) :: this
-        class(color), intent(in) :: clr
-        this%red = clr%red
-        this%green = clr%green
-        this%blue = clr%blue
-    end subroutine
-
-! ******************************************************************************
-! TERMINAL MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the width of the plot window.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The width of the plot window.
-    pure function term_get_window_width(this) result(x)
-        class(terminal), intent(in) :: this
-        integer :: x
-        x = this%m_windowWidth
-    end function
-
-! --------------------
-    !> @brief Sets the width of the plot window.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] x The width of the plot window.  If a value of zero is
-    !! provided, the window width is reset to its default value; or, if a
-    !! negative value is provided, the absolute value of the supplied value is
-    !! utilized.
-    subroutine term_set_window_width(this, x)
-        class(terminal), intent(inout) :: this
-        integer, intent(in) :: x
-        if (x == 0) then
-            this%m_windowWidth = GNUPLOT_DEFAULT_WINDOW_WIDTH
-        else
-            this%m_windowWidth = abs(x)
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the height of the plot window.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The height of the plot window.
-    pure function term_get_window_height(this) result(x)
-        class(terminal), intent(in) :: this
-        integer :: x
-        x = this%m_windowHeight
-    end function
-
-! --------------------
-    !> @brief Sets the height of the plot window.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] x The height of the plot window.  If a value of zero is
-    !! provided, the window height is reset to its default value; or, if a
-    !! negative value is provided, the absolute value of the supplied value is
-    !! utilized.
-    subroutine term_set_window_height(this, x)
-        class(terminal), intent(inout) :: this
-        integer, intent(in) :: x
-        if (x == 0) then
-            this%m_windowHeight = GNUPLOT_DEFAULT_WINDOW_HEIGHT
-        else
-            this%m_windowHeight = abs(x)
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the targeted plot window number.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The plot window number.
-    pure function term_get_plot_window_number(this) result(x)
-        class(terminal), intent(in) :: this
-        integer(int32) :: x
-        x = this%m_termID
-    end function
-
-! --------------------
-    !> @brief Sets the targeted plot window number.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] x The plot window number.
-    subroutine term_set_plot_window_number(this, x)
-        class(terminal), intent(inout) :: this
-        integer(int32), intent(in) :: x
-        this%m_termID = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the plot window's title.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The title.
-    pure function term_get_title(this) result(str)
-        class(terminal), intent(in) :: this
-        character(len = :), allocatable :: str
-        str = trim(this%m_title)
-    end function
-
-! --------------------
-    !> @brief Sets the plot window's title.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] txt The title.
-    subroutine term_set_title(this, txt)
-        class(terminal), intent(inout) :: this
-        character(len = *), intent(in) :: txt
-        integer(int32) :: n
-        n = min(len(txt), GNUPLOT_MAX_LABEL_LENGTH)
-        this%m_title = ""
-        if (n /= 0) then
-            this%m_title(1:n) = txt(1:n)
-            this%m_hasTitle = .true.
-        else
-            this%m_hasTitle = .false.
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the name of the font used for text displayed by the graph.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The font name.
-    pure function term_get_font_name(this) result(name)
-        class(terminal), intent(in) :: this
-        character(len = :), allocatable :: name
-        name = trim(this%m_fontName)
-    end function
-
-! --------------------
-    !> @brief Sets the name of the font used for text displayed by the graph.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] name The name of the font.  If no name is supplied, the name
-    !! is reset back to its default setting.
-    subroutine term_set_font_name(this, name)
-        class(terminal), intent(inout) :: this
-        character(len = *), intent(in) :: name
-        integer(int32) :: n
-        n = min(len(name), GNUPLOT_MAX_LABEL_LENGTH)
-        this%m_fontName = ""
-        if (n == 0) then
-            this%m_fontName = GNUPLOT_DEFAULT_FONTNAME
-        else
-            this%m_fontName(1:n) = name(1:n)
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the size of the font used by the graph.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The font size, in points.
-    pure function term_get_font_size(this) result(sz)
-        class(terminal), intent(in) :: this
-        integer :: sz
-        sz = this%m_fontSize
-    end function
-
-! --------------------
-    !> @brief Sets the size of the font used by the graph.
-    !!
-    !! @param[in,out] this The terminal object.
-    !! @param[in] sz The font size, in points.  If a value of zero is provided,
-    !! the font size is reset to its default value; or, if a negative value
-    !! is provided, the absolute value of the supplied value is utilized.
-    subroutine term_set_font_size(this, sz)
-        class(terminal), intent(inout) :: this
-        integer(int32), intent(in) :: sz
-        if (sz == 0) then
-            this%m_fontSize = GNUPLOT_DEFAULT_FONT_SIZE
-        else
-            this%m_fontSize = abs(sz)
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Returns the appropriate GNUPLOT command string to establish
-    !! appropriate parameters.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The GNUPLOT command string.
-    function term_get_command_string(this) result(x)
-        ! Arguments
-        class(terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-
-        ! Local Variables
-        type(string_builder) :: str
-
-        ! Process
-        call str%initialize()
-        call str%append("set term ")
-        call str%append(this%get_id_string())
-        call str%append(" enhanced ")
-        call str%append(to_string(this%get_plot_window_number()))
-        call str%append(" font ")
-        call str%append('"')
-        call str%append(this%get_font_name())
-        call str%append(',')
-        call str%append(to_string(this%get_font_size()))
-        call str%append('"')
-        call str%append(" size ")
-        call str%append(to_string(this%get_window_width()))
-        call str%append(",")
-        call str%append(to_string(this%get_window_height()))
-        if (this%m_hasTitle) then
-            call str%append(' title "')
-            call str%append(this%get_title())
-            call str%append('"')
-        end if
-        x = str%to_string()
-    end function
-
 ! ******************************************************************************
 ! WINDOWS_TERMINAL MEMBERS
 ! ------------------------------------------------------------------------------

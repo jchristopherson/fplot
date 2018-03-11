@@ -1,5 +1,11 @@
 # Define the source files
-set(fplot_sources fplot_core.f90 fplot_errors.f90 ${strings_Sources})
+set(fplot_sources 
+    fplot_core.f90 
+    fplot_errors.f90
+    fplot_colors.f90
+    fplot_terminal.f90
+    ${strings_Sources}
+)
 
 # Build the library
 add_library(fplot ${fplot_sources})
