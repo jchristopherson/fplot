@@ -713,28 +713,8 @@ module fplot_core
         end function
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+! ******************************************************************************
+! FPLOT_QT_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT QT terminal object.
     type, extends(terminal) :: qt_terminal
@@ -743,8 +723,43 @@ module fplot_core
         character(len = 2) :: m_id = "qt"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_id_string(class(qt_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The qt_terminal object.
+        !! @return The string.
         procedure, public :: get_id_string => qt_get_term_string
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function qt_get_term_string(this) result(x)
+            class(qt_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT WXT terminal object.
@@ -1486,20 +1501,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! QT_TERMINAL MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Retrieves a GNUPLOT terminal identifier string.
-    !!
-    !! @param[in] this The qt_terminal object.
-    !! @return The string.
-    pure function qt_get_term_string(this) result(x)
-        class(qt_terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
-
 ! ******************************************************************************
 ! WXT_TERMINAL_MEMBERS
 ! ------------------------------------------------------------------------------

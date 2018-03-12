@@ -5,6 +5,7 @@ set(fplot_sources
     fplot_colors.f90
     fplot_terminal.f90
     fplot_windows_terminal.f90
+    fplot_qt_terminal.f90
     ${strings_Sources}
 )
 
