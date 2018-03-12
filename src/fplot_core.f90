@@ -172,6 +172,17 @@ module fplot_core
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
 ! ******************************************************************************
+! BASE TYPES
+! ------------------------------------------------------------------------------
+    !> @brief The base type for a GNUPLOT object.
+    type, abstract :: plot_object
+    contains
+        !> @brief Returns the appropriate GNUPLOT command string to define the
+        !! plot object properties.
+        procedure(get_string_result), deferred, public :: get_command_string
+    end type
+
+! ******************************************************************************
 ! FPLOT_COLORS.F90
 ! ------------------------------------------------------------------------------
     !> @brief Describes an RGB color.
@@ -279,16 +290,6 @@ module fplot_core
     !> @brief Defines a navy color.
     type(color), parameter :: CLR_NAVY = color(0, 0, 128)
 
-! ******************************************************************************
-! TYPES
-! ------------------------------------------------------------------------------
-    !> @brief The base type for a GNUPLOT object.
-    type, abstract :: plot_object
-    contains
-        !> @brief Returns the appropriate GNUPLOT command string to define the
-        !! plot object properties.
-        procedure(get_string_result), deferred, public :: get_command_string
-    end type
 
 ! ******************************************************************************
 ! FPLOT_TERMINAL.F90
@@ -683,26 +684,8 @@ module fplot_core
         end function
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+! ******************************************************************************
+! FPLOT_WINDOWS_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT Win32 terminal object.
     type, extends(terminal) :: windows_terminal
@@ -711,8 +694,46 @@ module fplot_core
         character(len = 3) :: m_id = "win"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_id_string(class(windows_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The windows_terminal object.
+        !! @return The string.
         procedure, public :: get_id_string => wt_get_term_string
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function wt_get_term_string(this) result(x)
+            class(windows_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT QT terminal object.
@@ -1465,19 +1486,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! WINDOWS_TERMINAL MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Retrieves a GNUPLOT terminal identifier string.
-    !!
-    !! @param[in] this The windows_terminal object.
-    !! @return The string.
-    pure function wt_get_term_string(this) result(x)
-        class(windows_terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
 ! ******************************************************************************
 ! QT_TERMINAL MEMBERS
 ! ------------------------------------------------------------------------------
