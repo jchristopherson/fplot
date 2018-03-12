@@ -742,25 +742,8 @@ module fplot_core
         end function
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+! ******************************************************************************
+! FPLOT_WXT_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT WXT terminal object.
     type, extends(terminal) :: wxt_terminal
@@ -769,8 +752,49 @@ module fplot_core
         character(len = 3) :: m_id = "wxt"
     contains
         !> @brief Retrieves a GNUPLOT terminal identifier string.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_id_string(class(wxt_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The wxt_terminal object.
+        !! @return The string.
         procedure, public :: get_id_string => wxt_get_term_string
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function wxt_get_term_string(this) result(x)
+            class(qt_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT PNG terminal object.
@@ -1501,19 +1525,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! WXT_TERMINAL_MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Retrieves a GNUPLOT terminal identifier string.
-    !!
-    !! @param[in] this The wxt_terminal object.
-    !! @return The string.
-    pure function wxt_get_term_string(this) result(x)
-        class(wxt_terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
 ! ******************************************************************************
 ! PNG_TERMINAL MEMBERS
 ! ------------------------------------------------------------------------------

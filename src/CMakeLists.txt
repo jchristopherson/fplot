@@ -6,6 +6,7 @@ set(fplot_sources
     fplot_terminal.f90
     fplot_windows_terminal.f90
     fplot_qt_terminal.f90
+    fplot_wxt_terminal.f90
     ${strings_Sources}
 )
 
