@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['leg_5fget_5fbox',['leg_get_box',['../namespacefplot__core.html#a1232c9e2ef7236e1809eea0510cc5014',1,'fplot_core']]],
+  ['leg_5fget_5fcommand_5ftxt',['leg_get_command_txt',['../namespacefplot__core.html#a2a010e5481d575882ef27b0b9c4633bd',1,'fplot_core']]],
+  ['leg_5fget_5fhorz_5fpos',['leg_get_horz_pos',['../namespacefplot__core.html#a205fa12d95f917010fcef1cbe878d1a3',1,'fplot_core']]],
+  ['leg_5fget_5finside',['leg_get_inside',['../namespacefplot__core.html#aacebaf41027e6cc2b1623b3b39cea3fb',1,'fplot_core']]],
+  ['leg_5fget_5fvert_5fpos',['leg_get_vert_pos',['../namespacefplot__core.html#a7bfcf4712593945dc87d6335be772027',1,'fplot_core']]],
+  ['leg_5fget_5fvisible',['leg_get_visible',['../namespacefplot__core.html#ad5967a447343a06d15dc8326a9878dd4',1,'fplot_core']]],
+  ['leg_5fset_5fbox',['leg_set_box',['../namespacefplot__core.html#ad2ba49760c0d5458faa1c2089bc8d940',1,'fplot_core']]],
+  ['leg_5fset_5fhorz_5fpos',['leg_set_horz_pos',['../namespacefplot__core.html#aed9e3944fb0f4bdc9692d774cfd9b805',1,'fplot_core']]],
+  ['leg_5fset_5finside',['leg_set_inside',['../namespacefplot__core.html#aeda59d56a253864a1d7acccccdc624aa',1,'fplot_core']]],
+  ['leg_5fset_5fvert_5fpos',['leg_set_vert_pos',['../namespacefplot__core.html#ac89bb2b9e727611ef356c8bd566e7e1c',1,'fplot_core']]],
+  ['leg_5fset_5fvisible',['leg_set_visible',['../namespacefplot__core.html#a59319bc0c4bc0c14122fed8b486b5789',1,'fplot_core']]],
+  ['legend',['legend',['../structfplot__core_1_1legend.html',1,'fplot_core']]],
+  ['legend_5fbottom',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
+  ['legend_5fcenter',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
+  ['legend_5fleft',['legend_left',['../namespacefplot__core.html#a63d667dd9f14cc6ec61c999dd5dda272',1,'fplot_core']]],
+  ['legend_5fright',['legend_right',['../namespacefplot__core.html#a99373c8db502d4106c9597f3303b6fa9',1,'fplot_core']]],
+  ['legend_5ftop',['legend_top',['../namespacefplot__core.html#aeddce321c79b9d2e69356b06ba656c88',1,'fplot_core']]],
+  ['line_5fdash_5fdot_5fdot',['line_dash_dot_dot',['../namespacefplot__core.html#ad6f904d0b43c5063d0f6b41d90abdbea',1,'fplot_core']]],
+  ['line_5fdash_5fdotted',['line_dash_dotted',['../namespacefplot__core.html#a18af0338b6f5f050d826afcf78918bc2',1,'fplot_core']]],
+  ['line_5fdashed',['line_dashed',['../namespacefplot__core.html#ae9305c0a47c3fb21e45154a0b9457353',1,'fplot_core']]],
+  ['line_5fdotted',['line_dotted',['../namespacefplot__core.html#ab81a32face043abe51b8740e56c816b2',1,'fplot_core']]],
+  ['line_5fsolid',['line_solid',['../namespacefplot__core.html#ac41508e74ce45d09f835bd676ea7d3d6',1,'fplot_core']]]
+];
