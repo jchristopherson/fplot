@@ -766,7 +766,7 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     interface
         pure module function wxt_get_term_string(this) result(x)
-            class(qt_terminal), intent(in) :: this
+            class(wxt_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
