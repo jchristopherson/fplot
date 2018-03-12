@@ -375,6 +375,22 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The height of the plot window.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!     integer(int32) :: height
+        !!
+        !!     ! Get the height of the plot window
+        !!     height = term%get_window_height()
+        !! end program
+        !! @endcode
         procedure, public :: get_window_height => term_get_window_height
         !> @brief Sets the height of the plot window.
         !!
@@ -388,13 +404,28 @@ module fplot_core
         !! provided, the window height is reset to its default value; or, if a
         !! negative value is provided, the absolute value of the supplied value is
         !! utilized.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!
+        !!     ! Set the height of the plot window to 400 pixels.
+        !!     call term%set_window_height(400)
+        !! end program
+        !! @endcode
         procedure, public :: set_window_height => term_set_window_height
         !> @brief Returns the appropriate GNUPLOT command string to establish
         !! appropriate parameters.
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! character(len = :), allocatable function get_command_string(class(terminal) this)
+        !! character(len = :) function, allocatable get_command_string(class(terminal) this)
         !! @endcode
         !!
         !! @param[in] this The terminal object.
@@ -404,7 +435,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! 
+        !! pure integer(int32) function get_plot_window_number(class(terminal) this)
         !! @endcode
         !!
         !! @param[in] this The terminal object.
@@ -415,6 +446,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_plot_window_number(class(terminal) this, integer(int32) x)
         !! @endcode
         !!
         !! @param[in,out] this The terminal object.
@@ -425,60 +457,159 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_title(class(terminal) this)
         !! @endcode
         !!
         !! @param[in] this The terminal object.
         !! @return The title.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!     character(len = :), allocatable :: title
+        !!
+        !!     ! Get the plot window title.
+        !!     title = term%get_title()
+        !! end program
+        !! @endcode
         procedure, public :: get_title => term_get_title
         !> @brief Sets the plot window's title.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_title(class(terminal) this, character(len = *) txt)
         !! @endcode
         !!
         !! @param[in,out] this The terminal object.
         !! @param[in] txt The title.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!
+        !!     ! Set the plot window title.
+        !!     call term%set_title("New Window Title")
+        !! end program
+        !! @endcode
         procedure, public :: set_title => term_set_title
         !> @brief Gets the name of the font used for text displayed by the
         !! graph.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_font_name(class(terminal) this)
         !! @endcode
         !!
         !! @param[in] this The terminal object.
         !! @return The font name.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!     character(len = :), allocatable :: font
+        !!
+        !!     ! Get the name of the font.
+        !!     font = term%get_font_name()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_name => term_get_font_name
         !> @brief Sets the name of the font used for text displayed by the
         !! graph.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_font_name(class(terminal) this, character(len = *) name)
         !! @endcode
         !!
         !! @param[in,out] this The terminal object.
         !! @param[in] name The name of the font.  If no name is supplied, the 
         !!  name is reset back to its default setting.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!
+        !!     ! Get the name of the font.
+        !!     call term%set_font_name("Arial")
+        !! end program
+        !! @endcode
         procedure, public :: set_font_name => term_set_font_name
         !> @brief Gets the size of the font used by the graph.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_font_size(class(terminal) this)
         !! @endcode
         !!
         !! @param[in] this The terminal object.
         !! @return The font size, in points.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!     integer(int32) :: sz
+        !!
+        !!     ! Get the font size.
+        !!     sz = term%get_font_size()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_size => term_get_font_size
         !> @brief Sets the size of the font used by the graph.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_font_size(class(terminal) this, integer(int32) sz)
         !! @endcode
         !!
         !! @param[in,out] this The terminal object.
         !! @param[in] sz The font size, in points.  If a value of zero is provided,
         !! the font size is reset to its default value; or, if a negative value
         !! is provided, the absolute value of the supplied value is utilized.
+        !!
+        !! @par Example
+        !! Notice, this example uses a wxt_terminal.  Any type that derives from
+        !! the terminal type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(wxt_terminal) :: term
+        !!
+        !!     ! Set the size of the font.
+        !!     call term%set_font_size(12)
+        !! end program
+        !! @endcode
         procedure, public :: set_font_size => term_set_font_size
         !> @brief Gets the GNUPLOT terminal identification string.
         procedure(term_get_string_result), deferred, public :: get_id_string

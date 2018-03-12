@@ -7,8 +7,8 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - sudo apt-get install -qq gfortran-5
-  - sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-5 90
+  - sudo apt-get install -qq gfortran-7
+  - sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 90
   
 before_script:  
     - mkdir build
