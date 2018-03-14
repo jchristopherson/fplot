@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fplot: fplot_core::cm_get_string_result Interface Reference</title>
+<title>fplot: D:/Projects/Code/fplot/src/fplot_wxt_terminal.f90 Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,7 +68,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('interfacefplot__core_1_1cm__get__string__result.html','');});
+$(document).ready(function(){initNavTree('fplot__wxt__terminal_8f90_source.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -87,43 +87,17 @@ $(document).ready(function(){initNavTree('interfacefplot__core_1_1cm__get__strin
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="interfacefplot__core_1_1cm__get__string__result-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">fplot_core::cm_get_string_result Interface Reference</div>  </div>
+<div class="title">fplot_wxt_terminal.f90</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Retrieves a string from a colormap.  
- <a href="interfacefplot__core_1_1cm__get__string__result.html#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ae613c1290455b36ebdb49422b2af612c"><td class="memItemLeft" align="right" valign="top"><a id="ae613c1290455b36ebdb49422b2af612c"></a>
-character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>cm_get_string_result</b> (this)</td></tr>
-<tr class="separator:ae613c1290455b36ebdb49422b2af612c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Retrieves a string from a colormap. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The colormap object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01607">1607</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-</div><hr/>The documentation for this interface was generated from the following file:<ul>
-<li>D:/Projects/Code/fplot/src/<a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a></li>
-</ul>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">! fplot_wxt_terminal.f90</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;submodule(<a class="code" href="namespacefplot__core.html">fplot_core</a>) fplot_wxt_terminal</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">contains</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="keywordtype">pure</span> <span class="keyword">module</span> function wxt_get_term_string(this) result(x)</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        <span class="keywordtype">class</span>(wxt_terminal), <span class="keywordtype">intent(in)</span> :: this</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        x = this%m_id</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">    end function</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">end </span>submodule</div><div class="ttc" id="namespacefplot__core_html"><div class="ttname"><a href="namespacefplot__core.html">fplot_core</a></div><div class="ttdoc">fplot_core </div><div class="ttdef"><b>Definition:</b> <a href="fplot__core_8f90_source.html#l00008">fplot_core.f90:8</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacefplot__core.html">fplot_core</a></li><li class="navelem"><a class="el" href="interfacefplot__core_1_1cm__get__string__result.html">cm_get_string_result</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><b>fplot_wxt_terminal.f90</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

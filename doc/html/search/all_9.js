@@ -98,10 +98,6 @@ var searchData=
   ['plt_5fset_5fshow_5fgrid',['plt_set_show_grid',['../namespacefplot__core.html#af0ae6199bc01e3522d9e7ef9df65969b',1,'fplot_core']]],
   ['plt_5fset_5ftics_5fin',['plt_set_tics_in',['../namespacefplot__core.html#af64567b1bb89d5b0d38dd2bc8c517b82',1,'fplot_core']]],
   ['plt_5fset_5ftitle',['plt_set_title',['../namespacefplot__core.html#ab736ea4e8a1e1a8e72834623f1509a69',1,'fplot_core']]],
-  ['png_5fget_5fcommand_5fstring',['png_get_command_string',['../namespacefplot__core.html#a693f375e355b240ece038a9cf2b8073b',1,'fplot_core']]],
-  ['png_5fget_5ffilename',['png_get_filename',['../namespacefplot__core.html#a4ad4571825432d18e778015ea35b47ad',1,'fplot_core']]],
-  ['png_5fget_5fterm_5fstring',['png_get_term_string',['../namespacefplot__core.html#a2334793f3ded2070b0ac913e5b441202',1,'fplot_core']]],
-  ['png_5fset_5ffilename',['png_set_filename',['../namespacefplot__core.html#ad3dfeb7bc8dde16b8f5c67a65afb938f',1,'fplot_core']]],
   ['png_5fterminal',['png_terminal',['../structfplot__core_1_1png__terminal.html',1,'fplot_core']]],
   ['pop',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
   ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]]

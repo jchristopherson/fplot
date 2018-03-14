@@ -771,31 +771,8 @@ module fplot_core
         end function
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+! ******************************************************************************
+! FPLOT_PNG_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT PNG terminal object.
     type, extends(terminal) :: png_terminal
@@ -806,16 +783,127 @@ module fplot_core
         character(len = GNUPLOT_MAX_PATH_LENGTH) :: m_fname = "default.png"
     contains
         !> @brief Gets the filename for the output PNG file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_filename(class(png_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The png_terminal object.
+        !! @return The filename, including the file extension (.png).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(png_terminal) :: term
+        !!     character(len = :), allocatable :: fname
+        !!
+        !!     ! Get the filename
+        !!     fname = term%get_filename()
+        !! end program
         procedure, public :: get_filename => png_get_filename
         !> @brief Sets the filename for the output PNG file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_filename(class(png_terminal) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The png_terminal object.
+        !! @param[in] txt The filename, including the file extension (.png).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(png_terminal) :: term
+        !!
+        !!     ! Set the filename
+        !!     call term%set_filename("Example PNG File.png")
+        !! end program
         procedure, public :: set_filename => png_set_filename
         !> @brief Retrieves a GNUPLOT terminal identifier string.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_id_string(class(png_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The png_terminal object.
+        !! @return The string.
         procedure, public :: get_id_string => png_get_term_string
         !> @brief Returns the appropriate GNUPLOT command string to establish
         !! appropriate parameters.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(png_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The GNUPLOT command string.
         procedure, public :: get_command_string => png_get_command_string
     end type
 
+! ------------------------------------------------------------------------------
+    interface
+        pure module function png_get_term_string(this) result(x)
+            class(png_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+        
+        pure module function png_get_filename(this) result(txt)
+            class(png_terminal), intent(in) :: this
+            character(len = :), allocatable :: txt
+        end function
+
+        module subroutine png_set_filename(this, txt)
+            class(png_terminal), intent(inout) :: this
+            character(len = *), intent(in) :: txt
+        end subroutine
+        
+        module function png_get_command_string(this) result(x)
+            class(png_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 ! ------------------------------------------------------------------------------
     !> @brief Provides a container for plot data.
     type, abstract, extends(plot_object) :: plot_data
@@ -1525,83 +1613,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! PNG_TERMINAL MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Retrieves a GNUPLOT terminal identifier string.
-    !!
-    !! @param[in] this The png_terminal object.
-    !! @return The string.
-    pure function png_get_term_string(this) result(x)
-        class(png_terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
-! ------------------------------------------------------------------------------
-    !> @brief Gets the filename for the output PNG file.
-    !!
-    !! @param[in] this The png_terminal object.
-    !! @return The filename, including the file extension (.png).
-    pure function png_get_filename(this) result(txt)
-        class(png_terminal), intent(in) :: this
-        character(len = :), allocatable :: txt
-        txt = trim(this%m_fname)
-    end function
-
-! --------------------
-    !> @brief Sets the filename for the output PNG file.
-    !!
-    !! @param[in,out] this The png_terminal object.
-    !! @param[in] The filename, including the file extension (.png).
-    subroutine png_set_filename(this, txt)
-        class(png_terminal), intent(inout) :: this
-        character(len = *), intent(in) :: txt
-        integer(int32) :: n
-        n = min(len(txt), GNUPLOT_MAX_PATH_LENGTH)
-        this%m_fname = ""
-        if (n /= 0) then
-            this%m_fname(1:n) = txt(1:n)
-        else
-            this%m_fname = "default.png"
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    !> @brief Returns the appropriate GNUPLOT command string to establish
-    !! appropriate parameters.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The GNUPLOT command string.
-    function png_get_command_string(this) result(x)
-        ! Arguments
-        class(png_terminal), intent(in) :: this
-        character(len = :), allocatable :: x
-
-        ! Local Variables
-        type(string_builder) :: str
-
-        ! Process
-        call str%initialize()
-        call str%append("set term png ")
-        call str%append(" font ")
-        call str%append('"')
-        call str%append(this%get_font_name())
-        call str%append(',')
-        call str%append(to_string(this%get_font_size()))
-        call str%append('"')
-        call str%append(" size ")
-        call str%append(to_string(this%get_window_width()))
-        call str%append(",")
-        call str%append(to_string(this%get_window_height()))
-        call str%append(new_line('a'))
-        call str%append("set output ")
-        call str%append('"')
-        call str%append(this%get_filename())
-        call str%append('"')
-        x = str%to_string()
-    end function
-
 ! ******************************************************************************
 ! PLOT_DATA MEMBERS
 ! ------------------------------------------------------------------------------

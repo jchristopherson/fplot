@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qt_5fget_5fterm_5fstring',['qt_get_term_string',['../namespacefplot__core.html#ade4dfd2fa8cb2d46445e8d909480f50d',1,'fplot_core']]]
+  ['rcm_5fget_5fclr',['rcm_get_clr',['../namespacefplot__core.html#a7d8ab35c79f425b4138a23078c55afc8',1,'fplot_core']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['wxt_5fget_5fterm_5fstring',['wxt_get_term_string',['../namespacefplot__core.html#a28ba2eabd890169223a95057e09eb461',1,'fplot_core']]]
+  ['y2a_5fget_5fid',['y2a_get_id',['../namespacefplot__core.html#a62c9f837dd159586219c04f07681224f',1,'fplot_core']]],
+  ['ya_5fget_5fid',['ya_get_id',['../namespacefplot__core.html#a5d91b63dd3d6b770639cfbf710a88f36',1,'fplot_core']]]
 ];
