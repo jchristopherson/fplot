@@ -967,44 +967,156 @@ module fplot_core
         real(real32) :: m_axisWidth = 1.0
     contains
         !> @brief Gets the axis' title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_title(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return The title.
         procedure, public :: get_title => pa_get_title
         !> @brief Sets the axis' title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_title(class(plot_axis) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] txt The axis title.  The number of characters must be less
+        !!  than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
+        !!  truncated.
         procedure, public :: set_title => pa_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot_axis object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function is_title_defined(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return Returns true if a title has been defined for this axis; else,
+        !!  returns false.
         procedure, public :: is_title_defined => pa_has_title
         !> @brief Gets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_autoscale(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return Returns true if the axis should be automatically scaled; else,
+        !! false.
         procedure, public :: get_autoscale => pa_get_autoscale
         !> @brief Sets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_autoscale(class(plot_axis) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x Set to true if the axis should be automatically scaled; else,
+        !! false.
         procedure, public :: set_autoscale => pa_set_autoscale
         !> @brief Gets the axis display limits, assuming autoscaling is not
         !! active for this axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real64) function, dimension(2) get_limits(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return A two-element array containing the limits as follows:
+        !!  [lower, upper].
         procedure, public :: get_limits => pa_get_axis_limits
         !> @brief Sets the axis display limits, assuming autoscaling is not
         !! active for this axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] lower The lower display limit.
+        !! @param[in] upper The upper display limit.
         procedure, public :: set_limits => pa_set_axis_limits
         !> @brief Gets a logical value defining if the axis should be log
         !! scaled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @return Returns true if log scaling is applied to the axis; else, false.
         procedure, public :: get_is_log_scaled => pa_get_log_scale
         !> @brief Sets a logical value defining if the axis should be log
         !! scaled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x Set to true if log scaling is applied to the axis; else,
+        !! false.
         procedure, public :: set_is_log_scaled => pa_set_log_scale
         !> @brief Returns the appropriate GNUPLOT command string to define the
         !! plot_axis properties.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return The GNUPLOT command string.
         procedure, public :: get_command_string => pa_get_cmd_string
         !> @brief Gets a value determining if the axis should be drawn through
         !! zero of opposing axes.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return Returns true to draw as a zero axis; else, set to false.
         procedure, public :: get_zero_axis => pa_get_zero_axis
         !> @brief Sets a value determining if the axis should be drawn through
         !! zero of opposing axes.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x Set to true to draw as a zero axis; else, set to false.
         procedure, public :: set_zero_axis => pa_set_zero_axis
         !> @brief Gets the width of the line used to represent the zero axis
         !!  line, if active.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return The width of the line, in pixels.
         procedure, public :: get_zero_axis_line_width => pa_get_zero_axis_width
         !> @brief Sets the width of the line used to represent the zero axis
         !!  line, if active.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x The width of the line, in pixels.
         procedure, public :: set_zero_axis_line_width => pa_set_zero_axis_width
         !> @brief Gets a string identifying the axis as: x, y, z, y2, etc.
         procedure(pa_get_string_result), deferred, public :: get_id_string
