@@ -873,37 +873,8 @@ module fplot_core
         end function
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+! ******************************************************************************
+! FPLOT_PLOT_DATA.F90
 ! ------------------------------------------------------------------------------
     !> @brief Provides a container for plot data.
     type, abstract, extends(plot_object) :: plot_data
@@ -912,13 +883,81 @@ module fplot_core
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_name = ""
     contains
         !> @brief Gets the name to associate with this data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_name(class(plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data object.
+        !! @return The name.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data) :: pd
+        !!     character(len = :), allocatable :: name
+        !!
+        !!     ! Get the name
+        !!     name = pd%get_name()
+        !! end program
         procedure, public :: get_name => pd_get_name
         !> @brief Sets the name to associate with this data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_name(class(plot_data) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data object.
+        !! @param[in] txt The name.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data) :: pd
+        !!
+        !!     ! Set the name
+        !!     call pd%set_name("Example Data Set")
+        !! end program
         procedure, public :: set_name => pd_set_name
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
         procedure(pd_get_string_result), deferred, public :: get_data_string
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function pd_get_name(this) result(txt)
+            class(plot_data), intent(in) :: this
+            character(len = :), allocatable :: txt
+        end function
+        
+        module subroutine pd_set_name(this, txt)
+            class(plot_data), intent(inout) :: this
+            character(len = *), intent(in) :: txt
+        end subroutine
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Describes a single plot axis.
@@ -1613,35 +1652,6 @@ module fplot_core
 
 
 contains
-! ******************************************************************************
-! PLOT_DATA MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the name to associate with this data set.
-    !!
-    !! @param[in] this The plot_data object.
-    !! @return The name.
-    pure function pd_get_name(this) result(txt)
-        class(plot_data), intent(in) :: this
-        character(len = :), allocatable :: txt
-        txt = trim(this%m_name)
-    end function
-
-! --------------------
-    !> @brief Sets the name to associate with this data set.
-    !!
-    !! @param[in,out] this The plot_data object.
-    !! @param[in] txt The name.
-    subroutine pd_set_name(this, txt)
-        class(plot_data), intent(inout) :: this
-        character(len = *), intent(in) :: txt
-        integer(int32) :: n
-        n = min(len(txt), PLOTDATA_MAX_NAME_LENGTH)
-        this%m_name = ""
-        if (n /= 0) then
-            this%m_name(1:n) = txt(1:n)
-        end if
-    end subroutine
-
 ! ******************************************************************************
 ! PLOT_AXIS MEMBERS
 ! ------------------------------------------------------------------------------
