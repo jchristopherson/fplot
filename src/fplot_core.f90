@@ -1415,27 +1415,121 @@ module fplot_core
     contains
         !> @brief Gets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_draw_inside_axes(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The logical value.
         procedure, public :: get_draw_inside_axes => leg_get_inside
         !> @brief Sets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_inside_axes(class(legend) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param[in] x The logical value.
         procedure, public :: set_draw_inside_axes => leg_set_inside
         !> @brief Gets a value determining if the legend should have a border.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_draw_border(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The logical value.
         procedure, public :: get_draw_border => leg_get_box
         !> @brief Sets a value determining if the legend should have a border.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_border(class(legend) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param[in] x The logical value.
         procedure, public :: set_draw_border => leg_set_box
         !> @brief Gets the horizontal position of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_horizontal_position(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The horizontal position of the legend (LEGEND_LEFT,
+        !!  LEGEND_CENTER, or LEGEND_RIGHT).
         procedure, public :: get_horizontal_position => leg_get_horz_pos
         !> @brief Sets the horizontal position of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_horizontal_position(class(legend) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param x The horizontal position of the legend.  The parameter must be
+        !!  set to one of the following: LEGEND_LEFT, LEGEND_CENTER, or
+        !!  LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.
         procedure, public :: set_horizontal_position => leg_set_horz_pos
         !> @brief Gets the vertical position of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_vertical_position(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The vertical position of the legend (LEGEND_TOP,
+        !!  LEGEND_CENTER, or LEGEND_BOTTOM).
         procedure, public :: get_vertical_position => leg_get_vert_pos
         !> @brief Gets the vertical position of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_vertical_position(class(legend) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param x The vertical position of the legend.  The parameter must be
+        !!  set to one of the following: LEGEND_TOP, LEGEND_CENTER, or
+        !!  LEGEND_BOTTOM.  If not, the default LEGEND_TOP will be used.
         procedure, public :: set_vertical_position => leg_set_vert_pos
         !> @brief Gets a value determining if the legend is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_is_visible(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The logical value.
         procedure, public :: get_is_visible => leg_get_visible
         !> @brief Sets a value determining if the legend is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_is_visible(class(legend) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param[in] x The logical value.
         procedure, public :: set_is_visible => leg_set_visible
         !> @brief Gets the command string defining the legend properties.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The GNUPLOT command string.
         procedure, public :: get_command_string => leg_get_command_txt
     end type
 
