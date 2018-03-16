@@ -17,6 +17,7 @@ module fplot_core
     public :: GNUPLOT_TERMINAL_WXT
     public :: GNUPLOT_TERMINAL_QT
     public :: GNUPLOT_TERMINAL_PNG
+    public :: GNUPLOT_TERMINAL_LATEX
     public :: CLR_BLACK
     public :: CLR_WHITE
     public :: CLR_RED
@@ -66,6 +67,7 @@ module fplot_core
     public :: qt_terminal
     public :: wxt_terminal
     public :: png_terminal
+    public :: latex_terminal
     public :: legend
     public :: plot
     public :: scatter_plot_data
@@ -91,6 +93,8 @@ module fplot_core
     integer(int32), parameter :: GNUPLOT_TERMINAL_QT = 3
     !> @brief Defines a PNG terminal.
     integer(int32), parameter :: GNUPLOT_TERMINAL_PNG = 4
+    !> @brief Defines a LATEX terminal.
+    integer(int32), parameter :: GNUPLOT_TERMINAL_LATEX = 5
 
 ! ******************************************************************************
 ! MARKER CONSTANTS
@@ -953,6 +957,108 @@ module fplot_core
         
         module function png_get_command_string(this) result(x)
             class(png_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+! ******************************************************************************
+! FPLOT_LATEX.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a GNUPLOT LATEX terminal object.
+    type, extends(terminal) :: latex_terminal
+    private
+        !> The terminal ID string
+        character(len = 14) :: m_id = "epslatex color"
+        !> The filename of the PNG file to write.
+        character(len = GNUPLOT_MAX_PATH_LENGTH) :: m_fname = "default.tex"
+    contains
+        !> @brief Gets the filename for the output LATEX file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_filename(class(latex_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The latex_terminal object.
+        !! @return The filename, including the file extension (.tex).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(latex_terminal) :: term
+        !!     character(len = :), allocatable :: fname
+        !!
+        !!     ! Get the filename
+        !!     fname = term%get_filename()
+        !! end program
+        procedure, public :: get_filename => tex_get_filename
+        !> @brief Sets the filename for the output LATEX file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_filename(class(latex_terminal) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The latex_terminal object.
+        !! @param[in] txt The filename, including the file extension (.tex).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(latex_terminal) :: term
+        !!
+        !!     ! Set the filename
+        !!     call term%set_filename("Example LATEX File.tex")
+        !! end program
+        procedure, public :: set_filename => tex_set_filename
+        !> @brief Retrieves a GNUPLOT terminal identifier string.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_id_string(class(latex_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The latex_terminal object.
+        !! @return The string.
+        procedure, public :: get_id_string => tex_get_term_string
+        !> @brief Returns the appropriate GNUPLOT command string to establish
+        !! appropriate parameters.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(latex_terminal) this)
+        !! @endcode
+        !!
+        !! @param[in] this The terminal object.
+        !! @return The GNUPLOT command string.
+        procedure, public :: get_command_string => tex_get_command_string
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function tex_get_term_string(this) result(x)
+            class(latex_terminal), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function tex_get_filename(this) result(txt)
+            class(latex_terminal), intent(in) :: this
+            character(len = :), allocatable :: txt
+        end function
+
+        module subroutine tex_set_filename(this, txt)
+            class(latex_terminal), intent(inout) :: this
+            character(len = *), intent(in) :: txt
+        end subroutine
+
+        module function tex_get_command_string(this) result(x)
+            class(latex_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
@@ -2393,6 +2499,7 @@ contains
     !!  - GNUPLOT_TERMINAL_QT
     !!  - GNUPLOT_TERMINAL_WIN32
     !!  - GNUPLOT_TERMINAL_WXT
+    !!  - GNUPLOT_TERMINAL_LATEX
     !! @param[out] err An optional errors-based object that if provided can be
     !!  used to retrieve information relating to any errors encountered during
     !!  execution.  If not provided, a default implementation of the errors
@@ -2413,6 +2520,7 @@ contains
         type(windows_terminal), pointer :: win
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
+        type(latex_terminal), pointer :: latex
 
         ! Initialization
         if (present(err)) then
@@ -2439,6 +2547,9 @@ contains
         case (GNUPLOT_TERMINAL_WIN32)
             allocate(win, stat = flag)
             this%m_terminal => win
+        case (GNUPLOT_TERMINAL_LATEX)
+            allocate(latex, stat = flag)
+            this%m_terminal => latex
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
@@ -3219,6 +3330,7 @@ contains
     !!  - GNUPLOT_TERMINAL_QT
     !!  - GNUPLOT_TERMINAL_WIN32
     !!  - GNUPLOT_TERMINAL_WXT
+    !!  - GNUPLOT_TERMINAL_LATEX
     !! @param[out] err An optional errors-based object that if provided can be
     !!  used to retrieve information relating to any errors encountered during
     !!  execution.  If not provided, a default implementation of the errors
@@ -4027,6 +4139,7 @@ contains
     !!  - GNUPLOT_TERMINAL_QT
     !!  - GNUPLOT_TERMINAL_WIN32
     !!  - GNUPLOT_TERMINAL_WXT
+    !!  - GNUPLOT_TERMINAL_LATEX
     !! @param[out] err An optional errors-based object that if provided can be
     !!  used to retrieve information relating to any errors encountered during
     !!  execution.  If not provided, a default implementation of the errors

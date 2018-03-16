@@ -9,6 +9,7 @@ set(fplot_sources
     fplot_qt_terminal.f90
     fplot_wxt_terminal.f90
     fplot_png_terminal.f90
+    fplot_latex_terminal.f90
     fplot_plot_data.f90
     fplot_plot_axis.f90
     fplot_legend.f90
