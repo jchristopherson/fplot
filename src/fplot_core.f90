@@ -975,6 +975,21 @@ module fplot_core
         !!
         !! @param[in] this The plot_axis object.
         !! @return The title.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     character(len = :), allocatable :: txt
+        !!
+        !!     txt = axis%get_title()
+        !! end program
+        !! @endcode
         procedure, public :: get_title => pa_get_title
         !> @brief Sets the axis' title.
         !!
@@ -987,6 +1002,20 @@ module fplot_core
         !! @param[in] txt The axis title.  The number of characters must be less
         !!  than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
         !!  truncated.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_title("X Axis")
+        !! end program
+        !! @endcode
         procedure, public :: set_title => pa_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot_axis object.
@@ -999,6 +1028,21 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return Returns true if a title has been defined for this axis; else,
         !!  returns false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     logical :: check
+        !!
+        !!     check = axis%is_title_defined()
+        !! end program
+        !! @endcode
         procedure, public :: is_title_defined => pa_has_title
         !> @brief Gets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
@@ -1011,6 +1055,21 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return Returns true if the axis should be automatically scaled; else,
         !! false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     logical :: check
+        !!
+        !!     check = axis%get_autoscale()
+        !! end program
+        !! @endcode
         procedure, public :: get_autoscale => pa_get_autoscale
         !> @brief Sets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
@@ -1023,6 +1082,20 @@ module fplot_core
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true if the axis should be automatically scaled; else,
         !! false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_autoscale(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_autoscale => pa_set_autoscale
         !> @brief Gets the axis display limits, assuming autoscaling is not
         !! active for this axis.
@@ -1035,44 +1108,108 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return A two-element array containing the limits as follows:
         !!  [lower, upper].
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     real(real64) :: lim(2)
+        !!
+        !!     lim = axis%get_limits()
+        !! end program
+        !! @endcode
         procedure, public :: get_limits => pa_get_axis_limits
         !> @brief Sets the axis display limits, assuming autoscaling is not
         !! active for this axis.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_limits(class(plot_axis) this, real(real64) lower, real(real64) upper)
         !! @endcode
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] lower The lower display limit.
         !! @param[in] upper The upper display limit.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_limits(0.0d0, 5.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_limits => pa_set_axis_limits
         !> @brief Gets a logical value defining if the axis should be log
         !! scaled.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_is_log_scaled(class(plot_axis) this)
         !! @endcode
         !!
         !! @param[in,out] this The plot_axis object.
         !! @return Returns true if log scaling is applied to the axis; else, false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     logical :: check
+        !!
+        !!     check = axis%get_is_log_scaled()
+        !! end program
+        !! @endcode
         procedure, public :: get_is_log_scaled => pa_get_log_scale
         !> @brief Sets a logical value defining if the axis should be log
         !! scaled.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_is_log_scaled(class(plot_axis) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true if log scaling is applied to the axis; else,
         !! false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_is_log_scaled(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_is_log_scaled => pa_set_log_scale
         !> @brief Returns the appropriate GNUPLOT command string to define the
         !! plot_axis properties.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_axis) this)
         !! @endcode
         !!
         !! @param[in] this The plot_axis object.
@@ -1083,40 +1220,104 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_zero_axis(class(plot_axis) this)
         !! @endcode
         !!
         !! @param[in] this The plot_axis object.
         !! @return Returns true to draw as a zero axis; else, set to false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     logical :: check
+        !!
+        !!     check = axis%get_zero_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_zero_axis => pa_get_zero_axis
         !> @brief Sets a value determining if the axis should be drawn through
         !! zero of opposing axes.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_zero_axis(class(plot_axis) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true to draw as a zero axis; else, set to false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%get_zero_axis(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_zero_axis => pa_set_zero_axis
         !> @brief Gets the width of the line used to represent the zero axis
         !!  line, if active.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real32) function get_zero_axis_line_width(class(plot_axis) this)
         !! @endcode
         !!
         !! @param[in] this The plot_axis object.
         !! @return The width of the line, in pixels.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     real(real32) :: width
+        !!
+        !!     width = axis%get_zero_axis_line_width()
+        !! end program
+        !! @endcode
         procedure, public :: get_zero_axis_line_width => pa_get_zero_axis_width
         !> @brief Sets the width of the line used to represent the zero axis
         !!  line, if active.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_zero_axis_line_width(class(plot_axis) this, real(real32) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x The width of the line, in pixels.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%get_zero_axis_line_width(3.0)
+        !! end program
+        !! @endcode
         procedure, public :: set_zero_axis_line_width => pa_set_zero_axis_width
         !> @brief Gets a string identifying the axis as: x, y, z, y2, etc.
         procedure(pa_get_string_result), deferred, public :: get_id_string
