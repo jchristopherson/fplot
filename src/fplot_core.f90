@@ -1613,6 +1613,19 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     logical :: check
+        !!     
+        !!     check = leg%get_draw_inside_axes()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_inside_axes => leg_get_inside
         !> @brief Sets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).
@@ -1624,6 +1637,72 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
+        !!
+        !! @par Example
+        !! The following example draws a simple plot, adjusts the position
+        !! of the legend to be located outside the plot axes, and removes the
+        !! border around the legend.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables & Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y1, y2
+        !!     type(plot_2d) :: plt
+        !!     class(terminal), pointer :: term
+        !!     type(plot_data_2d) :: d1, d2
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Build a data set to plot
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y1 = sin(x) * cos(x)
+        !!     y2 = sqrt(x) * sin(x)
+        !!
+        !!     call d1%define_data(x, y1)
+        !!     call d2%define_data(x, y2)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Put the legend outside the axes, and remove it's border
+        !!     leg => plt%get_legend()
+        !!     call leg%set_draw_inside_axes(.false.)
+        !!     call leg%set_draw_border(.false.)
+        !!
+        !!     ! Set up line color and style properties to better distinguish each data set
+        !!     call d1%set_name("Data Set 1")
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!            
+        !!     call d2%set_name("Data Set 2")
+        !!     call d2%set_line_color(CLR_GREEN)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(d1)
+        !!     call plt%push(d2)
+        !!
+        !!     ! Define the file to which the plot should be saved
+        !!     term => plt%get_terminal()
+        !!     select type (term)
+        !!     class is (png_terminal)
+        !!         call term%set_filename("example_plot.png")
+        !!     end select
+        !!
+        !!     ! Draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_legend_out.png
         procedure, public :: set_draw_inside_axes => leg_set_inside
         !> @brief Gets a value determining if the legend should have a border.
         !!
@@ -1634,6 +1713,19 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     logical :: check
+        !!     
+        !!     check = leg%get_draw_border()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_border => leg_get_box
         !> @brief Sets a value determining if the legend should have a border.
         !!
@@ -1644,6 +1736,9 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
+        !!
+        !! @par Example
+        !! For an example, see @ref set_draw_inside_border.
         procedure, public :: set_draw_border => leg_set_box
         !> @brief Gets the horizontal position of the legend.
         !!
@@ -1655,6 +1750,31 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The horizontal position of the legend (LEGEND_LEFT,
         !!  LEGEND_CENTER, or LEGEND_RIGHT).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     character(len = :), allocatable :: pos
+        !!     
+        !!     pos = leg%get_horizontal_position()
+        !! end program
+        !! @endcode
+        procedure, public :: get_horizontal_position => leg_get_horz_pos
+        !> @brief Sets the horizontal position of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_horizontal_position(class(legend) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param x The horizontal position of the legend.  The parameter must be
+        !!  set to one of the following: LEGEND_LEFT, LEGEND_CENTER, or
+        !!  LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.
         !!
         !! @par Example
         !! The following example draws a simple plot, and adjusts the position
@@ -1720,18 +1840,6 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_plot.png
-        procedure, public :: get_horizontal_position => leg_get_horz_pos
-        !> @brief Sets the horizontal position of the legend.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_horizontal_position(class(legend) this, character(len = *) x)
-        !! @endcode
-        !!
-        !! @param[in,out] this The legend object.
-        !! @param x The horizontal position of the legend.  The parameter must be
-        !!  set to one of the following: LEGEND_LEFT, LEGEND_CENTER, or
-        !!  LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.
         procedure, public :: set_horizontal_position => leg_set_horz_pos
         !> @brief Gets the vertical position of the legend.
         !!
@@ -1743,6 +1851,19 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The vertical position of the legend (LEGEND_TOP,
         !!  LEGEND_CENTER, or LEGEND_BOTTOM).
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     character(len = :), allocatable :: pos
+        !!     
+        !!     pos = leg%get_vertical_position()
+        !! end program
+        !! @endcode
         procedure, public :: get_vertical_position => leg_get_vert_pos
         !> @brief Gets the vertical position of the legend.
         !!
@@ -1755,6 +1876,9 @@ module fplot_core
         !! @param x The vertical position of the legend.  The parameter must be
         !!  set to one of the following: LEGEND_TOP, LEGEND_CENTER, or
         !!  LEGEND_BOTTOM.  If not, the default LEGEND_TOP will be used.
+        !!
+        !! @par Example
+        !! For an example, see @ref set_horizontal_position.
         procedure, public :: set_vertical_position => leg_set_vert_pos
         !> @brief Gets a value determining if the legend is visible.
         !!
@@ -1765,6 +1889,19 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     logical :: check
+        !!     
+        !!     check = leg%get_is_visible()
+        !! end program
+        !! @endcode
         procedure, public :: get_is_visible => leg_get_visible
         !> @brief Sets a value determining if the legend is visible.
         !!
@@ -1775,6 +1912,18 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(legend) :: leg
+        !!     
+        !!     call leg%set_is_visible(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_is_visible => leg_set_visible
         !> @brief Gets the command string defining the legend properties.
         !!
@@ -1858,29 +2007,7 @@ module fplot_core
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines the basic GNUPLOT plot.

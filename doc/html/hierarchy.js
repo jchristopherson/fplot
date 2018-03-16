@@ -32,6 +32,7 @@ var hierarchy =
         [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ]
       ] ],
       [ "fplot_core::terminal", "structfplot__core_1_1terminal.html", [
+        [ "fplot_core::latex_terminal", "structfplot__core_1_1latex__terminal.html", null ],
         [ "fplot_core::png_terminal", "structfplot__core_1_1png__terminal.html", null ],
         [ "fplot_core::qt_terminal", "structfplot__core_1_1qt__terminal.html", null ],
         [ "fplot_core::windows_terminal", "structfplot__core_1_1windows__terminal.html", null ],

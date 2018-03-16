@@ -195,7 +195,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a legend object. </p>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01487">1487</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01593">1593</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a class="anchor" id="af49167abec9bd1938d2cce8845d66541"></a>
 <div class="memitem">
@@ -220,7 +220,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01682">1682</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01857">1857</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -247,7 +247,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01531">1531</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01703">1703</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -272,9 +272,13 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The logical value.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd>The following example draws a simple plot, adjusts the position of the legend to be located outside the plot axes, and removes the border around the legend. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="comment">! Local Variables &amp; Parameters</span></div><div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">parameter</span> :: npts = 1000</div><div class="line">    <span class="keywordtype">real(real64)</span>, <span class="keywordtype">dimension(npts)</span> :: x, y1, y2</div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">class</span>(<a class="code" href="structfplot__core_1_1terminal.html">terminal</a>), <span class="keywordtype">pointer</span> :: term</div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__2d.html">plot_data_2d</a>) :: d1, d2</div><div class="line">    <span class="keywordtype">class</span>(<a class="code" href="structfplot__core_1_1plot__axis.html">plot_axis</a>), <span class="keywordtype">pointer</span> :: xaxis, yaxis</div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1legend.html">legend</a>), <span class="keywordtype">pointer</span> :: leg</div><div class="line"></div><div class="line">    <span class="comment">! Build a data set to plot</span></div><div class="line">    x = linspace(0.0d0, 10.0d0, npts)</div><div class="line">    y1 = sin(x) * cos(x)</div><div class="line">    y2 = sqrt(x) * sin(x)</div><div class="line"></div><div class="line">    <span class="keyword">call </span>d1%define_data(x, y1)</div><div class="line">    <span class="keyword">call </span>d2%define_data(x, y2)</div><div class="line"></div><div class="line">    <span class="comment">! Set up the plot</span></div><div class="line">    <span class="keyword">call </span>plt%initialize(gnuplot_terminal_png) <span class="comment">! Save to file directly</span></div><div class="line">    <span class="keyword">call </span>plt%set_title(<span class="stringliteral">&quot;Example Plot&quot;</span>)</div><div class="line"></div><div class="line">    xaxis =&gt; plt%get_x_axis()</div><div class="line">    <span class="keyword">call </span>xaxis%set_title(<span class="stringliteral">&quot;X Axis&quot;</span>)</div><div class="line"></div><div class="line">    yaxis =&gt; plt%get_y_axis()</div><div class="line">    <span class="keyword">call </span>yaxis%set_title(<span class="stringliteral">&quot;Y Axis&quot;</span>)</div><div class="line"></div><div class="line">    <span class="comment">! Put the legend outside the axes, and remove it&#39;s border</span></div><div class="line">    leg =&gt; plt%get_legend()</div><div class="line">    <span class="keyword">call </span>leg%set_draw_inside_axes(.false.)</div><div class="line">    <span class="keyword">call </span>leg%set_draw_border(.false.)</div><div class="line"></div><div class="line">    <span class="comment">! Set up line color and style properties to better distinguish each data set</span></div><div class="line">    <span class="keyword">call </span>d1%set_name(<span class="stringliteral">&quot;Data Set 1&quot;</span>)</div><div class="line">    <span class="keyword">call </span>d1%set_line_color(clr_blue)</div><div class="line">           </div><div class="line">    <span class="keyword">call </span>d2%set_name(<span class="stringliteral">&quot;Data Set 2&quot;</span>)</div><div class="line">    <span class="keyword">call </span>d2%set_line_color(clr_green)</div><div class="line"></div><div class="line">    <span class="comment">! Add the data to the plot</span></div><div class="line">    <span class="keyword">call </span>plt%push(d1)</div><div class="line">    <span class="keyword">call </span>plt%push(d2)</div><div class="line"></div><div class="line">    <span class="comment">! Define the file to which the plot should be saved</span></div><div class="line">    term =&gt; plt%get_terminal()</div><div class="line">    <span class="keywordflow">select type</span> (term)</div><div class="line"><span class="keywordflow">    class is</span> (<a class="code" href="structfplot__core_1_1png__terminal.html">png_terminal</a>)</div><div class="line">        <span class="keyword">call </span>term%set_filename(<span class="stringliteral">&quot;example_plot.png&quot;</span>)</div><div class="line"><span class="keywordflow">    end select</span></div><div class="line"></div><div class="line">    <span class="comment">! Draw the plot</span></div><div class="line">    <span class="keyword">call </span>plt%draw()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> <div class="image">
+<img src="example_plot_legend_out.png" alt="example_plot_legend_out.png"/>
+</div>
+ </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01510">1510</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01682">1682</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -305,7 +309,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01617">1617</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01789">1789</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -332,7 +336,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01662">1662</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01837">1837</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -357,9 +361,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The vertical position of the legend (LEGEND_TOP, LEGEND_CENTER, or LEGEND_BOTTOM). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The vertical position of the legend (LEGEND_TOP, LEGEND_CENTER, or LEGEND_BOTTOM).</dd></dl>
+<dl class="section user"><dt>Example</dt><dd>For an example, see <a class="el" href="structfplot__core_1_1legend.html#a3b702ec5b579e2bb203d561e5fff6bd4">get_horizontal_position</a>. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01640">1640</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01815">1815</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -386,7 +391,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01541">1541</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01713">1713</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -413,7 +418,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01521">1521</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01693">1693</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -440,7 +445,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01629">1629</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01801">1801</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -467,7 +472,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01672">1672</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01847">1847</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -494,7 +499,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01652">1652</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l01827">1827</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

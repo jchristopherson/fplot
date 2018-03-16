@@ -6,6 +6,7 @@ var searchData=
   ['gnuplot_5fdefault_5fwindow_5fwidth',['gnuplot_default_window_width',['../namespacefplot__core.html#a45b6c532e70244ebf23ff21eb596223b',1,'fplot_core']]],
   ['gnuplot_5fmax_5flabel_5flength',['gnuplot_max_label_length',['../namespacefplot__core.html#a7e9ac1526f3f84a70eb10c98aff73610',1,'fplot_core']]],
   ['gnuplot_5fmax_5fpath_5flength',['gnuplot_max_path_length',['../namespacefplot__core.html#a40ff0463a668b977d2fab03d3d8a6dde',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5flatex',['gnuplot_terminal_latex',['../namespacefplot__core.html#adadfa5448d65da7362e445ee1fe61b10',1,'fplot_core']]],
   ['gnuplot_5fterminal_5fpng',['gnuplot_terminal_png',['../namespacefplot__core.html#af1ace6143d83970cbfe69d7289c427d9',1,'fplot_core']]],
   ['gnuplot_5fterminal_5fqt',['gnuplot_terminal_qt',['../namespacefplot__core.html#a512870ac9b979c4b0ea2804fbbb02a7d',1,'fplot_core']]],
   ['gnuplot_5fterminal_5fwin32',['gnuplot_terminal_win32',['../namespacefplot__core.html#acf7693c9998a266f3cf50510b2cc06e9',1,'fplot_core']]],

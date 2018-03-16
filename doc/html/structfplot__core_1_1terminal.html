@@ -124,11 +124,12 @@ Inheritance diagram for fplot_core::terminal:</div>
  <div class="center">
   <img src="structfplot__core_1_1terminal.png" usemap="#fplot_5Fcore::terminal_map" alt=""/>
   <map id="fplot_5Fcore::terminal_map" name="fplot_core::terminal_map">
-<area href="structfplot__core_1_1plot__object.html" title="The base type for a GNUPLOT object. " alt="fplot_core::plot_object" shape="rect" coords="276,0,450,24"/>
-<area href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. " alt="fplot_core::png_terminal" shape="rect" coords="0,112,174,136"/>
-<area href="structfplot__core_1_1qt__terminal.html" title="Defines a GNUPLOT QT terminal object. " alt="fplot_core::qt_terminal" shape="rect" coords="184,112,358,136"/>
-<area href="structfplot__core_1_1windows__terminal.html" title="Defines a GNUPLOT Win32 terminal object. " alt="fplot_core::windows_terminal" shape="rect" coords="368,112,542,136"/>
-<area href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. " alt="fplot_core::wxt_terminal" shape="rect" coords="552,112,726,136"/>
+<area href="structfplot__core_1_1plot__object.html" title="The base type for a GNUPLOT object. " alt="fplot_core::plot_object" shape="rect" coords="368,0,542,24"/>
+<area href="structfplot__core_1_1latex__terminal.html" title="Defines a GNUPLOT LATEX terminal object. " alt="fplot_core::latex_terminal" shape="rect" coords="0,112,174,136"/>
+<area href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. " alt="fplot_core::png_terminal" shape="rect" coords="184,112,358,136"/>
+<area href="structfplot__core_1_1qt__terminal.html" title="Defines a GNUPLOT QT terminal object. " alt="fplot_core::qt_terminal" shape="rect" coords="368,112,542,136"/>
+<area href="structfplot__core_1_1windows__terminal.html" title="Defines a GNUPLOT Win32 terminal object. " alt="fplot_core::windows_terminal" shape="rect" coords="552,112,726,136"/>
+<area href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. " alt="fplot_core::wxt_terminal" shape="rect" coords="736,112,910,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -217,7 +218,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a GNUPLOT terminal object. </p>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00317">317</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00321">321</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a class="anchor" id="a2ef02365ac654131b21cffd5c10aba0e"></a>
 <div class="memitem">
@@ -242,7 +243,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00453">453</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00457">457</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -270,7 +271,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>The font name.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: font</div><div class="line"></div><div class="line">    <span class="comment">! Get the name of the font.</span></div><div class="line">    font = term%get_font_name()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00553">553</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00557">557</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -298,7 +299,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>The font size, in points.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: sz</div><div class="line"></div><div class="line">    <span class="comment">! Get the font size.</span></div><div class="line">    sz = term%get_font_size()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00606">606</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00610">610</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -325,7 +326,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The plot window number. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00463">463</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00467">467</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -353,7 +354,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>The title.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: title</div><div class="line"></div><div class="line">    <span class="comment">! Get the plot window title.</span></div><div class="line">    title = term%get_title()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00501">501</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00505">505</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -381,7 +382,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>The height of the plot window.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: height</div><div class="line"></div><div class="line">    <span class="comment">! Get the height of the plot window</span></div><div class="line">    height = term%get_window_height()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00414">414</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00418">418</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -409,7 +410,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>The width of the plot window.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: width</div><div class="line"></div><div class="line">    <span class="comment">! Get the width of the plot window</span></div><div class="line">    width = term%get_window_width()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00360">360</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00364">364</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -437,7 +438,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line"></div><div class="line">    <span class="comment">! Get the name of the font.</span></div><div class="line">    <span class="keyword">call </span>term%set_font_name(<span class="stringliteral">&quot;Arial&quot;</span>)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00580">580</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00584">584</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -465,7 +466,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line"></div><div class="line">    <span class="comment">! Set the size of the font.</span></div><div class="line">    <span class="keyword">call </span>term%set_font_size(12)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00633">633</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00637">637</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -492,7 +493,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00474">474</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00478">478</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -520,7 +521,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line"></div><div class="line">    <span class="comment">! Set the plot window title.</span></div><div class="line">    <span class="keyword">call </span>term%set_title(<span class="stringliteral">&quot;New Window Title&quot;</span>)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00526">526</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00530">530</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -548,7 +549,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line"></div><div class="line">    <span class="comment">! Set the height of the plot window to 400 pixels.</span></div><div class="line">    <span class="keyword">call </span>term%set_window_height(400)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00442">442</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00446">446</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -576,7 +577,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses a <a class="el" href="structfplot__core_1_1wxt__terminal.html" title="Defines a GNUPLOT WXT terminal object. ">wxt_terminal</a>. Any type that derives from the terminal type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1wxt__terminal.html">wxt_terminal</a>) :: term</div><div class="line"></div><div class="line">    <span class="comment">! Set the width of the plot window to 400 pixels.</span></div><div class="line">    <span class="keyword">call </span>term%set_window_width(400)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00388">388</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00392">392</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

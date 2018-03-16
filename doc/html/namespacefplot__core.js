@@ -6,6 +6,7 @@ var namespacefplot__core =
     [ "cool_colormap", "structfplot__core_1_1cool__colormap.html", "structfplot__core_1_1cool__colormap" ],
     [ "get_string_result", "interfacefplot__core_1_1get__string__result.html", "interfacefplot__core_1_1get__string__result" ],
     [ "hot_colormap", "structfplot__core_1_1hot__colormap.html", "structfplot__core_1_1hot__colormap" ],
+    [ "latex_terminal", "structfplot__core_1_1latex__terminal.html", "structfplot__core_1_1latex__terminal" ],
     [ "legend", "structfplot__core_1_1legend.html", "structfplot__core_1_1legend" ],
     [ "pa_get_string_result", "interfacefplot__core_1_1pa__get__string__result.html", "interfacefplot__core_1_1pa__get__string__result" ],
     [ "pd_get_string_result", "interfacefplot__core_1_1pd__get__string__result.html", "interfacefplot__core_1_1pd__get__string__result" ],

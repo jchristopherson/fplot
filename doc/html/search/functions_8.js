@@ -12,7 +12,7 @@ var searchData=
   ['set_5fdraw_5fline',['set_draw_line',['../structfplot__core_1_1scatter__plot__data.html#a136c985907602a1e9cc9c0db476a8519',1,'fplot_core::scatter_plot_data']]],
   ['set_5fdraw_5fmarkers',['set_draw_markers',['../structfplot__core_1_1scatter__plot__data.html#a952c65fad1f284163bbb0a23342db0b7',1,'fplot_core::scatter_plot_data']]],
   ['set_5felevation',['set_elevation',['../structfplot__core_1_1plot__3d.html#a82024af6132050a2e631621d0b424d96',1,'fplot_core::plot_3d']]],
-  ['set_5ffilename',['set_filename',['../structfplot__core_1_1png__terminal.html#af975ae312e8b0e07581a3c4e6d2136f3',1,'fplot_core::png_terminal']]],
+  ['set_5ffilename',['set_filename',['../structfplot__core_1_1png__terminal.html#af975ae312e8b0e07581a3c4e6d2136f3',1,'fplot_core::png_terminal::set_filename()'],['../structfplot__core_1_1latex__terminal.html#a6e06b665cda930915ea1c2f913bfd0ff',1,'fplot_core::latex_terminal::set_filename()']]],
   ['set_5ffont_5fname',['set_font_name',['../structfplot__core_1_1terminal.html#aee01999914378bd177a1e7f247f828df',1,'fplot_core::terminal::set_font_name()'],['../structfplot__core_1_1plot.html#a2c56a6098406b2702746b372d9ea5925',1,'fplot_core::plot::set_font_name()']]],
   ['set_5ffont_5fsize',['set_font_size',['../structfplot__core_1_1terminal.html#a908d5667bdb9cfbf2d82661d11e80a7d',1,'fplot_core::terminal::set_font_size()'],['../structfplot__core_1_1plot.html#a19788072ff420214c7c6c476d3cd832d',1,'fplot_core::plot::set_font_size()']]],
   ['set_5fhorizontal_5fposition',['set_horizontal_position',['../structfplot__core_1_1legend.html#ad7eddd9fe4b18d083c0712d164e8a85b',1,'fplot_core::legend']]],

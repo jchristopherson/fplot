@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['latex_5fterminal',['latex_terminal',['../structfplot__core_1_1latex__terminal.html',1,'fplot_core']]],
   ['legend',['legend',['../structfplot__core_1_1legend.html',1,'fplot_core']]],
   ['legend_5fbottom',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
   ['legend_5fcenter',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
