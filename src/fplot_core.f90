@@ -57,6 +57,7 @@ module fplot_core
     public :: LEGEND_TOP
     public :: LEGEND_BOTTOM
     public :: PLOTDATA_MAX_NAME_LENGTH
+    public :: linspace
     public :: color
     public :: plot_data
     public :: plot_axis
@@ -181,6 +182,24 @@ module fplot_core
         !! plot object properties.
         procedure(get_string_result), deferred, public :: get_command_string
     end type
+
+! ******************************************************************************
+! FPLOT_CORE_ROUTINES.F90
+! ------------------------------------------------------------------------------
+    interface
+        !> @brief Constructs a linearly spaced array.
+        !!
+        !! @param[in] start The first value in the array.
+        !! @param[in] finish The last value in the array.
+        !! @param[in] npts The number of values in the array.
+        !!
+        !! @return The resulting array.
+        pure module function linspace(start, finish, npts) result(x)
+            real(real64), intent(in) :: start, finish
+            integer(int32), intent(in) :: npts
+            real(real64), dimension(npts) :: x
+        end function
+    end interface
 
 ! ******************************************************************************
 ! FPLOT_COLORS.F90

@@ -1,6 +1,7 @@
 # Define the source files
 set(fplot_sources 
-    fplot_core.f90 
+    fplot_core.f90
+    fplot_core_routines.f90
     fplot_errors.f90
     fplot_colors.f90
     fplot_terminal.f90
