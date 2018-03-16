@@ -123,7 +123,7 @@ Data Types</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a string from a colormap.  <a href="interfacefplot__core_1_1cm__get__string__result.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1color.html">color</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes an RGB color.  <a href="structfplot__core_1_1color.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a linearly spaced array.  <a href="structfplot__core_1_1color.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1colormap.html">colormap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A colormap object for a surface plot.  <a href="structfplot__core_1_1colormap.html#details">More...</a><br /></td></tr>
@@ -227,39 +227,6 @@ Data Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:aacebaf41027e6cc2b1623b3b39cea3fb"><td class="memItemLeft" align="right" valign="top">pure logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#aacebaf41027e6cc2b1623b3b39cea3fb">leg_get_inside</a> (this)</td></tr>
-<tr class="memdesc:aacebaf41027e6cc2b1623b3b39cea3fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value determining if the legend should be drawn inside the axes border (true), or outside the axes border (false).  <a href="#aacebaf41027e6cc2b1623b3b39cea3fb">More...</a><br /></td></tr>
-<tr class="separator:aacebaf41027e6cc2b1623b3b39cea3fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeda59d56a253864a1d7acccccdc624aa"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#aeda59d56a253864a1d7acccccdc624aa">leg_set_inside</a> (this, x)</td></tr>
-<tr class="memdesc:aeda59d56a253864a1d7acccccdc624aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a value determining if the legend should be drawn inside the axes border (true), or outside the axes border (false).  <a href="#aeda59d56a253864a1d7acccccdc624aa">More...</a><br /></td></tr>
-<tr class="separator:aeda59d56a253864a1d7acccccdc624aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1232c9e2ef7236e1809eea0510cc5014"><td class="memItemLeft" align="right" valign="top">pure logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a1232c9e2ef7236e1809eea0510cc5014">leg_get_box</a> (this)</td></tr>
-<tr class="memdesc:a1232c9e2ef7236e1809eea0510cc5014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value determining if the legend should have a border.  <a href="#a1232c9e2ef7236e1809eea0510cc5014">More...</a><br /></td></tr>
-<tr class="separator:a1232c9e2ef7236e1809eea0510cc5014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2ba49760c0d5458faa1c2089bc8d940"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#ad2ba49760c0d5458faa1c2089bc8d940">leg_set_box</a> (this, x)</td></tr>
-<tr class="memdesc:ad2ba49760c0d5458faa1c2089bc8d940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a value determining if the legend should have a border.  <a href="#ad2ba49760c0d5458faa1c2089bc8d940">More...</a><br /></td></tr>
-<tr class="separator:ad2ba49760c0d5458faa1c2089bc8d940"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a205fa12d95f917010fcef1cbe878d1a3"><td class="memItemLeft" align="right" valign="top">pure character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a205fa12d95f917010fcef1cbe878d1a3">leg_get_horz_pos</a> (this)</td></tr>
-<tr class="memdesc:a205fa12d95f917010fcef1cbe878d1a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the horizontal position of the legend.  <a href="#a205fa12d95f917010fcef1cbe878d1a3">More...</a><br /></td></tr>
-<tr class="separator:a205fa12d95f917010fcef1cbe878d1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed9e3944fb0f4bdc9692d774cfd9b805"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#aed9e3944fb0f4bdc9692d774cfd9b805">leg_set_horz_pos</a> (this, x)</td></tr>
-<tr class="memdesc:aed9e3944fb0f4bdc9692d774cfd9b805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the horizontal position of the legend.  <a href="#aed9e3944fb0f4bdc9692d774cfd9b805">More...</a><br /></td></tr>
-<tr class="separator:aed9e3944fb0f4bdc9692d774cfd9b805"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bfcf4712593945dc87d6335be772027"><td class="memItemLeft" align="right" valign="top">pure character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a7bfcf4712593945dc87d6335be772027">leg_get_vert_pos</a> (this)</td></tr>
-<tr class="memdesc:a7bfcf4712593945dc87d6335be772027"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the vertical position of the legend.  <a href="#a7bfcf4712593945dc87d6335be772027">More...</a><br /></td></tr>
-<tr class="separator:a7bfcf4712593945dc87d6335be772027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac89bb2b9e727611ef356c8bd566e7e1c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#ac89bb2b9e727611ef356c8bd566e7e1c">leg_set_vert_pos</a> (this, x)</td></tr>
-<tr class="memdesc:ac89bb2b9e727611ef356c8bd566e7e1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vertical position of the legend.  <a href="#ac89bb2b9e727611ef356c8bd566e7e1c">More...</a><br /></td></tr>
-<tr class="separator:ac89bb2b9e727611ef356c8bd566e7e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5967a447343a06d15dc8326a9878dd4"><td class="memItemLeft" align="right" valign="top">pure logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#ad5967a447343a06d15dc8326a9878dd4">leg_get_visible</a> (this)</td></tr>
-<tr class="memdesc:ad5967a447343a06d15dc8326a9878dd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value determining if the legend is visible.  <a href="#ad5967a447343a06d15dc8326a9878dd4">More...</a><br /></td></tr>
-<tr class="separator:ad5967a447343a06d15dc8326a9878dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59319bc0c4bc0c14122fed8b486b5789"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a59319bc0c4bc0c14122fed8b486b5789">leg_set_visible</a> (this, x)</td></tr>
-<tr class="memdesc:a59319bc0c4bc0c14122fed8b486b5789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a value determining if the legend is visible.  <a href="#a59319bc0c4bc0c14122fed8b486b5789">More...</a><br /></td></tr>
-<tr class="separator:a59319bc0c4bc0c14122fed8b486b5789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a010e5481d575882ef27b0b9c4633bd"><td class="memItemLeft" align="right" valign="top">character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a2a010e5481d575882ef27b0b9c4633bd">leg_get_command_txt</a> (this)</td></tr>
-<tr class="memdesc:a2a010e5481d575882ef27b0b9c4633bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the command string defining the legend properties.  <a href="#a2a010e5481d575882ef27b0b9c4633bd">More...</a><br /></td></tr>
-<tr class="separator:a2a010e5481d575882ef27b0b9c4633bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32d5c6aa7d733aff77a007ca17d69222"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a32d5c6aa7d733aff77a007ca17d69222">plt_clean_up</a> (this)</td></tr>
 <tr class="memdesc:a32d5c6aa7d733aff77a007ca17d69222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans up resources held by the plot object.  <a href="#a32d5c6aa7d733aff77a007ca17d69222">More...</a><br /></td></tr>
 <tr class="separator:a32d5c6aa7d733aff77a007ca17d69222"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -853,7 +820,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04775">4775</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04920">4920</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -888,7 +855,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04721">4721</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04866">4866</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -923,442 +890,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04762">4762</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1232c9e2ef7236e1809eea0510cc5014"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure logical function fplot_core::leg_get_box </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets a value determining if the legend should have a border. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02086">2086</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2a010e5481d575882ef27b0b9c4633bd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">character(len = :) function, allocatable fplot_core::leg_get_command_txt </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the command string defining the legend properties. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02184">2184</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a205fa12d95f917010fcef1cbe878d1a3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure character(len = :) function, allocatable fplot_core::leg_get_horz_pos </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the horizontal position of the legend. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The horizontal position of the legend (LEGEND_LEFT, LEGEND_CENTER, or LEGEND_RIGHT). </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02109">2109</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aacebaf41027e6cc2b1623b3b39cea3fb"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure logical function fplot_core::leg_get_inside </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets a value determining if the legend should be drawn inside the axes border (true), or outside the axes border (false). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02063">2063</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7bfcf4712593945dc87d6335be772027"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure character(len = :) function, allocatable fplot_core::leg_get_vert_pos </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the vertical position of the legend. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The vertical position of the legend (LEGEND_TOP, LEGEND_CENTER, or LEGEND_BOTTOM). </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02136">2136</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad5967a447343a06d15dc8326a9878dd4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure logical function fplot_core::leg_get_visible </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets a value determining if the legend is visible. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The logical value. </dd></dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02162">2162</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad2ba49760c0d5458faa1c2089bc8d940"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine fplot_core::leg_set_box </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>this</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets a value determining if the legend should have a border. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The logical value. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02097">2097</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aed9e3944fb0f4bdc9692d774cfd9b805"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine fplot_core::leg_set_horz_pos </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>this</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character(len = *), intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the horizontal position of the legend. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">x</td><td>The horizontal position of the legend. The parameter must be set to one of the following: LEGEND_LEFT, LEGEND_CENTER, or LEGEND_RIGHT. If not, the default LEGEND_RIGHT will be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02122">2122</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aeda59d56a253864a1d7acccccdc624aa"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine fplot_core::leg_set_inside </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>this</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets a value determining if the legend should be drawn inside the axes border (true), or outside the axes border (false). </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The logical value. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02075">2075</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac89bb2b9e727611ef356c8bd566e7e1c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine fplot_core::leg_set_vert_pos </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>this</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character(len = *), intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the vertical position of the legend. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">x</td><td>The vertical position of the legend. The parameter must be set to one of the following: LEGEND_TOP, LEGEND_CENTER, or LEGEND_BOTTOM. If not, the default LEGEND_TOP will be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02149">2149</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a59319bc0c4bc0c14122fed8b486b5789"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine fplot_core::leg_set_visible </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1legend.html">legend</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>this</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets a value determining if the legend is visible. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The legend object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The logical value. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02173">2173</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04907">4907</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1392,7 +924,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03051">3051</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03196">3196</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1427,7 +959,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03132">3132</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03277">3277</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1462,7 +994,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the axis should be displayed; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03302">3302</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03447">3447</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1497,7 +1029,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the x-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03268">3268</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03413">3413</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1532,7 +1064,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the secondary y-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03290">3290</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03435">3435</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1567,7 +1099,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the y-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03279">3279</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03424">3424</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1628,7 +1160,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03084">3084</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03229">3229</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1673,7 +1205,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03314">3314</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03459">3459</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1707,7 +1239,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03859">3859</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04004">4004</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1742,7 +1274,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The azimuth angle, in degrees. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04127">4127</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04272">4272</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1777,7 +1309,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03940">3940</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04085">4085</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1812,7 +1344,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The elevation angle, in degrees. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04105">4105</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04250">4250</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1847,7 +1379,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the x-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04072">4072</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04217">4217</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1882,7 +1414,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the y-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04083">4083</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04228">4228</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1917,7 +1449,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the z-axis object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04094">4094</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04239">4239</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1952,7 +1484,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the z-axis should intersect the x-y plane; else, false to allow the z-axis to float. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04151">4151</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04296">4296</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2013,7 +1545,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03892">3892</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04037">4037</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2058,7 +1590,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04138">4138</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04283">4283</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2103,7 +1635,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04116">4116</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04261">4261</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2148,7 +1680,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04164">4164</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04309">4309</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2183,7 +1715,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03380">3380</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03525">3525</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2218,7 +1750,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03399">3399</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03544">3544</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2253,7 +1785,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of data points. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03432">3432</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03577">3577</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2288,7 +1820,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the data should be plotted against the secondary y-axis; else, false to plot against the primary y-axis. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03568">3568</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03713">3713</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2334,7 +1866,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03448">3448</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03593">3593</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2380,7 +1912,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03480">3480</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03625">3625</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2443,7 +1975,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03520">3520</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03665">3665</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2498,7 +2030,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03599">3599</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03744">3744</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2543,7 +2075,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03581">3581</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03726">3726</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2595,7 +2127,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03465">3465</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03610">3610</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2647,7 +2179,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03497">3497</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03642">3642</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2682,7 +2214,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03751">3751</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03896">3896</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2717,7 +2249,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03766">3766</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03911">3911</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2752,7 +2284,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of data points. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03639">3639</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03784">3784</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2798,7 +2330,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03655">3655</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03800">3800</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2844,7 +2376,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03687">3687</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03832">3832</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2890,7 +2422,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03719">3719</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03864">3864</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -2960,7 +2492,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03811">3811</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03956">3956</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3012,7 +2544,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03672">3672</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03817">3817</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3064,7 +2596,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03704">3704</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03849">3849</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3116,7 +2648,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03736">3736</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03881">3881</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3150,7 +2682,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02230">2230</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02375">2375</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3184,7 +2716,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02416">2416</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02561">2561</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3239,7 +2771,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02507">2507</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02652">2652</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3285,7 +2817,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the requested <a class="el" href="structfplot__core_1_1plot__data.html" title="Provides a container for plot data. ">plot_data</a> object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02427">2427</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02572">2572</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3320,7 +2852,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of <a class="el" href="structfplot__core_1_1plot__data.html" title="Provides a container for plot data. ">plot_data</a> objects. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02376">2376</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02521">2521</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3355,7 +2887,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the border should be drawn; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02689">2689</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02834">2834</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3390,7 +2922,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The font name. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02609">2609</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02754">2754</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3425,7 +2957,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the font, in points. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02635">2635</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02780">2780</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3460,7 +2992,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the legend object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02365">2365</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02510">2510</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3495,7 +3027,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the grid lines should be shown; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02476">2476</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02621">2621</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3530,7 +3062,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the GNUPLOT terminal object. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02465">2465</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02610">2610</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3565,7 +3097,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the tic marks should point inwards; else, false if the tic marks should point outwards. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02665">2665</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02810">2810</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3600,7 +3132,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The plot's title. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02320">2320</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02465">2465</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3635,7 +3167,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if a title has been defined for this plot; else, returns false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02354">2354</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02499">2499</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3696,7 +3228,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02258">2258</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02403">2403</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3730,7 +3262,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02407">2407</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02552">2552</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3785,7 +3317,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02393">2393</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02538">2538</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3840,7 +3372,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02571">2571</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02716">2716</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3892,7 +3424,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02453">2453</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02598">2598</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3937,7 +3469,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02700">2700</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02845">2845</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -3982,7 +3514,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02622">2622</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02767">2767</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4027,7 +3559,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02650">2650</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02795">2795</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4072,7 +3604,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02487">2487</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02632">2632</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4117,7 +3649,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02678">2678</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02823">2823</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4162,7 +3694,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02333">2333</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02478">2478</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4197,7 +3729,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04748">4748</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04893">4893</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4232,7 +3764,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02714">2714</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02859">2859</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4267,7 +3799,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the line should be drawn; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02873">2873</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03018">3018</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4302,7 +3834,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the markers should be drawn; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02895">2895</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03040">3040</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4337,7 +3869,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The color. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02851">2851</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02996">2996</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4379,7 +3911,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </ul>
 </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02816">2816</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02961">2961</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4414,7 +3946,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The line width. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02789">2789</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02934">2934</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4449,7 +3981,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The marker frequency. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03004">3004</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03149">3149</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4484,7 +4016,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The scaling factor. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02982">2982</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03127">3127</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4534,7 +4066,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </ul>
 </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02930">2930</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03075">3075</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4569,7 +4101,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if GNUPLOT should choose colors; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03027">3027</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03172">3172</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4614,7 +4146,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02884">2884</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03029">3029</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4659,7 +4191,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02906">2906</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03051">3051</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4704,7 +4236,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02862">2862</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03007">3007</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4756,7 +4288,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02833">2833</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02978">2978</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4801,7 +4333,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02800">2800</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02945">2945</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4846,7 +4378,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03015">3015</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03160">3160</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4891,7 +4423,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02993">2993</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03138">3138</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4951,7 +4483,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02955">2955</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03100">3100</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -4996,7 +4528,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03039">3039</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03184">3184</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5030,7 +4562,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04465">4465</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04610">4610</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5065,7 +4597,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04537">4537</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04682">4682</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5100,7 +4632,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the colormap object. If no colormap is defined, a null pointer is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04595">4595</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04740">4740</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5135,7 +4667,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the colorbar should be drawn; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04697">4697</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04842">4842</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5170,7 +4702,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the contour plot should be drawn; else, false to only draw the surface. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04673">4673</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04818">4818</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5205,7 +4737,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if hidden lines should be shown; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04514">4514</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04659">4659</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5240,7 +4772,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the surface should be smoothed; else, false. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04648">4648</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04793">4793</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5301,7 +4833,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04492">4492</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04637">4637</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5356,7 +4888,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04614">4614</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04759">4759</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5401,7 +4933,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04708">4708</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04853">4853</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5446,7 +4978,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04686">4686</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04831">4831</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5491,7 +5023,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04525">4525</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04670">4670</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5536,7 +5068,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04660">4660</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04805">4805</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5571,7 +5103,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04322">4322</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04467">4467</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5606,7 +5138,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04361">4361</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04506">4506</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5652,7 +5184,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the requested dimension. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04179">4179</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04324">4324</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5687,7 +5219,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if a wireframe mesh should be displayed; else, false to display a solid surface. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04298">4298</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04443">4443</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5740,7 +5272,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04197">4197</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04342">4342</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5793,7 +5325,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04231">4231</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04376">4376</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5846,7 +5378,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04265">4265</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04410">4410</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5916,7 +5448,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04410">4410</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04555">4555</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -5961,7 +5493,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04310">4310</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04455">4455</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6020,7 +5552,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04215">4215</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04360">4360</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6079,7 +5611,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04249">4249</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04394">4394</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6138,7 +5670,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04283">4283</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04428">4428</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6173,7 +5705,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03327">3327</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03472">3472</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6208,7 +5740,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03353">3353</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03498">3498</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6243,7 +5775,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03340">3340</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03485">3485</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -6278,7 +5810,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03366">3366</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l03511">3511</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

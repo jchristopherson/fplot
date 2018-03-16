@@ -794,6 +794,71 @@ module fplot_core
 ! FPLOT_PNG_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT PNG terminal object.
+    !!
+    !! @par Example
+    !! The following example draws a simple plot, and illustrates the use of a
+    !! png_terminal to draw directly to a PNG file.
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables & Parameters
+    !!     integer(int32), parameter :: npts = 1000
+    !!     real(real64), dimension(npts) :: x, y1, y2
+    !!     type(plot_2d) :: plt
+    !!     class(terminal), pointer :: term
+    !!     type(plot_data_2d) :: d1, d2
+    !!     class(plot_axis), pointer :: xAxis, yAxis
+    !!     type(legend), pointer :: leg
+    !!
+    !!     ! Build a data set to plot
+    !!     x = linspace(0.0d0, 10.0d0, npts)
+    !!     y1 = sin(x) * cos(x)
+    !!     y2 = sqrt(x) * sin(x)
+    !!
+    !!     call d1%define_data(x, y1)
+    !!     call d2%define_data(x, y2)
+    !!
+    !!     ! Set up the plot
+    !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     ! Put the legend in the upper left corner of the plot
+    !!     leg => plt%get_legend()
+    !!     call leg%set_horizontal_position(LEGEND_LEFT)
+    !!     call leg%set_vertical_position(LEGEND_TOP)
+    !!
+    !!     ! Set up line color and style properties to better distinguish each data set
+    !!     call d1%set_name("Data Set 1")
+    !!     call d1%set_line_color(CLR_BLUE)
+    !!            
+    !!     call d2%set_name("Data Set 2")
+    !!     call d2%set_line_color(CLR_GREEN)
+    !!
+    !!     ! Add the data to the plot
+    !!     call plt%push(d1)
+    !!     call plt%push(d2)
+    !!
+    !!     ! Define the file to which the plot should be saved
+    !!     term => plt%get_terminal()
+    !!     select type (term)
+    !!     class is (png_terminal)
+    !!         call term%set_filename("example_plot.png")
+    !!     end select
+    !!
+    !!     ! Draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_plot.png
     type, extends(terminal) :: png_terminal
     private
         !> The terminal ID string
@@ -1484,6 +1549,71 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The horizontal position of the legend (LEGEND_LEFT,
         !!  LEGEND_CENTER, or LEGEND_RIGHT).
+        !!
+        !! @par Example
+        !! The following example draws a simple plot, and adjusts the position
+        !! of the legend.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables & Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y1, y2
+        !!     type(plot_2d) :: plt
+        !!     class(terminal), pointer :: term
+        !!     type(plot_data_2d) :: d1, d2
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Build a data set to plot
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y1 = sin(x) * cos(x)
+        !!     y2 = sqrt(x) * sin(x)
+        !!
+        !!     call d1%define_data(x, y1)
+        !!     call d2%define_data(x, y2)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Put the legend in the upper left corner of the plot
+        !!     leg => plt%get_legend()
+        !!     call leg%set_horizontal_position(LEGEND_LEFT)
+        !!     call leg%set_vertical_position(LEGEND_TOP)
+        !!
+        !!     ! Set up line color and style properties to better distinguish each data set
+        !!     call d1%set_name("Data Set 1")
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!            
+        !!     call d2%set_name("Data Set 2")
+        !!     call d2%set_line_color(CLR_GREEN)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(d1)
+        !!     call plt%push(d2)
+        !!
+        !!     ! Define the file to which the plot should be saved
+        !!     term => plt%get_terminal()
+        !!     select type (term)
+        !!     class is (png_terminal)
+        !!         call term%set_filename("example_plot.png")
+        !!     end select
+        !!
+        !!     ! Draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot.png
         procedure, public :: get_horizontal_position => leg_get_horz_pos
         !> @brief Sets the horizontal position of the legend.
         !!
@@ -1787,7 +1917,7 @@ module fplot_core
         !> Marker size multiplier.
         real(real32) :: m_markerSize = 1.0
         !> Let GNUPLOT choose colors automatically
-        logical :: m_useAutoColor = .true.
+        logical :: m_useAutoColor = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.

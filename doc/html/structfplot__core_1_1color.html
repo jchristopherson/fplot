@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('structfplot__core_1_1color.html','');}
 </div><!--header-->
 <div class="contents">
 
-<p>Describes an RGB color.  
+<p>Constructs a linearly spaced array.  
  <a href="structfplot__core_1_1color.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -144,9 +144,18 @@ integer(int32), public&#160;</td><td class="memItemRight" valign="bottom"><a cla
 <tr class="separator:a208e32c7d0b0798118575c2234f4cc94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Describes an RGB color. </p>
+<div class="textblock"><p>Constructs a linearly spaced array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">start</td><td>The first value in the array. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">finish</td><td>The last value in the array. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">npts</td><td>The number of values in the array.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resulting array. Describes an RGB color. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00189">189</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00208">208</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a class="anchor" id="a5663a29b930c889d6c6c3c0b4dde3da4"></a>
 <div class="memitem">
@@ -172,7 +181,7 @@ integer(int32), public&#160;</td><td class="memItemRight" valign="bottom"><a cla
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line">    </div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1color.html">color</a>) :: clr1, clr2</div><div class="line"></div><div class="line">    <span class="comment">! Copy clr1 to clr2</span></div><div class="line">    <span class="keyword">call </span>clr2%copy_from(clr1)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00243">243</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00262">262</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -200,7 +209,7 @@ integer(int32), public&#160;</td><td class="memItemRight" valign="bottom"><a cla
 <dl class="section return"><dt>Returns</dt><dd>A string containing the hexadecimal equivalent.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1color.html">color</a>) :: clr</div><div class="line">    <span class="keywordtype">character(6)</span> :: hex_str</div><div class="line"></div><div class="line">    <span class="comment">! Return the hexadecimal form of the color</span></div><div class="line">    hex_str = clr%to_hex_string()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00220">220</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l00239">239</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
