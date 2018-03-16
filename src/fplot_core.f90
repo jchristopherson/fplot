@@ -1738,7 +1738,7 @@ module fplot_core
         !! @param[in] x The logical value.
         !!
         !! @par Example
-        !! For an example, see @ref set_draw_inside_border.
+        !! For an example, see @ref set_draw_inside_axes.
         procedure, public :: set_draw_border => leg_set_box
         !> @brief Gets the horizontal position of the legend.
         !!
@@ -2007,7 +2007,7 @@ module fplot_core
 
 
 
-    
+
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines the basic GNUPLOT plot.
