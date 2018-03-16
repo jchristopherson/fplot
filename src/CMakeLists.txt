@@ -10,6 +10,7 @@ set(fplot_sources
     fplot_png_terminal.f90
     fplot_plot_data.f90
     fplot_plot_axis.f90
+    fplot_legend.f90
     ${strings_Sources}
 )
 
