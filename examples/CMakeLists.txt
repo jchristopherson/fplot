@@ -33,6 +33,10 @@ target_link_libraries(fplot_2d_4 fplot)
 add_executable(fplot_2d_5 fplot_2d_5.f90)
 target_link_libraries(fplot_2d_5 fplot)
 
+# Example 9
+add_executable(fplot_2d_6 fplot_2d_6.f90)
+target_link_libraries(fplot_2d_6 fplot)
+
 # Copy the FERROR & COLLECTIONS shared object to the runtime directory on Windows
 if (WIN32)
     add_custom_command(

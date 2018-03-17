@@ -2050,6 +2050,9 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: initialize => plt_init
         !> @brief Gets the plot's title.
         !!
@@ -2060,6 +2063,20 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The plot's title.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!
+        !!     type(plot_2d) :: plt
+        !!     character(len = :), allocatable :: txt
+        !!
+        !!     txt = plt%get_title()
+        !! end program
+        !! @endcode
         procedure, public :: get_title => plt_get_title
         !> @brief Sets the plot's title.
         !!
@@ -2072,6 +2089,9 @@ module fplot_core
         !! @param[in] txt The plot's title.  The number of characters must be less
         !! than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
         !! truncated.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: set_title => plt_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot object.
@@ -2094,6 +2114,9 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return A pointer to the legend object.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         !!
         !! @par Example
         !! See @p png_terminal for an example.
@@ -2218,6 +2241,9 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: draw => plt_draw
         !> @brief Saves a GNUPLOT command file.
         !!
@@ -2234,6 +2260,10 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! @endcode
         procedure, public :: save_file => plt_save
         !> @brief Gets the name of the font used for plot text.
         !!
