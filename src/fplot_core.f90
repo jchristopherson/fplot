@@ -2013,65 +2013,313 @@ module fplot_core
         type(legend), pointer :: m_legend => null()
         !> Show grid lines?
         logical :: m_showGrid = .true.
-
         !> Point tic marks in?
         logical :: m_ticsIn = .true.
         !> Draw the border?
         logical :: m_drawBorder = .true.
     contains
-        !> @brief Cleans up resources held by the plot object.
+        !> @brief Cleans up resources held by the plot object.  Inheriting 
+        !! classes are expected to call this routine to free internally held
+        !! resources.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! module free_resources(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
         procedure, public :: free_resources => plt_clean_up
         !> @brief Initializes the plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(plot) this, optional class(terminal) term, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         procedure, public :: initialize => plt_init
         !> @brief Gets the plot's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure character(len = :) function, allocatable get_title(class(plot))
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The plot's title.
         procedure, public :: get_title => plt_get_title
         !> @brief Sets the plot's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_title(class(plot) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] txt The plot's title.  The number of characters must be less
+        !! than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
+        !! truncated.
         procedure, public :: set_title => plt_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function is_title_defined(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if a title has been defined for this plot; else,
+        !!  returns false.
         procedure, public :: is_title_defined => plt_has_title
         !> @brief Gets the plot's legend object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(legend) function, pointer get_legend(class(this) plot)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return A pointer to the legend object.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: get_legend => plt_get_legend
         !> @brief Gets the number of stored plot_data objects.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_count(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The number of plot_data objects.
         procedure, public :: get_count => plt_get_count
         !> @brief Pushes a plot_data object onto the stack.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine push(class(plot) this, class(plot_data) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x The plot_data object.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: push => plt_push_data
         !> @brief Pops the last plot_data object from the stack.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine pop(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
         procedure, public :: pop => plt_pop_data
         !> @brief Removes all plot_data objects from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine clear(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
         procedure, public :: clear_all => plt_clear_all
         !> @brief Gets a pointer to the requested plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_data) function, pointer get(class(plot), integer(int32) i)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @param[in] i The index of the plot_data object.
+        !! @return A pointer to the requested plot_data object.
         procedure, public :: get => plt_get
         !> @brief Sets the requested plot_data object into the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set(class(plot) this, integer(int32) i, class(plot_data) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] i The index of the plot_data object.
+        !! @param[in] x The plot_data object.
         procedure, public :: set => plt_set
         !> @brief Gets the GNUPLOT terminal object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(terminal) function, pointer get_terminal(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return A pointer to the GNUPLOT terminal object.
+        !!
+        !! @par Example
+        !! See @p png_terminal for an example.
         procedure, public :: get_terminal => plt_get_term
         !> @brief Gets a flag determining if the grid lines should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_gridlines(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the grid lines should be shown; else, false.
         procedure, public :: get_show_gridlines => plt_get_show_grid
         !> @brief Sets a flag determining if the grid lines should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_gridlines(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the grid lines should be shown; else, false.
         procedure, public :: set_show_gridlines => plt_set_show_grid
         !> @brief Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine draw(class(plot) this, optional logical persist, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @param[in] persist An optional parameter that can be used to keep GNUPLOT
+        !!  open.  Set to true to force GNUPLOT to remain open; else, set to false
+        !!  to allow GNUPLOT to close after drawing.  The default is true.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
         procedure, public :: draw => plt_draw
         !> @brief Saves a GNUPLOT command file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine save_file(class(plot) this, character(len = *) fname, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @param[in] fname The filename.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
         procedure, public :: save_file => plt_save
         !> @brief Gets the name of the font used for plot text.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_font_name(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The font name.
         procedure, public :: get_font_name => plt_get_font
         !> @brief Sets the name of the font used for plot text.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_font_name(class(plot) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x The font name.
         procedure, public :: set_font_name => plt_set_font
         !> @brief Gets the size of the font used by the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function get_font_size(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The size of the font, in points.
         procedure, public :: get_font_size => plt_get_font_size
         !> @brief Sets the size of the font used by the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_font_size(class(plot) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x The font size, in points.  If a value of zero is provided,
+        !! the font size is reset to its default value; or, if a negative value
+        !! is provided, the absolute value of the supplied value is utilized.
         procedure, public :: set_font_size => plt_set_font_size
         !> @brief Gets a value determining if the axis tic marks should point
         !! inwards.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_tics_inward(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the tic marks should point inwards; else, false
+        !!  if the tic marks should point outwards.
         procedure, public :: get_tics_inward => plt_get_tics_in
         !> @brief Sets a value determining if the axis tic marks should point
         !! inwards.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_tics_inward(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the tic marks should point inwards; else,
+        !!  false if the tic marks should point outwards.
         procedure, public :: set_tics_inward => plt_set_tics_in
         !> @brief Gets a value determining if the border should be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_draw_border(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the border should be drawn; else, false.
         procedure, public :: get_draw_border => plt_get_draw_border
         !> @brief Sets a value determining if the border should be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_border(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the border should be drawn; else, false.
         procedure, public :: set_draw_border => plt_set_draw_border
     end type
 

@@ -41,7 +41,6 @@ var menudata={children:[
 {text:"Functions/Subroutines",url:"namespacemembers_func.html",children:[
 {text:"c",url:"namespacemembers_func.html#index_c"},
 {text:"h",url:"namespacemembers_func.html#index_h"},
-{text:"l",url:"namespacemembers_func.html#index_l"},
 {text:"p",url:"namespacemembers_func.html#index_p"},
 {text:"r",url:"namespacemembers_func.html#index_r"},
 {text:"s",url:"namespacemembers_func.html#index_s"},
