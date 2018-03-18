@@ -2774,33 +2774,8 @@ module fplot_core
         end subroutine
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ! ******************************************************************************
-! COLORMAP TYPES
+! FPLOT_COLORMAP.F90
 ! ------------------------------------------------------------------------------
     !> @brief A colormap object for a surface plot.
     type, abstract, extends(plot_object) :: colormap
@@ -2838,6 +2813,53 @@ module fplot_core
         !> @brief Gets the GNUPLOT string defining the color distribution.
         procedure, public :: get_color_string => ccm_get_clr
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function cm_get_cmd(this) result(x)
+            class(colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function rcm_get_clr(this) result(x)
+            class(rainbow_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+        
+        module function hcm_get_clr(this) result(x)
+            class(hot_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+        
+        module function ccm_get_clr(this) result(x)
+            class(cool_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ! ******************************************************************************
 ! PLOT_DATA BASED TYPES
@@ -5320,72 +5342,4 @@ contains
         this%m_showColorbar = x
     end subroutine
 
-! ******************************************************************************
-! COLORMAP MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this colormap object.
-    !!
-    !! @param[in] this The colormap object.
-    !! @return The command string.
-    function cm_get_cmd(this) result(x)
-        ! Arguments
-        class(colormap), intent(in) :: this
-        character(len = :), allocatable :: x
-
-        ! Local Variables
-        type(string_builder) :: str
-
-        ! Initialization
-        call str%initialize()
-
-        ! Process
-        call str%append("set palette defined (")
-        call str%append(this%get_color_string())
-        call str%append(")")
-
-        ! End
-        x = str%to_string()
-    end function
-
-! ******************************************************************************
-! RAINBOW_COLORMAP MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The rainbow_colormap object.
-    !! @return The command string.
-    function rcm_get_clr(this) result(x)
-        class(rainbow_colormap), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = '0 "dark-blue", 1 "blue", 2 "cyan", 3 "green", 4 "yellow", ' // &
-            '5 "orange", 6 "red", 7 "dark-red"'
-    end function
-
-! ******************************************************************************
-! HOT_COLORMAP MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The hot_colormap object.
-    !! @return The command string.
-    function hcm_get_clr(this) result(x)
-        class(hot_colormap), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = '0 "black", 1 "red", 2 "orange", 3 "yellow", 4 "white"'
-    end function
-
-! ******************************************************************************
-! COOL_COLORMAP MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The cool_colormap object.
-    !! @return The command string.
-    function ccm_get_clr(this) result(x)
-        class(cool_colormap), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = '0 "blue", 1 "turquoise", 2 "light-green"'
-    end function
-
-! ------------------------------------------------------------------------------
 end module
