@@ -2070,6 +2070,7 @@ module fplot_core
         !! @code{.f90}
         !! program example
         !!     use fplot_core
+        !!     implicit none
         !!
         !!     type(plot_2d) :: plt
         !!     character(len = :), allocatable :: txt
@@ -2104,6 +2105,21 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return Returns true if a title has been defined for this plot; else,
         !!  returns false.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     logical :: check
+        !!
+        !!     check = plt%is_title_defined()
+        !! end program
+        !! @endcode
         procedure, public :: is_title_defined => plt_has_title
         !> @brief Gets the plot's legend object.
         !!
@@ -2130,6 +2146,22 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The number of plot_data objects.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     integer(int32) :: n
+        !!
+        !!     n = plt%get_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_count => plt_get_count
         !> @brief Pushes a plot_data object onto the stack.
         !!
@@ -2158,6 +2190,20 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     call plt%pop()
+        !! end program
+        !! @endcode
         procedure, public :: pop => plt_pop_data
         !> @brief Removes all plot_data objects from the plot.
         !!
@@ -2167,6 +2213,21 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     call plt%clear_all()
+        !! end program
+        !! @endcode
         procedure, public :: clear_all => plt_clear_all
         !> @brief Gets a pointer to the requested plot_data object.
         !!
@@ -2178,6 +2239,24 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @param[in] i The index of the plot_data object.
         !! @return A pointer to the requested plot_data object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     class(plot_data), pointer :: ptr
+        !!
+        !!     ! Add some data ... (not shown)
+        !!
+        !!     ! Retrieve the second data set added
+        !!     ptr => plt%get(2)
+        !! end program
+        !! @endcode
         procedure, public :: get => plt_get
         !> @brief Sets the requested plot_data object into the plot.
         !!
@@ -2189,6 +2268,24 @@ module fplot_core
         !! @param[in,out] this The plot object.
         !! @param[in] i The index of the plot_data object.
         !! @param[in] x The plot_data object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: dataset
+        !!
+        !!     ! Add some data to the plot ... (not shown)
+        !!
+        !!     ! Add dataset to the second spot in the collection
+        !!     call plt%set(2, dataset)
+        !! end program
+        !! @endcode
         procedure, public :: set => plt_set
         !> @brief Gets the GNUPLOT terminal object.
         !!
@@ -2212,6 +2309,21 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return Returns true if the grid lines should be shown; else, false.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     logical :: check
+        !!
+        !!     check = plt%get_show_gridlines()
+        !! end program
+        !! @endcode
         procedure, public :: get_show_gridlines => plt_get_show_grid
         !> @brief Sets a flag determining if the grid lines should be shown.
         !!
@@ -2222,6 +2334,21 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the grid lines should be shown; else, false.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     ! Turn off the gridlines
+        !!     call plt%set_show_gridlines(.false.)
+        !! end program
+        !! @endcode
         procedure, public :: set_show_gridlines => plt_set_show_grid
         !> @brief Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
@@ -2263,7 +2390,49 @@ module fplot_core
         !!
         !! @par Example
         !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables & Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: dataset
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Build a data set to plot
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y = exp(-0.5d0 * x) * sin(10.0d0 * x - 0.5d0)
+        !!
+        !!     call dataset%define_data(x, y)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Hide the legend
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(dataset)
+        !!
+        !!     ! Save the plot to a file that can be opened by GNUPLOT at a later time
+        !!     call plt%save_file("example_gnuplot_file.plt")
+        !! end program
         !! @endcode
+        !! Then, from gnuplot, simply issue the command: load 
+        !! "example_gnuplot_file.plt" to obtain the plot.
+        !! @image html example_plot_from_file.png
         procedure, public :: save_file => plt_save
         !> @brief Gets the name of the font used for plot text.
         !!
@@ -2274,6 +2443,21 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The font name.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     character(len = :), allocatable :: name
+        !!
+        !!     name = plt%get_font_name()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_name => plt_get_font
         !> @brief Sets the name of the font used for plot text.
         !!
@@ -2284,6 +2468,21 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x The font name.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     ! Establish the font used by the plot as Arial.
+        !!     call plt%set_title("Arial")
+        !! end program
+        !! @endcode
         procedure, public :: set_font_name => plt_set_font
         !> @brief Gets the size of the font used by the plot.
         !!
@@ -2294,6 +2493,22 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The size of the font, in points.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     integer(int32) :: sz
+        !!
+        !!     sz = plt%get_font_size()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_size => plt_get_font_size
         !> @brief Sets the size of the font used by the plot.
         !!
@@ -2306,6 +2521,21 @@ module fplot_core
         !! @param[in] x The font size, in points.  If a value of zero is provided,
         !! the font size is reset to its default value; or, if a negative value
         !! is provided, the absolute value of the supplied value is utilized.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     ! Set the font to be 14 point in size
+        !!     call plt%set_font_size(14)
+        !! end program
+        !! @endcode
         procedure, public :: set_font_size => plt_set_font_size
         !> @brief Gets a value determining if the axis tic marks should point
         !! inwards.
@@ -2318,6 +2548,21 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return Returns true if the tic marks should point inwards; else, false
         !!  if the tic marks should point outwards.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     logical :: check
+        !!
+        !!     check = plt%get_tics_inward()
+        !! end program
+        !! @endcode
         procedure, public :: get_tics_inward => plt_get_tics_in
         !> @brief Sets a value determining if the axis tic marks should point
         !! inwards.
@@ -2330,6 +2575,21 @@ module fplot_core
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the tic marks should point inwards; else,
         !!  false if the tic marks should point outwards.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     ! Point the axes tic marks outward
+        !!     call plt%set_tics_inward(.false.)
+        !! end program
+        !! @endcode
         procedure, public :: set_tics_inward => plt_set_tics_in
         !> @brief Gets a value determining if the border should be drawn.
         !!
@@ -2340,6 +2600,21 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return Returns true if the border should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     logical :: check
+        !!
+        !!     check = plt%get_draw_border()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_border => plt_get_draw_border
         !> @brief Sets a value determining if the border should be drawn.
         !!
@@ -2350,6 +2625,21 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the border should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     ! Shut off the axes border
+        !!     call plt%set_draw_border(.false.)
+        !! end program
+        !! @endcode
         procedure, public :: set_draw_border => plt_set_draw_border
     end type
 
