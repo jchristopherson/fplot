@@ -78,9 +78,12 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function plt_get_title(this) result(txt)
+    module function plt_get_title(this) result(txt)
         class(plot), intent(in) :: this
         character(len = :), allocatable :: txt
+        integer(int32) :: n
+        n = len_trim(this%m_title)
+        allocate(character(len = n) :: txt)
         txt = trim(this%m_title)
     end function
 
@@ -89,7 +92,7 @@ contains
         class(plot), intent(inout) :: this
         character(len = *), intent(in) :: txt
         integer :: n
-        n = min(len(txt), PLOTDATA_MAX_NAME_LENGTH)
+        n = min(len_trim(txt), PLOTDATA_MAX_NAME_LENGTH)
         this%m_title = ""
         if (n /= 0) then
             this%m_title(1:n) = txt(1:n)

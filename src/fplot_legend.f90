@@ -31,9 +31,12 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function leg_get_horz_pos(this) result(x)
+    module function leg_get_horz_pos(this) result(x)
         class(legend), intent(in) :: this
         character(len = :), allocatable :: x
+        integer(int32) :: n
+        n = len_trim(this%m_horzPosition)
+        allocate(character(len = n) :: x)
         x = trim(this%m_horzPosition)
     end function
 
@@ -47,9 +50,12 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function leg_get_vert_pos(this) result(x)
+    module function leg_get_vert_pos(this) result(x)
         class(legend), intent(in) :: this
         character(len = :), allocatable :: x
+        integer(int32) :: n
+        n = len_trim(this%m_vertPosition)
+        allocate(character(len = n) :: x)
         x = trim(this%m_vertPosition)
     end function
 

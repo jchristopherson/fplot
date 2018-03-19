@@ -671,7 +671,7 @@ module fplot_core
             integer(int32), intent(in) :: x
         end subroutine
         
-        pure module function term_get_title(this) result(str)
+        module function term_get_title(this) result(str)
             class(terminal), intent(in) :: this
             character(len = :), allocatable :: str
         end function
@@ -681,7 +681,7 @@ module fplot_core
             character(len = *), intent(in) :: txt
         end subroutine
         
-        pure module function term_get_font_name(this) result(name)
+        module function term_get_font_name(this) result(name)
             class(terminal), intent(in) :: this
             character(len = :), allocatable :: name
         end function
@@ -693,7 +693,7 @@ module fplot_core
         
         pure module function term_get_font_size(this) result(sz)
             class(terminal), intent(in) :: this
-            integer :: sz
+            integer(int32) :: sz
         end function
         
         module subroutine term_set_font_size(this, sz)
@@ -720,7 +720,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_id_string(class(windows_terminal) this)
+        !! character(len = :) function, allocatable get_id_string(class(windows_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The windows_terminal object.
@@ -730,7 +730,7 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function wt_get_term_string(this) result(x)
+        module function wt_get_term_string(this) result(x)
             class(windows_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
@@ -749,7 +749,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_id_string(class(qt_terminal) this)
+        !! character(len = :) function, allocatable get_id_string(class(qt_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The qt_terminal object.
@@ -759,7 +759,7 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function qt_get_term_string(this) result(x)
+        module function qt_get_term_string(this) result(x)
             class(qt_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
@@ -778,7 +778,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_id_string(class(wxt_terminal) this)
+        !! character(len = :) function, allocatable get_id_string(class(wxt_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The wxt_terminal object.
@@ -788,7 +788,7 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function wxt_get_term_string(this) result(x)
+        module function wxt_get_term_string(this) result(x)
             class(wxt_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
@@ -874,7 +874,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_filename(class(png_terminal) this)
+        !! character(len = :) function, allocatable get_filename(class(png_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The png_terminal object.
@@ -919,7 +919,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_id_string(class(png_terminal) this)
+        !! character(len = :) function, allocatable get_id_string(class(png_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The png_terminal object.
@@ -940,12 +940,12 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function png_get_term_string(this) result(x)
+        module function png_get_term_string(this) result(x)
             class(png_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
         
-        pure module function png_get_filename(this) result(txt)
+        module function png_get_filename(this) result(txt)
             class(png_terminal), intent(in) :: this
             character(len = :), allocatable :: txt
         end function
@@ -976,7 +976,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_filename(class(latex_terminal) this)
+        !! character(len = :) function, allocatable get_filename(class(latex_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The latex_terminal object.
@@ -1021,7 +1021,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_id_string(class(latex_terminal) this)
+        !! character(len = :) function, allocatable get_id_string(class(latex_terminal) this)
         !! @endcode
         !!
         !! @param[in] this The latex_terminal object.
@@ -1042,12 +1042,12 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function tex_get_term_string(this) result(x)
+        module function tex_get_term_string(this) result(x)
             class(latex_terminal), intent(in) :: this
             character(len = :), allocatable :: x
         end function
 
-        pure module function tex_get_filename(this) result(txt)
+        module function tex_get_filename(this) result(txt)
             class(latex_terminal), intent(in) :: this
             character(len = :), allocatable :: txt
         end function
@@ -1160,7 +1160,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_title(class(plot_axis) this)
+        !! character(len = :) function, allocatable get_title(class(plot_axis) this)
         !! @endcode
         !!
         !! @param[in] this The plot_axis object.
@@ -1515,7 +1515,7 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        pure module function pa_get_title(this) result(txt)
+        module function pa_get_title(this) result(txt)
             class(plot_axis), intent(in) :: this
             character(len = :), allocatable :: txt
         end function
@@ -1744,7 +1744,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_horizontal_position(class(legend) this)
+        !! character(len = :) function, allocatable get_horizontal_position(class(legend) this)
         !! @endcode
         !!
         !! @param[in] this The legend object.
@@ -1845,7 +1845,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_vertical_position(class(legend) this)
+        !! character(len = :) function, allocatable get_vertical_position(class(legend) this)
         !! @endcode
         !!
         !! @param[in] this The legend object.
@@ -1959,7 +1959,7 @@ module fplot_core
             logical, intent(in) :: x
         end subroutine
         
-        pure module function leg_get_horz_pos(this) result(x)
+        module function leg_get_horz_pos(this) result(x)
             class(legend), intent(in) :: this
             character(len = :), allocatable :: x
         end function
@@ -1969,7 +1969,7 @@ module fplot_core
             character(len = *), intent(in) :: x
         end subroutine
 
-        pure module function leg_get_vert_pos(this) result(x)
+        module function leg_get_vert_pos(this) result(x)
             class(legend), intent(in) :: this
             character(len = :), allocatable :: x
         end function
@@ -2058,7 +2058,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! pure character(len = :) function, allocatable get_title(class(plot))
+        !! character(len = :) function, allocatable get_title(class(plot))
         !! @endcode
         !!
         !! @param[in] this The plot object.
@@ -2655,7 +2655,7 @@ module fplot_core
             class(errors), intent(inout), optional, target :: err
         end subroutine
         
-        pure module function plt_get_title(this) result(txt)
+        module function plt_get_title(this) result(txt)
             class(plot), intent(in) :: this
             character(len = :), allocatable :: txt
         end function
@@ -3354,7 +3354,7 @@ contains
         call str%initialize()
 
         ! Title
-        n = len(this%get_name())
+        n = len_trim(this%get_name())
         if (n > 0) then
             call str%append(' "-" title "')
             call str%append(this%get_name())
@@ -3786,7 +3786,7 @@ contains
         end if
 
         ! Title
-        n = len(this%get_title())
+        n = len_trim(this%get_title())
         if (n > 0) then
             call str%append(new_line('a'))
             call str%append('set title "')
@@ -4595,7 +4595,7 @@ contains
         end if
 
         ! Title
-        n = len(this%get_title())
+        n = len_trim(this%get_title())
         if (n > 0) then
             call str%append(new_line('a'))
             call str%append('set title "')
@@ -4963,7 +4963,7 @@ contains
         call str%initialize()
 
         ! Title
-        n = len(this%get_name())
+        n = len_trim(this%get_name())
         if (n > 0) then
             call str%append(' "-" title "')
             call str%append(this%get_name())

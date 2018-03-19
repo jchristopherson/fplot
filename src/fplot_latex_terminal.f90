@@ -3,16 +3,22 @@
 submodule (fplot_core) fplot_latex_terminal
 contains
 ! ------------------------------------------------------------------------------
-    pure module function tex_get_term_string(this) result(x)
+    module function tex_get_term_string(this) result(x)
         class(latex_terminal), intent(in) :: this
         character(len = :), allocatable :: x
+        integer(int32) :: n
+        n = len_trim(this%m_id)
+        allocate(character(len = n) :: x)
         x = this%m_id
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function tex_get_filename(this) result(txt)
+    module function tex_get_filename(this) result(txt)
         class(latex_terminal), intent(in) :: this
         character(len = :), allocatable :: txt
+        integer(int32) :: n
+        n = len_trim(this%m_fname)
+        allocate(character(len = n) :: txt)
         txt = trim(this%m_fname)
     end function
 
@@ -21,7 +27,7 @@ contains
         class(latex_terminal), intent(inout) :: this
         character(len = *), intent(in) :: txt
         integer(int32) :: n
-        n = min(len(txt), GNUPLOT_MAX_PATH_LENGTH)
+        n = min(len_trim(txt), GNUPLOT_MAX_PATH_LENGTH)
         this%m_fname = ""
         if (n /= 0) then
             this%m_fname(1:n) = txt(1:n)

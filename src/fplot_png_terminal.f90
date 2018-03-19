@@ -7,9 +7,11 @@ contains
     !!
     !! @param[in] this The png_terminal object.
     !! @return The string.
-    pure module function png_get_term_string(this) result(x)
+    module function png_get_term_string(this) result(x)
         class(png_terminal), intent(in) :: this
         character(len = :), allocatable :: x
+        n = len_trim(this%m_id)
+        allocate(character(len = n) :: x)
         x = this%m_id
     end function
 
@@ -18,9 +20,12 @@ contains
     !!
     !! @param[in] this The png_terminal object.
     !! @return The filename, including the file extension (.png).
-    pure module function png_get_filename(this) result(txt)
+    module function png_get_filename(this) result(txt)
         class(png_terminal), intent(in) :: this
         character(len = :), allocatable :: txt
+        integer(int32) :: n
+        n = len_trim(this%m_fname)
+        allocate(character(len = n) :: txt)
         txt = trim(this%m_fname)
     end function
 
@@ -33,7 +38,7 @@ contains
         class(png_terminal), intent(inout) :: this
         character(len = *), intent(in) :: txt
         integer(int32) :: n
-        n = min(len(txt), GNUPLOT_MAX_PATH_LENGTH)
+        n = min(len_trim(txt), GNUPLOT_MAX_PATH_LENGTH)
         this%m_fname = ""
         if (n /= 0) then
             this%m_fname(1:n) = txt(1:n)

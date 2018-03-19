@@ -53,9 +53,12 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function term_get_title(this) result(str)
+    module function term_get_title(this) result(str)
         class(terminal), intent(in) :: this
         character(len = :), allocatable :: str
+        integer(int32) :: n
+        n = len_trim(str)
+        allocate(character(len = n) :: str)
         str = trim(this%m_title)
     end function
 
@@ -64,7 +67,7 @@ contains
         class(terminal), intent(inout) :: this
         character(len = *), intent(in) :: txt
         integer(int32) :: n
-        n = min(len(txt), GNUPLOT_MAX_LABEL_LENGTH)
+        n = min(len_trim(txt), GNUPLOT_MAX_LABEL_LENGTH)
         this%m_title = ""
         if (n /= 0) then
             this%m_title(1:n) = txt(1:n)
@@ -75,9 +78,12 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function term_get_font_name(this) result(name)
+    module function term_get_font_name(this) result(name)
         class(terminal), intent(in) :: this
         character(len = :), allocatable :: name
+        integer(int32) :: n
+        n = len_trim(this%m_fontName)
+        allocate(character(len = n) :: name)
         name = trim(this%m_fontName)
     end function
 
@@ -86,7 +92,7 @@ contains
         class(terminal), intent(inout) :: this
         character(len = *), intent(in) :: name
         integer(int32) :: n
-        n = min(len(name), GNUPLOT_MAX_LABEL_LENGTH)
+        n = min(len_trim(name), GNUPLOT_MAX_LABEL_LENGTH)
         this%m_fontName = ""
         if (n == 0) then
             this%m_fontName = GNUPLOT_DEFAULT_FONTNAME
@@ -98,7 +104,7 @@ contains
 ! ------------------------------------------------------------------------------
     pure module function term_get_font_size(this) result(sz)
         class(terminal), intent(in) :: this
-        integer :: sz
+        integer(int32) :: sz
         sz = this%m_fontSize
     end function
 
