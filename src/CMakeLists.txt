@@ -15,6 +15,7 @@ set(fplot_sources
     fplot_legend.f90
     fplot_plot.f90
     fplot_colormap.f90
+    fplot_scatter_plot_data.f90
     ${strings_Sources}
 )
 

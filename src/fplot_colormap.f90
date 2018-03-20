@@ -5,10 +5,6 @@ contains
 ! ******************************************************************************
 ! COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this colormap object.
-    !!
-    !! @param[in] this The colormap object.
-    !! @return The command string.
     module function cm_get_cmd(this) result(x)
         ! Arguments
         class(colormap), intent(in) :: this
@@ -32,10 +28,6 @@ contains
 ! ******************************************************************************
 ! RAINBOW_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The rainbow_colormap object.
-    !! @return The command string.
     module function rcm_get_clr(this) result(x)
         class(rainbow_colormap), intent(in) :: this
         character(len = :), allocatable :: x
@@ -46,10 +38,6 @@ contains
 ! ******************************************************************************
 ! HOT_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The hot_colormap object.
-    !! @return The command string.
     module function hcm_get_clr(this) result(x)
         class(hot_colormap), intent(in) :: this
         character(len = :), allocatable :: x
@@ -59,10 +47,6 @@ contains
 ! ******************************************************************************
 ! COOL_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT string defining the color distribution.
-    !!
-    !! @param[in] this The cool_colormap object.
-    !! @return The command string.
     module function ccm_get_clr(this) result(x)
         class(cool_colormap), intent(in) :: this
         character(len = :), allocatable :: x
