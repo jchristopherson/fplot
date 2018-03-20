@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['ccm_5fget_5fclr',['ccm_get_clr',['../namespacefplot__core.html#aabec162d0ad7cd35a3b365bcb0eba16f',1,'fplot_core']]],
   ['clear_5fall',['clear_all',['../structfplot__core_1_1plot.html#a0cc70568df72a20b732e1ef8434860aa',1,'fplot_core::plot']]],
   ['clr_5fblack',['clr_black',['../namespacefplot__core.html#a3f8775edb06de2a90c24009a67ef4f96',1,'fplot_core']]],
   ['clr_5fblue',['clr_blue',['../namespacefplot__core.html#ae9f20ca4d21fdf9ba84f3b363f3e7d20',1,'fplot_core']]],
@@ -18,7 +17,6 @@ var searchData=
   ['clr_5fteal',['clr_teal',['../namespacefplot__core.html#aa30407b5d837e2e2c191d99eb115c42b',1,'fplot_core']]],
   ['clr_5fwhite',['clr_white',['../namespacefplot__core.html#a614ecb87618492f80d7ff4ba4324926b',1,'fplot_core']]],
   ['clr_5fyellow',['clr_yellow',['../namespacefplot__core.html#a061a6ee4fd7602c096fd5016100ca378',1,'fplot_core']]],
-  ['cm_5fget_5fcmd',['cm_get_cmd',['../namespacefplot__core.html#af0e42d7433f6b58ae98d580f26905177',1,'fplot_core']]],
   ['cm_5fget_5fstring_5fresult',['cm_get_string_result',['../interfacefplot__core_1_1cm__get__string__result.html',1,'fplot_core']]],
   ['color',['color',['../structfplot__core_1_1color.html',1,'fplot_core']]],
   ['colormap',['colormap',['../structfplot__core_1_1colormap.html',1,'fplot_core']]],

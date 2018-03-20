@@ -21,4 +21,24 @@ contains
         end do
     end function
 
+! ------------------------------------------------------------------------------
+    pure module function meshgrid(x, y) result(xy)
+        ! Arguments
+        real(real64), intent(in), dimension(:) :: x, y
+        real(real64), dimension(size(y), size(x), 2) :: xy
+
+        ! Local Variables
+        integer(int32) :: i, nx, ny
+
+        ! Process
+        nx = size(x)
+        ny = size(y)
+        do i = 1, nx
+            xy(:,i,1) = x
+        end do
+        do i = 1, ny
+            xy(i,:,2) = y
+        end do
+    end function
+
 end submodule

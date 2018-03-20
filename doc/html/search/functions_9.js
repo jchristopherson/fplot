@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['to_5fhex_5fstring',['to_hex_string',['../structfplot__core_1_1color.html#a42eb9db85bdfba9b95d4208a78a5c00e',1,'fplot_core::color']]]
+  ['y2a_5fget_5fid',['y2a_get_id',['../namespacefplot__core.html#a62c9f837dd159586219c04f07681224f',1,'fplot_core']]],
+  ['ya_5fget_5fid',['ya_get_id',['../namespacefplot__core.html#a5d91b63dd3d6b770639cfbf710a88f36',1,'fplot_core']]]
 ];
