@@ -3103,46 +3103,217 @@ module fplot_core
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The command string.
         procedure, public :: get_command_string => spd_get_cmd
         !> @brief Gets the width of the line, in pixels.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The line width.
         procedure, public :: get_line_width => spd_get_line_width
         !> @brief Sets the width of the line, in pixels.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The line width.
         procedure, public :: set_line_width => spd_set_line_width
         !> @brief Gets the line style.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The line style.  The line style must be one of the following:
+        !!  - LINE_DASHED
+        !!  - LINE_DASH_DOTTED
+        !!  - LINE_DASH_DOT_DOT
+        !!  - LINE_DOTTED
+        !!  - LINE_SOLID
         procedure, public :: get_line_style => spd_get_line_style
         !> @brief Sets the line style.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The line style.  The line style must be one of the
+        !!      following:
+        !!  - LINE_DASHED
+        !!  - LINE_DASH_DOTTED
+        !!  - LINE_DASH_DOT_DOT
+        !!  - LINE_DOTTED
+        !!  - LINE_SOLID
         procedure, public :: set_line_style => spd_set_line_style
         !> @brief Gets the line color.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The color.
         procedure, public :: get_line_color => spd_get_line_color
         !> @brief Sets the line color.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The color.
         procedure, public :: set_line_color => spd_set_line_color
         !> @brief Gets a value determining if a line should be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if the line should be drawn; else, false.
         procedure, public :: get_draw_line => spd_get_draw_line
         !> @brief Sets a value determining if a line should be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x Set to true if the line should be drawn; else, false.
         procedure, public :: set_draw_line => spd_set_draw_line
         !> @brief Gets a value determining if data point markers should be
         !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if the markers should be drawn; else, false.
         procedure, public :: get_draw_markers => spd_get_draw_markers
         !> @brief Sets a value determining if data point markers should be
         !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x Set to true if the markers should be drawn; else, false.
         procedure, public :: set_draw_markers => spd_set_draw_markers
         !> @brief Gets the marker style.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The marker type.  The marker type must be one of the following:
+        !!  - MARKER_ASTERISK
+        !!  - MARKER_EMPTY_CIRCLE
+        !!  - MARKER_EMPTY_NABLA
+        !!  - MARKER_EMPTY_RHOMBUS
+        !!  - MARKER_EMPTY_SQUARE
+        !!  - MARKER_EMPTY_TRIANGLE
+        !!  - MARKER_FILLED_CIRCLE
+        !!  - MARKER_FILLED_NABLA
+        !!  - MARKER_FILLED_RHOMBUS
+        !!  - MARKER_FILLED_SQUARE
+        !!  - MARKER_FILLED_TRIANGLE
+        !!  - MARKER_PLUS
+        !!  - MARKER_X
         procedure, public :: get_marker_style => spd_get_marker_style
         !> @brief Sets the marker style.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The marker type.  The marker type must be one of the
+        !!  following:
+        !!  - MARKER_ASTERISK
+        !!  - MARKER_EMPTY_CIRCLE
+        !!  - MARKER_EMPTY_NABLA
+        !!  - MARKER_EMPTY_RHOMBUS
+        !!  - MARKER_EMPTY_SQUARE
+        !!  - MARKER_EMPTY_TRIANGLE
+        !!  - MARKER_FILLED_CIRCLE
+        !!  - MARKER_FILLED_NABLA
+        !!  - MARKER_FILLED_RHOMBUS
+        !!  - MARKER_FILLED_SQUARE
+        !!  - MARKER_FILLED_TRIANGLE
+        !!  - MARKER_PLUS
+        !!  - MARKER_X
         procedure, public :: set_marker_style => spd_set_marker_style
         !> @brief Gets the marker scaling.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The scaling factor.
         procedure, public :: get_marker_scaling => spd_get_marker_scaling
         !> @brief Sets the marker scaling.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The scaling factor.
         procedure, public :: set_marker_scaling => spd_set_marker_scaling
         !> @brief Gets the marker frequency.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return The marker frequency.
         procedure, public :: get_marker_frequency => spd_get_marker_frequency
         !> @brief Sets the marker frequency.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The marker frequency.
         procedure, public :: set_marker_frequency => spd_set_marker_frequency
         !> @brief Gets a value determining if GNUPLOT should automatically
         !! choose line colors.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if GNUPLOT should choose colors; else, false.
         procedure, public :: get_use_auto_color => spd_get_use_auto_colors
         !> @brief Sets a value determining if GNUPLOT should automatically
         !! choose line colors.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x Set to true if GNUPLOT should choose colors; else, false.
         procedure, public :: set_use_auto_color => spd_set_use_auto_colors
         !> @brief Gets the number of data points.
         procedure(spd_get_int_value), deferred, public :: get_count
