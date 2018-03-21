@@ -3726,27 +3726,130 @@ module fplot_core
     contains
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return The command string.
         procedure, public :: get_axes_string => pd2d_get_axes_cmd
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return The command string.
         procedure, public :: get_data_string => pd2d_get_data_cmd
         !> @brief Gets the number of data points.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return The number of data points.
         procedure, public :: get_count => pd2d_get_data_count
         !> @brief Gets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @param[in] index The index of the data point to retrieve.
+        !! @return The requested data point.
         procedure, public :: get_x => pd2d_get_x_data
         !> @brief Sets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] index The index of the data point to replace.
+        !! @param[in] x The data point.
         procedure, public :: set_x => pd2d_set_x_data
         !> @brief Gets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @param[in] index The index of the data point to retrieve.
+        !! @return The requested data point.
         procedure, public :: get_y => pd2d_get_y_data
         !> @brief Sets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] index The index of the data point to replace.
+        !! @param[in] x The data point.
         procedure, public :: set_y => pd2d_set_y_data
         !> @brief Gets a value determining if the data should be plotted against
         !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return Returns true if the data should be plotted against the secondary
+        !!  y-axis; else, false to plot against the primary y-axis.
         procedure, public :: get_draw_against_y2 => pd2d_get_draw_against_y2
         !> @brief Sets a value determining if the data should be plotted against
         !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x Set to true if the data should be plotted against the
+        !!  secondary y-axis; else, false to plot against the primary y-axis.
         procedure, public :: set_draw_against_y2 => pd2d_set_draw_against_y2
         !> @brief Defines the data set.
+        !!
+        !! @par Overload 1
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+        !!      same size.
+        !!
+        !! @par Overload 2
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] y An N-element array containing the y-coordinate data.  This
+        !!  data will be plotted against its own index.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
