@@ -3412,6 +3412,23 @@ module fplot_core
         !!  - MARKER_FILLED_TRIANGLE
         !!  - MARKER_PLUS
         !!  - MARKER_X
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     integer(int32) :: marker
+        !!
+        !!     ! Get the data point marker style
+        !!     marker = pd%get_marker_style()
+        !! end program
+        !! @endcode
         procedure, public :: get_marker_style => spd_get_marker_style
         !> @brief Sets the marker style.
         !!
@@ -3436,6 +3453,22 @@ module fplot_core
         !!  - MARKER_FILLED_TRIANGLE
         !!  - MARKER_PLUS
         !!  - MARKER_X
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the data point marker style to a plus (+) sign
+        !!     call pd%set_marker_style(MARKER_PLUS)
+        !! end program
+        !! @endcode
         procedure, public :: set_marker_style => spd_set_marker_style
         !> @brief Gets the marker scaling.
         !!
@@ -3446,6 +3479,23 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The scaling factor.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real32) :: scaling
+        !!
+        !!     ! Get the data point marker scaling factor
+        !!     scaling = pd%get_marker_scaling()
+        !! end program
+        !! @endcode
         procedure, public :: get_marker_scaling => spd_get_marker_scaling
         !> @brief Sets the marker scaling.
         !!
@@ -3456,6 +3506,23 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The scaling factor.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the data point marker scaling factor such that the marker
+        !!     ! is scaled by a factor of 2
+        !!     call pd%set_marker_scaling(2.0)
+        !! end program
+        !! @endcode
         procedure, public :: set_marker_scaling => spd_set_marker_scaling
         !> @brief Gets the marker frequency.
         !!
@@ -3466,6 +3533,23 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The marker frequency.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     integer(int32) :: freq
+        !!
+        !!     ! Get the data point marker frequency
+        !!     freq = pd%get_marker_frequency()
+        !! end program
+        !! @endcode
         procedure, public :: get_marker_frequency => spd_get_marker_frequency
         !> @brief Sets the marker frequency.
         !!
@@ -3476,6 +3560,23 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The marker frequency.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real32) :: scaling
+        !!
+        !!     ! Set a data point marker every second data point
+        !!     call pd%set_marker_frequency(2)
+        !! end program
+        !! @endcode
         procedure, public :: set_marker_frequency => spd_set_marker_frequency
         !> @brief Gets a value determining if GNUPLOT should automatically
         !! choose line colors.
