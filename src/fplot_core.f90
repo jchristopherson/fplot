@@ -3106,6 +3106,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3115,24 +3116,60 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real32) function get_line_width(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The line width.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real32) :: width
+        !!
+        !!     ! Get the line width
+        !!     width = pd%get_line_width()
+        !! end program
+        !! @endcode
         procedure, public :: get_line_width => spd_get_line_width
         !> @brief Sets the width of the line, in pixels.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_line_width(class(scatter_plot_data) this, real(real32) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The line width.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the line width
+        !!     call pd%set_line_width(2.0)
+        !! end program
+        !! @endcode
         procedure, public :: set_line_width => spd_set_line_width
         !> @brief Gets the line style.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_line_style(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3142,11 +3179,29 @@ module fplot_core
         !!  - LINE_DASH_DOT_DOT
         !!  - LINE_DOTTED
         !!  - LINE_SOLID
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     integer(int32) :: style
+        !!
+        !!     ! Get the line style
+        !!     style = pd%get_line_style()
+        !! end program
+        !! @endcode
         procedure, public :: get_line_style => spd_get_line_style
         !> @brief Sets the line style.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_line_style(class(scatter_plot_data) this, integer(int32) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
@@ -3157,67 +3212,189 @@ module fplot_core
         !!  - LINE_DASH_DOT_DOT
         !!  - LINE_DOTTED
         !!  - LINE_SOLID
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the line style
+        !!     call pd%get_line_style(LINE_DASHED)
+        !! end program
+        !! @endcode
         procedure, public :: set_line_style => spd_set_line_style
         !> @brief Gets the line color.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure type(color) function get_line_color(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The color.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     type(color) :: clr
+        !!
+        !!     ! Get the line color
+        !!     clr = pd%get_line_color()
+        !! end program
+        !! @endcode
         procedure, public :: get_line_color => spd_get_line_color
         !> @brief Sets the line color.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_line_color(class(scatter_plot_data) this, type(color) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The color.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the line color to red
+        !!     call pd%set_line_color(CLR_RED)
+        !! end program
+        !! @endcode
         procedure, public :: set_line_color => spd_set_line_color
         !> @brief Gets a value determining if a line should be drawn.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_draw_line(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if the line should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: check
+        !!
+        !!     ! Check to see if a line should be drawn to connect data points
+        !!     check = pd%get_draw_line()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_line => spd_get_draw_line
         !> @brief Sets a value determining if a line should be drawn.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_draw_line(class(scatter_plot_data) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x Set to true if the line should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Force a line to be drawn between data points
+        !!     call pd%set_draw_line(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_draw_line => spd_set_draw_line
         !> @brief Gets a value determining if data point markers should be
         !! drawn.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_draw_markers(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if the markers should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: check
+        !!
+        !!     ! Check to see if markers should be drawn at data points
+        !!     check = pd%get_draw_markers()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_markers => spd_get_draw_markers
         !> @brief Sets a value determining if data point markers should be
         !! drawn.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_draw_markers(class(scatter_plot_data) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x Set to true if the markers should be drawn; else, false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this 
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Force markers to be drawn at data points
+        !!     call pd%set_draw_markers(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_draw_markers => spd_set_draw_markers
         !> @brief Gets the marker style.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_marker_style(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3240,6 +3417,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_marker_style(class(scatter_plot_data) this, integer(int32) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
@@ -3263,6 +3441,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real32) function get_marker_scaling(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3272,6 +3451,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_marker_scaling(class(scatter_plot_data) this, real(real32) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
@@ -3281,6 +3461,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_marker_frequency(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3290,6 +3471,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_marker_frequency(class(scatter_plot_data) this, integer(int32) x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
@@ -3300,6 +3482,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_use_auto_color(class(scatter_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The scatter_plot_data object.
@@ -3310,6 +3493,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_use_auto_color(class(scatter_plot_data) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The scatter_plot_data object.
