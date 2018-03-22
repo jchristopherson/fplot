@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"structfplot__core_1_1scatter__plot__data.html#a6d02447a78931bf846eef29018d364e7":[1,0,0,21,2],
+"structfplot__core_1_1scatter__plot__data.html#a79d04bb2dc3af0d7ac74f32fde6c47cd":[1,0,0,21,27],
 "structfplot__core_1_1scatter__plot__data.html#a8762c35871bb7b351008e7d651b976ab":[1,0,0,21,22],
 "structfplot__core_1_1scatter__plot__data.html#a88e31996110f9d28bdaa88fee9814864":[1,0,0,21,11],
 "structfplot__core_1_1scatter__plot__data.html#a952c65fad1f284163bbb0a23342db0b7":[1,0,0,21,15],

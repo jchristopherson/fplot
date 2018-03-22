@@ -3729,6 +3729,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_axis_string(class(plot_data_2d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
@@ -3739,6 +3740,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(plot_data_2d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
@@ -3748,72 +3750,227 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) get_count(class(plot_data_2d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return The number of data points.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     integer(int32) :: n
+        !!
+        !!     ! Get the number of stored data points
+        !!     n = pd%get_count() 
+        !! end program
+        !! @endcode
         procedure, public :: get_count => pd2d_get_data_count
         !> @brief Gets the requested X data point.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) get_x(class(plot_data_2d) this, integer(int32) index)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64) :: x
+        !!
+        !!     ! Get the x data point at the 100th index
+        !!     x = pd%get_x(100) 
+        !! end program
+        !! @endcode
         procedure, public :: get_x => pd2d_get_x_data
         !> @brief Sets the requested X data point.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_x(class(plot_data_2d) this, integer(int32) index, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the x data point at the 100th index
+        !!     call pd%set_x(100, 1.25d0) 
+        !! end program
+        !! @endcode
         procedure, public :: set_x => pd2d_set_x_data
         !> @brief Gets the requested Y data point.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) get_y(class(plot_data_2d) this, integer(int32) index)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64) :: y
+        !!
+        !!     ! Get the y data point at the 100th index
+        !!     y = pd%get_y(100) 
+        !! end program
+        !! @endcode
         procedure, public :: get_y => pd2d_get_y_data
         !> @brief Sets the requested Y data point.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_y(class(plot_data_2d) this, integer(int32) index, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Set the y data point at the 100th index
+        !!     call pd%set_y(100, 1.25d0) 
+        !! end program
+        !! @endcode
         procedure, public :: set_y => pd2d_set_y_data
         !> @brief Gets a value determining if the data should be plotted against
         !! the secondary y-axis.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_draw_against_y2(class(plot_data_2d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return Returns true if the data should be plotted against the secondary
         !!  y-axis; else, false to plot against the primary y-axis.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: check
+        !!
+        !!     ! Determine if this data set is plotted against the secondary
+        !!     ! y axis.
+        !!     check = pd%get_draw_against_y2()
+        !! end program
+        !! @endcode
         procedure, public :: get_draw_against_y2 => pd2d_get_draw_against_y2
         !> @brief Sets a value determining if the data should be plotted against
         !! the secondary y-axis.
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_draw_against_y2(class(plot_data_2d) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] x Set to true if the data should be plotted against the
         !!  secondary y-axis; else, false to plot against the primary y-axis.
+        !!
+        !! @par Example
+        !! This example illustrates the use of a secondary y axis.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y1, y2
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: ds1, ds2
+        !!     class(plot_axis), pointer :: xAxis, yAxis, y2Axis
+        !!
+        !!     ! Build a data set
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y1 = exp(-0.5d0 * x) * abs(sin(x))
+        !!     y2 = cos(0.5d0 * x) * sin(10.0d0 * x)
+        !!
+        !!     call ds1%define_data(x, y1)
+        !!     call ds1%set_name("f(x) = exp(-x / 2) * |sin(x)|")
+        !!
+        !!     call ds2%define_data(x, y2)
+        !!     call ds2%set_name("f(x) = cos(x / 2) * sin(10 x)")
+        !!
+        !!     ! Make the ds2 line green and dashed
+        !!     call ds2%set_line_color(CLR_GREEN)
+        !!     call ds2%set_line_style(LINE_DASHED)
+        !!   
+        !!     ! Draw ds2 against the secondary y axis
+        !!     call ds2%set_draw_against_y2(.true.)
+        !!
+        !!     ! Ensure the plot knows it needs a secondary y axis
+        !!     call plt%set_use_y2_axis(.true.)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     y2Axis => plt%get_y2_axis()
+        !!     call y2Axis%set_title("Secondary Y Axis")
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(ds1)
+        !!     call plt%push(ds2)
+        !!
+        !!     ! Draw
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_draw_against_y2 => pd2d_set_draw_against_y2
         !> @brief Defines the data set.
         !!
@@ -3821,6 +3978,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
@@ -3835,10 +3993,58 @@ module fplot_core
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
         !!      same size.
         !!
+        !! @par Example
+        !! The following example illustrates the use of the first overload.  
+        !! This form of the routine simply plots the supplied y coordinate
+        !! data against the supplied x coordinate data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: dataset
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Build a data set
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
+        !!
+        !!     call dataset%define_data(x, y)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Hide the legend
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(dataset)
+        !!
+        !!     ! Draw
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_2d_1.png
+        !!
         !! @par Overload 2
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) y(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
@@ -3850,6 +4056,53 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of the second overload.  
+        !! This form of the routine simply plots the data against its array 
+        !! index (one-based).
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: dataset
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Build a data set
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
+        !!
+        !!     call dataset%define_data(y)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Hide the legend
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(dataset)
+        !!
+        !!     ! Draw
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_2d_2.png
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2

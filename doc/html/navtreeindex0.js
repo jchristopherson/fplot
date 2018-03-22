@@ -14,11 +14,13 @@ var NAVTREEINDEX0 =
 "fplot__plot_8f90_source.html":[2,0,0,7],
 "fplot__plot__axis_8f90_source.html":[2,0,0,8],
 "fplot__plot__data_8f90_source.html":[2,0,0,9],
-"fplot__png__terminal_8f90_source.html":[2,0,0,10],
-"fplot__qt__terminal_8f90_source.html":[2,0,0,11],
-"fplot__terminal_8f90_source.html":[2,0,0,12],
-"fplot__windows__terminal_8f90_source.html":[2,0,0,13],
-"fplot__wxt__terminal_8f90_source.html":[2,0,0,14],
+"fplot__plot__data__2d_8f90_source.html":[2,0,0,10],
+"fplot__png__terminal_8f90_source.html":[2,0,0,11],
+"fplot__qt__terminal_8f90_source.html":[2,0,0,12],
+"fplot__scatter__plot__data_8f90_source.html":[2,0,0,13],
+"fplot__terminal_8f90_source.html":[2,0,0,14],
+"fplot__windows__terminal_8f90_source.html":[2,0,0,15],
+"fplot__wxt__terminal_8f90_source.html":[2,0,0,16],
 "functions.html":[1,3,0],
 "functions.html":[1,3,0,0],
 "functions_c.html":[1,3,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "structfplot__core_1_1scatter__plot__data.html#a56221fa96775c49c4b6249d353fd1900":[1,0,0,21,20],
 "structfplot__core_1_1scatter__plot__data.html#a5cf90a01f00ed353e00df87c099999ce":[1,0,0,21,32],
 "structfplot__core_1_1scatter__plot__data.html#a5f0a764e897869a8b40e5572cf643eff":[1,0,0,21,29],
-"structfplot__core_1_1scatter__plot__data.html#a649b045c1555fa8eaa6fb0c7449a5554":[1,0,0,21,0],
-"structfplot__core_1_1scatter__plot__data.html#a6d02447a78931bf846eef29018d364e7":[1,0,0,21,2],
-"structfplot__core_1_1scatter__plot__data.html#a79d04bb2dc3af0d7ac74f32fde6c47cd":[1,0,0,21,27]
+"structfplot__core_1_1scatter__plot__data.html#a649b045c1555fa8eaa6fb0c7449a5554":[1,0,0,21,0]
 };
