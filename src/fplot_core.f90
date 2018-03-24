@@ -4182,26 +4182,112 @@ module fplot_core
         real(real64), allocatable, dimension(:,:) :: m_data
     contains
         !> @brief Gets the number of data points.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return The number of data points.
         procedure, public :: get_count => pd3d_get_data_count
         !> @brief Gets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to retrieve.
+        !! @return The requested data point.
         procedure, public :: get_x => pd3d_get_x_data
         !> @brief Sets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to replace.
+        !! @param[in] x The data point.
         procedure, public :: set_x => pd3d_set_x_data
         !> @brief Gets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to retrieve.
+        !! @return The requested data point.
         procedure, public :: get_y => pd3d_get_y_data
         !> @brief Sets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to replace.
+        !! @param[in] x The data point.
         procedure, public :: set_y => pd3d_set_y_data
         !> @brief Gets the requested Z data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to retrieve.
+        !! @return The requested data point.
         procedure, public :: get_z => pd3d_get_z_data
         !> @brief Sets the requested Z data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_3d object.
+        !! @param[in] index The index of the data point to replace.
+        !! @param[in] x The data point.
         procedure, public :: set_z => pd3d_set_z_data
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return The command string.
         procedure, public :: get_axes_string => pd3d_get_axes_cmd
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return The command string.
         procedure, public :: get_data_string => pd3d_get_data_cmd
         !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[in] z An N-element array containing the z coordinate data.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
+        !!      not the same size.
         procedure, public :: define_data => pd3d_set_data_1
     end type
 
