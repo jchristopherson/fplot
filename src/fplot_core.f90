@@ -4185,6 +4185,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_count(class(plot_data_3d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4194,6 +4195,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_x(class(plot_data_3d), this, integer(int32) index)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4204,6 +4206,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_x(class(plot_data_3d) this, integer(int32) index, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_3d object.
@@ -4214,6 +4217,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_y(class(plot_data_3d) this, this, integer(int32) index)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4224,6 +4228,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_y(class(plot_data_3d) this, integer(int32) index, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_3d object.
@@ -4234,6 +4239,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_z(class(plot_data_3d) this, this, integer(int32) index)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4244,6 +4250,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_z(class(plot_data_3d) this, integer(int32) index, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_3d object.
@@ -4255,6 +4262,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable :: get_axes_string(class(plot_data_3d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4265,6 +4273,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable :: get_data_string(class(plot_data_3d) this)
         !! @endcode
         !!
         !! @param[in] this The plot_data_3d object.
@@ -4274,6 +4283,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine define_data(class(plot_data_3d) this, real(real64) x(:), real(real64) y(:), real(real64) z(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
