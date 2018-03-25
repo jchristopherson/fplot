@@ -4536,32 +4536,142 @@ module fplot_core
         logical :: m_wireframe = .false.
     contains
         !> @brief Gets the size of the stored data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The suface_plot_data object.
+        !! @param[in] dim The dimension of interest.  Notice, data is stored as a
+        !!  2D matrix (i.e. only 1 and 2 are valid inputs).
+        !! @return The size of the requested dimension.
         procedure, public :: get_size => surfd_get_size
         !> @brief Gets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @return The value.
         procedure, public :: get_x => surfd_get_x
         !> @brief Sets the requested X data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @param[in] x The value.
         procedure, public :: set_x => surfd_set_x
         !> @brief Gets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @return The value.
         procedure, public :: get_y => surfd_get_y
         !> @brief Sets the requested Y data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @param[in] x The value.
         procedure, public :: set_y => surfd_set_y
         !> @brief Gets the requested Z data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @return The value.
         procedure, public :: get_z => surfd_get_z
         !> @brief Sets the requested Z data point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The surface_plot_data object.
+        !! @param[in] i The row index.
+        !! @param[in] j The column index.
+        !! @param[in] x The value.
         procedure, public :: set_z => surfd_set_z
         !> @brief Gets a value determining if a wireframe mesh should be 
         !! displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @return Returns true if a wireframe mesh should be displayed; else, false
+        !!  to display a solid surface.
         procedure, public :: get_use_wireframe => surfd_get_wireframe
         !> @brief Sets a value determining if a wireframe mesh should be 
         !! displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The surface_plot_data object.
+        !! @param[in] x Set to true if a wireframe mesh should be displayed; else, 
+        !!  false to display a solid surface.
         procedure, public :: set_use_wireframe => surfd_set_wireframe
         !> @brief Gets the GNUPLOT command string to represent this
         !! surface_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @return The command string.
         procedure, public :: get_command_string => surfd_get_cmd
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot_data object.
+        !! @return The GNUPLOT command string.
         procedure, public :: get_data_string => surfd_get_data_cmd
         !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x An M-by-N matrix containing the x-coordinate data.
+        !! @param[in] y An M-by-N matrix containing the y-coordinate data.
+        !! @param[in] z An M-by-N matrix containing the z-coordinate data.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
+        !!      not the same size.
         procedure, public :: define_data => surfd_set_data_1
     end type
 

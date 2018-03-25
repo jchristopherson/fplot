@@ -3,12 +3,6 @@
 submodule (fplot_core) fplot_surface_plot_data
 contains
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the size of the stored data set.
-    !!
-    !! @param[in] this The suface_plot_data object.
-    !! @param[in] dim The dimension of interest.  Notice, data is stored as a
-    !!  2D matrix (i.e. only 1 and 2 are valid inputs).
-    !! @return The size of the requested dimension.
     pure module function surfd_get_size(this, dim) result(x)
         class(surface_plot_data), intent(in) :: this
         integer(int32), intent(in) :: dim
@@ -21,12 +15,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the requested X data point.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @return The value.
     pure module function surfd_get_x(this, i, j) result(x)
         class(surface_plot_data), intent(in) :: this
         integer(int32), intent(in) :: i, j
@@ -39,12 +27,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the requested X data point.
-    !!
-    !! @param[in,out] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @param[in] x The value.
     module subroutine surfd_set_x(this, i, j, x)
         class(surface_plot_data), intent(inout) :: this
         integer(int32), intent(in) :: i, j
@@ -55,12 +37,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the requested Y data point.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @return The value.
     pure module function surfd_get_y(this, i, j) result(x)
         class(surface_plot_data), intent(in) :: this
         integer(int32), intent(in) :: i, j
@@ -73,12 +49,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the requested Y data point.
-    !!
-    !! @param[in,out] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @param[in] x The value.
     module subroutine surfd_set_y(this, i, j, x)
         class(surface_plot_data), intent(inout) :: this
         integer(int32), intent(in) :: i, j
@@ -89,12 +59,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the requested Z data point.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @return The value.
     pure module function surfd_get_z(this, i, j) result(x)
         class(surface_plot_data), intent(in) :: this
         integer(int32), intent(in) :: i, j
@@ -107,12 +71,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the requested Z data point.
-    !!
-    !! @param[in,out] this The surface_plot_data object.
-    !! @param[in] i The row index.
-    !! @param[in] j The column index.
-    !! @param[in] x The value.
     module subroutine surfd_set_z(this, i, j, x)
         class(surface_plot_data), intent(inout) :: this
         integer(int32), intent(in) :: i, j
@@ -123,11 +81,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if a wireframe mesh should be displayed.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @return Returns true if a wireframe mesh should be displayed; else, false
-    !!  to display a solid surface.
     pure module function surfd_get_wireframe(this) result(x)
         class(surface_plot_data), intent(in) :: this
         logical :: x
@@ -135,11 +88,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a value determining if a wireframe mesh should be displayed.
-    !!
-    !! @param[in,out] this The surface_plot_data object.
-    !! @param[in] x Set to true if a wireframe mesh should be displayed; else, 
-    !!  false to display a solid surface.
     module subroutine surfd_set_wireframe(this, x)
         class(surface_plot_data), intent(inout) :: this
         logical, intent(in) :: x
@@ -147,11 +95,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this
-    !! surface_plot_data object.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @return The command string.
     module function surfd_get_cmd(this) result(x)
         ! Arguments
         class(surface_plot_data), intent(in) :: this
@@ -186,11 +129,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string containing the actual data
-    !! to plot.
-    !!
-    !! @param[in] this The surface_plot_data object.
-    !! @return The GNUPLOT command string.
     module function surfd_get_data_cmd(this) result(x)
         ! Arguments
         class(surface_plot_data), intent(in) :: this
@@ -226,20 +164,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Defines the data set.
-    !!
-    !! @param[in,out] this The plot_data_2d object.
-    !! @param[in] x An M-by-N matrix containing the x-coordinate data.
-    !! @param[in] y An M-by-N matrix containing the y-coordinate data.
-    !! @param[in] z An M-by-N matrix containing the z-coordinate data.
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
-    !!      not the same size.
     module subroutine surfd_set_data_1(this, x, y, z, err)
         ! Arguments
         class(surface_plot_data), intent(inout) :: this
