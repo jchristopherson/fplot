@@ -4190,6 +4190,21 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return The number of data points.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     integer(int32) :: n
+        !!
+        !!     ! Get the number of stored data points
+        !!     n = pd%get_count() 
+        !! end program
+        !! @endcode
         procedure, public :: get_count => pd3d_get_data_count
         !> @brief Gets the requested X data point.
         !!
@@ -4201,6 +4216,21 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     real(real64) :: x
+        !!
+        !!     ! Get the 10th value from the x-coordinate data
+        !!     x = pd%get_x(10) 
+        !! end program
+        !! @endcode
         procedure, public :: get_x => pd3d_get_x_data
         !> @brief Sets the requested X data point.
         !!
@@ -4212,6 +4242,20 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!
+        !!     ! Set the 10th value in the x-coordinate data
+        !!     call pd%set_x(10, 50.0d0) 
+        !! end program
+        !! @endcode
         procedure, public :: set_x => pd3d_set_x_data
         !> @brief Gets the requested Y data point.
         !!
@@ -4223,6 +4267,21 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     real(real64) :: y
+        !!
+        !!     ! Get the 10th value from the y-coordinate data
+        !!     y = pd%get_y(10) 
+        !! end program
+        !! @endcode
         procedure, public :: get_y => pd3d_get_y_data
         !> @brief Sets the requested Y data point.
         !!
@@ -4234,6 +4293,20 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!
+        !!     ! Set the 10th value in the y-coordinate data
+        !!     call pd%set_y(10, 50.0d0) 
+        !! end program
+        !! @endcode
         procedure, public :: set_y => pd3d_set_y_data
         !> @brief Gets the requested Z data point.
         !!
@@ -4245,6 +4318,21 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     real(real64) :: z
+        !!
+        !!     ! Get the 10th value from the z-coordinate data
+        !!     z = pd%get_z(10) 
+        !! end program
+        !! @endcode
         procedure, public :: get_z => pd3d_get_z_data
         !> @brief Sets the requested Z data point.
         !!
@@ -4256,6 +4344,20 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!
+        !!     ! Set the 10th value in the z-coordinate data
+        !!     call pd%set_z(10, 50.0d0) 
+        !! end program
+        !! @endcode
         procedure, public :: set_z => pd3d_set_z_data
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
@@ -4298,6 +4400,62 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
         !!      not the same size.
+        !!
+        !! @par Example
+        !! The following example adds data to draw a helix to a 3D plot.
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 1000
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: t, x, y, z
+        !!     type(plot_3d) :: plt
+        !!     type(plot_data_3d) :: d1
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Initialize the plot object
+        !!     call plt%initialize()
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data
+        !!     t = linspace(0.0d0, 10.0d0, n)
+        !!     x = cos(5.0d0 * t)
+        !!     y = sin(5.0d0 * t)
+        !!     z = 2.0d0 * t
+        !!
+        !!     call d1%define_data(x, y, z)
+        !!
+        !!     ! Set up the data set
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!     call d1%set_line_width(2.0)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_3d_1.png
         procedure, public :: define_data => pd3d_set_data_1
     end type
 
