@@ -57,17 +57,5 @@ var searchData=
   ['surf_5fset_5fshow_5fcolorbar',['surf_set_show_colorbar',['../namespacefplot__core.html#ac08ab247d59e9ebfa7de5c3bdc3b7e38',1,'fplot_core']]],
   ['surf_5fset_5fshow_5fcontours',['surf_set_show_contours',['../namespacefplot__core.html#abb5662841a488c19992728e8f7a96ff0',1,'fplot_core']]],
   ['surf_5fset_5fshow_5fhidden',['surf_set_show_hidden',['../namespacefplot__core.html#af81101720d86f7d5bf5ec97a2aded40b',1,'fplot_core']]],
-  ['surf_5fset_5fsmooth',['surf_set_smooth',['../namespacefplot__core.html#a87a227f5c2310f11bc536c10a16a565b',1,'fplot_core']]],
-  ['surfd_5fget_5fcmd',['surfd_get_cmd',['../namespacefplot__core.html#ab6544389d605c3ae5c21da82a2ab8258',1,'fplot_core']]],
-  ['surfd_5fget_5fdata_5fcmd',['surfd_get_data_cmd',['../namespacefplot__core.html#a43fdd2c35426831d5c2cd2477ee97074',1,'fplot_core']]],
-  ['surfd_5fget_5fsize',['surfd_get_size',['../namespacefplot__core.html#a6dce9bb829c24c626e21d0a280787fce',1,'fplot_core']]],
-  ['surfd_5fget_5fwireframe',['surfd_get_wireframe',['../namespacefplot__core.html#a016d241e3a57d90668a93622c77e0c17',1,'fplot_core']]],
-  ['surfd_5fget_5fx',['surfd_get_x',['../namespacefplot__core.html#a655415b24c2d96d918372049366c277d',1,'fplot_core']]],
-  ['surfd_5fget_5fy',['surfd_get_y',['../namespacefplot__core.html#a6d42440ec755f299557596fb62ab427a',1,'fplot_core']]],
-  ['surfd_5fget_5fz',['surfd_get_z',['../namespacefplot__core.html#af3e5b695a16e97603f13c016521db64f',1,'fplot_core']]],
-  ['surfd_5fset_5fdata_5f1',['surfd_set_data_1',['../namespacefplot__core.html#a6fe9e24e802e09cd1a5ea17c65739207',1,'fplot_core']]],
-  ['surfd_5fset_5fwireframe',['surfd_set_wireframe',['../namespacefplot__core.html#aef454bc2c3c906135b803ea76e83a588',1,'fplot_core']]],
-  ['surfd_5fset_5fx',['surfd_set_x',['../namespacefplot__core.html#a102582983b2722f48254454e74c3b3ba',1,'fplot_core']]],
-  ['surfd_5fset_5fy',['surfd_set_y',['../namespacefplot__core.html#a052f19a1df6b9306707c381114516e8f',1,'fplot_core']]],
-  ['surfd_5fset_5fz',['surfd_set_z',['../namespacefplot__core.html#a149d37bf79ff36a275e7f759690c5816',1,'fplot_core']]]
+  ['surf_5fset_5fsmooth',['surf_set_smooth',['../namespacefplot__core.html#a87a227f5c2310f11bc536c10a16a565b',1,'fplot_core']]]
 ];

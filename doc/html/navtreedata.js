@@ -51,7 +51,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structfplot__core_1_1scatter__plot__data.html#a6d02447a78931bf846eef29018d364e7"
+"structfplot__core_1_1scatter__plot__data.html#a5f0a764e897869a8b40e5572cf643eff"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

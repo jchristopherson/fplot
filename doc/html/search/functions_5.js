@@ -20,16 +20,6 @@ var searchData=
   ['p3d_5fset_5fazimuth',['p3d_set_azimuth',['../namespacefplot__core.html#aff9369292988c557aadeeb311dc67401',1,'fplot_core']]],
   ['p3d_5fset_5felevation',['p3d_set_elevation',['../namespacefplot__core.html#a9a8919dd9856930c676ae96e4d29fd39',1,'fplot_core']]],
   ['p3d_5fset_5fz_5faxis_5fintersect',['p3d_set_z_axis_intersect',['../namespacefplot__core.html#acf1adc6133538b12f17c5641463091c3',1,'fplot_core']]],
-  ['pd3d_5fget_5faxes_5fcmd',['pd3d_get_axes_cmd',['../namespacefplot__core.html#a68af5bbe6046c1cc490390c5210327a4',1,'fplot_core']]],
-  ['pd3d_5fget_5fdata_5fcmd',['pd3d_get_data_cmd',['../namespacefplot__core.html#a2f2f3f5a9c941c91b7799a92067ef533',1,'fplot_core']]],
-  ['pd3d_5fget_5fdata_5fcount',['pd3d_get_data_count',['../namespacefplot__core.html#ab8c4112fc0959b8882926bfa3977bac0',1,'fplot_core']]],
-  ['pd3d_5fget_5fx_5fdata',['pd3d_get_x_data',['../namespacefplot__core.html#a30fcada63ef21f468eb3de63318f09c5',1,'fplot_core']]],
-  ['pd3d_5fget_5fy_5fdata',['pd3d_get_y_data',['../namespacefplot__core.html#a4d82e69655a683d992a4becc69c79ff0',1,'fplot_core']]],
-  ['pd3d_5fget_5fz_5fdata',['pd3d_get_z_data',['../namespacefplot__core.html#a96a8b8f4436fa588051b5a87f80f8a99',1,'fplot_core']]],
-  ['pd3d_5fset_5fdata_5f1',['pd3d_set_data_1',['../namespacefplot__core.html#a15181f8ac113dfc8c142c9cfe1003d6b',1,'fplot_core']]],
-  ['pd3d_5fset_5fx_5fdata',['pd3d_set_x_data',['../namespacefplot__core.html#a7f6d8c9947f2f6742d300e8c05718323',1,'fplot_core']]],
-  ['pd3d_5fset_5fy_5fdata',['pd3d_set_y_data',['../namespacefplot__core.html#ab2c679f0b87f7099ad2a68865c7a1064',1,'fplot_core']]],
-  ['pd3d_5fset_5fz_5fdata',['pd3d_set_z_data',['../namespacefplot__core.html#a532b8612e59b625a1f948b80d51ce18b',1,'fplot_core']]],
   ['pop',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
   ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]]
 ];
