@@ -19,6 +19,7 @@ set(fplot_sources
     fplot_plot_data_2d.f90
     fplot_plot_data_3d.f90
     fplot_surface_plot_data.f90
+    fplot_plot_2d.f90
     ${strings_Sources}
 )
 
