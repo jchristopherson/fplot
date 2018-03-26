@@ -3,9 +3,6 @@
 submodule (fplot_core) fplot_plot_2d
 contains
 ! ------------------------------------------------------------------------------
-    !> @brief Cleans up resources held by the plot_2d object.
-    !!
-    !! @param[in,out] this The plot_2d object.
     module subroutine p2d_clean_up(this)
         type(plot_2d), intent(inout) :: this
         call this%free_resources()
@@ -24,22 +21,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Initializes the plot_2d object.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @param[in] term An optional input that is used to define the terminal.
-    !!  The default terminal is a WXT terminal.  The acceptable inputs are:
-    !!  - GNUPLOT_TERMINAL_PNG
-    !!  - GNUPLOT_TERMINAL_QT
-    !!  - GNUPLOT_TERMINAL_WIN32
-    !!  - GNUPLOT_TERMINAL_WXT
-    !!  - GNUPLOT_TERMINAL_LATEX
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
     module subroutine p2d_init(this, term, err)
         ! Arguments
         class(plot_2d), intent(inout) :: this
@@ -83,11 +64,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this plot_2d
-    !! object.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return The command string.
     module function p2d_get_cmd(this) result(x)
         ! Arguments
         class(plot_2d), intent(in) :: this
@@ -220,10 +196,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the x-axis object.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return A pointer to the x-axis object.
     module function p2d_get_x_axis(this) result(ptr)
         class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -231,10 +203,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the y-axis object.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return A pointer to the y-axis object.
     module function p2d_get_y_axis(this) result(ptr)
         class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -242,10 +210,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the secondary y-axis object.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return A pointer to the secondary y-axis object.
     module function p2d_get_y2_axis(this) result(ptr)
         class(plot_2d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -253,11 +217,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a flag determining if the secondary y-axis should be
-    !! displayed.
-    !!
-    !! @param[in] this The plot_2d object.
-    !! @return Returns true if the axis should be displayed; else, false.
     pure module function p2d_get_use_y2(this) result(x)
         class(plot_2d), intent(in) :: this
         logical :: x
@@ -265,11 +224,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a flag determining if the secondary y-axis should be
-    !! displayed.
-    !!
-    !! @param[in,out] this The plot_2d object.
-    !! @param[in] x Set to true if the axis should be displayed; else, false.
     module subroutine p2d_set_use_y2(this, x)
         class(plot_2d), intent(inout) :: this
         logical, intent(in) :: x

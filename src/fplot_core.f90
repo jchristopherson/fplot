@@ -5086,23 +5086,216 @@ module fplot_core
         logical :: m_useY2 = .false.
     contains
         !> @brief Cleans up resources held by the plot_2d object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine p2d_clean_up(type(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_2d object.
         final :: p2d_clean_up
         !> @brief Initializes the plot_2d object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(plot_2d) this, optional integer(int32) term, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! See png_terminal for an example.
         procedure, public :: initialize => p2d_init
         !> @brief Gets the GNUPLOT command string to represent this plot_2d
         !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return The command string.
         procedure, public :: get_command_string => p2d_get_cmd
         !> @brief Gets the x-axis object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_x_axis(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return A pointer to the x-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => get_x_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_x_axis => p2d_get_x_axis
         !> @brief Gets the y-axis object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_y_axis(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return A pointer to the y-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => get_y_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_y_axis => p2d_get_y_axis
         !> @brief Gets the secondary y-axis object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_y2_axis(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return A pointer to the secondary y-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => get_y2_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_y2_axis => p2d_get_y2_axis
         !> @brief Gets a flag determining if the secondary y-axis should be
         !! displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_y2_axis(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return Returns true if the axis should be displayed; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Determine if a secondary y axis is in use
+        !!     check = plt%get_use_y2_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_use_y2_axis => p2d_get_use_y2
         !> @brief Sets a flag determining if the secondary y-axis should be
         !! displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_y2_axis(class(plot_2d) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_2d object.
+        !! @param[in] x Set to true if the axis should be displayed; else, false.
+        !!
+        !! @par Example
+        !! This example illustrates the use of a secondary y axis.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y1, y2
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: ds1, ds2
+        !!     class(plot_axis), pointer :: xAxis, yAxis, y2Axis
+        !!
+        !!     ! Build a data set
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y1 = exp(-0.5d0 * x) * abs(sin(x))
+        !!     y2 = cos(0.5d0 * x) * sin(10.0d0 * x)
+        !!
+        !!     call ds1%define_data(x, y1)
+        !!     call ds1%set_name("f(x) = exp(-x / 2) * |sin(x)|")
+        !!
+        !!     call ds2%define_data(x, y2)
+        !!     call ds2%set_name("f(x) = cos(x / 2) * sin(10 x)")
+        !!
+        !!     ! Make the ds2 line green and dashed
+        !!     call ds2%set_line_color(CLR_GREEN)
+        !!     call ds2%set_line_style(LINE_DASHED)
+        !!   
+        !!     ! Draw ds2 against the secondary y axis
+        !!     call ds2%set_draw_against_y2(.true.)
+        !!
+        !!     ! Ensure the plot knows it needs a secondary y axis
+        !!     call plt%set_use_y2_axis(.true.)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     y2Axis => plt%get_y2_axis()
+        !!     call y2Axis%set_title("Secondary Y Axis")
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(ds1)
+        !!     call plt%push(ds2)
+        !!
+        !!     ! Draw
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
     end type
 
