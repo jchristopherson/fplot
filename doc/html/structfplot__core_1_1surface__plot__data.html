@@ -224,7 +224,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04806">4806</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04929">4929</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -253,7 +253,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04719">4719</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04842">4842</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -282,7 +282,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04730">4730</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04853">4853</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -310,9 +310,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The size of the requested dimension. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The size of the requested dimension.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: nrows, ncols</div><div class="line"></div><div class="line">    <span class="comment">! Get the number of rows in the data matrices</span></div><div class="line">    nrows = pd%get_size(1)</div><div class="line"></div><div class="line">    <span class="comment">! Get the number of columns in the data matrices</span></div><div class="line">    ncols = pd%get_size(2)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04549">4549</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04567">4567</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -339,9 +340,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns true if a wireframe mesh should be displayed; else, false to display a solid surface. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if a wireframe mesh should be displayed; else, false to display a solid surface.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    <span class="comment">! Check to see if the data set is to be plotted in wireframe</span></div><div class="line">    check = pd%get_use_wireframe()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04633">4633</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04756">4756</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -370,9 +372,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Get a value from the 10th row and 15th column of the X data</span></div><div class="line">    val = pd%get_x(10, 15)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04561">4561</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04594">4594</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -401,9 +404,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Get a value from the 10th row and 15th column of the Y data</span></div><div class="line">    val = pd%get_y(10, 15)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04585">4585</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04648">4648</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -432,9 +436,10 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The value.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Get a value from the 10th row and 15th column of the Z data</span></div><div class="line">    val = pd%get_z(10, 15)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04609">4609</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04702">4702</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -467,7 +472,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04708">4708</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04831">4831</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -493,12 +498,13 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The row index. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">j</td><td>The column index. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Set a value into the 10th row and 15th column of the X data</span></div><div class="line">    <span class="keyword">call </span>pd%set_x(10, 15, 5.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04573">4573</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04621">4621</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -524,12 +530,13 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The row index. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">j</td><td>The column index. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Set a value into the 10th row and 15th column of the Y data</span></div><div class="line">    <span class="keyword">call </span>pd%set_y(10, 15, 5.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04597">4597</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04675">4675</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -555,12 +562,13 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The row index. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">j</td><td>The column index. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The value.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: val</div><div class="line"></div><div class="line">    <span class="comment">! Set a value into the 10th row and 15th column of the Z data</span></div><div class="line">    <span class="keyword">call </span>pd%set_z(10, 15, 5.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04621">4621</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04729">4729</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
