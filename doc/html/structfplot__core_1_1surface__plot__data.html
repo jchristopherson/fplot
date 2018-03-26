@@ -204,7 +204,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Defines the data set. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>define_data(class(surface_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) z(:,:))</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> object. </td></tr>
@@ -213,14 +213,18 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
     <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>An M-by-N matrix containing the z-coordinate data. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>An optional errors-based object that if provided can be used to retrieve information relating to any errors encountered during execution. If not provided, a default implementation of the errors class is used internally to provide error handling. Possible errors and warning messages that may be encountered are as follows.<ul>
 <li>PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.</li>
-<li>PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if <code>x</code>, <code>y</code>, and <code>z</code> are not the same size. </li>
+<li>PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if <code>x</code>, <code>y</code>, and <code>z</code> are not the same size.</li>
 </ul>
 </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="comment">! Parameters</span></div><div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">parameter</span> :: m = 50</div><div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">parameter</span> :: n = 50</div><div class="line"></div><div class="line">    <span class="comment">! Local Variables</span></div><div class="line">    <span class="keywordtype">real(real64)</span>, <span class="keywordtype">dimension(m, n, 2)</span>, <span class="keywordtype">target</span> :: xy</div><div class="line">    <span class="keywordtype">real(real64)</span>, <span class="keywordtype">pointer</span>, <span class="keywordtype">dimension(:,:)</span> :: x, y</div><div class="line">    <span class="keywordtype">real(real64)</span>, <span class="keywordtype">dimension(m, n)</span> :: z</div><div class="line">    <span class="keywordtype">type</span>(surface_plot) :: plt</div><div class="line">    <span class="keywordtype">type</span>(surface_plot_data) :: d1</div><div class="line">    <span class="keywordtype">class</span>(plot_axis), <span class="keywordtype">pointer</span> :: xAxis, yAxis, zAxis</div><div class="line">    <span class="keywordtype">type</span>(rainbow_colormap) :: map</div><div class="line"></div><div class="line">    <span class="comment">! Define the data</span></div><div class="line">    xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))</div><div class="line">    x =&gt; xy(:,:,1)</div><div class="line">    y =&gt; xy(:,:,2)</div><div class="line"></div><div class="line">    <span class="comment">! Initialize the plot</span></div><div class="line">    <span class="keyword">call </span>plt%initialize()</div><div class="line">    <span class="keyword">call </span>plt%set_colormap(map)</div><div class="line"></div><div class="line">    <span class="comment">! Set the orientation of the plot</span></div><div class="line">    <span class="keyword">call </span>plt%set_elevation(20.0d0)</div><div class="line">    <span class="keyword">call </span>plt%set_azimuth(30.0d0)</div><div class="line">   </div><div class="line">    <span class="comment">! Define titles</span></div><div class="line">    <span class="keyword">call </span>plt%set_title(<span class="stringliteral">&quot;Example Plot&quot;</span>)</div><div class="line">  </div><div class="line">    xaxis =&gt; plt%get_x_axis()</div><div class="line">    <span class="keyword">call </span>xaxis%set_title(<span class="stringliteral">&quot;X Axis&quot;</span>)</div><div class="line"></div><div class="line">    yaxis =&gt; plt%get_y_axis()</div><div class="line">    <span class="keyword">call </span>yaxis%set_title(<span class="stringliteral">&quot;Y Axis&quot;</span>)</div><div class="line"></div><div class="line">    zaxis =&gt; plt%get_z_axis()</div><div class="line">    <span class="keyword">call </span>zaxis%set_title(<span class="stringliteral">&quot;Z Axis&quot;</span>)</div><div class="line"></div><div class="line">    <span class="comment">! Define the function to plot</span></div><div class="line">    z = sqrt(x**2 + y**2) * sin(x**2 + y**2)</div><div class="line">    <span class="keyword">call </span>d1%define_data(x, y, z)</div><div class="line">    <span class="keyword">call </span>plt%push(d1)</div><div class="line"></div><div class="line">    <span class="comment">! Draw the plot</span></div><div class="line">    <span class="keyword">call </span>plt%draw()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> <div class="image">
+<img src="example_surface_plot_2.png" alt="example_surface_plot_2.png"/>
+</div>
+ </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04738">4738</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04806">4806</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -240,7 +244,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the GNUPLOT command string to represent this <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="comment">character(len = :) function, allocatable get_command_string(class(surface_plot_data) this)</span></div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -249,7 +253,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04709">4709</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04719">4719</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -269,7 +273,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the GNUPLOT command string containing the actual data to plot. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="comment">character(len = :) function, allocatable get_data_string(class(surface_plot_data) this)</span></div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -278,7 +282,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04719">4719</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04730">4730</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -298,7 +302,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the size of the stored data set. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">pure integer(int32) </span><span class="keyword">function </span>get_size(class(surface_plot_data) this, integer(int32) dim)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The suface_plot_data object. </td></tr>
@@ -308,7 +312,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the requested dimension. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04548">4548</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04549">4549</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -328,7 +332,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets a value determining if a wireframe mesh should be displayed. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">pure logical </span><span class="keyword">function </span>get_wireframe(class(surface_plot_data) this)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -337,7 +341,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if a wireframe mesh should be displayed; else, false to display a solid surface. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04625">4625</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04633">4633</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -357,7 +361,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the requested X data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">pure real(real64) </span><span class="keyword">function </span>get_x(class(surface_plot_data) this, integer(int32) i, integer(int32) j)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -368,7 +372,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04559">4559</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04561">4561</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -388,7 +392,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the requested Y data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">pure real(real64) </span><span class="keyword">function </span>get_y(class(surface_plot_data) this, integer(int32) i, integer(int32) j)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -399,7 +403,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04581">4581</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04585">4585</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -419,7 +423,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Gets the requested Z data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">pure real(real64) </span><span class="keyword">function </span>get_z(class(surface_plot_data) this, integer(int32) i, integer(int32) j)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -430,7 +434,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04603">4603</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04609">4609</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -450,7 +454,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Sets a value determining if a wireframe mesh should be displayed. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_wireframe(class(surface_plot_data) this, logical x)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -463,7 +467,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04699">4699</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04708">4708</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -483,7 +487,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Sets the requested X data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_x(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -494,7 +498,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04570">4570</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04573">4573</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -514,7 +518,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Sets the requested Y data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_y(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -525,7 +529,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04592">4592</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04597">4597</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -545,7 +549,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div><div class="memdoc">
 
 <p>Sets the requested Z data point. </p>
-<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_z(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. ">surface_plot_data</a> object. </td></tr>
@@ -556,7 +560,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04614">4614</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04621">4621</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
