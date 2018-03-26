@@ -4546,6 +4546,24 @@ module fplot_core
         !! @param[in] dim The dimension of interest.  Notice, data is stored as a
         !!  2D matrix (i.e. only 1 and 2 are valid inputs).
         !! @return The size of the requested dimension.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     integer(int32) :: nrows, ncols
+        !!
+        !!     ! Get the number of rows in the data matrices
+        !!     nrows = pd%get_size(1)
+        !!
+        !!     ! Get the number of columns in the data matrices
+        !!     ncols = pd%get_size(2)
+        !! end program
+        !! @endcode
         procedure, public :: get_size => surfd_get_size
         !> @brief Gets the requested X data point.
         !!
@@ -4558,6 +4576,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Get a value from the 10th row and 15th column of the X data
+        !!     val = pd%get_x(10, 15)
+        !! end program
+        !! @endcode
         procedure, public :: get_x => surfd_get_x
         !> @brief Sets the requested X data point.
         !!
@@ -4570,6 +4603,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Set a value into the 10th row and 15th column of the X data
+        !!     call pd%set_x(10, 15, 5.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_x => surfd_set_x
         !> @brief Gets the requested Y data point.
         !!
@@ -4582,6 +4630,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Get a value from the 10th row and 15th column of the Y data
+        !!     val = pd%get_y(10, 15)
+        !! end program
+        !! @endcode
         procedure, public :: get_y => surfd_get_y
         !> @brief Sets the requested Y data point.
         !!
@@ -4594,6 +4657,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Set a value into the 10th row and 15th column of the Y data
+        !!     call pd%set_y(10, 15, 5.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_y => surfd_set_y
         !> @brief Gets the requested Z data point.
         !!
@@ -4606,6 +4684,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Get a value from the 10th row and 15th column of the Z data
+        !!     val = pd%get_z(10, 15)
+        !! end program
+        !! @endcode
         procedure, public :: get_z => surfd_get_z
         !> @brief Sets the requested Z data point.
         !!
@@ -4618,6 +4711,21 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     real(real64) :: val
+        !!
+        !!     ! Set a value into the 10th row and 15th column of the Z data
+        !!     call pd%set_z(10, 15, 5.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_z => surfd_set_z
         !> @brief Gets a value determining if a wireframe mesh should be 
         !! displayed.
@@ -4630,6 +4738,21 @@ module fplot_core
         !! @param[in] this The surface_plot_data object.
         !! @return Returns true if a wireframe mesh should be displayed; else, false
         !!  to display a solid surface.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot_data) :: pd
+        !!     logical :: check
+        !!
+        !!     ! Check to see if the data set is to be plotted in wireframe
+        !!     check = pd%get_use_wireframe()
+        !! end program
+        !! @endcode
         procedure, public :: get_use_wireframe => surfd_get_wireframe
         !> @brief Sets a value determining if a wireframe mesh should be 
         !! displayed.
