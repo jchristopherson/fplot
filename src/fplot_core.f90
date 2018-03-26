@@ -4858,7 +4858,7 @@ module fplot_core
         !! subroutine define_data(class(surface_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) z(:,:))
         !! @endcode
         !!
-        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in,out] this The surface_plot_data object.
         !! @param[in] x An M-by-N matrix containing the x-coordinate data.
         !! @param[in] y An M-by-N matrix containing the y-coordinate data.
         !! @param[in] z An M-by-N matrix containing the z-coordinate data.

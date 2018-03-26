@@ -1,13 +1,6 @@
 var searchData=
 [
-  ['p2d_5fclean_5fup',['p2d_clean_up',['../structfplot__core_1_1plot__2d.html#ad42a85aa260a7a8340e858dd3a5c5caf',1,'fplot_core::plot_2d::p2d_clean_up()'],['../namespacefplot__core.html#ab788f37780fb8aacc914c7b0c6bfc762',1,'fplot_core::p2d_clean_up()']]],
-  ['p2d_5fget_5fcmd',['p2d_get_cmd',['../namespacefplot__core.html#add2f7e4cf1d65917a23b2dc7a8e0991e',1,'fplot_core']]],
-  ['p2d_5fget_5fuse_5fy2',['p2d_get_use_y2',['../namespacefplot__core.html#ab01e47cd73c8ba7e59d9de306e0087f4',1,'fplot_core']]],
-  ['p2d_5fget_5fx_5faxis',['p2d_get_x_axis',['../namespacefplot__core.html#a7da3204956778a09a429ed2da73e44f8',1,'fplot_core']]],
-  ['p2d_5fget_5fy2_5faxis',['p2d_get_y2_axis',['../namespacefplot__core.html#a32835a8c2c72727a009426dc5c08a2ab',1,'fplot_core']]],
-  ['p2d_5fget_5fy_5faxis',['p2d_get_y_axis',['../namespacefplot__core.html#aadeda924af925221a78814379bd38e07',1,'fplot_core']]],
-  ['p2d_5finit',['p2d_init',['../namespacefplot__core.html#a625b3df79df320e829649dfe342e967d',1,'fplot_core']]],
-  ['p2d_5fset_5fuse_5fy2',['p2d_set_use_y2',['../namespacefplot__core.html#aedb9113f1f47364f6c9291608c002027',1,'fplot_core']]],
+  ['p2d_5fclean_5fup',['p2d_clean_up',['../structfplot__core_1_1plot__2d.html#ad42a85aa260a7a8340e858dd3a5c5caf',1,'fplot_core::plot_2d']]],
   ['p3d_5fclean_5fup',['p3d_clean_up',['../structfplot__core_1_1plot__3d.html#aa725bd27229d18499d8040967a359eda',1,'fplot_core::plot_3d::p3d_clean_up()'],['../namespacefplot__core.html#a07c01c48c301b5549c113b9eac9b4392',1,'fplot_core::p3d_clean_up()']]],
   ['p3d_5fget_5fazimuth',['p3d_get_azimuth',['../namespacefplot__core.html#adc2ba2594ef937856507b0e5584757d4',1,'fplot_core']]],
   ['p3d_5fget_5fcmd',['p3d_get_cmd',['../namespacefplot__core.html#a9a9a6423f47ce840d8d6cad1895b31d5',1,'fplot_core']]],
