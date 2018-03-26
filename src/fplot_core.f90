@@ -4539,6 +4539,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure integer(int32) function get_size(class(surface_plot_data) this, integer(int32) dim)
         !! @endcode
         !!
         !! @param[in] this The suface_plot_data object.
@@ -4550,6 +4551,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_x(class(surface_plot_data) this, integer(int32) i, integer(int32) j)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4561,6 +4563,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_x(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The surface_plot_data object.
@@ -4572,6 +4575,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_y(class(surface_plot_data) this, integer(int32) i, integer(int32) j)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4583,6 +4587,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_y(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The surface_plot_data object.
@@ -4594,6 +4599,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure real(real64) function get_z(class(surface_plot_data) this, integer(int32) i, integer(int32) j)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4605,6 +4611,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_z(class(surface_plot_data) this, integer(int32) i, integer(int32) j, real(real64) x)
         !! @endcode
         !!
         !! @param[in,out] this The surface_plot_data object.
@@ -4617,6 +4624,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! pure logical function get_wireframe(class(surface_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4628,6 +4636,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine set_wireframe(class(surface_plot_data) this, logical x)
         !! @endcode
         !!
         !! @param[in,out] this The surface_plot_data object.
@@ -4702,6 +4711,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(surface_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4712,6 +4722,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(surface_plot_data) this)
         !! @endcode
         !!
         !! @param[in] this The surface_plot_data object.
@@ -4721,6 +4732,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
+        !! subroutine define_data(class(surface_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) z(:,:))
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
@@ -4735,6 +4747,62 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are 
         !!      not the same size.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), pointer, dimension(:,:) :: x, y
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!     type(rainbow_colormap) :: map
+        !!
+        !!     ! Define the data
+        !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Initialize the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!
+        !!     ! Set the orientation of the plot
+        !!     call plt%set_elevation(20.0d0)
+        !!     call plt%set_azimuth(30.0d0)
+        !!    
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!   
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the function to plot
+        !!     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_2.png
         procedure, public :: define_data => surfd_set_data_1
     end type
 
