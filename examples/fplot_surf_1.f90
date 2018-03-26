@@ -37,9 +37,10 @@ program example
     ! Create the plot
     call plt%initialize()
     ! call plt%set_colormap(map)
+    call d1%set_use_wireframe(.true.)
 
     ! Define titles
-    call plt%set_title("Surface Example Plot 1")
+    call plt%set_title("Example Plot")
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
