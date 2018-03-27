@@ -5150,7 +5150,7 @@ module fplot_core
         !!     class(plot_axis) :: axis
         !!
         !!     ! Get a pointer to the axis object
-        !!     axis => get_x_axis()
+        !!     axis => plt%get_x_axis()
         !! end program
         !! @endcode
         procedure, public :: get_x_axis => p2d_get_x_axis
@@ -5174,7 +5174,7 @@ module fplot_core
         !!     class(plot_axis) :: axis
         !!
         !!     ! Get a pointer to the axis object
-        !!     axis => get_y_axis()
+        !!     axis => plt%get_y_axis()
         !! end program
         !! @endcode
         procedure, public :: get_y_axis => p2d_get_y_axis
@@ -5198,7 +5198,7 @@ module fplot_core
         !!     class(plot_axis) :: axis
         !!
         !!     ! Get a pointer to the axis object
-        !!     axis => get_y2_axis()
+        !!     axis => plt%get_y2_axis()
         !! end program
         !! @endcode
         procedure, public :: get_y2_axis => p2d_get_y2_axis
@@ -5346,6 +5346,62 @@ module fplot_core
 ! FPLOT_PLOT_3D.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot object defining a 3D plot.
+    !!
+    !! @par Example
+    !! The following example adds data to draw a helix to a 3D plot.
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: n = 1000
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: t, x, y, z
+    !!     type(plot_3d) :: plt
+    !!     type(plot_data_3d) :: d1
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!     type(legend), pointer :: leg
+    !!
+    !!     ! Initialize the plot object
+    !!     call plt%initialize()
+    !!     leg => plt%get_legend()
+    !!     call leg%set_is_visible(.false.)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data
+    !!     t = linspace(0.0d0, 10.0d0, n)
+    !!     x = cos(5.0d0 * t)
+    !!     y = sin(5.0d0 * t)
+    !!     z = 2.0d0 * t
+    !!
+    !!     call d1%define_data(x, y, z)
+    !!
+    !!     ! Set up the data set
+    !!     call d1%set_line_color(CLR_BLUE)
+    !!     call d1%set_line_width(2.0)
+    !!
+    !!     ! Add the data to the plot
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_plot_3d_1.png
     type, extends(plot) :: plot_3d
     private
         !> The x-axis.
@@ -5367,6 +5423,11 @@ module fplot_core
         final :: p3d_clean_up
         !> @brief Initializes the plot_3d object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(plot_3d) this, optional integer(int32) term, optional class(errors) err)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @param[in] term An optional input that is used to define the terminal.
         !!  The default terminal is a WXT terminal.  The acceptable inputs are:
@@ -5385,57 +5446,287 @@ module fplot_core
         !> @brief Gets the GNUPLOT command string to represent this plot_3d
         !! object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return The command string.
         procedure, public :: get_command_string => p3d_get_cmd
         !> @brief Gets the x-axis object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_x_axis(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the x-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => plt%get_x_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_x_axis => p3d_get_x_axis
         !> @brief Gets the y-axis object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_y_axis(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the y-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => plt%get_y_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_y_axis => p3d_get_y_axis
         !> @brief Gets the z-axis object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_axis) function, pointer get_z_axis(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the z-axis object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     class(plot_axis) :: axis
+        !!
+        !!     ! Get a pointer to the axis object
+        !!     axis => plt%get_z_axis()
+        !! end program
+        !! @endcode
         procedure, public :: get_z_axis => p3d_get_z_axis
         !> @brief Gets the plot elevation angle.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64) function get_elevation(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return The elevation angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     real(real64) :: val
+        !!
+        !!     ! Get the elevation angle of the plot
+        !!     val = plt%get_elevation()
+        !! end program
+        !! @endcode
         procedure, public :: get_elevation => p3d_get_elevation
         !> @brief Sets the plot elevation angle.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_elevation(class(plot_3d) this, real(real64) x)
+        !! @endcode
+        !!
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x The elevation angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!
+        !!     ! Set the elevation angle of the plot
+        !!     call plt%set_elevation(15.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_elevation => p3d_set_elevation
         !> @brief Gets the plot azimuth angle.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64) function get_azimuth(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return The azimuth angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     real(real64) :: val
+        !!
+        !!     ! Get the azimuth angle of the plot
+        !!     val = plt%get_azimuth()
+        !! end program
+        !! @endcode
         procedure, public :: get_azimuth => p3d_get_azimuth
         !> @brief Sets the plot azimuth angle.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_azimuth(class(plot_3d) this, real(real64) x)
+        !! @endcode
+        !!
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x The azimuth angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!
+        !!     ! Set the azimuth angle of the plot
+        !!     call plt%set_azimuth(15.0d0)
+        !! end program
+        !! @endcode
         procedure, public :: set_azimuth => p3d_set_azimuth
         !> @brief Gets a value determining if the z-axis should intersect the 
         !! x-y plane.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_z_intersect_xy(class(plot_3d) this)
+        !! @endcode
+        !!
         !! @param[in] this The plot_3d object.
         !! @return Returns true if the z-axis should intersect the x-y plane; else,
         !!  false to allow the z-axis to float.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_3d) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Determine if the z axis is drawn to intersect the x-y plane
+        !!     check = plt%get_z_intersect_xy()
+        !! end program
+        !! @endcode
         procedure, public :: get_z_intersect_xy => p3d_get_z_axis_intersect
         !> @brief Sets a value determining if the z-axis should intersect the 
         !! x-y plane.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_z_intersect_xy(class(plot_3d) this, logical x)
+        !! @endcode
+        !!
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x Set to true if the z-axis should intersect the x-y plane; 
         !!  else, false to allow the z-axis to float.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 1000
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: t, x, y, z
+        !!     type(plot_3d) :: plt
+        !!     type(plot_data_3d) :: d1
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!     type(legend), pointer :: leg
+        !!
+        !!     ! Initialize the plot object
+        !!     call plt%initialize()
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Set the Z-axis to not intersect the X-Y plane
+        !!     call plt%set_z_intersect_xy(.false.)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data
+        !!     t = linspace(0.0d0, 10.0d0, n)
+        !!     x = cos(5.0d0 * t)
+        !!     y = sin(5.0d0 * t)
+        !!     z = 2.0d0 * t
+        !!
+        !!     call d1%define_data(x, y, z)
+        !!
+        !!     ! Set up the data set
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!     call d1%set_line_width(2.0)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! 
+        !! @par
+        !! The above code results in the following plot.
+        !! @image html example_plot_3d_offset_1.png
+        !!
+        !! @par
+        !! Compare to the default (allowing the z-axis to intersect the x-y 
+        !! plane).
+        !! @image html example_plot_3d_1.png
         procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
     end type
 
@@ -5649,6 +5940,7 @@ module fplot_core
         !> @brief Sets a value determining if the colorbar should be shown.
         procedure, public :: set_show_colorbar => surf_set_show_colorbar
 
+        ! The ratio of the strength of the light relative to the ambient light
         procedure, public :: get_use_lighting => surf_get_use_lighting
         procedure, public :: set_use_lighting => surf_set_use_lighting
         procedure, public :: get_light_intensity => surf_get_light_intensity

@@ -9,6 +9,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_legend.f90", "fplot__legend_8f90_source.html", null ],
     [ "fplot_plot.f90", "fplot__plot_8f90_source.html", null ],
     [ "fplot_plot_2d.f90", "fplot__plot__2d_8f90_source.html", null ],
+    [ "fplot_plot_3d.f90", "fplot__plot__3d_8f90_source.html", null ],
     [ "fplot_plot_axis.f90", "fplot__plot__axis_8f90_source.html", null ],
     [ "fplot_plot_data.f90", "fplot__plot__data_8f90_source.html", null ],
     [ "fplot_plot_data_2d.f90", "fplot__plot__data__2d_8f90_source.html", null ],

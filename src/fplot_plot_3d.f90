@@ -3,9 +3,6 @@
 submodule (fplot_core) fplot_plot_3d
 contains
 ! ------------------------------------------------------------------------------
-    !> @brief Cleans up resources held by the plot_3d object.
-    !!
-    !! @param[in,out] this The plot_3d object.
     module subroutine p3d_clean_up(this)
         type(plot_3d), intent(inout) :: this
         call this%free_resources()
@@ -24,22 +21,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Initializes the plot_3d object.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @param[in] term An optional input that is used to define the terminal.
-    !!  The default terminal is a WXT terminal.  The acceptable inputs are:
-    !!  - GNUPLOT_TERMINAL_PNG
-    !!  - GNUPLOT_TERMINAL_QT
-    !!  - GNUPLOT_TERMINAL_WIN32
-    !!  - GNUPLOT_TERMINAL_WXT
-    !!  - GNUPLOT_TERMINAL_LATEX
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
     module subroutine p3d_init(this, term, err)
         ! Arguments
         class(plot_3d), intent(inout) :: this
@@ -83,11 +64,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this plot_3d
-    !! object.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return The command string.
     module function p3d_get_cmd(this) result(x)
         ! Arguments
         class(plot_3d), intent(in) :: this
@@ -216,10 +192,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the x-axis object.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return A pointer to the x-axis object.
     module function p3d_get_x_axis(this) result(ptr)
         class(plot_3d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -227,10 +199,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the y-axis object.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return A pointer to the y-axis object.
     module function p3d_get_y_axis(this) result(ptr)
         class(plot_3d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -238,10 +206,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the z-axis object.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return A pointer to the z-axis object.
     module function p3d_get_z_axis(this) result(ptr)
         class(plot_3d), intent(in) :: this
         class(plot_axis), pointer :: ptr
@@ -249,10 +213,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the plot elevation angle.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return The elevation angle, in degrees.
     pure module function p3d_get_elevation(this) result(x)
         class(plot_3d), intent(in) :: this
         real(real64) :: x
@@ -260,10 +220,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the plot elevation angle.
-    !!
-    !! @param[in,out] this The plot_3d object.
-    !! @param[in] x The elevation angle, in degrees.
     module subroutine p3d_set_elevation(this, x)
         class(plot_3d), intent(inout) :: this
         real(real64), intent(in) :: x
@@ -271,10 +227,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the plot azimuth angle.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return The azimuth angle, in degrees.
     pure module function p3d_get_azimuth(this) result(x)
         class(plot_3d), intent(in) :: this
         real(real64) :: x
@@ -282,10 +234,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the plot azimuth angle.
-    !!
-    !! @param[in,out] this The plot_3d object.
-    !! @param[in] x The azimuth angle, in degrees.
     module subroutine p3d_set_azimuth(this, x)
         class(plot_3d), intent(inout) :: this
         real(real64), intent(in) :: x
@@ -293,12 +241,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the z-axis should intersect the x-y 
-    !! plane.
-    !!
-    !! @param[in] this The plot_3d object.
-    !! @return Returns true if the z-axis should intersect the x-y plane; else,
-    !!  false to allow the z-axis to float.
     pure module function p3d_get_z_axis_intersect(this) result(x)
         class(plot_3d), intent(in) :: this
         logical :: x
@@ -306,12 +248,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a value determining if the z-axis should intersect the x-y 
-    !! plane.
-    !!
-    !! @param[in,out] this The plot_3d object.
-    !! @param[in] x Set to true if the z-axis should intersect the x-y plane; 
-    !!  else, false to allow the z-axis to float.
     module subroutine p3d_set_z_axis_intersect(this, x)
         class(plot_3d), intent(inout) :: this
         logical, intent(in) :: x
