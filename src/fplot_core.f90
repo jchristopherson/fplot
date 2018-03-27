@@ -5793,37 +5793,8 @@ module fplot_core
         end subroutine
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+! ******************************************************************************
+! FPLOT_SURFACE_PLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot object defining a 3D surface plot.
     !!
@@ -5948,6 +5919,42 @@ module fplot_core
         procedure, public :: get_specular_intensity => surf_get_specular_intensity
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
     end type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 ! ******************************************************************************
 ! CONCRETE PLOT_AXIS TYPES
@@ -6464,11 +6471,5 @@ contains
             this%m_specular = x
         end if
     end subroutine
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
 
 end module
