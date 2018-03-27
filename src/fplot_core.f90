@@ -5362,31 +5362,80 @@ module fplot_core
         logical :: m_zIntersect = .true.
     contains
         !> @brief Cleans up resources held by the plot_3d object.
+        !!
+        !! @param[in,out] this The plot_3d object.
         final :: p3d_clean_up
         !> @brief Initializes the plot_3d object.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         procedure, public :: initialize => p3d_init
         !> @brief Gets the GNUPLOT command string to represent this plot_3d
         !! object.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return The command string.
         procedure, public :: get_command_string => p3d_get_cmd
         !> @brief Gets the x-axis object.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return A pointer to the x-axis object.
         procedure, public :: get_x_axis => p3d_get_x_axis
         !> @brief Gets the y-axis object.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return A pointer to the y-axis object.
         procedure, public :: get_y_axis => p3d_get_y_axis
         !> @brief Gets the z-axis object.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return A pointer to the z-axis object.
         procedure, public :: get_z_axis => p3d_get_z_axis
         !> @brief Gets the plot elevation angle.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return The elevation angle, in degrees.
         procedure, public :: get_elevation => p3d_get_elevation
         !> @brief Sets the plot elevation angle.
+        !!
+        !! @param[in,out] this The plot_3d object.
+        !! @param[in] x The elevation angle, in degrees.
         procedure, public :: set_elevation => p3d_set_elevation
         !> @brief Gets the plot azimuth angle.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return The azimuth angle, in degrees.
         procedure, public :: get_azimuth => p3d_get_azimuth
         !> @brief Sets the plot azimuth angle.
+        !!
+        !! @param[in,out] this The plot_3d object.
+        !! @param[in] x The azimuth angle, in degrees.
         procedure, public :: set_azimuth => p3d_set_azimuth
         !> @brief Gets a value determining if the z-axis should intersect the 
         !! x-y plane.
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return Returns true if the z-axis should intersect the x-y plane; else,
+        !!  false to allow the z-axis to float.
         procedure, public :: get_z_intersect_xy => p3d_get_z_axis_intersect
         !> @brief Sets a value determining if the z-axis should intersect the 
         !! x-y plane.
+        !!
+        !! @param[in,out] this The plot_3d object.
+        !! @param[in] x Set to true if the z-axis should intersect the x-y plane; 
+        !!  else, false to allow the z-axis to float.
         procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
     end type
 
@@ -5561,6 +5610,12 @@ module fplot_core
         logical :: m_contour = .false.
         !> Show the colorbar?
         logical :: m_showColorbar = .true.
+        !> Use lighting?
+        logical :: m_useLighting = .false.
+        !> Lighting intensity (0 - 1) - default is 0.5
+        real(real32) :: m_lightIntensity = 0.5
+        !> Specular highlight intensity (0 - 1)
+        real(real32) :: m_specular = 0.5
     contains
         !> @brief Cleans up resources held by the surface_plot object.
         final :: surf_clean_up
@@ -5593,6 +5648,13 @@ module fplot_core
         procedure, public :: get_show_colorbar => surf_get_show_colorbar
         !> @brief Sets a value determining if the colorbar should be shown.
         procedure, public :: set_show_colorbar => surf_set_show_colorbar
+
+        procedure, public :: get_use_lighting => surf_get_use_lighting
+        procedure, public :: set_use_lighting => surf_set_use_lighting
+        procedure, public :: get_light_intensity => surf_get_light_intensity
+        procedure, public :: set_light_intensity => surf_set_light_intensity
+        procedure, public :: get_specular_intensity => surf_get_specular_intensity
+        procedure, public :: set_specular_intensity => surf_set_specular_intensity
     end type
 
 ! ******************************************************************************
@@ -5915,6 +5977,15 @@ contains
             call str%append("unset colorbox")
         end if
 
+        ! Lighting
+        if (this%get_use_lighting()) then
+            call str%append(new_line('a'))
+            call str%append("set pm3d lighting primary ")
+            call str%append(to_string(this%get_light_intensity()))
+            call str%append(" specular ")
+            call str%append(to_string(this%get_specular_intensity()))
+        end if
+
         ! Call the base class to define the rest of the plot commands
         call str%append(new_line('a'))
         call str%append(this%plot_3d%get_command_string())
@@ -6047,5 +6118,65 @@ contains
         logical, intent(in) :: x
         this%m_showColorbar = x
     end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function surf_get_use_lighting(this) result(x)
+        class(surface_plot), intent(in) :: this
+        logical :: x
+        x = this%m_useLighting
+    end function
+
+! --------------------
+    subroutine surf_set_use_lighting(this, x)
+        class(surface_plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_useLighting = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function surf_get_light_intensity(this) result(x)
+        class(surface_plot), intent(in) :: this
+        real(real32) :: x
+        x = this%m_lightIntensity
+    end function
+
+! --------------------
+    subroutine surf_set_light_intensity(this, x)
+        class(surface_plot), intent(inout) :: this
+        real(real32), intent(in) :: x
+        if (x < 0.0) then
+            this%m_lightIntensity = 0.0
+        else if (x > 1.0) then
+            this%m_lightIntensity = 1.0
+        else
+            this%m_lightIntensity = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function surf_get_specular_intensity(this) result(x)
+        class(surface_plot), intent(in) :: this
+        real(real32) :: x
+        x = this%m_specular
+    end function
+
+! --------------------
+    subroutine surf_set_specular_intensity(this, x)
+        class(surface_plot), intent(inout) :: this
+        real(real32), intent(in) :: x
+        if (x < 0.0) then
+            this%m_specular = 0.0
+        else if (x > 1.0) then
+            this%m_specular = 1.0
+        else
+            this%m_specular = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
 
 end module
