@@ -1,4 +1,4 @@
-! fplot_surf_1.f90
+! fplot_surf_3.f90
 
 program example
     use, intrinsic :: iso_fortran_env
@@ -37,11 +37,8 @@ program example
     ! Create the plot
     call plt%initialize()
     call plt%set_colormap(map)
-
-    ! Set up lighting
-    call plt%set_use_lighting(.true.)
-    call plt%set_light_intensity(0.7)
-    call plt%set_specular_intensity(0.7)
+    call plt%set_show_contours(.true.)
+    call plt%set_z_intersect_xy(.false.)
 
     ! Define titles
     call plt%set_title("Example Plot")

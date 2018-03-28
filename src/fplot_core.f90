@@ -5885,6 +5885,11 @@ module fplot_core
         final :: surf_clean_up
         !> @brief Initializes the surface_plot object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(surface_plot) this, optional integer(int32) term, optional class(errors) err)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @param[in] term An optional input that is used to define the terminal.
         !!  The default terminal is a WXT terminal.  The acceptable inputs are:
@@ -5901,10 +5906,20 @@ module fplot_core
         procedure, public :: initialize => surf_init
         !> @brief Gets a value indicating if hidden lines should be shown.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_hidden(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if hidden lines should be shown; else, false.
         procedure, public :: get_show_hidden => surf_get_show_hidden
         !> @brief Sets a value indicating if hidden lines should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_hidden(class(surface_plot) this, logical x)
+        !! @endcode
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if hidden lines should be shown; else, false.
@@ -5912,16 +5927,31 @@ module fplot_core
         !> @brief Gets the GNUPLOT command string to represent this plot_3d
         !! object.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return The command string.
         procedure, public :: get_command_string => surf_get_cmd
         !> @brief Gets a pointer to the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(colormap) function, pointer get_colormap(class(surface_plot) this)
+        !! @endcode
         !!
         !! @param[in] this The surface_plot object.
         !! @return A pointer to the colormap object.  If no colormap is defined, a
         !!  null pointer is returned.
         procedure, public :: get_colormap => surf_get_colormap
         !> @brief Sets the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_colormap(class(surface_plot) this, class(colormap) x, optional class(errors) err)
+        !! @endcode
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x The colormap object.  Notice, a copy of this object is
@@ -5937,17 +5967,32 @@ module fplot_core
         !> @brief Gets a value determining if the plotted surfaces should be 
         !! smoothed.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_allow_smoothing(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the surface should be smoothed; else, false.
         procedure, public :: get_allow_smoothing => surf_get_smooth
         !> @brief Sets a value determining if the plotted surfaces should be 
         !! smoothed.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_allow_smoothing(class(surface_plot) this, logical x)
+        !! @endcode
+        !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the surface should be smoothed; else, false.
         procedure, public :: set_allow_smoothing => surf_set_smooth
         !> @brief Gets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_contours(class(surface_plot) this)
+        !! @endcode
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the contour plot should be drawn; else, false to
@@ -5956,16 +6001,99 @@ module fplot_core
         !> @brief Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_contours(class(surface_plot) this, logical x)
+        !! @endcode
+        !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the contour plot should be drawn; else, false
         !!  to only draw the surface.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of a contour and surface
+        !! plot together.  Additionally, the z axis is allowed to shift away
+        !! from the X-Y plane in order to better show the counter plot.
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(rainbow_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!     call plt%set_show_contours(.true.)
+        !!     call plt%set_z_intersect_xy(.false.)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_with_contour_1.png
         procedure, public :: set_show_contours => surf_set_show_contours
         !> @brief Gets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_colorbar(class(surface_plot) this)
+        !! @endcode
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the colorbar should be drawn; else, false.
         procedure, public :: get_show_colorbar => surf_get_show_colorbar
         !> @brief Sets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_colorbar(class(surface_plot) this, logical x)
+        !! @endcode
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the colorbar should be drawn; else, false.
@@ -5973,41 +6101,189 @@ module fplot_core
         !> @brief Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_lighting(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return True if lighting should be used; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Determine if lighting is to be used
+        !!     check = plt%get_use_lighting()
+        !! end program
+        !! @endcode
         procedure, public :: get_use_lighting => surf_get_use_lighting
         !> @brief Sets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_lighting(class(surface_plot) this, logical x)
+        !! @endcode
+        !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x True if lighting should be used; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(rainbow_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!
+        !!     ! Set up lighting
+        !!     call plt%set_use_lighting(.true.)
+        !!     call plt%set_light_intensity(0.7)
+        !!     call plt%set_specular_intensity(0.7)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_lighting_1.png
         procedure, public :: set_use_lighting => surf_set_use_lighting
         !> @brief Gets the ratio of the strength of the light source relative
         !! to the ambient light.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_light_intensity(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return The light intensity ratio.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     real(real32) :: val
+        !!
+        !!     ! Get the lighting intensity
+        !!     val = plt%get_light_intensity()
+        !! end program
+        !! @endcode
         procedure, public :: get_light_intensity => surf_get_light_intensity
         !> @brief Sets the ratio of the strength of the light source relative
         !! to the ambient light.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_light_intensity(class(surface_plot) this, real(real32) x)
+        !! @endcode
+        !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x The light intensity ratio.  The value must exist in the
         !!  set [0, 1]; else, it will be clipped to lie within the range.
+        !!
+        !! @par Example
+        !! See set_use_lighting for example useage.
         procedure, public :: set_light_intensity => surf_set_light_intensity
         !> @brief Gets the ratio of the strength of the specular light source 
         !! relative to the ambient light.
         !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_specular_intensity(class(surface_plot) this)
+        !! @endcode
+        !!
         !! @param[in] this The surface_plot object.
         !! @return The specular light intensity ratio.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     real(real32) :: val
+        !!
+        !!     ! Get the lighting intensity
+        !!     val = plt%get_specular_intensity()
+        !! end program
+        !! @endcode
         procedure, public :: get_specular_intensity => surf_get_specular_intensity
         !> @brief Sets the ratio of the strength of the specular light source 
         !! relative to the ambient light.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_specular_intensity(class(surface_plot) this, real(real32) x)
+        !! @endcode
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x The specular light intensity ratio.  The value must 
         !!  exist in the set [0, 1]; else, it will be clipped to lie within the
         !!  range.
+        !!
+        !! @par Example
+        !! See set_use_lighting for example useage.
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
     end type
 

@@ -17,6 +17,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_png_terminal.f90", "fplot__png__terminal_8f90_source.html", null ],
     [ "fplot_qt_terminal.f90", "fplot__qt__terminal_8f90_source.html", null ],
     [ "fplot_scatter_plot_data.f90", "fplot__scatter__plot__data_8f90_source.html", null ],
+    [ "fplot_surface_plot.f90", "fplot__surface__plot_8f90_source.html", null ],
     [ "fplot_surface_plot_data.f90", "fplot__surface__plot__data_8f90_source.html", null ],
     [ "fplot_terminal.f90", "fplot__terminal_8f90_source.html", null ],
     [ "fplot_windows_terminal.f90", "fplot__windows__terminal_8f90_source.html", null ],
