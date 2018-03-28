@@ -21,7 +21,7 @@ program example
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
-    type(rainbow_colormap) :: map
+    ! type(rainbow_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
@@ -36,7 +36,9 @@ program example
 
     ! Create the plot
     call plt%initialize()
-    call plt%set_colormap(map)
+    call plt%set_show_hidden(.true.)
+    call d1%set_use_wireframe(.true.)
+    ! call plt%set_colormap(map)
 
     ! Set up lighting
     call plt%set_use_lighting(.true.)
