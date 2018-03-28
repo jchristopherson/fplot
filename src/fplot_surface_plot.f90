@@ -3,9 +3,6 @@
 submodule (fplot_core) fplot_surface_plot
 contains
 ! ------------------------------------------------------------------------------
-    !> @brief Cleans up resources held by the surface_plot object.
-    !!
-    !! @param[in,out] this The surface_plot object.
     module subroutine surf_clean_up(this)
         type(surface_plot), intent(inout) :: this
         if (associated(this%m_colormap)) then
@@ -18,21 +15,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Initializes the surface_plot object.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @param[in] term An optional input that is used to define the terminal.
-    !!  The default terminal is a WXT terminal.  The acceptable inputs are:
-    !!  - GNUPLOT_TERMINAL_PNG
-    !!  - GNUPLOT_TERMINAL_QT
-    !!  - GNUPLOT_TERMINAL_WIN32
-    !!  - GNUPLOT_TERMINAL_WXT
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
     module subroutine surf_init(this, term, err)
         ! Arguments
         class(surface_plot), intent(inout) :: this
@@ -51,10 +33,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value indicating if hidden lines should be shown.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return Returns true if hidden lines should be shown; else, false.
     pure module function surf_get_show_hidden(this) result(x)
         class(surface_plot), intent(in) :: this
         logical :: x
@@ -62,10 +40,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Sets a value indicating if hidden lines should be shown.
-    !!
-    !! @param[in,out] this The surface_plot object.
-    !! @param[in] x Set to true if hidden lines should be shown; else, false.
     module subroutine surf_set_show_hidden(this, x)
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x
@@ -73,11 +47,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the GNUPLOT command string to represent this surface_plot
-    !! object.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return The command string.
     module function surf_get_cmd(this) result(x)
         ! Arguments
         class(surface_plot), intent(in) :: this
@@ -140,11 +109,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a pointer to the colormap object.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return A pointer to the colormap object.  If no colormap is defined, a
-    !!  null pointer is returned.
     module function surf_get_colormap(this) result(x)
         class(surface_plot), intent(in) :: this
         class(colormap), pointer :: x
@@ -152,18 +116,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the colormap object.
-    !!
-    !! @param[in,out] this The surface_plot object.
-    !! @param[in] x The colormap object.  Notice, a copy of this object is
-    !!  stored, and the surface_plot object then manages the lifetime of the
-    !!  copy.
-    !! @param[out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
     module subroutine surf_set_colormap(this, x, err)
         ! Arguments
         class(surface_plot), intent(inout) :: this
@@ -193,11 +145,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the plotted surfaces should be 
-    !! smoothed.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return Returns true if the surface should be smoothed; else, false.
     pure module function surf_get_smooth(this) result(x)
         class(surface_plot), intent(in) :: this
         logical :: x
@@ -205,11 +152,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a value determining if the plotted surfaces should be 
-    !! smoothed.
-    !!
-    !! @param[in,out] this The surface_plot object.
-    !! @param[in] x Set to true if the surface should be smoothed; else, false.
     module subroutine surf_set_smooth(this, x)
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x
@@ -217,12 +159,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if a contour plot should be drawn in
-    !! conjunction with the surface plot.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return Returns true if the contour plot should be drawn; else, false to
-    !!  only draw the surface.
     pure module function surf_get_show_contours(this) result(x)
         class(surface_plot), intent(in) :: this
         logical :: x
@@ -230,12 +166,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a value determining if a contour plot should be drawn in
-    !! conjunction with the surface plot.
-    !!
-    !! @param[in,out] this The surface_plot object.
-    !! @param[in] x Set to true if the contour plot should be drawn; else, false
-    !!  to only draw the surface.
     module subroutine surf_set_show_contours(this, x)
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x
@@ -243,10 +173,6 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets a value determining if the colorbar should be shown.
-    !!
-    !! @param[in] this The surface_plot object.
-    !! @return Returns true if the colorbar should be drawn; else, false.
     pure module function surf_get_show_colorbar(this) result(x)
         class(surface_plot), intent(in) :: this
         logical :: x
@@ -254,10 +180,6 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets a value determining if the colorbar should be shown.
-    !!
-    !! @param[in,out] this The surface_plot object.
-    !! @param[in] x Set to true if the colorbar should be drawn; else, false.
     module subroutine surf_set_show_colorbar(this, x)
         class(surface_plot), intent(inout) :: this
         logical, intent(in) :: x

@@ -5880,43 +5880,134 @@ module fplot_core
         real(real32) :: m_specular = 0.5
     contains
         !> @brief Cleans up resources held by the surface_plot object.
+        !!
+        !! @param[in,out] this The surface_plot object.
         final :: surf_clean_up
         !> @brief Initializes the surface_plot object.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         procedure, public :: initialize => surf_init
         !> @brief Gets a value indicating if hidden lines should be shown.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return Returns true if hidden lines should be shown; else, false.
         procedure, public :: get_show_hidden => surf_get_show_hidden
         !> @brief Sets a value indicating if hidden lines should be shown.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x Set to true if hidden lines should be shown; else, false.
         procedure, public :: set_show_hidden => surf_set_show_hidden
         !> @brief Gets the GNUPLOT command string to represent this plot_3d
         !! object.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return The command string.
         procedure, public :: get_command_string => surf_get_cmd
         !> @brief Gets a pointer to the colormap object.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return A pointer to the colormap object.  If no colormap is defined, a
+        !!  null pointer is returned.
         procedure, public :: get_colormap => surf_get_colormap
         !> @brief Sets the colormap object.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x The colormap object.  Notice, a copy of this object is
+        !!  stored, and the surface_plot object then manages the lifetime of the
+        !!  copy.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         procedure, public :: set_colormap => surf_set_colormap
         !> @brief Gets a value determining if the plotted surfaces should be 
         !! smoothed.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return Returns true if the surface should be smoothed; else, false.
         procedure, public :: get_allow_smoothing => surf_get_smooth
         !> @brief Sets a value determining if the plotted surfaces should be 
         !! smoothed.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x Set to true if the surface should be smoothed; else, false.
         procedure, public :: set_allow_smoothing => surf_set_smooth
         !> @brief Gets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return Returns true if the contour plot should be drawn; else, false to
+        !!  only draw the surface.
         procedure, public :: get_show_contours => surf_get_show_contours
         !> @brief Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x Set to true if the contour plot should be drawn; else, false
+        !!  to only draw the surface.
         procedure, public :: set_show_contours => surf_set_show_contours
         !> @brief Gets a value determining if the colorbar should be shown.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return Returns true if the colorbar should be drawn; else, false.
         procedure, public :: get_show_colorbar => surf_get_show_colorbar
         !> @brief Sets a value determining if the colorbar should be shown.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x Set to true if the colorbar should be drawn; else, false.
         procedure, public :: set_show_colorbar => surf_set_show_colorbar
-
-        ! The ratio of the strength of the light relative to the ambient light
+        !> @brief Gets a value indicating if lighting, beyond the ambient
+        !! light source, is to be used.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return True if lighting should be used; else, false.
         procedure, public :: get_use_lighting => surf_get_use_lighting
+        !> @brief Sets a value indicating if lighting, beyond the ambient
+        !! light source, is to be used.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x True if lighting should be used; else, false.
         procedure, public :: set_use_lighting => surf_set_use_lighting
+        !> @brief Gets the ratio of the strength of the light source relative
+        !! to the ambient light.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return The light intensity ratio.
         procedure, public :: get_light_intensity => surf_get_light_intensity
+        !> @brief Sets the ratio of the strength of the light source relative
+        !! to the ambient light.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x The light intensity ratio.  The value must exist in the
+        !!  set [0, 1]; else, it will be clipped to lie within the range.
         procedure, public :: set_light_intensity => surf_set_light_intensity
+        !> @brief Gets the ratio of the strength of the specular light source 
+        !! relative to the ambient light.
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return The specular light intensity ratio.
         procedure, public :: get_specular_intensity => surf_get_specular_intensity
+        !> @brief Sets the ratio of the strength of the specular light source 
+        !! relative to the ambient light.
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x The specular light intensity ratio.  The value must 
+        !!  exist in the set [0, 1]; else, it will be clipped to lie within the
+        !!  range.
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
     end type
 
