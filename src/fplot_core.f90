@@ -6029,6 +6029,20 @@ module fplot_core
         !! @param[in] this The surface_plot object.
         !! @return A pointer to the colormap object.  If no colormap is defined, a
         !!  null pointer is returned.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     class(colormap), pointer :: map
+        !!
+        !!     ! Get a pointer to the current colormap
+        !!     map => plt%get_colormap()
+        !! end program
+        !! @endcode
         procedure, public :: get_colormap => surf_get_colormap
         !> @brief Sets the colormap object.
         !!
@@ -6047,6 +6061,20 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     type(rainbow_colormap) :: map
+        !!
+        !!     ! Set the colormap to a rainbow colormap
+        !!     call plt%set_colormap(map)
+        !! end program
+        !! @endcode
         procedure, public :: set_colormap => surf_set_colormap
         !> @brief Gets a value determining if the plotted surfaces should be 
         !! smoothed.
@@ -6058,6 +6086,20 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the surface should be smoothed; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Check to see if the surfaces should be smoothed by interpolation.
+        !!     check = plt%get_allow_smoothing()
+        !! end program
+        !! @endcode
         procedure, public :: get_allow_smoothing => surf_get_smooth
         !> @brief Sets a value determining if the plotted surfaces should be 
         !! smoothed.
@@ -6069,6 +6111,19 @@ module fplot_core
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the surface should be smoothed; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!
+        !!     ! Turn off smoothing (the default is on)
+        !!     call plt%set_allow_smoothing(.false.)
+        !! end program
+        !! @endcode
         procedure, public :: set_allow_smoothing => surf_set_smooth
         !> @brief Gets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
@@ -6081,6 +6136,20 @@ module fplot_core
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the contour plot should be drawn; else, false to
         !!  only draw the surface.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Check to see if contour lines are to be drawn
+        !!     check = plt%get_show_countours()
+        !! end program
+        !! @endcode
         procedure, public :: get_show_contours => surf_get_show_contours
         !> @brief Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
@@ -6171,6 +6240,20 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Check to see if the colorbar is shown
+        !!     check = plt%get_show_colorbar()
+        !! end program
+        !! @endcode
         procedure, public :: get_show_colorbar => surf_get_show_colorbar
         !> @brief Sets a value determining if the colorbar should be shown.
         !!
@@ -6181,6 +6264,20 @@ module fplot_core
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Hide the colorbar
+        !!     call plt%set_show_colorbar(.false.)
+        !! end program
+        !! @endcode
         procedure, public :: set_show_colorbar => surf_set_show_colorbar
         !> @brief Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
