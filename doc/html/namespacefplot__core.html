@@ -89,7 +89,6 @@ $(document).ready(function(){initNavTree('namespacefplot__core.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
-<a href="#func-members">Functions/Subroutines</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">fplot_core Module Reference</div>  </div>
@@ -209,21 +208,6 @@ Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1z__axis.html">z_axis</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A z-axis object.  <a href="structfplot__core_1_1z__axis.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a9f28022016f01e9b41ebf0d0e5faf8c8"><td class="memItemLeft" align="right" valign="top">character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a9f28022016f01e9b41ebf0d0e5faf8c8">xa_get_id</a> (this)</td></tr>
-<tr class="memdesc:a9f28022016f01e9b41ebf0d0e5faf8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the axis identification string.  <a href="#a9f28022016f01e9b41ebf0d0e5faf8c8">More...</a><br /></td></tr>
-<tr class="separator:a9f28022016f01e9b41ebf0d0e5faf8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d91b63dd3d6b770639cfbf710a88f36"><td class="memItemLeft" align="right" valign="top">character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a5d91b63dd3d6b770639cfbf710a88f36">ya_get_id</a> (this)</td></tr>
-<tr class="memdesc:a5d91b63dd3d6b770639cfbf710a88f36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the axis identification string.  <a href="#a5d91b63dd3d6b770639cfbf710a88f36">More...</a><br /></td></tr>
-<tr class="separator:a5d91b63dd3d6b770639cfbf710a88f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62c9f837dd159586219c04f07681224f"><td class="memItemLeft" align="right" valign="top">character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a62c9f837dd159586219c04f07681224f">y2a_get_id</a> (this)</td></tr>
-<tr class="memdesc:a62c9f837dd159586219c04f07681224f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the axis identification string.  <a href="#a62c9f837dd159586219c04f07681224f">More...</a><br /></td></tr>
-<tr class="separator:a62c9f837dd159586219c04f07681224f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a514f88ef7641f894dc122c73c759112f"><td class="memItemLeft" align="right" valign="top">character(len=:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a514f88ef7641f894dc122c73c759112f">za_get_id</a> (this)</td></tr>
-<tr class="memdesc:a514f88ef7641f894dc122c73c759112f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the axis identification string.  <a href="#a514f88ef7641f894dc122c73c759112f">More...</a><br /></td></tr>
-<tr class="separator:a514f88ef7641f894dc122c73c759112f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -435,156 +419,7 @@ type(<a class="el" href="structfplot__core_1_1color.html">color</a>), parameter,
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><b><a class="el" href="namespacefplot__core.html" title="fplot_core ">fplot_core</a></b> </p>
 <dl class="section user"><dt>Purpose</dt><dd>Provides types and routines specific necessary to support plotting operations. </dd></dl>
-</div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="a9f28022016f01e9b41ebf0d0e5faf8c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f28022016f01e9b41ebf0d0e5faf8c8">&#9670;&nbsp;</a></span>xa_get_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">character(len = :) function, allocatable fplot_core::xa_get_id </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1x__axis.html">x_axis</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the axis identification string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06758">6758</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a id="a62c9f837dd159586219c04f07681224f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62c9f837dd159586219c04f07681224f">&#9670;&nbsp;</a></span>y2a_get_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">character(len = :) function, allocatable fplot_core::y2a_get_id </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1y2__axis.html">y2_axis</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the axis identification string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1y2__axis.html" title="A secondary y-axis object. ">y2_axis</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06784">6784</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a id="a5d91b63dd3d6b770639cfbf710a88f36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d91b63dd3d6b770639cfbf710a88f36">&#9670;&nbsp;</a></span>ya_get_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">character(len = :) function, allocatable fplot_core::ya_get_id </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1y__axis.html">y_axis</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the axis identification string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1y__axis.html" title="A y-axis object. ">y_axis</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06771">6771</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-<a id="a514f88ef7641f894dc122c73c759112f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a514f88ef7641f894dc122c73c759112f">&#9670;&nbsp;</a></span>za_get_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">character(len = :) function, allocatable fplot_core::za_get_id </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structfplot__core_1_1z__axis.html">z_axis</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>this</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the axis identification string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1z__axis.html" title="A z-axis object. ">z_axis</a> object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06797">6797</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
