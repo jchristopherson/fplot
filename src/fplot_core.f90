@@ -6567,44 +6567,18 @@ module fplot_core
         end subroutine
     end interface
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 ! ******************************************************************************
-! CONCRETE PLOT_AXIS TYPES
+! FPLOT_AXIS.F90
 ! ------------------------------------------------------------------------------
     !> @brief An x-axis object.
+    !!
+    !! @par Syntax
+    !! @code{.f90}
+    !! character(len = :) function, allocatable get_id_string(class(x_axis) this)
+    !! @endcode
+    !!
+    !! @param[in] this The x_axis object.
+    !! @return The string.
     type, extends(plot_axis) :: x_axis
         !> The ID character
         character :: m_id = "x"
@@ -6615,6 +6589,14 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief A y-axis object.
+    !!
+    !! @par Syntax
+    !! @code{.f90}
+    !! character(len = :) function, allocatable get_id_string(class(y_axis) this)
+    !! @endcode
+    !!
+    !! @param[in] this The y_axis object.
+    !! @return The string.
     type, extends(plot_axis) :: y_axis
         !> The ID character
         character :: m_id = "y"
@@ -6625,6 +6607,14 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief A secondary y-axis object.
+    !!
+    !! @par Syntax
+    !! @code{.f90}
+    !! character(len = :) function, allocatable get_id_string(class(y2_axis) this)
+    !! @endcode
+    !!
+    !! @param[in] this The y2_axis object.
+    !! @return The string.
     type, extends(plot_axis) :: y2_axis
         !> The ID character
         character(len = 2) :: m_id = "y2"
@@ -6635,6 +6625,14 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief A z-axis object.
+    !!
+    !! @par Syntax
+    !! @code{.f90}
+    !! character(len = :) function, allocatable get_id_string(class(z_axis) this)
+    !! @endcode
+    !!
+    !! @param[in] this The z_axis object.
+    !! @return The string.
     type, extends(plot_axis) :: z_axis
         !> The ID character
         character :: m_id = "z"
@@ -6642,6 +6640,29 @@ module fplot_core
         !> @brief Gets the axis identification string.
         procedure, public :: get_id_string => za_get_id
     end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function xa_get_id(this) result(x)
+            class(x_axis), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+        
+        module function ya_get_id(this) result(x)
+            class(y_axis), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+        
+        module function y2a_get_id(this) result(x)
+            class(y2_axis), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function za_get_id(this) result(x)
+            class(z_axis), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
 
 ! ******************************************************************************
 ! ABSTRACT METHOD INTERFACES
@@ -6745,57 +6766,4 @@ module fplot_core
         end function
     end interface
 
-
-contains
-! ******************************************************************************
-! X_AXIS MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the axis identification string.
-    !!
-    !! @param[in] this The x_axis object.
-    !! @return The string.
-    function xa_get_id(this) result(x)
-        class(x_axis), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
-! ******************************************************************************
-! Y_AXIS MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the axis identification string.
-    !!
-    !! @param[in] this The y_axis object.
-    !! @return The string.
-    function ya_get_id(this) result(x)
-        class(y_axis), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
-! ******************************************************************************
-! Y2_AXIS MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the axis identification string.
-    !!
-    !! @param[in] this The y2_axis object.
-    !! @return The string.
-    function y2a_get_id(this) result(x)
-        class(y2_axis), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
-
-! ******************************************************************************
-! Z_AXIS MEMBERS
-! ------------------------------------------------------------------------------
-    !> @brief Gets the axis identification string.
-    !!
-    !! @param[in] this The z_axis object.
-    !! @return The string.
-    function za_get_id(this) result(x)
-        class(z_axis), intent(in) :: this
-        character(len = :), allocatable :: x
-        x = this%m_id
-    end function
 end module
