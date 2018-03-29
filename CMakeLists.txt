@@ -111,4 +111,11 @@ add_subdirectory(src)
 # ------------------------------------------------------------------------------
 # EXAMPLES
 # ------------------------------------------------------------------------------
-add_subdirectory(examples)
+option(BUILD_FPLOT_EXAMPLES "Build FPLOT examples?" OFF)
+if (BUILD_FPLOT_EXAMPLES)
+    # Inform the user we're building the examples
+    message(STATUS "Building FPLOT examples.")
+
+    # Build the examples
+    add_subdirectory(examples)
+endif()
