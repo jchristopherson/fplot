@@ -223,7 +223,7 @@ This is the plot resulting from the above program.
 This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
 
 ## Documentation
-Documentation can be found [here](https://github.com/jchristopherson/fplot/blob/master/doc/html/index.html)
+Documentation can be found [here](http://htmlpreview.github.io/?https://github.com/jchristopherson/fplot/blob/master/doc/html/index.html)
 
 ## External Libraries
 The FPLOT library depends upon the following libraries.
