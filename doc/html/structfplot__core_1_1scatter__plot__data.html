@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.2.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -253,7 +253,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="structfplot__core_1_1plot__data.html" title="Provides a container for plot data. ">plot_data</a> object for describing scatter plot data sets. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03083">3083</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03095">3095</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a1c2441b0246abe768500aee479889eb3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1c2441b0246abe768500aee479889eb3">&#9670;&nbsp;</a></span>get_command_string()</h2>
@@ -280,7 +280,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03114">3114</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03126">3126</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -310,7 +310,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the line should be drawn; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    <span class="comment">! Check to see if a line should be drawn to connect data points</span></div><div class="line">    check = pd%get_draw_line()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03311">3311</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03323">3323</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -340,7 +340,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the markers should be drawn; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    <span class="comment">! Check to see if markers should be drawn at data points</span></div><div class="line">    check = pd%get_draw_markers()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03365">3365</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03377">3377</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -370,7 +370,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The color.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">type</span>(color) :: clr</div><div class="line"></div><div class="line">    <span class="comment">! Get the line color</span></div><div class="line">    clr = pd%get_line_color()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03258">3258</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03270">3270</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -407,7 +407,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: style</div><div class="line"></div><div class="line">    <span class="comment">! Get the line style</span></div><div class="line">    style = pd%get_line_style()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03199">3199</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03211">3211</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The line width.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">real(real32)</span> :: width</div><div class="line"></div><div class="line">    <span class="comment">! Get the line width</span></div><div class="line">    width = pd%get_line_width()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03141">3141</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03153">3153</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The marker frequency.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: freq</div><div class="line"></div><div class="line">    <span class="comment">! Get the data point marker frequency</span></div><div class="line">    freq = pd%get_marker_frequency()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03553">3553</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03565">3565</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -497,7 +497,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The scaling factor.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">real(real32)</span> :: scaling</div><div class="line"></div><div class="line">    <span class="comment">! Get the data point marker scaling factor</span></div><div class="line">    scaling = pd%get_marker_scaling()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03499">3499</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03511">3511</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -542,7 +542,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: marker</div><div class="line"></div><div class="line">    <span class="comment">! Get the data point marker style</span></div><div class="line">    marker = pd%get_marker_style()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03432">3432</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03444">3444</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -571,7 +571,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns true if GNUPLOT should choose colors; else, false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03591">3591</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03603">3603</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -601,7 +601,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Force a line to be drawn between data points</span></div><div class="line">    <span class="keyword">call </span>pd%set_draw_line(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03337">3337</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03349">3349</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -631,7 +631,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Force markers to be drawn at data points</span></div><div class="line">    <span class="keyword">call </span>pd%set_draw_markers(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03392">3392</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03404">3404</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -661,7 +661,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the line color to red</span></div><div class="line">    <span class="keyword">call </span>pd%set_line_color(clr_red)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03284">3284</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03296">3296</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -698,7 +698,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the line style</span></div><div class="line">    <span class="keyword">call </span>pd%get_line_style(line_dashed)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03231">3231</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03243">3243</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -728,7 +728,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the line width</span></div><div class="line">    <span class="keyword">call </span>pd%set_line_width(2.0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03167">3167</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03179">3179</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -758,7 +758,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line">    <span class="keywordtype">real(real32)</span> :: scaling</div><div class="line"></div><div class="line">    <span class="comment">! Set a data point marker every second data point</span></div><div class="line">    <span class="keyword">call </span>pd%set_marker_frequency(2)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03580">3580</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03592">3592</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -788,7 +788,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the data point marker scaling factor such that the marker</span></div><div class="line">    <span class="comment">! is scaled by a factor of 2</span></div><div class="line">    <span class="keyword">call </span>pd%set_marker_scaling(2.0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03526">3526</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03538">3538</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -833,7 +833,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example makes use of the <a class="el" href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. ">plot_data_2d</a> type; however, this example is valid for any type that derives from <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. ">scatter_plot_data</a>. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the data point marker style to a plus (+) sign</span></div><div class="line">    <span class="keyword">call </span>pd%set_marker_style(marker_plus)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03472">3472</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03484">3484</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -862,7 +862,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03602">3602</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03614">3614</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

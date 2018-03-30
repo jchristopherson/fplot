@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.2.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -200,7 +200,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describes a single plot axis. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01154">1154</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01166">1166</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a2d6b1115353822e5f07b36c447bec15d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d6b1115353822e5f07b36c447bec15d">&#9670;&nbsp;</a></span>get_autoscale()</h2>
@@ -228,7 +228,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the axis should be automatically scaled; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = axis%get_autoscale()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01275">1275</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01287">1287</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -257,7 +257,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01419">1419</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01431">1431</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -287,7 +287,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>Returns true if log scaling is applied to the axis; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = axis%get_is_log_scaled()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01382">1382</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01394">1394</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>A two-element array containing the limits as follows: [lower, upper].</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">real(real64)</span> :: lim(2)</div><div class="line"></div><div class="line">    lim = axis%get_limits()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01329">1329</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01341">1341</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -347,7 +347,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>The title.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: txt</div><div class="line"></div><div class="line">    txt = axis%get_title()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01195">1195</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01207">1207</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -377,7 +377,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>Returns true to draw as a zero axis; else, set to false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = axis%get_zero_axis()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01445">1445</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01457">1457</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -407,7 +407,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>The width of the line, in pixels.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">real(real32)</span> :: width</div><div class="line"></div><div class="line">    width = axis%get_zero_axis_line_width()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01497">1497</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01509">1509</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>Returns true if a title has been defined for this axis; else, returns false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = axis%is_title_defined()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01248">1248</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01260">1260</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%set_autoscale(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01301">1301</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01313">1313</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -497,7 +497,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%set_is_log_scaled(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01408">1408</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01420">1420</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -528,7 +528,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%set_limits(0.0d0, 5.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01356">1356</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01368">1368</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -558,7 +558,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%set_title(<span class="stringliteral">&quot;X Axis&quot;</span>)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01221">1221</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01233">1233</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -588,7 +588,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%get_zero_axis(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01470">1470</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01482">1482</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -618,7 +618,7 @@ real(real32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="section user"><dt>Example</dt><dd>Notice, this example uses an <a class="el" href="structfplot__core_1_1x__axis.html" title="An x-axis object. ">x_axis</a> type. Any type that derives from the <a class="el" href="structfplot__core_1_1plot__axis.html" title="Describes a single plot axis. ">plot_axis</a> type can be used. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(x_axis) :: axis</div><div class="line"></div><div class="line">    <span class="keyword">call </span>axis%get_zero_axis_line_width(3.0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01523">1523</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01535">1535</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

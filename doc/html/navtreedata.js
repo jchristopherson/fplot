@@ -24,6 +24,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "fplot", "index.html", [
+    [ "Introduction", "index.html#intro_sec", null ],
     [ "Modules", "namespaces.html", [
       [ "Modules List", "namespaces.html", "namespaces_dup" ],
       [ "Module Members", "namespacemembers.html", [
@@ -50,7 +51,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structfplot__core_1_1scatter__plot__data.html#a4eee46d60e67480e67b833b5a606c2aa"
+"structfplot__core_1_1scatter__plot__data.html#a40463c237fd44d543866a3f9bc6588a1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

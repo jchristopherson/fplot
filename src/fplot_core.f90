@@ -1,5 +1,17 @@
 ! fplot_core.f90
 
+!> @mainpage
+!!
+!! @section intro_sec Introduction
+!! FPLOT is a Fortran library providing a means of interacting with 
+!! [Gnuplot](http://www.gnuplot.info/) from a Fortran program.  The library is 
+!! designed in an object-oriented manner, and as such utilizes language features
+!! that require a compiler that supports the 2003 and 2008 standards.  Additionally, 
+!! it is expected that Gnuplot is installed on the system path.  For full 
+!! functionallity, a minimum of Gnuplot v5.2 is expected.
+!!
+!! @image html example_surface_plot_lighting_2.png
+
 !> @brief \b fplot_core
 !!
 !! @par Purpose
