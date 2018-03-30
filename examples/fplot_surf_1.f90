@@ -14,35 +14,39 @@ program example
     real(real64), parameter :: yMin = -5.0d0
 
     ! Local Variables
-    real(real64), dimension(m, n) :: x, y, z
-    real(real64) :: dx, dy
-    integer(int32) :: i, j
+    real(real64), dimension(n) :: xdata
+    real(real64), dimension(m) :: ydata
+    real(real64), dimension(:,:), pointer :: x, y
+    real(real64), dimension(m, n, 2), target :: xy
+    real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
-    type(rainbow_colormap) :: map
+    ! type(rainbow_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
-    dx = (xMax - xMin) / (n - 1.0d0)
-    x(:,1) = xMin
-    do j = 2, n
-        x(:,j) = x(:,j-1) + dx
-    end do
+    xdata = linspace(xMin, xMax, n)
+    ydata = linspace(yMin, yMax, m)
+    xy = meshgrid(xdata, ydata)
+    x => xy(:,:,1)
+    y => xy(:,:,2)
 
-    dy = (yMax - yMin) / (m - 1.0d0)
-    y(1,:) = yMax
-    do i = 2, m
-        y(i,:) = y(i-1,:) - dy
-    end do
-
+    ! Define the function to plot
     z = sin(sqrt(x**2 + y**2))
 
     ! Create the plot
     call plt%initialize()
-    call plt%set_colormap(map)
+    call plt%set_show_hidden(.true.)
+    call d1%set_use_wireframe(.true.)
+    ! call plt%set_colormap(map)
+
+    ! Set up lighting
+    call plt%set_use_lighting(.true.)
+    call plt%set_light_intensity(0.7)
+    call plt%set_specular_intensity(0.7)
 
     ! Define titles
-    call plt%set_title("Surface Example Plot 1")
+    call plt%set_title("Example Plot")
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")

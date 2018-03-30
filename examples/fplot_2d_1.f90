@@ -7,20 +7,20 @@ program example
 
     ! Parameters
     integer(int32), parameter :: n = 1000
-    real(real64), parameter :: dx = 1.0d-2
 
     ! Local Variables
-    integer(int32) :: i
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
+    type(legend), pointer :: leg
     
     ! Initialize the plot object
     call plt%initialize()
 
     ! Define titles
-    call plt%set_title("2D Example Plot 1")
+    call plt%set_title("Example Plot")
+    call plt%set_font_size(14)
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
@@ -28,11 +28,15 @@ program example
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
 
+    ! Establish legend properties
+    leg => plt%get_legend()
+    call leg%set_draw_inside_axes(.false.)
+    call leg%set_horizontal_position(LEGEND_CENTER)
+    call leg%set_vertical_position(LEGEND_BOTTOM)
+    call leg%set_draw_border(.false.)
+
     ! Define the data, and then add it to the plot
-    x(1) = 0.0d0
-    do i = 2, n
-        x(i) = x(i-1) + dx
-    end do
+    x = linspace(0.0d0, 10.0d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
@@ -41,7 +45,6 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_use_auto_color(.false.)
     call d1%set_line_color(CLR_BLUE)
     call d1%set_draw_markers(.true.)
     call d1%set_marker_frequency(10)
@@ -49,7 +52,6 @@ program example
     call d1%set_marker_scaling(2.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_use_auto_color(.false.)
     call d2%set_line_color(CLR_GREEN)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)

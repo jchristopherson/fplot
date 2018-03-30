@@ -1,7 +1,9 @@
-[submodule "src/external/strings"]
-	path = src/external/strings
-	url = https://github.com/jchristopherson/strings.git
-
-[submodule "src/external/collections"]
-	path = src/external/collections
+[submodule "external/ferror"]
+	path = external/ferror
+	url = https://github.com/jchristopherson/ferror.git
+[submodule "external/collections"]
+	path = external/collections
 	url = https://github.com/jchristopherson/collections.git
+[submodule "external/strings"]
+	path = external/strings
+	url = https://github.com/jchristopherson/strings.git

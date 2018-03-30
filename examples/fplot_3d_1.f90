@@ -7,22 +7,21 @@ program example
 
     ! Parameters
     integer(int32), parameter :: n = 1000
-    real(real64), parameter :: dt = 1.0d-2
 
     ! Local Variables
-    integer(int32) :: i
     real(real64), dimension(n) :: t, x, y, z
     type(plot_3d) :: plt
     type(plot_data_3d) :: d1
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    type(legend), pointer :: leg
 
     ! Initialize the plot object
     call plt%initialize()
-
-    call plt%set_draw_border(.false.)
+    leg => plt%get_legend()
+    call leg%set_is_visible(.false.)
 
     ! Define titles
-    call plt%set_title("3D Example Plot 1")
+    call plt%set_title("Example Plot")
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
@@ -34,10 +33,7 @@ program example
     call zAxis%set_title("Z Axis")
 
     ! Define the data
-    t(1) = 0.0d0
-    do i = 2, n
-        t(i) = t(i-1) + dt
-    end do
+    t = linspace(0.0d0, 10.0d0, n)
     x = cos(5.0d0 * t)
     y = sin(5.0d0 * t)
     z = 2.0d0 * t
@@ -45,8 +41,6 @@ program example
     call d1%define_data(x, y, z)
 
     ! Set up the data set
-    call d1%set_name("Helix")
-    call d1%set_use_auto_color(.false.)
     call d1%set_line_color(CLR_BLUE)
     call d1%set_line_width(2.0)
 
