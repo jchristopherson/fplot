@@ -1,5 +1,5 @@
 # Define the source files
-set(fplot_sources 
+set(fplot_sources
     fplot_core.f90
     fplot_core_routines.f90
     fplot_errors.f90
@@ -45,21 +45,21 @@ set(fplot_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include)
 
 # Define the installation instructions
 install(TARGETS fplot EXPORT fplotTargets
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION fplot/bin
+    LIBRARY DESTINATION fplot/lib
+    ARCHIVE DESTINATION fplot/lib
     CONFIGURATIONS Release
-    INCLUDES DESTINATION include
+    INCLUDES DESTINATION fplot/include
 )
 install(
-    DIRECTORY ${PROJECT_SOURCE_DIR}/include 
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    DIRECTORY ${PROJECT_SOURCE_DIR}/include
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/fplot
     COMPONENT Devel
 )
 
 # Include the documentation
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/doc/html DESTINATION doc)
-install(FILES ${PROJECT_SOURCE_DIR}/doc/refman.pdf DESTINATION doc)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/doc/html DESTINATION fplot/doc)
+install(FILES ${PROJECT_SOURCE_DIR}/doc/refman.pdf DESTINATION fplot/doc)
 
 # Define the version file
 include(CMakePackageConfigHelpers)
