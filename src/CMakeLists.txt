@@ -80,7 +80,7 @@ configure_file(
     COPYONLY
 )
 
-set(ConfigPackageLocation lib/cmake/fplot)
+set(ConfigPackageLocation fplot/lib/cmake/fplot)
 install(
     EXPORT fplotTargets
     FILE fplotTargets.cmake
