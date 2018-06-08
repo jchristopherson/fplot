@@ -10,7 +10,7 @@ set(FPLOT_VERSION ${FPLOT_MAJOR_VERSION}.${FPLOT_MINOR_VERSION}.${FPLOT_PATCH_VE
 
 # Locate Dependencies
 find_package(ferror 1.3.0)
-find_package(collections)
+find_package(collections 1.1.0)
 set(strings_Sources ${PROJECT_SOURCE_DIR}/external/strings/src/strings.f90)
 
 # If FERROR is not installed on the system, build the default implementation
