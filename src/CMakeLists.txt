@@ -24,11 +24,12 @@ set(fplot_sources
     fplot_surface_plot.f90
     fplot_axis.f90
     ${strings_Sources}
+    ${collections_Sources}
 )
 
 # Build the library
 add_library(fplot ${fplot_sources})
-target_link_libraries(fplot ${FERROR_LIBRARIES} ${COLLECTIONS_LIBRARIES})
+target_link_libraries(fplot ${FERROR_LIBRARIES})
 
 
 # ------------------------------------------------------------------------------
@@ -59,7 +60,6 @@ install(
 
 # Include the documentation
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/doc/html DESTINATION fplot/doc)
-install(FILES ${PROJECT_SOURCE_DIR}/doc/refman.pdf DESTINATION fplot/doc)
 
 # Define the version file
 include(CMakePackageConfigHelpers)

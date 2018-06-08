@@ -27,7 +27,7 @@ var searchData=
   ['set_5fmarker_5fscaling',['set_marker_scaling',['../structfplot__core_1_1scatter__plot__data.html#a56221fa96775c49c4b6249d353fd1900',1,'fplot_core::scatter_plot_data']]],
   ['set_5fmarker_5fstyle',['set_marker_style',['../structfplot__core_1_1scatter__plot__data.html#ac6f9a3cdbc2c6829cc93e86f563c9230',1,'fplot_core::scatter_plot_data']]],
   ['set_5fname',['set_name',['../structfplot__core_1_1plot__data.html#ae15dc70924288d7ca2f9c0145971cf76',1,'fplot_core::plot_data']]],
-  ['set_5fplot_5fwindow_5fnumber',['set_plot_window_number',['../structfplot__core_1_1terminal.html#ae2f537b14764c512aeae6108b0d4c0ba',1,'fplot_core::terminal']]],
+  ['set_5fplot_5fwindow_5fnumber',['set_plot_window_number',['../structfplot__core_1_1terminal.html#ad2caaa877a79c327cca11fc1e4a15aff',1,'fplot_core::terminal']]],
   ['set_5fshow_5fcolorbar',['set_show_colorbar',['../structfplot__core_1_1surface__plot.html#af799380aeea4cefe1ebe4b824ea12605',1,'fplot_core::surface_plot']]],
   ['set_5fshow_5fcontours',['set_show_contours',['../structfplot__core_1_1surface__plot.html#ae449da228b62d103860df52de42d97a4',1,'fplot_core::surface_plot']]],
   ['set_5fshow_5fgridlines',['set_show_gridlines',['../structfplot__core_1_1plot.html#a627de08d3dc607a4ce936a115698deb6',1,'fplot_core::plot']]],
