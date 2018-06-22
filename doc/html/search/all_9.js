@@ -15,6 +15,7 @@ var searchData=
   ['plot_5fgnuplot_5ffile_5ferror',['plot_gnuplot_file_error',['../namespacefplot__errors.html#a30e0efa01cc5ad636bcae1c097a768fe',1,'fplot_errors']]],
   ['plot_5finvalid_5finput_5ferror',['plot_invalid_input_error',['../namespacefplot__errors.html#a6ec636c83abdb96a29ead622c37c7408',1,'fplot_errors']]],
   ['plot_5finvalid_5foperation_5ferror',['plot_invalid_operation_error',['../namespacefplot__errors.html#a4e51e94150cf61807209618ddf49c978',1,'fplot_errors']]],
+  ['plot_5flabel',['plot_label',['../structfplot__core_1_1plot__label.html',1,'fplot_core']]],
   ['plot_5fobject',['plot_object',['../structfplot__core_1_1plot__object.html',1,'fplot_core']]],
   ['plot_5fout_5fof_5fmemory_5ferror',['plot_out_of_memory_error',['../namespacefplot__errors.html#adc52a2e51a08eef130e6fa2f3bbedc53',1,'fplot_errors']]],
   ['plotdata_5fmax_5fname_5flength',['plotdata_max_name_length',['../namespacefplot__core.html#acfa29ac62a50b61ea009b20a898d45e5',1,'fplot_core']]],

@@ -17,6 +17,7 @@ var namespacefplot__core =
     [ "plot_data", "structfplot__core_1_1plot__data.html", "structfplot__core_1_1plot__data" ],
     [ "plot_data_2d", "structfplot__core_1_1plot__data__2d.html", "structfplot__core_1_1plot__data__2d" ],
     [ "plot_data_3d", "structfplot__core_1_1plot__data__3d.html", "structfplot__core_1_1plot__data__3d" ],
+    [ "plot_label", "structfplot__core_1_1plot__label.html", "structfplot__core_1_1plot__label" ],
     [ "plot_object", "structfplot__core_1_1plot__object.html", "structfplot__core_1_1plot__object" ],
     [ "png_terminal", "structfplot__core_1_1png__terminal.html", "structfplot__core_1_1png__terminal" ],
     [ "qt_terminal", "structfplot__core_1_1qt__terminal.html", "structfplot__core_1_1qt__terminal" ],

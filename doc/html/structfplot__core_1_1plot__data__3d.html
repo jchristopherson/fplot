@@ -271,7 +271,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a three-dimensional plot data set. </p>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04191">4191</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04360">4360</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a class="anchor" id="a1da0fc15c57415ca0a4d85392ef3a1de"></a>
 <div class="memitem">
@@ -307,7 +307,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </div>
  </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04471">4471</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04640">4640</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -334,7 +334,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04384">4384</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04553">4553</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -360,9 +360,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of data points.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: n</div><div class="line"></div><div class="line">    <span class="comment">! Get the number of stored data points</span></div><div class="line">    n = pd%get_count() </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: n</div><div class="line"></div><div class="line">    <span class="comment">! Get the number of stored data points</span></div><div class="line">    n = pd%get_count()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04220">4220</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04389">4389</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -389,7 +389,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04395">4395</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04564">4564</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -416,9 +416,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: x</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the x-coordinate data</span></div><div class="line">    x = pd%get_x(10) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: x</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the x-coordinate data</span></div><div class="line">    x = pd%get_x(10)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04246">4246</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04415">4415</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -445,9 +445,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: y</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the y-coordinate data</span></div><div class="line">    y = pd%get_y(10) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: y</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the y-coordinate data</span></div><div class="line">    y = pd%get_y(10)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04297">4297</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04466">4466</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -474,9 +474,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The requested data point.</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: z</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the z-coordinate data</span></div><div class="line">    z = pd%get_z(10) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line">    <span class="keywordtype">real(real64)</span> :: z</div><div class="line"></div><div class="line">    <span class="comment">! Get the 10th value from the z-coordinate data</span></div><div class="line">    z = pd%get_z(10)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04348">4348</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04517">4517</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -503,9 +503,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the x-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_x(10, 50.0d0) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the x-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_x(10, 50.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04271">4271</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04440">4440</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -532,9 +532,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the y-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_y(10, 50.0d0) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the y-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_y(10, 50.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04322">4322</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04491">4491</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -561,9 +561,9 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the z-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_z(10, 50.0d0) </div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__3d.html">plot_data_3d</a>) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the 10th value in the z-coordinate data</span></div><div class="line">    <span class="keyword">call </span>pd%set_z(10, 50.0d0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04373">4373</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l04542">4542</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

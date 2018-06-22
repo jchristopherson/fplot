@@ -27,6 +27,10 @@ program example
     ! Set up the plot
     call plt%initialize()
     call plt%set_title("Example Plot")
+    call plt%set_font_size(14)
+    call plt%set_show_gridlines(.false.)
+
+    ! Add the label to the plot
     call plt%push_label(lbl)
 
     xAxis => plt%get_x_axis()

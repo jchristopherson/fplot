@@ -6,6 +6,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_core.f90", "fplot__core_8f90_source.html", null ],
     [ "fplot_core_routines.f90", "fplot__core__routines_8f90_source.html", null ],
     [ "fplot_errors.f90", "fplot__errors_8f90_source.html", null ],
+    [ "fplot_label.f90", "fplot__label_8f90_source.html", null ],
     [ "fplot_latex_terminal.f90", "fplot__latex__terminal_8f90_source.html", null ],
     [ "fplot_legend.f90", "fplot__legend_8f90_source.html", null ],
     [ "fplot_plot.f90", "fplot__plot_8f90_source.html", null ],

@@ -208,6 +208,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab2e7182887ee757de01d5e76baac573c"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#ab2e7182887ee757de01d5e76baac573c">set_draw_border</a> =&gt; plt_set_draw_border</td></tr>
 <tr class="memdesc:ab2e7182887ee757de01d5e76baac573c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a value determining if the border should be drawn.  <a href="#ab2e7182887ee757de01d5e76baac573c">More...</a><br /></td></tr>
 <tr class="separator:ab2e7182887ee757de01d5e76baac573c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f704e48794d3805d2f13c96082096c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89f704e48794d3805d2f13c96082096c"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>push_label</b> =&gt; plt_push_label</td></tr>
+<tr class="separator:a89f704e48794d3805d2f13c96082096c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72556bd3398bf491d2aa192ceaab9807"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72556bd3398bf491d2aa192ceaab9807"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>pop_label</b> =&gt; plt_pop_label</td></tr>
+<tr class="separator:a72556bd3398bf491d2aa192ceaab9807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcffef6762be05923cf9c5ab359e8443"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abcffef6762be05923cf9c5ab359e8443"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>get_label</b> =&gt; plt_get_label</td></tr>
+<tr class="separator:abcffef6762be05923cf9c5ab359e8443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceacfecd4e80176c0f683ed9ec4a6d28"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aceacfecd4e80176c0f683ed9ec4a6d28"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>set_label</b> =&gt; plt_set_label</td></tr>
+<tr class="separator:aceacfecd4e80176c0f683ed9ec4a6d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9952170f4f41cbb27125c3be26812728"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9952170f4f41cbb27125c3be26812728"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>get_label_count</b> =&gt; plt_get_label_count</td></tr>
+<tr class="separator:a9952170f4f41cbb27125c3be26812728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba04c14ccf1a3ba101fdf6bc2015c136"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba04c14ccf1a3ba101fdf6bc2015c136"></a>
+procedure, public&#160;</td><td class="memItemRight" valign="bottom"><b>clear_all_labels</b> =&gt; plt_clear_labels</td></tr>
+<tr class="separator:aba04c14ccf1a3ba101fdf6bc2015c136"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structfplot__core_1_1plot__object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structfplot__core_1_1plot__object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structfplot__core_1_1plot__object.html">fplot_core::plot_object</a></td></tr>
 <tr class="memitem:a7468d9c46604d4559a4f342f884fd461 inherit pub_methods_structfplot__core_1_1plot__object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7468d9c46604d4559a4f342f884fd461"></a>
 procedure(<a class="el" href="interfacefplot__core_1_1get__string__result.html">get_string_result</a>), deferred, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__object.html#a7468d9c46604d4559a4f342f884fd461">get_command_string</a></td></tr>
@@ -248,11 +266,15 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#aa6041d60ec2b7939ff62dfe315c533bb">m_drawborder</a> = .true.</td></tr>
 <tr class="memdesc:aa6041d60ec2b7939ff62dfe315c533bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the border? <br /></td></tr>
 <tr class="separator:aa6041d60ec2b7939ff62dfe315c533bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749f5e716823b818c276e26d301a43da"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a749f5e716823b818c276e26d301a43da"></a>
+type(list)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a749f5e716823b818c276e26d301a43da">m_labels</a></td></tr>
+<tr class="memdesc:a749f5e716823b818c276e26d301a43da"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of <a class="el" href="structfplot__core_1_1plot__label.html" title="Defines a label object for a plot. ">plot_label</a> items to draw. <br /></td></tr>
+<tr class="separator:a749f5e716823b818c276e26d301a43da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the basic GNUPLOT plot. </p>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02026">2026</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02155">2155</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a class="anchor" id="a0cc70568df72a20b732e1ef8434860aa"></a>
 <div class="memitem">
@@ -277,7 +299,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="keyword">call </span>plt%clear_all()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02255">2255</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02386">2386</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -309,7 +331,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02398">2398</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02529">2529</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -335,7 +357,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02055">2055</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02186">2186</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -364,7 +386,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the requested <a class="el" href="structfplot__core_1_1plot__data.html" title="Provides a container for plot data. ">plot_data</a> object.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">class</span>(<a class="code" href="structfplot__core_1_1plot__data.html">plot_data</a>), <span class="keywordtype">pointer</span> :: ptr</div><div class="line"></div><div class="line">    <span class="comment">! Add some data ... (not shown)</span></div><div class="line"></div><div class="line">    <span class="comment">! Retrieve the second data set added</span></div><div class="line">    ptr =&gt; plt%get(2)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02284">2284</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02415">2415</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -392,7 +414,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The number of <a class="el" href="structfplot__core_1_1plot__data.html" title="Provides a container for plot data. ">plot_data</a> objects.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: n</div><div class="line"></div><div class="line">    n = plt%get_count()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02189">2189</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02320">2320</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -420,7 +442,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the border should be drawn; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = plt%get_draw_border()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02642">2642</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02773">2773</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -448,7 +470,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The font name.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: name</div><div class="line"></div><div class="line">    name = plt%get_font_name()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02485">2485</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02616">2616</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -476,7 +498,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The size of the font, in points.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">integer(int32)</span> :: sz</div><div class="line"></div><div class="line">    sz = plt%get_font_size()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02536">2536</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02667">2667</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -505,7 +527,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02163">2163</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02294">2294</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -533,7 +555,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the grid lines should be shown; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = plt%get_show_gridlines()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02351">2351</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02482">2482</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -561,7 +583,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the GNUPLOT terminal object.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02326">2326</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02457">2457</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -589,7 +611,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the tic marks should point inwards; else, false if the tic marks should point outwards.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = plt%get_tics_inward()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02590">2590</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02721">2721</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -617,7 +639,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The plot's title.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: txt</div><div class="line"></div><div class="line">    txt = plt%get_title()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02105">2105</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02236">2236</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -656,7 +678,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02080">2080</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02211">2211</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -684,7 +706,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>Returns true if a title has been defined for this plot; else, returns false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = plt%is_title_defined()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02147">2147</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02278">2278</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -711,7 +733,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="keyword">call </span>plt%pop()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02231">2231</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02362">2362</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -743,7 +765,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02208">2208</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02339">2339</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -778,7 +800,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02460">2460</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02591">2591</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -807,7 +829,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__data__2d.html">plot_data_2d</a>) :: dataset</div><div class="line"></div><div class="line">    <span class="comment">! Add some data to the plot ... (not shown)</span></div><div class="line"></div><div class="line">    <span class="comment">! Add dataset to the second spot in the collection</span></div><div class="line">    <span class="keyword">call </span>plt%set(2, dataset)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02313">2313</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02444">2444</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -835,7 +857,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="comment">! Shut off the axes border</span></div><div class="line">    <span class="keyword">call </span>plt%set_draw_border(.false.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02667">2667</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02798">2798</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -863,7 +885,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="comment">! Establish the font used by the plot as Arial.</span></div><div class="line">    <span class="keyword">call </span>plt%set_title(<span class="stringliteral">&quot;Arial&quot;</span>)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02510">2510</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02641">2641</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -891,7 +913,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="comment">! Set the font to be 14 point in size</span></div><div class="line">    <span class="keyword">call </span>plt%set_font_size(14)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02563">2563</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02694">2694</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -919,7 +941,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="comment">! Turn off the gridlines</span></div><div class="line">    <span class="keyword">call </span>plt%set_show_gridlines(.false.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02376">2376</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02507">2507</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -947,7 +969,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>This example uses a <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot. ">plot_2d</a> type, but this example is valid for any type that derives from the plot type. <div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(<a class="code" href="structfplot__core_1_1plot__2d.html">plot_2d</a>) :: plt</div><div class="line"></div><div class="line">    <span class="comment">! Point the axes tic marks outward</span></div><div class="line">    <span class="keyword">call </span>plt%set_tics_inward(.false.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02617">2617</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02748">2748</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -975,7 +997,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object. ">png_terminal</a></code> for an example. </dd></dl>
 
-<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02120">2120</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p>Definition at line <a class="el" href="fplot__core_8f90_source.html#l02251">2251</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
