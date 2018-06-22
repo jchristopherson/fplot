@@ -12,6 +12,7 @@ program example
     type(plot_data_2d) :: dataset
     class(plot_axis), pointer :: xAxis, yAxis
     type(legend), pointer :: leg
+    type(plot_label) :: lbl
 
     ! Build a data set
     x = linspace(0.0d0, 10.0d0, npts)
@@ -19,9 +20,14 @@ program example
 
     call dataset%define_data(y)
 
+    ! Define the label
+    call lbl%set_text("Test Label 1")
+    call lbl%set_position([600.0, 0.6, 0.0])
+
     ! Set up the plot
     call plt%initialize()
     call plt%set_title("Example Plot")
+    call plt%push_label(lbl)
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")

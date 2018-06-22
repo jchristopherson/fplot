@@ -23,6 +23,7 @@ set(fplot_sources
     fplot_plot_3d.f90
     fplot_surface_plot.f90
     fplot_axis.f90
+    fplot_label.f90
     ${strings_Sources}
     ${collections_Sources}
 )

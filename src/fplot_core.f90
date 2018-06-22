@@ -94,6 +94,7 @@ module fplot_core
     public :: rainbow_colormap
     public :: hot_colormap
     public :: cool_colormap
+    public :: plot_label
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -337,7 +338,79 @@ module fplot_core
     !> @brief Defines a navy color.
     type(color), parameter :: CLR_NAVY = color(0, 0, 128)
 
+! ******************************************************************************
+! FPLOT_LABEL.F90
+! ------------------------------------------------------------------------------
+    type, extends(plot_object) :: plot_label
+    private
+        !> Determines if the label is visible
+        logical :: m_visible = .true.
+        !> The x, y, and z coordinates of the label
+        real(real32), dimension(3) :: m_position
+        !> The rotation angle of the label
+        real(real32) :: m_angle = 0.0
+        !> The label text
+        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_text
+    contains
+        procedure, public :: get_command_string => lbl_get_cmd
+        procedure, public :: get_is_visible => lbl_get_is_visible
+        procedure, public :: set_is_visible => lbl_set_is_visible
+        procedure, public :: get_position => lbl_get_position
+        procedure, public :: set_position => lbl_set_position
+        procedure, public :: get_angle => lbl_get_angle
+        procedure, public :: set_angle => lbl_set_angle
+        procedure, public :: get_text => lbl_get_txt
+        procedure, public :: set_text => lbl_set_txt
+    end type
 
+! ------------------------------------------------------------------------------
+    interface
+        module function lbl_get_cmd(this) result(x)
+            class(plot_label), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function lbl_get_is_visible(this) result(x)
+            class(plot_label), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine lbl_set_is_visible(this, x)
+            class(plot_label), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function lbl_get_position(this) result(x)
+            class(plot_label), intent(in) :: this
+            real(real32), dimension(3) :: x
+        end function
+
+        module subroutine lbl_set_position(this, x)
+            class(plot_label), intent(inout) :: this
+            real(real32), intent(in), dimension(3) :: x
+        end subroutine
+
+        pure module function lbl_get_angle(this) result(x)
+            class(plot_label), intent(in) :: this
+            real(real32) :: x
+        end function
+
+        module subroutine lbl_set_angle(this, x)
+            class(plot_label), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        module function lbl_get_txt(this) result(x)
+            class(plot_label), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine lbl_set_txt(this, x)
+            class(plot_label), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+    end interface
+    
 ! ******************************************************************************
 ! FPLOT_TERMINAL.F90
 ! ------------------------------------------------------------------------------
@@ -2041,6 +2114,8 @@ module fplot_core
         logical :: m_ticsIn = .true.
         !> Draw the border?
         logical :: m_drawBorder = .true.
+        !> A collection of plot_label items to draw
+        type(list) :: m_labels ! Added 6/22/2018, JAC
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting 
         !! classes are expected to call this routine to free internally held
@@ -2665,6 +2740,13 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_draw_border => plt_set_draw_border
+
+        procedure, public :: push_label => plt_push_label
+        procedure, public :: pop_label => plt_pop_label
+        procedure, public :: get_label => plt_get_label
+        procedure, public :: set_label => plt_set_label
+        procedure, public :: get_label_count => plt_get_label_count
+        procedure, public :: clear_all_labels => plt_clear_labels
     end type
 
 ! ------------------------------------------------------------------------------
@@ -2795,6 +2877,37 @@ module fplot_core
         module subroutine plt_set_draw_border(this, x)
             class(plot), intent(inout) :: this
             logical, intent(in) :: x
+        end subroutine
+
+        module subroutine plt_push_label(this, lbl, err)
+            class(plot), intent(inout) :: this
+            class(plot_label), intent(in) :: lbl
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+         module subroutine plt_pop_label(this)
+            class(plot), intent(inout) :: this
+        end subroutine
+
+        module function plt_get_label(this, i) result(x)
+            class(plot), intent(in) :: this
+            integer(int32), intent(in) :: i
+            class(plot_label), pointer :: x
+        end function
+
+        module subroutine plt_set_label(this, i, x)
+            class(plot), intent(inout) :: this
+            integer(int32), intent(in) :: i
+            class(plot_label), intent(in) :: x
+        end subroutine
+
+        pure module function plt_get_label_count(this) result(x)
+            class(plot), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        module subroutine plt_clear_labels(this)
+            class(plot), intent(inout) :: this
         end subroutine
     end interface
 

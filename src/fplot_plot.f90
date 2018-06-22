@@ -347,4 +347,66 @@ contains
         logical, intent(in) :: x
         this%m_drawBorder = x
     end subroutine
+
+! ******************************************************************************
+! ADDED: JUNE 22, 2018 - JAC
+! ------------------------------------------------------------------------------
+    module subroutine plt_push_label(this, lbl, err)
+        ! Arguments
+        class(plot), intent(inout) :: this
+        class(plot_label), intent(in) :: lbl
+        class(errors), intent(inout), optional, target :: err
+
+        ! Process
+        call this%m_labels%push(lbl, err)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_pop_label(this)
+        class(plot), intent(inout) :: this
+        call this%m_labels%pop()
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function plt_get_label(this, i) result(x)
+        ! Arguments
+        class(plot), intent(in) :: this
+        integer(int32), intent(in) :: i
+        class(plot_label), pointer :: x
+        
+        ! Local Variables
+        class(*), pointer :: item
+
+        ! Process
+        item => this%m_labels%get(i)
+        select type (item)
+        class is (plot_label)
+            x => item
+        class default
+            nullify(x)
+        end select
+    end function
+
+! --------------------
+    module subroutine plt_set_label(this, i, x)
+        class(plot), intent(inout) :: this
+        integer(int32), intent(in) :: i
+        class(plot_label), intent(in) :: x
+        call this%m_labels%set(i, x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plt_get_label_count(this) result(x)
+        class(plot), intent(in) :: this
+        integer(int32) :: x
+        x = this%m_labels%get_count()
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_clear_labels(this)
+        class(plot), intent(inout) :: this
+        call this%m_labels%clear()
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule
