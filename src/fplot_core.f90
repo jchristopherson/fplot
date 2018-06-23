@@ -408,14 +408,215 @@ module fplot_core
         !> The label text
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_text
     contains
+        !> @brief Gets the GNUPLOT command string for the label.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(:) function allocatable get_command_string(class(plot_label) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_label object.
+        !! @return The command string.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!  
+        !!     type(plot_label) :: lbl
+        !!     character(len = :), allocatable :: txt
+        !!
+        !!     txt = lbl%get_command_string()
+        !! end program
+        !! @endcode
         procedure, public :: get_command_string => lbl_get_cmd
+        !> @brief Gets a value determining if the label is to be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_is_visible(class(plot_label) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_label object.
+        !! @return Returns true if the label is to be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!  
+        !!     type(plot_label) :: lbl
+        !!     logical :: x
+        !!
+        !!     x = lbl%get_is_visible()
+        !! end program
+        !! @endcode
         procedure, public :: get_is_visible => lbl_get_is_visible
+        !> @brief Sets a value determining if the label is to be drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_is_visible(class(plot_label) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_label object.
+        !! @param[in] x Set to true to draw the label; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!  
+        !!     type(plot_label) :: lbl
+        !!
+        !!     ! Show the label
+        !!     call lbl%set_is_visible(.true.)
+        !! end program
+        !! @endcode
         procedure, public :: set_is_visible => lbl_set_is_visible
+        !> @brief Gets the position of the label in terms of plot coordinates.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) dimension(3) function get_position(class(plot_label) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_label object.
+        !! @return A 3-element array containing the X, Y, and Z position of the label.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!     real(real32) :: pos(3)
+        !!
+        !!     pos = lbl%get_position()
+        !! end program
+        !! @endcode
         procedure, public :: get_position => lbl_get_position
+        !> @brief Sets the position of the label in terms of plot coordinates.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_position(class(plot_label) this, real(real32) x(3))
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_label object.
+        !! @param[in] x A 3-element array containing the X, Y, and Z position of the
+        !!  label.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!     real(real32) :: pos(3)
+        !!
+        !!     call lbl%set_position(pos)
+        !! end program
+        !! @endcode
         procedure, public :: set_position => lbl_set_position
+        !> @brief Gets the angle of the label text, in degrees.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_angle(class(plot_label) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_label object.
+        !! @return The angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!     real(real32) :: angle
+        !!
+        !!     angle = lbl%get_angle()
+        !! end program
+        !! @endcode
         procedure, public :: get_angle => lbl_get_angle
+        !> @brief Sets the angle of the label text, in degrees.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_angle(class(plot_label) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_label object.
+        !! @param[in] x The angle, in degrees.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!
+        !!     call lbl%set_angle(45.0)
+        !! end program
+        !! @endcode
         procedure, public :: set_angle => lbl_set_angle
+        !> @brief Gets the text displayed by the label.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function allocatable get_text(class(plot_label) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_label object.
+        !! @return The string of text to display.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!     character(len = :), allocatable :: x
+        !!
+        !!     x = lbl%get_text()
+        !! end program
+        !! @endcode
         procedure, public :: get_text => lbl_get_txt
+        !> @brief Sets the text displayed by the label.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_text(class(plot_label) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_label object.
+        !! @param[in] x The text string to display.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_label) :: lbl
+        !!     character(len = :), allocatable :: x
+        !!
+        !!     call lbl%set_text("Example Label Text")
+        !! end program
+        !! @endcode
         procedure, public :: set_text => lbl_set_txt
     end type
 
