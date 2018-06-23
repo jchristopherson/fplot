@@ -55,9 +55,9 @@ target_link_libraries(fplot_surf_3 fplot)
 
 # Copy the FERROR shared object to the runtime directory on Windows
 if (WIN32)
-    # add_custom_command(
-    #     TARGET fplot_2d_1 POST_BUILD
-    #     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    #     ${ferror_LibLocation} $<TARGET_FILE_DIR:fplot_2d_1>
-    # )
+    get_target_property(ferror_LibLocation ferror LOCATION)
+    add_custom_command(TARGET fplot_2d_1 POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${ferror_LibLocation} $<TARGET_FILE_DIR:fplot_2d_1>
+    )
 endif()
