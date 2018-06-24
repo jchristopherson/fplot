@@ -24,6 +24,7 @@ set(fplot_sources
     fplot_surface_plot.f90
     fplot_axis.f90
     fplot_label.f90
+    fplot_multiplot.f90
     ${strings_Sources}
     ${collections_Sources}
 )

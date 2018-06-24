@@ -95,6 +95,7 @@ module fplot_core
     public :: hot_colormap
     public :: cool_colormap
     public :: plot_label
+    public :: multiplot
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -7144,6 +7145,29 @@ module fplot_core
         function cm_get_string_result(this) result(x)
             import colormap
             class(colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+! ******************************************************************************
+! FPLOT_MULTIPLOT.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a multi-plot layout.
+    type, extends(plot_object) :: multiplot
+        !> The collection of plot objects.
+        type(list) :: m_plots
+        !> The number of rows of plots.
+        integer(int32) :: m_rows
+        !> The number of columns of plots.
+        integer(int32) :: m_cols
+    contains
+        procedure, public :: get_command_string => mp_get_command
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function mp_get_command(this) result(x)
+            class(multiplot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
