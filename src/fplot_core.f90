@@ -7160,8 +7160,18 @@ module fplot_core
         integer(int32) :: m_rows
         !> The number of columns of plots.
         integer(int32) :: m_cols
+        !> The page title.
+        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title
     contains
         procedure, public :: get_command_string => mp_get_command
+        procedure, public :: initialize => mp_init
+        procedure, public :: get_row_count => mp_get_rows
+        procedure, public :: get_column_count => mp_get_cols
+        procedure, public :: get_title => mp_get_title
+        procedure, public :: set_title => mp_set_title
+        procedure, public :: draw => mp_draw
+        procedure, public :: get => mp_get
+        procedure, public :: set => mp_set
     end type
 
 ! ------------------------------------------------------------------------------
@@ -7170,6 +7180,49 @@ module fplot_core
             class(multiplot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        module subroutine mp_init(this, m, n)
+            class(multiplot), intent(inout) :: this
+            integer(int32), intent(in) :: m, n
+        end subroutine
+
+        pure module function mp_get_rows(this) result(x)
+            class(multiplot), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        pure module function mp_get_cols(this) result(x)
+            class(multiplot), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        module function mp_get_title(this) result(x)
+            class(multiplot), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine mp_set_title(this, x)
+            class(multiplot), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        module subroutine mp_draw(this, persist, err)
+            class(multiplot), intent(in) :: this
+            logical, intent(in), optional :: persist
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module function mp_get(this, i, j) result(x)
+            class(multiplot), intent(in) :: this
+            integer(int32), intent(in) :: i, j
+            class(plot), pointer :: x
+        end function
+
+        module subroutine mp_set(this, i, j, x)
+            class(multiplot), intent(inout) :: this
+            integer(int32), intent(in) :: i, j
+            class(plot), intent(in) :: x
+        end subroutine
     end interface
 
 end module
