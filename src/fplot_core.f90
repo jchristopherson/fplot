@@ -7172,6 +7172,7 @@ module fplot_core
         procedure, public :: initialize => mp_init
         procedure, public :: get_row_count => mp_get_rows
         procedure, public :: get_column_count => mp_get_cols
+        procedure, public :: get_plot_count => mp_get_count
         procedure, public :: get_title => mp_get_title
         procedure, public :: set_title => mp_set_title
         procedure, public :: draw => mp_draw
@@ -7205,6 +7206,11 @@ module fplot_core
         end function
 
         pure module function mp_get_cols(this) result(x)
+            class(multiplot), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        pure module function mp_get_count(this) result(x)
             class(multiplot), intent(in) :: this
             integer(int32) :: x
         end function

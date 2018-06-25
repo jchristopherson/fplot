@@ -19,10 +19,11 @@ contains
         n = this%get_column_count()
 
         ! Set up the multiplot
+        ! TO DO: Add title information
         call str%append("set multiplot layout ")
-        call str%append(to_string(this%get_row_count()))
+        call str%append(to_string(m))
         call str%append(",")
-        call str%append(to_string(this%get_column_count()))
+        call str%append(to_string(n))
         call str%append(new_line('a'))
 
         ! Write commands for each plot object
@@ -31,6 +32,8 @@ contains
                 ptr => this%get(i, j)
                 call str%append(new_line('a'))
                 call str%append(ptr%get_command_string())
+                call str%append(new_line('a'))
+                call str%append("reset")
             end do
         end do
 
@@ -132,6 +135,13 @@ contains
         class(multiplot), intent(in) :: this
         integer(int32) :: x
         x = this%m_cols
+    end function
+
+! --------------------
+    pure module function mp_get_count(this) result(x)
+        class(multiplot), intent(in) :: this
+        integer(int32) :: x
+        x = this%m_plots%get_count()
     end function
     
 ! ------------------------------------------------------------------------------
