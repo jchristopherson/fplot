@@ -7157,9 +7157,9 @@ module fplot_core
         !> The collection of plot objects.
         type(list) :: m_plots
         !> The number of rows of plots.
-        integer(int32) :: m_rows
+        integer(int32) :: m_rows = 0
         !> The number of columns of plots.
-        integer(int32) :: m_cols
+        integer(int32) :: m_cols = 0
         !> The page title.
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title
     contains
