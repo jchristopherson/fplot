@@ -18,8 +18,6 @@ contains
         m = this%get_row_count()
         n = this%get_column_count()
 
-        ! Write the terminal commands
-
         ! Set up the multiplot
         call str%append("set multiplot layout ")
         call str%append(to_string(this%get_row_count()))
@@ -45,14 +43,75 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine mp_init(this, m, n)
+    module subroutine mp_init(this, m, n, term, err)
+        ! Arguments
         class(multiplot), intent(inout) :: this
         integer(int32), intent(in) :: m, n
+        integer(int32), intent(in), optional :: term
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: flag, t
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+        type(wxt_terminal), pointer :: wxt
+        type(windows_terminal), pointer :: win
+        type(qt_terminal), pointer :: qt
+        type(png_terminal), pointer :: png
+        type(latex_terminal), pointer :: latex
+
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+        if (present(term)) then
+            t = term
+        else
+            t = GNUPLOT_TERMINAL_WXT
+        end if
+
+        ! Process
         call this%m_plots%clear()
         this%m_rows = m
         this%m_cols = n
+        flag = 0
+
+        if (associated(this%m_terminal)) deallocate(this%m_terminal)
+        select case (t)
+        case (GNUPLOT_TERMINAL_PNG)
+            allocate(png, stat = flag)
+            this%m_terminal => png
+        case (GNUPLOT_TERMINAL_QT)
+            allocate(qt, stat = flag)
+            this%m_terminal => qt
+        case (GNUPLOT_TERMINAL_WIN32)
+            allocate(win, stat = flag)
+            this%m_terminal => win
+        case (GNUPLOT_TERMINAL_LATEX)
+            allocate(latex, stat = flag)
+            this%m_terminal => latex
+        case default ! WXT is the default
+            allocate(wxt, stat = flag)
+            this%m_terminal => wxt
+        end select
+
+        ! Error Checking
+        if (flag /= 0) then
+            call errmgr%report_error("mp_init", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
     end subroutine
     
+! ------------------------------------------------------------------------------
+    module subroutine mp_clean(this)
+        type(multiplot), intent(inout) :: this
+        if (associated(this%m_terminal)) deallocate(this%m_terminal)
+        nullify(this%m_terminal)
+    end subroutine
+
 ! ------------------------------------------------------------------------------
     pure module function mp_get_rows(this) result(x)
         class(multiplot), intent(in) :: this
@@ -86,7 +145,12 @@ contains
         ! Process
         n = min(len(x), PLOTDATA_MAX_NAME_LENGTH)
         this%m_title = ""
-        this%m_title(1:n) = x(1:n)
+        if (n /= 0) then
+            this%m_title(1:n) = x(1:n)
+            this%m_hasTitle = .true.
+        else
+            this%m_hasTitle = .false.
+        end if
     end subroutine
     
 ! ------------------------------------------------------------------------------
@@ -105,6 +169,7 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        class(terminal), pointer :: term
 
         ! Initialization
         if (present(persist)) then
@@ -117,6 +182,7 @@ contains
         else
             errmgr => deferr
         end if
+        term => this%get_terminal()
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -128,6 +194,8 @@ contains
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
 
@@ -181,4 +249,17 @@ contains
     end subroutine
     
 ! ------------------------------------------------------------------------------
+    pure module function mp_has_title(this) result(x)
+        class(multiplot), intent(in) :: this
+        logical :: x
+        x = this%m_hasTitle
+    end function
+
+! ------------------------------------------------------------------------------
+    module function mp_get_term(this) result(x)
+        class(multiplot), intent(in) :: this
+        class(terminal), pointer :: x
+        x => this%m_terminal
+    end function
+
 end submodule

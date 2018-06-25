@@ -7162,7 +7162,12 @@ module fplot_core
         integer(int32) :: m_cols = 0
         !> The page title.
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title
+        !> Has a title?
+        logical :: m_hasTitle = .false.
+        !> The BNUPLOT terminal object to target.
+        class(terminal), pointer :: m_terminal => null()
     contains
+        final :: mp_clean
         procedure, public :: get_command_string => mp_get_command
         procedure, public :: initialize => mp_init
         procedure, public :: get_row_count => mp_get_rows
@@ -7172,6 +7177,8 @@ module fplot_core
         procedure, public :: draw => mp_draw
         procedure, public :: get => mp_get
         procedure, public :: set => mp_set
+        procedure, public :: is_title_defined => mp_has_title
+        procedure, public :: get_terminal => mp_get_term
     end type
 
 ! ------------------------------------------------------------------------------
@@ -7181,9 +7188,15 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine mp_init(this, m, n)
+        module subroutine mp_init(this, m, n, term, err)
             class(multiplot), intent(inout) :: this
             integer(int32), intent(in) :: m, n
+            integer(int32), intent(in), optional :: term
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine mp_clean(this)
+            type(multiplot), intent(inout) :: this
         end subroutine
 
         pure module function mp_get_rows(this) result(x)
@@ -7223,6 +7236,16 @@ module fplot_core
             integer(int32), intent(in) :: i, j
             class(plot), intent(in) :: x
         end subroutine
+
+        pure module function mp_has_title(this) result(x)
+            class(multiplot), intent(in) :: this
+            logical :: x
+        end function
+
+        module function mp_get_term(this) result(x)
+            class(multiplot), intent(in) :: this
+            class(terminal), pointer :: x
+        end function
     end interface
 
 end module
