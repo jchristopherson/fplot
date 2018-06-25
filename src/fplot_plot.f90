@@ -212,6 +212,7 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        class(terminal), pointer :: term
 
         ! Initialization
         if (present(persist)) then
@@ -224,6 +225,7 @@ contains
         else
             errmgr => deferr
         end if
+        term => this%get_terminal()
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -235,6 +237,8 @@ contains
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
 
@@ -262,6 +266,7 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        class(terminal), pointer :: term
 
         ! Initialization
         if (present(err)) then
@@ -269,6 +274,7 @@ contains
         else
             errmgr => deferr
         end if
+        term => this%get_terminal()
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -280,6 +286,8 @@ contains
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
     end subroutine

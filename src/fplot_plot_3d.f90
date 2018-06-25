@@ -74,16 +74,11 @@ contains
         integer(int32) :: i, n
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        class(terminal), pointer :: term
         type(legend), pointer :: leg
         class(plot_label), pointer :: lbl
 
         ! Initialization
         call str%initialize()
-
-        ! Write the terminal commands
-        term => this%get_terminal()
-        call str%append(term%get_command_string())
 
         ! Grid
         if (this%get_show_gridlines()) then
