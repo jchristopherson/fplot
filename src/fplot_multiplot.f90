@@ -51,7 +51,7 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
-        integer(int32) :: flag, t
+        integer(int32) :: flag, t, i
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         type(wxt_terminal), pointer :: wxt
@@ -78,6 +78,14 @@ contains
         this%m_cols = n
         flag = 0
 
+        ! Populate the list with a dummy variable at the outset.  This allows
+        ! the list to be appropriately sized so the user may use the "set"
+        ! subroutine appropriately
+        do i = 1, m * n
+            call this%m_plots%push(i)
+        end do
+
+        ! Define the terminal
         if (associated(this%m_terminal)) deallocate(this%m_terminal)
         select case (t)
         case (GNUPLOT_TERMINAL_PNG)
