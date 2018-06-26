@@ -1956,7 +1956,7 @@ module fplot_core
         !> Defines the vertical position
         character(len = 20) :: m_vertPosition = LEGEND_TOP
         !> Determines if the legend is visible.
-        logical :: m_show = .true.
+        logical :: m_show = .false.
     contains
         !> @brief Gets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).

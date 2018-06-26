@@ -129,21 +129,40 @@ contains
         class(plot), intent(inout) :: this
         class(plot_data), intent(in) :: x
         class(errors), intent(inout), optional, target :: err
+        class(legend), pointer :: lgnd
 
         ! Process
         call this%m_data%push(x, err)
+        if (this%m_data%get_count() > 1) then
+            lgnd => this%get_legend()
+            call lgnd%set_is_visible(.true.)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
     module subroutine plt_pop_data(this)
+        ! Arguments
         class(plot), intent(inout) :: this
+        class(legend), pointer :: lgnd
+
+        ! Process
         call this%m_data%pop()
+        if (this%m_data%get_count() < 2) then
+            lgnd => this%get_legend()
+            call lgnd%set_is_visible(.false.)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
     module subroutine plt_clear_all(this)
+        ! Arguments
         class(plot), intent(inout) :: this
+        class(legend), pointer :: lgnd
+
+        ! Process
         call this%m_data%clear()
+        lgnd => this%get_legend()
+        call lgnd%set_is_visible(.false.)
     end subroutine
 
 ! ------------------------------------------------------------------------------
