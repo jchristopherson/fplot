@@ -19,11 +19,17 @@ contains
         n = this%get_column_count()
 
         ! Set up the multiplot
-        ! TO DO: Add title information
         call str%append("set multiplot layout ")
         call str%append(to_string(m))
         call str%append(",")
         call str%append(to_string(n))
+        call str%append(" columnsfirst")
+        if (this%is_title_defined()) then
+            call str%append(" title ")
+            call str%append('"')
+            call str%append(this%get_title())
+            call str%append('"')
+        end if
         call str%append(new_line('a'))
 
         ! Write commands for each plot object
