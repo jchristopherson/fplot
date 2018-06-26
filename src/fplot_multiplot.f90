@@ -32,8 +32,8 @@ contains
                 ptr => this%get(i, j)
                 call str%append(new_line('a'))
                 call str%append(ptr%get_command_string())
-                call str%append(new_line('a'))
-                call str%append("reset")
+                ! call str%append(new_line('a'))
+                ! call str%append("e")
             end do
         end do
 

@@ -186,9 +186,10 @@ contains
             if (.not.associated(ptr)) cycle
             call str%append(new_line('a'))
             call str%append(ptr%get_data_string())
-            if (i /= n) then
-                call str%append("e")
-            end if
+            call str%append("e")
+            ! if (i /= n) then
+            !     call str%append("e")
+            ! end if
         end do
 
         ! End
