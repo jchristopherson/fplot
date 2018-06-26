@@ -32,8 +32,6 @@ contains
                 ptr => this%get(i, j)
                 call str%append(new_line('a'))
                 call str%append(ptr%get_command_string())
-                ! call str%append(new_line('a'))
-                ! call str%append("e")
             end do
         end do
 
@@ -280,4 +278,79 @@ contains
         x => this%m_terminal
     end function
 
+! ------------------------------------------------------------------------------
+    module subroutine mp_save(this, fname, err)
+        ! Arguments
+        class(multiplot), intent(in) :: this
+        character(len = *), intent(in) :: fname
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: fid, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+        character(len = 256) :: errmsg
+        class(terminal), pointer :: term
+
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+        term => this%get_terminal()
+
+        ! Open the file for writing, and write the contents to file
+        open(newunit = fid, file = fname, iostat = flag)
+        if (flag > 0) then
+            write(errmsg, "(AI0A)") &
+                "The file could not be opened/created.  Error code ", flag, &
+                " was encountered."
+            call errmgr%report_error("mp_save", trim(errmsg), &
+                PLOT_GNUPLOT_FILE_ERROR)
+            return
+        end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
+        write(fid, '(A)') this%get_command_string()
+        close(fid)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function mp_get_font(this) result(x)
+        class(multiplot), intent(in) :: this
+        character(len = :), allocatable :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        x = term%get_font_name()
+    end function
+
+! --------------------
+    module subroutine mp_set_font(this, x)
+        class(multiplot), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        call term%set_font_name(x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function mp_get_font_size(this) result(x)
+        class(multiplot), intent(in) :: this
+        integer(int32) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        x = term%get_font_size()
+    end function
+
+! --------------------
+    module subroutine mp_set_font_size(this, x)
+        class(multiplot), intent(inout) :: this
+        integer(int32), intent(in) :: x
+        class(terminal), pointer :: term
+        term => this%get_terminal()
+        call term%set_font_size(x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

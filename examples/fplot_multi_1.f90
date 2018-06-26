@@ -20,6 +20,7 @@ program example
 
     ! Define the plots
     call mplt%initialize(2, 1)
+    call mplt%set_font_size(14)
     call plt1%initialize()
     call plt2%initialize()
 

@@ -7180,6 +7180,11 @@ module fplot_core
         procedure, public :: set => mp_set
         procedure, public :: is_title_defined => mp_has_title
         procedure, public :: get_terminal => mp_get_term
+        procedure, public :: save => mp_save
+        procedure, public :: get_font_name => mp_get_font
+        procedure, public :: set_font_name => mp_set_font
+        procedure, public :: get_font_size => mp_get_font_size
+        procedure, public :: set_font_size => mp_set_font_size
     end type
 
 ! ------------------------------------------------------------------------------
@@ -7252,6 +7257,32 @@ module fplot_core
             class(multiplot), intent(in) :: this
             class(terminal), pointer :: x
         end function
+
+        module subroutine mp_save(this, fname, err)
+            class(multiplot), intent(in) :: this
+            character(len = *), intent(in) :: fname
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module function mp_get_font(this) result(x)
+            class(multiplot), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine mp_set_font(this, x)
+            class(multiplot), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        module function mp_get_font_size(this) result(x)
+            class(multiplot), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        module subroutine mp_set_font_size(this, x)
+            class(multiplot), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
     end interface
 
 end module
