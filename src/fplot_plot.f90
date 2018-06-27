@@ -141,11 +141,11 @@ contains
         ! Index the color tracking index if the type is of scatter_plot_data
         select type (x)
         class is (scatter_plot_data)
-            call x%set_color_index(color_index)
-            if (color_index == size(color_list)) then
-                color_index = 1
+            call x%set_color_index(this%m_colorIndex)
+            if (this%m_colorIndex == size(color_list)) then
+                this%m_colorIndex = 1
             else
-                color_index = color_index + 1
+                this%m_colorIndex = this%m_colorIndex + 1
             end if
         end select
     end subroutine

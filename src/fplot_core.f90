@@ -346,9 +346,6 @@ module fplot_core
     type(color), parameter, dimension(8) :: color_list = [ &
         CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
         CLR_ORANGE, CLR_BLACK]
-    ! An index used to track where in the color_list the next line color
-    ! should be pulled from.
-    integer(int32) :: color_index = 1
 
 ! ******************************************************************************
 ! FPLOT_LABEL.F90
@@ -2385,6 +2382,8 @@ module fplot_core
         logical :: m_drawBorder = .true.
         !> A collection of plot_label items to draw
         type(list) :: m_labels ! Added 6/22/2018, JAC
+        !> The color index to use for automatic line coloring for scatter plots.
+        integer(int32) :: m_colorIndex = 1
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
