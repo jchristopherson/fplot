@@ -45,14 +45,12 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_line_color(CLR_BLUE)
     call d1%set_draw_markers(.true.)
     call d1%set_marker_frequency(10)
     call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
     call d1%set_marker_scaling(2.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_line_color(CLR_GREEN)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)
 

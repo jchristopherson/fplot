@@ -40,12 +40,14 @@ contains
         call str%append(to_string(this%get_line_width()))
 
         ! Line Color
-        if (.not.this%get_use_auto_color()) then
+        if (this%m_useAutoColor) then
+            clr = color_list(this%m_colorIndex)
+        else
             clr = this%get_line_color()
-            call str%append(' lc rgb "#')
-            call str%append(clr%to_hex_string())
-            call str%append('"')
         end if
+        call str%append(' lc rgb "#')
+        call str%append(clr%to_hex_string())
+        call str%append('"')
 
         ! Define other properties specific to the lines and points
         if (this%get_draw_line()) then
@@ -120,6 +122,7 @@ contains
         class(scatter_plot_data), intent(inout) :: this
         type(color), intent(in) :: x
         this%m_lineColor = x
+        this%m_useAutoColor = .false.
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -209,17 +212,11 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function spd_get_use_auto_colors(this) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        logical :: x
-        x = this%m_useAutoColor
-    end function
-
-! --------------------
-    module subroutine spd_set_use_auto_colors(this, x)
+    module subroutine spd_set_color_index(this, x)
         class(scatter_plot_data), intent(inout) :: this
-        logical, intent(in) :: x
-        this%m_useAutoColor = x
+        integer(int32), intent(in) :: x
+        this%m_colorIndex = x
     end subroutine
 
+! ------------------------------------------------------------------------------
 end submodule

@@ -46,6 +46,7 @@ module fplot_core
     public :: CLR_PURPLE
     public :: CLR_TEAL
     public :: CLR_NAVY
+    public :: CLR_ORANGE
     public :: MARKER_PLUS
     public :: MARKER_X
     public :: MARKER_ASTERISK
@@ -338,6 +339,16 @@ module fplot_core
     type(color), parameter :: CLR_TEAL = color(0, 128, 128)
     !> @brief Defines a navy color.
     type(color), parameter :: CLR_NAVY = color(0, 0, 128)
+    !> @brief Defines an orange color.
+    type(color), parameter :: CLR_ORANGE = color(255, 165, 0)
+
+    ! A list of colors that can be cycled through by plotting code
+    type(color), parameter, dimension(8) :: color_list = [ &
+        CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
+        CLR_ORANGE, CLR_BLACK]
+    ! An index used to track where in the color_list the next line color
+    ! should be pulled from.
+    integer(int32) :: color_index = 1
 
 ! ******************************************************************************
 ! FPLOT_LABEL.F90
@@ -3046,7 +3057,7 @@ module fplot_core
 
         module subroutine plt_push_data(this, x, err)
             class(plot), intent(inout) :: this
-            class(plot_data), intent(in) :: x
+            class(plot_data), intent(inout) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -3481,8 +3492,10 @@ module fplot_core
         integer(int32) :: m_markerType = MARKER_X
         !> Marker size multiplier.
         real(real32) :: m_markerSize = 1.0
-        !> Let GNUPLOT choose colors automatically
-        logical :: m_useAutoColor = .false.
+        !> Let the object choose colors automatically
+        logical :: m_useAutoColor = .true.
+        !> The color index to use, assuming we're using auto color
+        integer(int32) :: m_colorIndex = 1
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -3961,28 +3974,6 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_marker_frequency => spd_set_marker_frequency
-        !> @brief Gets a value determining if GNUPLOT should automatically
-        !! choose line colors.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! pure logical function get_use_auto_color(class(scatter_plot_data) this)
-        !! @endcode
-        !!
-        !! @param[in] this The scatter_plot_data object.
-        !! @return Returns true if GNUPLOT should choose colors; else, false.
-        procedure, public :: get_use_auto_color => spd_get_use_auto_colors
-        !> @brief Sets a value determining if GNUPLOT should automatically
-        !! choose line colors.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_use_auto_color(class(scatter_plot_data) this, logical x)
-        !! @endcode
-        !!
-        !! @param[in,out] this The scatter_plot_data object.
-        !! @param[in] x Set to true if GNUPLOT should choose colors; else, false.
-        procedure, public :: set_use_auto_color => spd_set_use_auto_colors
         !> @brief Gets the number of data points.
         procedure(spd_get_int_value), deferred, public :: get_count
         !> @brief Gets the requested X data point.
@@ -3996,6 +3987,10 @@ module fplot_core
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
         procedure(spd_get_string_result), deferred, public :: get_axes_string
+        
+        ! Private Routines
+        ! ----------------
+        procedure, private :: set_color_index => spd_set_color_index
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4085,14 +4080,9 @@ module fplot_core
             integer(int32), intent(in) :: x
         end subroutine
 
-        pure module function spd_get_use_auto_colors(this) result(x)
-            class(scatter_plot_data), intent(in) :: this
-            logical :: x
-        end function
-
-        module subroutine spd_set_use_auto_colors(this, x)
+        module subroutine spd_set_color_index(this, x)
             class(scatter_plot_data), intent(inout) :: this
-            logical, intent(in) :: x
+            integer(int32), intent(in) :: x
         end subroutine
     end interface
 

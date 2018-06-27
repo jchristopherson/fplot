@@ -127,7 +127,7 @@ contains
     module subroutine plt_push_data(this, x, err)
         ! Arguments
         class(plot), intent(inout) :: this
-        class(plot_data), intent(in) :: x
+        class(plot_data), intent(inout) :: x
         class(errors), intent(inout), optional, target :: err
         class(legend), pointer :: lgnd
 
@@ -137,6 +137,17 @@ contains
             lgnd => this%get_legend()
             call lgnd%set_is_visible(.true.)
         end if
+
+        ! Index the color tracking index if the type is of scatter_plot_data
+        select type (x)
+        class is (scatter_plot_data)
+            call x%set_color_index(color_index)
+            if (color_index == size(color_list)) then
+                color_index = 1
+            else
+                color_index = color_index + 1
+            end if
+        end select
     end subroutine
 
 ! ------------------------------------------------------------------------------
