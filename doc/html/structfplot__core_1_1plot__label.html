@@ -169,7 +169,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00400">400</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00423">423</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ace2e7e72b4f6b263509d96e0e2de0d4e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace2e7e72b4f6b263509d96e0e2de0d4e">&#9670;&nbsp;</a></span>get_angle()</h2>
@@ -197,7 +197,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>The angle, in degrees.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">real(real32)</span> :: angle</div><div class="line"></div><div class="line">    angle = lbl%get_angle()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00552">552</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00575">575</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -227,7 +227,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>The command string.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"> </div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: txt</div><div class="line"></div><div class="line">    txt = lbl%get_command_string()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00433">433</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00456">456</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -257,7 +257,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>Returns true if the label is to be drawn; else, false.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"> </div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">logical</span> :: x</div><div class="line"></div><div class="line">    x = lbl%get_is_visible()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00456">456</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00479">479</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -287,7 +287,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>A 3-element array containing the X, Y, and Z position of the label.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">real(real32)</span> :: pos(3)</div><div class="line"></div><div class="line">    pos = lbl%get_position()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00503">503</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00526">526</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>The string of text to display.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div><div class="line"></div><div class="line">    x = lbl%get_text()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00597">597</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00620">620</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -347,7 +347,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line"></div><div class="line">    <span class="keyword">call </span>lbl%set_angle(45.0)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00574">574</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00597">597</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -377,7 +377,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"> </div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line"></div><div class="line">    <span class="comment">! Show the label</span></div><div class="line">    <span class="keyword">call </span>lbl%set_is_visible(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00479">479</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00502">502</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -407,7 +407,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">real(real32)</span> :: pos(3)</div><div class="line"></div><div class="line">    <span class="keyword">call </span>lbl%set_position(pos)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00528">528</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00551">551</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_label) :: lbl</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div><div class="line"></div><div class="line">    <span class="keyword">call </span>lbl%set_text(<span class="stringliteral">&quot;Example Label Text&quot;</span>)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00620">620</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l00643">643</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

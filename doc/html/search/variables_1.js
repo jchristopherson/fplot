@@ -10,6 +10,7 @@ var searchData=
   ['clr_5fmaroon',['clr_maroon',['../namespacefplot__core.html#ab68541e171cd4c283eeec74e5165f760',1,'fplot_core']]],
   ['clr_5fnavy',['clr_navy',['../namespacefplot__core.html#adb6d3eb3275e9c564773cae821a1c4d3',1,'fplot_core']]],
   ['clr_5folive',['clr_olive',['../namespacefplot__core.html#a7661753bfbb9a5e7ef11a79c279a59e2',1,'fplot_core']]],
+  ['clr_5forange',['clr_orange',['../namespacefplot__core.html#af0a79b640e25da7a7897ff87e2701f86',1,'fplot_core']]],
   ['clr_5fpurple',['clr_purple',['../namespacefplot__core.html#aa9b8d3f8e41f9a35e05e57abe3e5baf9',1,'fplot_core']]],
   ['clr_5fred',['clr_red',['../namespacefplot__core.html#a33f5d636354eb4187ba86154037e74e7',1,'fplot_core']]],
   ['clr_5fsilver',['clr_silver',['../namespacefplot__core.html#a662574b11028022eac8158f9fc846ded',1,'fplot_core']]],

@@ -31,6 +31,7 @@ var structfplot__core_1_1plot =
     [ "set_show_gridlines", "structfplot__core_1_1plot.html#a627de08d3dc607a4ce936a115698deb6", null ],
     [ "set_tics_inward", "structfplot__core_1_1plot.html#ae8ae1aba78071e45dc3a42d969fb9719", null ],
     [ "set_title", "structfplot__core_1_1plot.html#aab1f348414f759363228d548f1b05e88", null ],
+    [ "m_colorindex", "structfplot__core_1_1plot.html#a423c6b5d5a4077e12672a789d0dd07f4", null ],
     [ "m_data", "structfplot__core_1_1plot.html#a955e9ed1d0626325807467f18928f7af", null ],
     [ "m_drawborder", "structfplot__core_1_1plot.html#aa6041d60ec2b7939ff62dfe315c533bb", null ],
     [ "m_hastitle", "structfplot__core_1_1plot.html#a3e292f8044d1c963bde7a45a5fd091f5", null ],

@@ -8,6 +8,7 @@ var namespacefplot__core =
     [ "hot_colormap", "structfplot__core_1_1hot__colormap.html", "structfplot__core_1_1hot__colormap" ],
     [ "latex_terminal", "structfplot__core_1_1latex__terminal.html", "structfplot__core_1_1latex__terminal" ],
     [ "legend", "structfplot__core_1_1legend.html", "structfplot__core_1_1legend" ],
+    [ "multiplot", "structfplot__core_1_1multiplot.html", "structfplot__core_1_1multiplot" ],
     [ "pa_get_string_result", "interfacefplot__core_1_1pa__get__string__result.html", "interfacefplot__core_1_1pa__get__string__result" ],
     [ "pd_get_string_result", "interfacefplot__core_1_1pd__get__string__result.html", "interfacefplot__core_1_1pd__get__string__result" ],
     [ "plot", "structfplot__core_1_1plot.html", "structfplot__core_1_1plot" ],

@@ -3022,12 +3022,196 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_draw_border => plt_set_draw_border
-
+        !> @brief Adds a label to the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine push_label(class(plot) this, class(plot_labels) lbl, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] lbl
+        !! @param[in] err
+        !!
+        !! @par Example
+        !! The following example illustrates how to add a label to a plot.  A 2D
+        !! plot is utilized, but any plot-based type could be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), dimension(npts) :: x, y
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: dataset
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(legend), pointer :: leg
+        !!     type(plot_label) :: lbl
+        !!
+        !!     ! Build a data set
+        !!     x = linspace(0.0d0, 10.0d0, npts)
+        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
+        !!
+        !!     call dataset%define_data(y)
+        !!
+        !!     ! Define the label
+        !!     call lbl%set_text("Test Label 1")
+        !!     call lbl%set_position([600.0, 0.6, 0.0])
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_title("Example Plot")
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_show_gridlines(.false.)
+        !!
+        !!     ! Add the label to the plot
+        !!     call plt%push_label(lbl)
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     ! Hide the legend
+        !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.false.)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(dataset)
+        !!
+        !!     ! Draw
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_label_plot.png
         procedure, public :: push_label => plt_push_label
+        !> @brief Removes the last label from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine pop_label(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     call plt%pop_label()
+        !! end program
+        !! @endcode
         procedure, public :: pop_label => plt_pop_label
+        !> @brief Gets the requested plot_label from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_label) pointer function get_label(class(plot) this, integer(int32) i)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @param[in] i The index of the plot_label object to retrieve.
+        !! @return A pointer to the requested plot_label object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     class(plot_label), pointer :: lbl
+        !!
+        !!     lbl => plt%get_label(1)
+        !! end program
+        !! @endcode
         procedure, public :: get_label => plt_get_label
+        !> @brief Sets the specified plot_label object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_label(class(plot) this, integer(int32) i, class(plot_label) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] i The index of the plot_label to replace.
+        !! @param[in] x The new plot_label object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     type(plot_label) :: lbl
+        !!
+        !!     call plt%set_label(1, lbl)
+        !! end program
+        !! @endcode
         procedure, public :: set_label => plt_set_label
+        !> @brief Gets the number of plot_label objects belonging to the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_label_count(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The number of plot_label objects.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!     integer(int32) :: n
+        !!
+        !!     n = plt%get_label_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_label_count => plt_get_label_count
+        !> @brief Clears all plot_label objects from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine clear_all_labels(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !!
+        !! @par Example
+        !! This example uses a plot_2d type, but this example is valid for any
+        !! type that derives from the plot type.
+        !! @code{.f90}
+        !! program
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_2d) :: plt
+        !!
+        !!     call plt%clear_all_labels()
+        !! end program
+        !! @endcode
         procedure, public :: clear_all_labels => plt_clear_labels
     end type
 
@@ -7156,6 +7340,67 @@ module fplot_core
 ! FPLOT_MULTIPLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a multi-plot layout.
+    !!
+    !! @par Example
+    !! The following example builds a multiplot consisiting of 2 rows of 2 
+    !! plots.
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core 
+    !!     implicit none
+    !!
+    !!     ! Variables
+    !!     integer(int32), parameter :: n = 1000
+    !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2, x3, y3, x4, y4
+    !!     type(multiplot) :: mplt
+    !!     type(plot_2d) :: plt1, plt2, plt3, plt4
+    !!     type(plot_data_2d) :: d1, d2, d3, d4
+    !!        
+    !!     ! Build the data sets
+    !!     x1 = linspace(0.0d0, 1.0d0, n)
+    !!     x2 = linspace(0.0d0, 2.0d0, n)
+    !!     x3 = linspace(0.0d0, 3.0d0, n)
+    !!     x4 = linspace(0.0d0, 4.0d0, n)
+    !!     y1 = sin(20.0d0 * x1)
+    !!     y2 = sin(20.0d0 * x2) * cos(50.0d0 * x2)
+    !!     y3 = sqrt(x3) * sin(10.0d0 * x3)
+    !!     y4 = exp(-0.1d0 * x4) * sin(15.0d0 * x4)
+    !!
+    !!     ! Define the plots
+    !!     call mplt%initialize(2, 2)
+    !!     call plt1%initialize()
+    !!     call plt2%initialize()
+    !!     call plt3%initialize()
+    !!     call plt4%initialize()
+    !!
+    !!     ! Add the data to the plots
+    !!     call d1%define_data(x1, y1)
+    !!     call d2%define_data(x2, y2)
+    !!     call d3%define_data(x3, y3)
+    !!     call d4%define_data(x4, y4)
+    !!
+    !!     call plt1%push(d1)
+    !!     call plt1%set_title("Plot 1 (1, 1)")
+    !!
+    !!     call plt2%push(d2)
+    !!     call plt2%set_title("Plot 2 (2, 1)")
+    !!
+    !!     call plt3%push(d3)
+    !!     call plt3%set_title("Plot 3 (1, 2)")
+    !!
+    !!     call plt4%push(d4)
+    !!     call plt4%set_title("Plot 4 (2, 2)")
+    !!
+    !!     ! Locate the plots within the multiplot, and then draw
+    !!     call mplt%set(1, 1, plt1)
+    !!     call mplt%set(2, 1, plt2)
+    !!     call mplt%set(1, 2, plt3)
+    !!     call mplt%set(2, 2, plt4)
+    !!     call mplt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_multiplot_2.png
     type, extends(plot_object) :: multiplot
         !> The collection of plot objects.
         type(list) :: m_plots
@@ -7255,8 +7500,77 @@ module fplot_core
         !! @endcode
         !! @image html example_multiplot_1.png
         procedure, public :: initialize => mp_init
+        !> @brief Gets the number of rows of plots.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_row_count(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The number of rows.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     integer(int32) :: n
+        !!
+        !!     n = plt%get_row_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_row_count => mp_get_rows
+        !> @brief Gets the number of columns of plots.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_column_count(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The number of columns.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     integer(int32) :: n
+        !!
+        !!     n = plt%get_column_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_column_count => mp_get_cols
+        !> @brief Gets the number of plots.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_plot_count(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The number of plots.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     integer(int32) :: n
+        !!
+        !!     n = plt%get_plot_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_plot_count => mp_get_count
         !> @brief Gets the multiplot's title.
         !!
@@ -7385,7 +7699,59 @@ module fplot_core
         !! @endcode
         !! @image html example_multiplot_1.png
         procedure, public :: draw => mp_draw
+        !> @brief Gets the requested plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot) pointer function get(class(multiplot) this, integer(int32) i, integer(int32) j)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @param[in] i The row index of the plot to retrieve.
+        !! @param[in] j The column index of the plot to retrieve.
+        !! @return A pointer to the requested plot object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     class(plot), pointer :: obj
+        !!
+        !!     obj => plt%get(1, 1)
+        !! end program
+        !! @endcode
         procedure, public :: get => mp_get
+        !> @brief Sets the requested plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set(class(multiplot) this, integer(int32) i, integer(int32) j, class(plot) pointer x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The multiplot object.
+        !! @param[in] i The row index of the plot to retrieve.
+        !! @param[in] j The column index of the plot to retrieve.
+        !! @param[in] x A pointer to the requested plot object.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     type(plot) :: obj
+        !!
+        !!     ! Be sure to initialze the plot and multiplot objects
+        !!     ! ...
+        !!
+        !!     ! Store the plot object
+        !!     call plt%set(1, 1, obj)
+        !! end program
+        !! @endcode
         procedure, public :: set => mp_set
         !> @brief Gets a value determining if a title has been defined for the
         !!  multiplot object.
@@ -7433,7 +7799,21 @@ module fplot_core
         !!     term => plt%get_terminal()
         !! end program
         procedure, public :: get_terminal => mp_get_term
-
+        !> @brief Saves a GNUPLOT command file.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine save_file(class(multiplot) this, character(len = *) fname, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @param[in] fname The filename.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
         !! @par Example
         !! @code{.f90}
         !! ! This example illustrates the frequency response of the following mechanical
@@ -7521,52 +7901,146 @@ module fplot_core
         !!
         !!     call d1%set_name("X1")
         !!     call d1%set_line_width(2.0)
-        !     call d1%define_data(freq, abs(z1))
-        !
-        !     call d2%set_name("X2")
-        !     call d2%set_line_width(2.0)
-        !     call d2%set_line_style(LINE_DASHED)
-        !     call d2%define_data(freq, abs(z2))
-        !
-        !     call plt%push(d1)
-        !     call plt%push(d2)
-        !
-        !     ! Set up the phase plot
-        !     call pplt%initialize()
-        !     xAxis => pplt%get_x_axis()
-        !     yAxis => pplt%get_y_axis()
-        !
-        !     call xAxis%set_title("Frequency [Hz]")
-        !     call yAxis%set_title("Phase [deg]")
-        !
-        !     call xAxis%set_is_log_scaled(.true.)
-        !
-        !     call d3%set_name("X1")
-        !     call d3%set_line_width(2.0)
-        !     call d3%define_data(freq, 180.0d0 * atan2(aimag(z1), real(z1)) / pi)
-        !
-        !     call d4%set_name("X2")
-        !     call d4%set_line_width(2.0)
-        !     call d4%set_line_style(LINE_DASHED)
-        !     call d4%define_data(freq, 180.0d0 * atan2(aimag(z2), real(z2)) / pi)
-        !
-        !     call pplt%push(d3)
-        !     call pplt%push(d4)
-        !
-        !     ! Don't use a legend on the phase plot
-        !     lgnd => pplt%get_legend()
-        !     call lgnd%set_is_visible(.false.)
-        !
-        !     ! Save the plot to file
-        !     call mplt%set(1, 1, plt)
-        !     call mplt%set(2, 1, pplt)
-        !     call mplt%save_file("example_multiplot_file.plt")
-        ! end program
+        !!     call d1%define_data(freq, abs(z1))
+        !!
+        !!     call d2%set_name("X2")
+        !!     call d2%set_line_width(2.0)
+        !!     call d2%set_line_style(LINE_DASHED)
+        !!     call d2%define_data(freq, abs(z2))
+        !!
+        !!     call plt%push(d1)
+        !!     call plt%push(d2)
+        !!
+        !!     ! Set up the phase plot
+        !!     call pplt%initialize()
+        !!     xAxis => pplt%get_x_axis()
+        !!     yAxis => pplt%get_y_axis()
+        !!
+        !!     call xAxis%set_title("Frequency [Hz]")
+        !!     call yAxis%set_title("Phase [deg]")
+        !!
+        !!     call xAxis%set_is_log_scaled(.true.)
+        !!
+        !!     call d3%set_name("X1")
+        !!     call d3%set_line_width(2.0)
+        !!     call d3%define_data(freq, 180.0d0 * atan2(aimag(z1), real(z1)) / pi)
+        !!
+        !!     call d4%set_name("X2")
+        !!     call d4%set_line_width(2.0)
+        !!     call d4%set_line_style(LINE_DASHED)
+        !!     call d4%define_data(freq, 180.0d0 * atan2(aimag(z2), real(z2)) / pi)
+        !!
+        !!     call pplt%push(d3)
+        !!     call pplt%push(d4)
+        !!
+        !!     ! Don't use a legend on the phase plot
+        !!     lgnd => pplt%get_legend()
+        !!     call lgnd%set_is_visible(.false.)
+        !!
+        !!     ! Save the plot to file
+        !!     call mplt%set(1, 1, plt)
+        !!     call mplt%set(2, 1, pplt)
+        !!     call mplt%save_file("example_multiplot_file.plt")
+        !! end program
         !! @endcode
+        !! Then, from gnuplot, simply issue the command: load
+        !! "example_multiplot_file.plt" to obtain the plot.
+        !! @image html example_multiplot_log_scaled.png
         procedure, public :: save_file => mp_save
+        !> @brief Gets the name of the font used for plot text.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_font_name(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The font name.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     character(len = :), allocatable :: name
+        !!
+        !!     name = plt%get_font_name()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_name => mp_get_font
+        !> @brief Sets the name of the font used for plot text.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_font_name(class(multiplot) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The multiplot object.
+        !! @param[in] x The font name.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!
+        !!     ! Establish the font used by the plot as Arial.
+        !!     call plt%set_title("Arial")
+        !! end program
+        !! @endcode
         procedure, public :: set_font_name => mp_set_font
+        !> @brief Gets the size of the font used by the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function get_font_size(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The size of the font, in points.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     integer(int32) :: sz
+        !!
+        !!     sz = plt%get_font_size()
+        !! end program
+        !! @endcode
         procedure, public :: get_font_size => mp_get_font_size
+        !> @brief Sets the size of the font used by the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_font_size(class(multiplot) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The multiplot object.
+        !! @param[in] x The font size, in points.  If a value of zero is provided,
+        !! the font size is reset to its default value; or, if a negative value
+        !! is provided, the absolute value of the supplied value is utilized.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!
+        !!     ! Set the font to be 14 point in size
+        !!     call plt%set_font_size(14)
+        !! end program
+        !! @endcode
         procedure, public :: set_font_size => mp_set_font_size
     end type
 

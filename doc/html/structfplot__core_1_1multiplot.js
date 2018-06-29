@@ -1,0 +1,27 @@
+var structfplot__core_1_1multiplot =
+[
+    [ "draw", "structfplot__core_1_1multiplot.html#a2a92376d9c066576040fe4bbb159195d", null ],
+    [ "get", "structfplot__core_1_1multiplot.html#abe6cf967df926de68a5d129fb1bbc27c", null ],
+    [ "get_column_count", "structfplot__core_1_1multiplot.html#a3cd6827657719a3011d3eca31e6ac26b", null ],
+    [ "get_command_string", "structfplot__core_1_1multiplot.html#a0c534408e8ef71c24d3225e4da5af540", null ],
+    [ "get_font_name", "structfplot__core_1_1multiplot.html#ad1262e5ad2b92fd6c7388d29b24f88d4", null ],
+    [ "get_font_size", "structfplot__core_1_1multiplot.html#a298e407a95c9a91c6fd46e1ca5996660", null ],
+    [ "get_plot_count", "structfplot__core_1_1multiplot.html#a4b770678c2469fc0be1648ad372c5d00", null ],
+    [ "get_row_count", "structfplot__core_1_1multiplot.html#a6fa6464d4c130c6102c63c7fd32f81cf", null ],
+    [ "get_terminal", "structfplot__core_1_1multiplot.html#add2e20e53499aa007d9ceb2a7917589f", null ],
+    [ "get_title", "structfplot__core_1_1multiplot.html#a950bd7a421f69a6a02c2308ae45827b6", null ],
+    [ "initialize", "structfplot__core_1_1multiplot.html#a098fd1411de0cf38c26c9bd7f970f7db", null ],
+    [ "is_title_defined", "structfplot__core_1_1multiplot.html#a4fc3681e3bf594b4b318d77e2a1bb140", null ],
+    [ "mp_clean", "structfplot__core_1_1multiplot.html#aaf27adb6a7316eda5c1f9276f2d967e5", null ],
+    [ "save_file", "structfplot__core_1_1multiplot.html#a0c17f05ff71fc4576f19b36f39845672", null ],
+    [ "set", "structfplot__core_1_1multiplot.html#ae7a6b16e810271f67cc9efc8f957d230", null ],
+    [ "set_font_name", "structfplot__core_1_1multiplot.html#ac9e3d1fdac7c8343e5fb71d79f4492d5", null ],
+    [ "set_font_size", "structfplot__core_1_1multiplot.html#abd13c862e28feb772d7d7e6217705e41", null ],
+    [ "set_title", "structfplot__core_1_1multiplot.html#a56d9b4338c6a95ccfc7d94a81f715f1e", null ],
+    [ "m_cols", "structfplot__core_1_1multiplot.html#ac43b0757815bd163133a4863314725f9", null ],
+    [ "m_hastitle", "structfplot__core_1_1multiplot.html#a6d0402f03382c3bf29b50d4f06fad597", null ],
+    [ "m_plots", "structfplot__core_1_1multiplot.html#af9b41a50d6394721ff548622aa61725d", null ],
+    [ "m_rows", "structfplot__core_1_1multiplot.html#a65d63e8ce7aa0d1976f8bca150bb33d3", null ],
+    [ "m_terminal", "structfplot__core_1_1multiplot.html#a9bae2b4eddaa75ff61ac0abe77175eb1", null ],
+    [ "m_title", "structfplot__core_1_1multiplot.html#ae7b5636092a710de62e0d2ba4eef9752", null ]
+];

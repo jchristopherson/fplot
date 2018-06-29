@@ -21,5 +21,7 @@ var searchData=
   ['plotdata_5fmax_5fname_5flength',['plotdata_max_name_length',['../namespacefplot__core.html#acfa29ac62a50b61ea009b20a898d45e5',1,'fplot_core']]],
   ['png_5fterminal',['png_terminal',['../structfplot__core_1_1png__terminal.html',1,'fplot_core']]],
   ['pop',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
-  ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]]
+  ['pop_5flabel',['pop_label',['../structfplot__core_1_1plot.html#a72556bd3398bf491d2aa192ceaab9807',1,'fplot_core::plot']]],
+  ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]],
+  ['push_5flabel',['push_label',['../structfplot__core_1_1plot.html#a89f704e48794d3805d2f13c96082096c',1,'fplot_core::plot']]]
 ];

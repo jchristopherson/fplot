@@ -168,14 +168,14 @@ character(len=20)&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 <tr class="memdesc:add3185b4f64fb74583931a94e4dfb23a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the vertical position. <br /></td></tr>
 <tr class="separator:add3185b4f64fb74583931a94e4dfb23a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad57a162b33234017fcacbf6fb5b8c261"><td class="memItemLeft" align="right" valign="top"><a id="ad57a162b33234017fcacbf6fb5b8c261"></a>
-logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1legend.html#ad57a162b33234017fcacbf6fb5b8c261">m_show</a> = .true.</td></tr>
+logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1legend.html#ad57a162b33234017fcacbf6fb5b8c261">m_show</a> = .false.</td></tr>
 <tr class="memdesc:ad57a162b33234017fcacbf6fb5b8c261"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the legend is visible. <br /></td></tr>
 <tr class="separator:ad57a162b33234017fcacbf6fb5b8c261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a legend object. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01947">1947</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01970">1970</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="af49167abec9bd1938d2cce8845d66541"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af49167abec9bd1938d2cce8845d66541">&#9670;&nbsp;</a></span>get_command_string()</h2>
@@ -202,7 +202,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The GNUPLOT command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02291">2291</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02314">2314</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -232,7 +232,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The logical value.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = leg%get_draw_border()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02083">2083</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02106">2106</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The logical value.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = leg%get_draw_inside_axes()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01983">1983</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02006">2006</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -292,7 +292,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The horizontal position of the legend (LEGEND_LEFT, LEGEND_CENTER, or LEGEND_RIGHT).</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: pos</div><div class="line"></div><div class="line">    pos = leg%get_horizontal_position()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02120">2120</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02143">2143</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The logical value.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line">    <span class="keywordtype">logical</span> :: check</div><div class="line"></div><div class="line">    check = leg%get_is_visible()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02259">2259</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02282">2282</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -352,7 +352,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <dl class="section return"><dt>Returns</dt><dd>The vertical position of the legend (LEGEND_TOP, LEGEND_CENTER, or LEGEND_BOTTOM).</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: pos</div><div class="line"></div><div class="line">    pos = leg%get_vertical_position()</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02221">2221</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02244">2244</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -382,7 +382,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>For an example, see <a class="el" href="structfplot__core_1_1legend.html#a7e558260f2b0d2a3dc28dd9d2005beb7">set_draw_inside_axes</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02096">2096</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02119">2119</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -415,7 +415,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02060">2060</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02083">2083</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -448,7 +448,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02197">2197</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02220">2220</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -478,7 +478,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(legend) :: leg</div><div class="line"></div><div class="line">    <span class="keyword">call </span>leg%set_is_visible(.true.)</div><div class="line"><span class="keyword">end program</span></div></div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02281">2281</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02304">2304</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -508,7 +508,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>For an example, see <a class="el" href="structfplot__core_1_1legend.html#ad7eddd9fe4b18d083c0712d164e8a85b">set_horizontal_position</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02236">2236</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02259">2259</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

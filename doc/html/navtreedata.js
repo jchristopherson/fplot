@@ -38,7 +38,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions/Subroutines", "functions_func.html", null ],
+        [ "Functions/Subroutines", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
@@ -51,7 +51,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structfplot__core_1_1plot__object.html#a7468d9c46604d4559a4f342f884fd461"
+"structfplot__core_1_1plot__data__2d.html#a78581879fc994e47ec2bc2ab55441888"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

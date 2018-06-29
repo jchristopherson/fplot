@@ -12,6 +12,7 @@ var hierarchy =
         [ "fplot_core::rainbow_colormap", "structfplot__core_1_1rainbow__colormap.html", null ]
       ] ],
       [ "fplot_core::legend", "structfplot__core_1_1legend.html", null ],
+      [ "fplot_core::multiplot", "structfplot__core_1_1multiplot.html", null ],
       [ "fplot_core::plot", "structfplot__core_1_1plot.html", [
         [ "fplot_core::plot_2d", "structfplot__core_1_1plot__2d.html", null ],
         [ "fplot_core::plot_3d", "structfplot__core_1_1plot__3d.html", [
