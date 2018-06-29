@@ -72,6 +72,7 @@ module fplot_core
     public :: LEGEND_BOTTOM
     public :: PLOTDATA_MAX_NAME_LENGTH
     public :: linspace
+    public :: logspace
     public :: meshgrid
     public :: color
     public :: plot_data
@@ -215,6 +216,19 @@ module fplot_core
         !!
         !! @return The resulting array.
         pure module function linspace(start, finish, npts) result(x)
+            real(real64), intent(in) :: start, finish
+            integer(int32), intent(in) :: npts
+            real(real64), dimension(npts) :: x
+        end function
+
+        !> @brief Construcst a logarithmically spaced array.
+        !!
+        !! @param[in] start The exponent of the first value in the array.
+        !! @param[in] finish The exponent of the final value in the array.
+        !! @param[in] npts The number of values in the array.
+        !!
+        !! @return The resulting array.
+        pure module function logspace(start, finish, npts) result(x)
             real(real64), intent(in) :: start, finish
             integer(int32), intent(in) :: npts
             real(real64), dimension(npts) :: x

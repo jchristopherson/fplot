@@ -22,6 +22,26 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
+    pure module function logspace(start, finish, npts) result(x)
+        ! Arguments
+        real(real64), intent(in) :: start, finish
+        integer(int32), intent(in) :: npts
+        real(real64), dimension(npts) :: x
+
+        ! Local Variables
+        integer(int32) :: i
+        real(real64) :: dx, exponent
+
+        ! Process
+        dx = (finish - start) / (npts - 1.0d0)
+        exponent = start
+        do i = 1, npts
+            x(i) = 1.0d1**exponent
+            exponent = exponent + dx
+        end do
+    end function
+
+! ------------------------------------------------------------------------------
     pure module function meshgrid(x, y) result(xy)
         ! Arguments
         real(real64), intent(in), dimension(:) :: x, y
