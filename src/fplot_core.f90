@@ -7172,18 +7172,398 @@ module fplot_core
     contains
         final :: mp_clean
         procedure, public :: get_command_string => mp_get_command
+        !> @brief Initializes the multiplot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(multiplot) this, optional class(terminal) term, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The multiplot object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! The following example illustrates a multiplot using 2 plots in a 
+        !! single column.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Variables
+        !!     integer(int32), parameter :: n = 1000
+        !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2
+        !!     type(multiplot) :: mplt
+        !!     type(plot_2d) :: plt1, plt2
+        !!     type(plot_data_2d) :: d1, d2
+        !!     class(plot_axis), pointer :: x1Axis, x2Axis, y1Axis, y2Axis
+        !!
+        !!     ! Build the data sets
+        !!     x1 = linspace(0.0d0, 5.0d0, n)
+        !!     x2 = linspace(0.0d0, 10.0d0, n)
+        !!     y1 = exp(-0.1d0 * x1) * sin(20.0d0 * x1)
+        !!     y2 = exp(-0.2d0 * x2) * sin(15.0d0 * x2) + 0.1d0 * sin(75.0d0 * x2)
+        !!
+        !!     ! Define the plots
+        !!     call mplt%initialize(2, 1)
+        !!     call mplt%set_font_size(14)
+        !!     call plt1%initialize()
+        !!     call plt2%initialize()
+        !!
+        !!     x1Axis => plt1%get_x_axis()
+        !!     y1Axis => plt1%get_y_axis()
+        !!
+        !!     x2Axis => plt2%get_x_axis()
+        !!     y2Axis => plt2%get_y_axis()
+        !!
+        !!     call x1Axis%set_title("X1")
+        !!     call y1Axis%set_title("Y1")
+        !!
+        !!     call x2Axis%set_title("X2")
+        !!     call y2Axis%set_title("Y2")
+        !!
+        !!     call d1%set_name("Data Set 1")
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!     call d1%set_line_width(2.0)
+        !!     call d1%define_data(x1, y1)
+        !!
+        !!     call d2%set_name("Data Set 2")
+        !!     call d2%set_line_color(CLR_GREEN)
+        !!     call d2%set_line_width(2.0)
+        !!     call d2%define_data(x2, y2)
+        !!
+        !!     call plt1%push(d1)
+        !!     call plt2%push(d2)
+        !!
+        !!     call mplt%set(1, 1, plt1)
+        !!     call mplt%set(2, 1, plt2)
+        !!     call mplt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_multiplot_1.png
         procedure, public :: initialize => mp_init
         procedure, public :: get_row_count => mp_get_rows
         procedure, public :: get_column_count => mp_get_cols
         procedure, public :: get_plot_count => mp_get_count
+        !> @brief Gets the multiplot's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_title(class(multiplot))
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return The multiplot's title.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     character(len = :), allocatable :: txt
+        !!
+        !!     txt = plt%get_title()
+        !! end program
+        !! @endcode
         procedure, public :: get_title => mp_get_title
+        !> @brief Sets the multiplot's title.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_title(class(multiplot) this, character(len = *) txt)
+        !! @endcode
+        !!
+        !! @param[in,out] this The multiplot object.
+        !! @param[in] txt The multiplot's title.  The number of characters must be less
+        !! than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
+        !! truncated.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!
+        !!     call plt%set_title("Title")
+        !! end program
+        !! @endcode
         procedure, public :: set_title => mp_set_title
+        !> @brief Launches GNUPLOT and draws the multiplot per the current state of
+        !! the command list.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine draw(class(multiplot) this, optional logical persist, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @param[in] persist An optional parameter that can be used to keep GNUPLOT
+        !!  open.  Set to true to force GNUPLOT to remain open; else, set to false
+        !!  to allow GNUPLOT to close after drawing.  The default is true.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
+        !!
+        !! @par Example
+        !! The following example illustrates a multiplot using 2 plots in a 
+        !! single column.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Variables
+        !!     integer(int32), parameter :: n = 1000
+        !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2
+        !!     type(multiplot) :: mplt
+        !!     type(plot_2d) :: plt1, plt2
+        !!     type(plot_data_2d) :: d1, d2
+        !!     class(plot_axis), pointer :: x1Axis, x2Axis, y1Axis, y2Axis
+        !!
+        !!     ! Build the data sets
+        !!     x1 = linspace(0.0d0, 5.0d0, n)
+        !!     x2 = linspace(0.0d0, 10.0d0, n)
+        !!     y1 = exp(-0.1d0 * x1) * sin(20.0d0 * x1)
+        !!     y2 = exp(-0.2d0 * x2) * sin(15.0d0 * x2) + 0.1d0 * sin(75.0d0 * x2)
+        !!
+        !!     ! Define the plots
+        !!     call mplt%initialize(2, 1)
+        !!     call mplt%set_font_size(14)
+        !!     call plt1%initialize()
+        !!     call plt2%initialize()
+        !!
+        !!     x1Axis => plt1%get_x_axis()
+        !!     y1Axis => plt1%get_y_axis()
+        !!
+        !!     x2Axis => plt2%get_x_axis()
+        !!     y2Axis => plt2%get_y_axis()
+        !!
+        !!     call x1Axis%set_title("X1")
+        !!     call y1Axis%set_title("Y1")
+        !!
+        !!     call x2Axis%set_title("X2")
+        !!     call y2Axis%set_title("Y2")
+        !!
+        !!     call d1%set_name("Data Set 1")
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!     call d1%set_line_width(2.0)
+        !!     call d1%define_data(x1, y1)
+        !!
+        !!     call d2%set_name("Data Set 2")
+        !!     call d2%set_line_color(CLR_GREEN)
+        !!     call d2%set_line_width(2.0)
+        !!     call d2%define_data(x2, y2)
+        !!
+        !!     call plt1%push(d1)
+        !!     call plt2%push(d2)
+        !!
+        !!     call mplt%set(1, 1, plt1)
+        !!     call mplt%set(2, 1, plt2)
+        !!     call mplt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_multiplot_1.png
         procedure, public :: draw => mp_draw
         procedure, public :: get => mp_get
         procedure, public :: set => mp_set
+        !> @brief Gets a value determining if a title has been defined for the
+        !!  multiplot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function is_title_defined(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return Returns true if a title has been defined for this multiplot; else,
+        !!  returns false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     logical :: check
+        !!
+        !!     check = plt%is_title_defined()
+        !! end program
+        !! @endcode
         procedure, public :: is_title_defined => mp_has_title
+        !> @brief Gets the GNUPLOT terminal object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(terminal) function, pointer get_terminal(class(multiplot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The multiplot object.
+        !! @return A pointer to the GNUPLOT terminal object.
+        !!
+        !! @par Example
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(multiplot) :: plt
+        !!     class(terminal), pointer :: term
+        !!
+        !!     term => plt%get_terminal()
+        !! end program
         procedure, public :: get_terminal => mp_get_term
-        procedure, public :: save => mp_save
+
+        !! @par Example
+        !! @code{.f90}
+        !! ! This example illustrates the frequency response of the following mechanical
+        !! ! system.
+        !! !
+        !! ! -> y       |-> x1       |-> x2
+        !! ! |                                  |/
+        !! ! |-/\/\/\-| m |-/\/\/\-| m |-/\/\/\-|/
+        !! ! |   k, b         k, b        k, b  |/
+        !! !
+        !! ! The equations of motion for this system are as follows.
+        !! ! M x" + B x' + K x = F1 y' + F2 y
+        !! !
+        !! ! Where:
+        !! !     | m   0 |
+        !! ! M = |       |
+        !! !     | 0   m |
+        !! !
+        !! !     | 2b     -b |
+        !! ! B = |           |
+        !! !     | -b     2b |
+        !! !
+        !! !     | 2k     -k |
+        !! ! K = |           |
+        !! !     | -k     2k |
+        !! !
+        !! !      | b |
+        !! ! F1 = |   |
+        !! !      | 0 |
+        !! !
+        !! !      | k |
+        !! ! F2 = |   |
+        !! !      | 0 |
+        !! !
+        !! ! The solution may be computed by applying the Laplace transform such that:
+        !! ! (M s**2 + B s + K) X = (F1 s + F2) Y
+        !! !
+        !! ! And then solving for X / Y such that:
+        !! ! Z = X / Y = inv(M s**2 + B s + K) * (F1 s + F2)
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     real(real64), parameter :: m = 2.0d0
+        !!     real(real64), parameter :: k = 450.0d3
+        !!     real(real64), parameter :: b = 3.0d0
+        !!     real(real64), parameter :: pi = 3.1415926535897932384626433832795d0
+        !!     integer(int32), parameter :: npts = 1000
+        !!     complex(real64), parameter :: j = (0.0d0, -1.0d0)
+        !!
+        !!     ! Local Variables
+        !!     complex(real64), dimension(npts) :: s, z1, z2
+        !!     real(real64), dimension(npts) :: freq, omega
+        !!     type(multiplot) :: mplt
+        !!     type(plot_2d) :: plt, pplt
+        !!     type(plot_data_2d) :: d1, d2, d3, d4
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     class(legend), pointer :: lgnd
+        !!
+        !!     ! Generate a frequency vector from 10 Hz to 1 kHz
+        !!     freq = logspace(1.0d0, 3.0d0, npts)
+        !!     omega = 2.0d0 * pi * freq
+        !!     s = j * omega
+        !!
+        !!     ! Compute the frequency response functions for each mass
+        !!     z1 = (b * s + k) * (m * s**2 + 2.0d0 * b * s + 2.0d0 * k) / &
+        !!         ((m * s**2 + 2.0d0 * b * s + 2.0d0 * k)**2 + (-b * s - k) * (b * s + k))
+        !!     z2 = (b * s + k)**2 / &
+        !!         ((m * s**2 + 2.0d0 * b * s + 2.0d0 * k)**2 + (-b * s - k) * (b * s + k))
+        !!
+        !!     ! Create the plots
+        !!     call mplt%initialize(2, 1)
+        !!     call mplt%set_font_size(14)
+        !!     call plt%initialize()
+        !!     xAxis => plt%get_x_axis()
+        !!     yAxis => plt%get_y_axis()
+        !!
+        !!     call xAxis%set_title("Frequency [Hz]")
+        !!     call yAxis%set_title("Amplitude (X / Y)")
+        !!
+        !!     call xAxis%set_is_log_scaled(.true.)
+        !!     call yAxis%set_is_log_scaled(.true.)
+        !!
+        !!     call d1%set_name("X1")
+        !!     call d1%set_line_width(2.0)
+        !     call d1%define_data(freq, abs(z1))
+        !
+        !     call d2%set_name("X2")
+        !     call d2%set_line_width(2.0)
+        !     call d2%set_line_style(LINE_DASHED)
+        !     call d2%define_data(freq, abs(z2))
+        !
+        !     call plt%push(d1)
+        !     call plt%push(d2)
+        !
+        !     ! Set up the phase plot
+        !     call pplt%initialize()
+        !     xAxis => pplt%get_x_axis()
+        !     yAxis => pplt%get_y_axis()
+        !
+        !     call xAxis%set_title("Frequency [Hz]")
+        !     call yAxis%set_title("Phase [deg]")
+        !
+        !     call xAxis%set_is_log_scaled(.true.)
+        !
+        !     call d3%set_name("X1")
+        !     call d3%set_line_width(2.0)
+        !     call d3%define_data(freq, 180.0d0 * atan2(aimag(z1), real(z1)) / pi)
+        !
+        !     call d4%set_name("X2")
+        !     call d4%set_line_width(2.0)
+        !     call d4%set_line_style(LINE_DASHED)
+        !     call d4%define_data(freq, 180.0d0 * atan2(aimag(z2), real(z2)) / pi)
+        !
+        !     call pplt%push(d3)
+        !     call pplt%push(d4)
+        !
+        !     ! Don't use a legend on the phase plot
+        !     lgnd => pplt%get_legend()
+        !     call lgnd%set_is_visible(.false.)
+        !
+        !     ! Save the plot to file
+        !     call mplt%set(1, 1, plt)
+        !     call mplt%set(2, 1, pplt)
+        !     call mplt%save_file("example_multiplot_file.plt")
+        ! end program
+        !! @endcode
+        procedure, public :: save_file => mp_save
         procedure, public :: get_font_name => mp_get_font
         procedure, public :: set_font_name => mp_set_font
         procedure, public :: get_font_size => mp_get_font_size
