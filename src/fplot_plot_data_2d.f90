@@ -190,35 +190,4 @@ contains
         end do
     end subroutine
 
-! ------------------------------------------------------------------------------
-    pure module function p2d_get_use_x_err(this) result(x)
-        class(plot_data_2d), intent(in) :: this
-        logical :: x
-        x = this%m_useXErrorData
-    end function
-
-! ------------------------------------------------------------------------------
-    pure module function p2d_get_use_y_err(this) result(x)
-        class(plot_data_2d), intent(in) :: this
-        logical :: x
-        x = this%m_useYErrorData
-    end function
-
-! ------------------------------------------------------------------------------
-    module subroutine p2d_set_x_err_data(this, x, err)
-        ! Arguments
-        class(plot_data_2d), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x
-        class(errors), intent(inout), optional, target :: err
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    module subroutine p2d_set_y_err_data(this, x, err)
-        ! Arguments
-        class(plot_data_2d), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x
-        class(errors), intent(inout), optional, target :: err
-    end subroutine
-
-! ------------------------------------------------------------------------------
 end submodule

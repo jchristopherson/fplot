@@ -25,6 +25,7 @@ set(fplot_sources
     fplot_axis.f90
     fplot_label.f90
     fplot_multiplot.f90
+    fplot_plot_data_error_bars.f90
     ${strings_Sources}
     ${collections_Sources}
 )

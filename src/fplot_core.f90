@@ -98,6 +98,7 @@ module fplot_core
     public :: cool_colormap
     public :: plot_label
     public :: multiplot
+    public :: plot_data_error_bars
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -4293,18 +4294,6 @@ module fplot_core
         real(real64), allocatable, dimension(:,:) :: m_data
         !> Draw against the secondary y axis?
         logical :: m_useY2 = .false.
-
-        ! ----- ADDED: 6/30/2018 - JAC ----- !
-        !> An array containing error estimates for each x value.  This property
-        !! is only relevant if error bars are to be plotted.
-        real(real64), allocatable, dimension(:) :: m_xErrorData
-        !> An array containing error estimates for each y value.  This property
-        !! is only relevant if error bars are to be plotted.
-        real(real64), allocatable, dimension(:) :: m_yErrorData
-        !> Plot X error bars?
-        logical :: m_useXErrorData = .false.
-        !> Plot Y error bars?
-        logical :: m_useYErrorData = .false.
     contains
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
@@ -4688,11 +4677,6 @@ module fplot_core
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
-
-        procedure, public :: get_plot_x_error_bars => p2d_get_use_x_err
-        procedure, public :: get_plot_y_error_bars => p2d_get_use_y_err
-        procedure, public :: define_x_error_data => p2d_set_x_err_data
-        procedure, public :: define_y_error_data => p2d_set_y_err_data    
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4755,28 +4739,6 @@ module fplot_core
         module subroutine pd2d_set_data_2(this, y, err)
             class(plot_data_2d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: y
-            class(errors), intent(inout), optional, target :: err
-        end subroutine
-
-        pure module function p2d_get_use_x_err(this) result(x)
-            class(plot_data_2d), intent(in) :: this
-            logical :: x
-        end function
-
-        pure module function p2d_get_use_y_err(this) result(x)
-            class(plot_data_2d), intent(in) :: this
-            logical :: x
-        end function
-
-        module subroutine p2d_set_x_err_data(this, x, err)
-            class(plot_data_2d), intent(inout) :: this
-            real(real64), intent(in), dimension(:) :: x
-            class(errors), intent(inout), optional, target :: err
-        end subroutine
-
-        module subroutine p2d_set_y_err_data(this, x, err)
-            class(plot_data_2d), intent(inout) :: this
-            real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
     end interface
@@ -8179,6 +8141,70 @@ module fplot_core
             class(multiplot), intent(inout) :: this
             integer(int32), intent(in) :: x
         end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_DATA_ERRORS.F90
+! ------------------------------------------------------------------------------
+    !
+    type, extends(plot_data) :: plot_data_error_bars
+        !> Display x error bars?
+        logical :: m_xBars = .false.
+        !> Display y error bars?
+        logical :: m_yBars = .false.
+        !> A matrix containing the raw and error data.  Column 1 is for the
+        !! x coordinate, column 2 for the y coordinate, and the remaining 
+        !! columns are for the error data (x, then y if applicable)
+        real(real64), allocatable, dimension(:,:) :: m_data
+    contains
+        procedure, public :: get_command_string => pde_get_cmd
+        procedure, public :: get_data_string => pde_get_data_cmd
+        procedure, public :: define_x_error_data => pde_define_x_err
+        procedure, public :: define_y_error_data => pde_define_y_err
+        procedure, public :: define_xy_error_data => pde_define_xy_err
+        procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
+        procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function pde_get_cmd(this) result(cmd)
+            class(plot_data_error_bars), intent(in) :: this
+            character(len = :), allocatable :: cmd
+        end function
+
+        module function pde_get_data_cmd(this) result(cmd)
+            class(plot_data_error_bars), intent(in) :: this
+            character(len = :), allocatable :: cmd
+        end function
+
+        module subroutine pde_define_x_err(this, x, y, xerr, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, xerr
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pde_define_y_err(this, x, y, yerr, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, yerr
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pde_define_xy_err(this, x, y, xerr, yerr, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, xerr, yerr
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function pde_get_plot_x_err(this) result(x)
+            class(plot_data_error_bars), intent(in) :: this
+            logical :: x
+        end function
+
+        pure module function pde_get_plot_y_err(this) result(x)
+            class(plot_data_error_bars), intent(in) :: this
+            logical :: x
+        end function
     end interface
 
 end module
