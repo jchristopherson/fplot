@@ -28,6 +28,7 @@ program example
 
     call e1%define_y_error_data(x, y, yerr)
     call e1%set_name("Errors")
+    call e1%set_color(CLR_BLUE)
 
     call plt%push(d1)
     call plt%push(e1)

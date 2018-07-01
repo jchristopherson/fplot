@@ -8156,6 +8156,12 @@ module fplot_core
         !! x coordinate, column 2 for the y coordinate, and the remaining 
         !! columns are for the error data (x, then y if applicable)
         real(real64), allocatable, dimension(:,:) :: m_data
+        !> The marker color.
+        type(color) :: m_color = CLR_BLUE
+        !> Let the object choose colors automatically
+        logical :: m_useAutoColor = .true.
+        !> The color index to use, assuming we're using auto color
+        integer(int32) :: m_colorIndex = 1
     contains
         procedure, public :: get_command_string => pde_get_cmd
         procedure, public :: get_data_string => pde_get_data_cmd
@@ -8164,6 +8170,13 @@ module fplot_core
         procedure, public :: define_xy_error_data => pde_define_xy_err
         procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
         procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
+        procedure, public :: get_count => pde_get_count
+        procedure, public :: get_color => pde_get_color
+        procedure, public :: set_color => pde_set_color
+
+        ! Private Routines
+        ! ----------------
+        procedure, private :: set_color_index => pde_set_color_index
     end type
 
 ! ------------------------------------------------------------------------------
@@ -8205,6 +8218,26 @@ module fplot_core
             class(plot_data_error_bars), intent(in) :: this
             logical :: x
         end function
+
+        pure module function pde_get_count(this) result(x)
+            class(plot_data_error_bars), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        pure module function pde_get_color(this) result(x)
+            class(plot_data_error_bars), intent(in) :: this
+            type(color) :: x
+        end function
+
+        module subroutine pde_set_color(this, x)
+            class(plot_data_error_bars), intent(inout) :: this
+            type(color), intent(in) :: x
+        end subroutine
+
+        module subroutine pde_set_color_index(this, x)
+            class(plot_data_error_bars), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
     end interface
 
 end module

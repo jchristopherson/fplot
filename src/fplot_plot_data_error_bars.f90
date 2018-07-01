@@ -11,6 +11,7 @@ contains
         ! Local Variables
         type(string_builder) :: str
         integer(int32) :: n
+        type(color) :: clr
         
         ! Initialization
         call str%initialize()
@@ -24,6 +25,12 @@ contains
         else
             call str%append(' "-" notitle')
         end if
+
+        ! Color
+        clr = this%get_color()
+        call str%append(' lc rgb "#')
+        call str%append(clr%to_hex_string())
+        call str%append('"')
 
         ! Error Bars
         if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
@@ -53,7 +60,7 @@ contains
         call str%initialize()
         delimiter = achar(9) ! tab delimiter
         nl = new_line(nl)
-        n = size(this%m_data, 1)  ! Change to get_count once defined
+        n = this%get_count()
 
         ! Process
         if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
@@ -236,6 +243,43 @@ contains
         x = this%m_yBars
     end function
 ! ------------------------------------------------------------------------------
+    pure module function pde_get_count(this) result(x)
+        class(plot_data_error_bars), intent(in) :: this
+        integer(int32) :: x
+        if (allocated(this%m_data)) then
+            x = size(this%m_data, 1)
+        else
+            x = 0
+        end if
+    end function
 
 ! ------------------------------------------------------------------------------
+    pure module function pde_get_color(this) result(x)
+        ! Arguments
+        class(plot_data_error_bars), intent(in) :: this
+        type(color) :: x
+
+        ! Process
+        if (this%m_useAutoColor) then
+            x = color_list(this%m_colorIndex)
+        else
+            x = this%m_color
+        end if
+    end function
+
+! --------------------
+    module subroutine pde_set_color(this, x)
+        class(plot_data_error_bars), intent(inout) :: this
+        type(color), intent(in) :: x
+        this%m_color = x
+        this%m_useAutoColor = .false.
+    end subroutine
+
+
+! ------------------------------------------------------------------------------
+    module subroutine pde_set_color_index(this, x)
+        class(plot_data_error_bars), intent(inout) :: this
+        integer(int32), intent(in) :: x
+        this%m_colorIndex = x
+    end subroutine
 end submodule

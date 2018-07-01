@@ -147,6 +147,13 @@ contains
             else
                 this%m_colorIndex = this%m_colorIndex + 1
             end if
+        class is (plot_data_error_bars)
+            call x%set_color_index(this%m_colorIndex)
+            if (this%m_colorIndex == size(color_list)) then
+                this%m_colorIndex = 1
+            else
+                this%m_colorIndex = this%m_colorIndex + 1
+            end if
         end select
     end subroutine
 
