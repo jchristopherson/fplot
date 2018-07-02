@@ -52,12 +52,10 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_use_auto_color(.false.)
     call d1%set_line_color(CLR_BLUE)
     call d1%set_line_width(1.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_use_auto_color(.false.)
     call d2%set_line_color(CLR_GREEN)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)

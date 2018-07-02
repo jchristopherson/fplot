@@ -23,6 +23,10 @@ set(fplot_sources
     fplot_plot_3d.f90
     fplot_surface_plot.f90
     fplot_axis.f90
+    fplot_label.f90
+    fplot_multiplot.f90
+    fplot_plot_data_error_bars.f90
+    fplot_plot_data_colored.f90
     ${strings_Sources}
     ${collections_Sources}
 )

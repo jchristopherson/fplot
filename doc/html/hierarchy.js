@@ -12,6 +12,7 @@ var hierarchy =
         [ "fplot_core::rainbow_colormap", "structfplot__core_1_1rainbow__colormap.html", null ]
       ] ],
       [ "fplot_core::legend", "structfplot__core_1_1legend.html", null ],
+      [ "fplot_core::multiplot", "structfplot__core_1_1multiplot.html", null ],
       [ "fplot_core::plot", "structfplot__core_1_1plot.html", [
         [ "fplot_core::plot_2d", "structfplot__core_1_1plot__2d.html", null ],
         [ "fplot_core::plot_3d", "structfplot__core_1_1plot__3d.html", [
@@ -25,12 +26,16 @@ var hierarchy =
         [ "fplot_core::z_axis", "structfplot__core_1_1z__axis.html", null ]
       ] ],
       [ "fplot_core::plot_data", "structfplot__core_1_1plot__data.html", [
-        [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
-          [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
-          [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
+        [ "fplot_core::plot_data_colored", "structfplot__core_1_1plot__data__colored.html", [
+          [ "fplot_core::plot_data_error_bars", "structfplot__core_1_1plot__data__error__bars.html", null ],
+          [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
+            [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
+            [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
+          ] ]
         ] ],
         [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ]
       ] ],
+      [ "fplot_core::plot_label", "structfplot__core_1_1plot__label.html", null ],
       [ "fplot_core::terminal", "structfplot__core_1_1terminal.html", [
         [ "fplot_core::latex_terminal", "structfplot__core_1_1latex__terminal.html", null ],
         [ "fplot_core::png_terminal", "structfplot__core_1_1png__terminal.html", null ],

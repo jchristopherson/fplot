@@ -15,17 +15,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine surf_init(this, term, err)
+    module subroutine surf_init(this, term, fname, err)
         ! Arguments
         class(surface_plot), intent(inout) :: this
         integer(int32), intent(in), optional :: term
+        character(len = *), intent(in), optional :: fname
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
         type(legend), pointer :: lgnd
 
         ! Initialize the base class
-        call this%plot_3d%initialize(term, err)
+        call this%plot_3d%initialize(term, fname, err)
 
         ! Do not display the legend
         lgnd => this%get_legend()

@@ -16,10 +16,11 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine plt_init(this, term, err)
+    module subroutine plt_init(this, term, fname, err)
         ! Arguments
         class(plot), intent(inout) :: this
         integer(int32), intent(in), optional :: term
+        character(len = *), intent(in), optional :: fname
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -50,6 +51,7 @@ contains
         select case (t)
         case (GNUPLOT_TERMINAL_PNG)
             allocate(png, stat = flag)
+            if (present(fname)) call png%set_filename(fname)
             this%m_terminal => png
         case (GNUPLOT_TERMINAL_QT)
             allocate(qt, stat = flag)
@@ -59,6 +61,7 @@ contains
             this%m_terminal => win
         case (GNUPLOT_TERMINAL_LATEX)
             allocate(latex, stat = flag)
+            if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
         case default ! WXT is the default
             allocate(wxt, stat = flag)
@@ -127,23 +130,53 @@ contains
     module subroutine plt_push_data(this, x, err)
         ! Arguments
         class(plot), intent(inout) :: this
-        class(plot_data), intent(in) :: x
+        class(plot_data), intent(inout) :: x
         class(errors), intent(inout), optional, target :: err
+        class(legend), pointer :: lgnd
 
         ! Process
         call this%m_data%push(x, err)
+        if (this%m_data%get_count() > 1) then
+            lgnd => this%get_legend()
+            call lgnd%set_is_visible(.true.)
+        end if
+
+        ! Index the color tracking index if the type is of scatter_plot_data
+        select type (x)
+        class is (plot_data_colored)
+            call x%set_color_index(this%m_colorIndex)
+            if (this%m_colorIndex == size(color_list)) then
+                this%m_colorIndex = 1
+            else
+                this%m_colorIndex = this%m_colorIndex + 1
+            end if
+        end select
     end subroutine
 
 ! ------------------------------------------------------------------------------
     module subroutine plt_pop_data(this)
+        ! Arguments
         class(plot), intent(inout) :: this
+        class(legend), pointer :: lgnd
+
+        ! Process
         call this%m_data%pop()
+        if (this%m_data%get_count() < 2) then
+            lgnd => this%get_legend()
+            call lgnd%set_is_visible(.false.)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
     module subroutine plt_clear_all(this)
+        ! Arguments
         class(plot), intent(inout) :: this
+        class(legend), pointer :: lgnd
+
+        ! Process
         call this%m_data%clear()
+        lgnd => this%get_legend()
+        call lgnd%set_is_visible(.false.)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -212,6 +245,7 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        class(terminal), pointer :: term
 
         ! Initialization
         if (present(persist)) then
@@ -224,6 +258,7 @@ contains
         else
             errmgr => deferr
         end if
+        term => this%get_terminal()
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -235,6 +270,8 @@ contains
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
 
@@ -262,6 +299,7 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
+        class(terminal), pointer :: term
 
         ! Initialization
         if (present(err)) then
@@ -269,6 +307,7 @@ contains
         else
             errmgr => deferr
         end if
+        term => this%get_terminal()
 
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
@@ -280,6 +319,8 @@ contains
                 PLOT_GNUPLOT_FILE_ERROR)
             return
         end if
+        write(fid, '(A)') term%get_command_string()
+        write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
     end subroutine
@@ -347,4 +388,66 @@ contains
         logical, intent(in) :: x
         this%m_drawBorder = x
     end subroutine
+
+! ******************************************************************************
+! ADDED: JUNE 22, 2018 - JAC
+! ------------------------------------------------------------------------------
+    module subroutine plt_push_label(this, lbl, err)
+        ! Arguments
+        class(plot), intent(inout) :: this
+        class(plot_label), intent(in) :: lbl
+        class(errors), intent(inout), optional, target :: err
+
+        ! Process
+        call this%m_labels%push(lbl, err)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_pop_label(this)
+        class(plot), intent(inout) :: this
+        call this%m_labels%pop()
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function plt_get_label(this, i) result(x)
+        ! Arguments
+        class(plot), intent(in) :: this
+        integer(int32), intent(in) :: i
+        class(plot_label), pointer :: x
+        
+        ! Local Variables
+        class(*), pointer :: item
+
+        ! Process
+        item => this%m_labels%get(i)
+        select type (item)
+        class is (plot_label)
+            x => item
+        class default
+            nullify(x)
+        end select
+    end function
+
+! --------------------
+    module subroutine plt_set_label(this, i, x)
+        class(plot), intent(inout) :: this
+        integer(int32), intent(in) :: i
+        class(plot_label), intent(in) :: x
+        call this%m_labels%set(i, x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plt_get_label_count(this) result(x)
+        class(plot), intent(in) :: this
+        integer(int32) :: x
+        x = this%m_labels%get_count()
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_clear_labels(this)
+        class(plot), intent(inout) :: this
+        call this%m_labels%clear()
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

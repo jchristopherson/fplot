@@ -12,13 +12,18 @@ var searchData=
   ['plot_5fdata',['plot_data',['../structfplot__core_1_1plot__data.html',1,'fplot_core']]],
   ['plot_5fdata_5f2d',['plot_data_2d',['../structfplot__core_1_1plot__data__2d.html',1,'fplot_core']]],
   ['plot_5fdata_5f3d',['plot_data_3d',['../structfplot__core_1_1plot__data__3d.html',1,'fplot_core']]],
+  ['plot_5fdata_5fcolored',['plot_data_colored',['../structfplot__core_1_1plot__data__colored.html',1,'fplot_core']]],
+  ['plot_5fdata_5ferror_5fbars',['plot_data_error_bars',['../structfplot__core_1_1plot__data__error__bars.html',1,'fplot_core']]],
   ['plot_5fgnuplot_5ffile_5ferror',['plot_gnuplot_file_error',['../namespacefplot__errors.html#a30e0efa01cc5ad636bcae1c097a768fe',1,'fplot_errors']]],
   ['plot_5finvalid_5finput_5ferror',['plot_invalid_input_error',['../namespacefplot__errors.html#a6ec636c83abdb96a29ead622c37c7408',1,'fplot_errors']]],
   ['plot_5finvalid_5foperation_5ferror',['plot_invalid_operation_error',['../namespacefplot__errors.html#a4e51e94150cf61807209618ddf49c978',1,'fplot_errors']]],
+  ['plot_5flabel',['plot_label',['../structfplot__core_1_1plot__label.html',1,'fplot_core']]],
   ['plot_5fobject',['plot_object',['../structfplot__core_1_1plot__object.html',1,'fplot_core']]],
   ['plot_5fout_5fof_5fmemory_5ferror',['plot_out_of_memory_error',['../namespacefplot__errors.html#adc52a2e51a08eef130e6fa2f3bbedc53',1,'fplot_errors']]],
   ['plotdata_5fmax_5fname_5flength',['plotdata_max_name_length',['../namespacefplot__core.html#acfa29ac62a50b61ea009b20a898d45e5',1,'fplot_core']]],
   ['png_5fterminal',['png_terminal',['../structfplot__core_1_1png__terminal.html',1,'fplot_core']]],
   ['pop',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
-  ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]]
+  ['pop_5flabel',['pop_label',['../structfplot__core_1_1plot.html#a72556bd3398bf491d2aa192ceaab9807',1,'fplot_core::plot']]],
+  ['push',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]],
+  ['push_5flabel',['push_label',['../structfplot__core_1_1plot.html#a89f704e48794d3805d2f13c96082096c',1,'fplot_core::plot']]]
 ];

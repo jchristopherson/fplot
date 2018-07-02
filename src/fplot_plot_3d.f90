@@ -21,10 +21,11 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine p3d_init(this, term, err)
+    module subroutine p3d_init(this, term, fname, err)
         ! Arguments
         class(plot_3d), intent(inout) :: this
         integer(int32), intent(in), optional :: term
+        character(len = *), intent(in), optional :: fname
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -40,7 +41,7 @@ contains
         end if
 
         ! Initialize the base class
-        call plt_init(this, term, errmgr)
+        call plt_init(this, term, fname, errmgr)
         if (errmgr%has_error_occurred()) return
 
         ! Process
@@ -74,15 +75,11 @@ contains
         integer(int32) :: i, n
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        class(terminal), pointer :: term
         type(legend), pointer :: leg
+        class(plot_label), pointer :: lbl
 
         ! Initialization
         call str%initialize()
-
-        ! Write the terminal commands
-        term => this%get_terminal()
-        call str%append(term%get_command_string())
 
         ! Grid
         if (this%get_show_gridlines()) then
@@ -158,6 +155,14 @@ contains
         leg => this%get_legend()
         if (associated(leg)) call str%append(leg%get_command_string())
 
+        ! Labels
+        do i = 1, this%get_label_count()
+            lbl => this%get_label(i)
+            if (.not.associated(lbl)) cycle
+            call str%append(new_line('a'))
+            call str%append(lbl%get_command_string())
+        end do
+
         ! Orientation
         call str%append(new_line('a'))
         call str%append("set view ")
@@ -182,9 +187,10 @@ contains
             if (.not.associated(ptr)) cycle
             call str%append(new_line('a'))
             call str%append(ptr%get_data_string())
-            if (i /= n) then
-                call str%append("e")
-            end if
+            call str%append("e")
+            ! if (i /= n) then
+            !     call str%append("e")
+            ! end if
         end do
 
         ! End

@@ -53,16 +53,31 @@ target_link_libraries(fplot_surf_2 fplot)
 add_executable(fplot_surf_3 fplot_surf_3.f90)
 target_link_libraries(fplot_surf_3 fplot)
 
-# Copy the FERROR & COLLECTIONS shared object to the runtime directory on Windows
+# Example 14
+add_executable(fplot_multi_1 fplot_multi_1.f90)
+target_link_libraries(fplot_multi_1 fplot)
+
+# Example 15
+add_executable(fplot_multi_2 fplot_multi_2.f90)
+target_link_libraries(fplot_multi_2 fplot)
+
+# Example 16
+add_executable(fplot_log_1 fplot_log_1.f90)
+target_link_libraries(fplot_log_1 fplot)
+
+# Example 17
+add_executable(fplot_multi_3 fplot_multi_3.f90)
+target_link_libraries(fplot_multi_3 fplot)
+
+# Example 18
+add_executable(fplot_err_1 fplot_err_1.f90)
+target_link_libraries(fplot_err_1 fplot)
+
+# Copy the FERROR shared object to the runtime directory on Windows
 if (WIN32)
-    add_custom_command(
-        TARGET fplot_2d_1 POST_BUILD
+    get_target_property(ferror_LibLocation ferror LOCATION)
+    add_custom_command(TARGET fplot_2d_1 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${ferror_LibLocation} $<TARGET_FILE_DIR:fplot_2d_1>
-    )
-    add_custom_command(
-        TARGET fplot_2d_1 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${collections_LibLocation} $<TARGET_FILE_DIR:fplot_2d_1>
     )
 endif()

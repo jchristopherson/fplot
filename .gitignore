@@ -52,3 +52,4 @@ CTestTestfile.cmake
 # Misc. Stuff
 *.bin
 *.plt
+*.json
