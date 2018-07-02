@@ -1191,7 +1191,6 @@ module fplot_core
     !!     integer(int32), parameter :: npts = 1000
     !!     real(real64), dimension(npts) :: x, y1, y2
     !!     type(plot_2d) :: plt
-    !!     class(terminal), pointer :: term
     !!     type(plot_data_2d) :: d1, d2
     !!     class(plot_axis), pointer :: xAxis, yAxis
     !!     type(legend), pointer :: leg
@@ -1205,7 +1204,7 @@ module fplot_core
     !!     call d2%define_data(x, y2)
     !!
     !!     ! Set up the plot
-    !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
+    !!     call plt%initialize(GNUPLOT_TERMINAL_PNG, "example_plot.png") ! Save to file directly
     !!     call plt%set_title("Example Plot")
     !!
     !!     xAxis => plt%get_x_axis()
@@ -1229,13 +1228,6 @@ module fplot_core
     !!     ! Add the data to the plot
     !!     call plt%push(d1)
     !!     call plt%push(d2)
-    !!
-    !!     ! Define the file to which the plot should be saved
-    !!     term => plt%get_terminal()
-    !!     select type (term)
-    !!     class is (png_terminal)
-    !!         call term%set_filename("example_plot.png")
-    !!     end select
     !!
     !!     ! Draw the plot
     !!     call plt%draw()
@@ -2487,6 +2479,8 @@ module fplot_core
         !!  - GNUPLOT_TERMINAL_WIN32
         !!  - GNUPLOT_TERMINAL_WXT
         !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
         !! @param[in,out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -3283,9 +3277,10 @@ module fplot_core
             class(plot), intent(inout) :: this
         end subroutine
 
-        module subroutine plt_init(this, term, err)
+        module subroutine plt_init(this, term, fname, err)
             class(plot), intent(inout) :: this
             integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -5663,6 +5658,8 @@ module fplot_core
         !!  - GNUPLOT_TERMINAL_WIN32
         !!  - GNUPLOT_TERMINAL_WXT
         !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
         !! @param[out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -5859,9 +5856,10 @@ module fplot_core
             type(plot_2d), intent(inout) :: this
         end subroutine
 
-        module subroutine p2d_init(this, term, err)
+        module subroutine p2d_init(this, term, fname, err)
             class(plot_2d), intent(inout) :: this
             integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -5990,6 +5988,8 @@ module fplot_core
         !!  - GNUPLOT_TERMINAL_WIN32
         !!  - GNUPLOT_TERMINAL_WXT
         !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
         !! @param[out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -6290,9 +6290,10 @@ module fplot_core
             type(plot_3d), intent(inout) :: this
         end subroutine
 
-        module subroutine p3d_init(this, term, err)
+        module subroutine p3d_init(this, term, fname, err)
             class(plot_3d), intent(inout) :: this
             integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -6451,6 +6452,9 @@ module fplot_core
         !!  - GNUPLOT_TERMINAL_QT
         !!  - GNUPLOT_TERMINAL_WIN32
         !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
         !! @param[out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -7028,9 +7032,10 @@ module fplot_core
             type(surface_plot), intent(inout) :: this
         end subroutine
 
-        module subroutine surf_init(this, term, err)
+        module subroutine surf_init(this, term, fname, err)
             class(surface_plot), intent(inout) :: this
             integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
             class(errors), intent(inout), optional, target :: err
         end subroutine
 

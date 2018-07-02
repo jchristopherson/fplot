@@ -21,10 +21,11 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine p3d_init(this, term, err)
+    module subroutine p3d_init(this, term, fname, err)
         ! Arguments
         class(plot_3d), intent(inout) :: this
         integer(int32), intent(in), optional :: term
+        character(len = *), intent(in), optional :: fname
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -40,7 +41,7 @@ contains
         end if
 
         ! Initialize the base class
-        call plt_init(this, term, errmgr)
+        call plt_init(this, term, fname, errmgr)
         if (errmgr%has_error_occurred()) return
 
         ! Process

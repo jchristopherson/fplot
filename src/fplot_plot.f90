@@ -16,10 +16,11 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine plt_init(this, term, err)
+    module subroutine plt_init(this, term, fname, err)
         ! Arguments
         class(plot), intent(inout) :: this
         integer(int32), intent(in), optional :: term
+        character(len = *), intent(in), optional :: fname
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -50,6 +51,7 @@ contains
         select case (t)
         case (GNUPLOT_TERMINAL_PNG)
             allocate(png, stat = flag)
+            if (present(fname)) call png%set_filename(fname)
             this%m_terminal => png
         case (GNUPLOT_TERMINAL_QT)
             allocate(qt, stat = flag)
@@ -59,6 +61,7 @@ contains
             this%m_terminal => win
         case (GNUPLOT_TERMINAL_LATEX)
             allocate(latex, stat = flag)
+            if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
         case default ! WXT is the default
             allocate(wxt, stat = flag)
