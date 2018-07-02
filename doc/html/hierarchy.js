@@ -26,9 +26,12 @@ var hierarchy =
         [ "fplot_core::z_axis", "structfplot__core_1_1z__axis.html", null ]
       ] ],
       [ "fplot_core::plot_data", "structfplot__core_1_1plot__data.html", [
-        [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
-          [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
-          [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
+        [ "fplot_core::plot_data_colored", "structfplot__core_1_1plot__data__colored.html", [
+          [ "fplot_core::plot_data_error_bars", "structfplot__core_1_1plot__data__error__bars.html", null ],
+          [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
+            [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
+            [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
+          ] ]
         ] ],
         [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ]
       ] ],

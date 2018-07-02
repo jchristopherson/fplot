@@ -104,11 +104,13 @@ Inheritance diagram for fplot_core::plot_data:</div>
  <div class="center">
   <img src="structfplot__core_1_1plot__data.png" usemap="#fplot_5Fcore::plot_5Fdata_map" alt=""/>
   <map id="fplot_5Fcore::plot_5Fdata_map" name="fplot_5Fcore::plot_5Fdata_map">
-<area href="structfplot__core_1_1plot__object.html" title="The base type for a GNUPLOT object. " alt="fplot_core::plot_object" shape="rect" coords="186,0,362,24"/>
-<area href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. " alt="fplot_core::scatter_plot_data" shape="rect" coords="93,112,269,136"/>
-<area href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. " alt="fplot_core::surface_plot_data" shape="rect" coords="279,112,455,136"/>
-<area href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. " alt="fplot_core::plot_data_2d" shape="rect" coords="0,168,176,192"/>
-<area href="structfplot__core_1_1plot__data__3d.html" title="Defines a three-dimensional plot data set. " alt="fplot_core::plot_data_3d" shape="rect" coords="186,168,362,192"/>
+<area href="structfplot__core_1_1plot__object.html" title="The base type for a GNUPLOT object. " alt="fplot_core::plot_object" shape="rect" coords="204,0,398,24"/>
+<area href="structfplot__core_1_1plot__data__colored.html" title="Defines a plot_data based object best represented by a color. " alt="fplot_core::plot_data_colored" shape="rect" coords="102,112,296,136"/>
+<area href="structfplot__core_1_1surface__plot__data.html" title="Provides a three-dimensional surface plot data set. " alt="fplot_core::surface_plot_data" shape="rect" coords="306,112,500,136"/>
+<area href="structfplot__core_1_1plot__data__error__bars.html" title="Defines a 2D error bar based data set. " alt="fplot_core::plot_data_error_bars" shape="rect" coords="0,168,194,192"/>
+<area href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets. " alt="fplot_core::scatter_plot_data" shape="rect" coords="204,168,398,192"/>
+<area href="structfplot__core_1_1plot__data__2d.html" title="Defines a two-dimensional plot data set. " alt="fplot_core::plot_data_2d" shape="rect" coords="102,224,296,248"/>
+<area href="structfplot__core_1_1plot__data__3d.html" title="Defines a three-dimensional plot data set. " alt="fplot_core::plot_data_3d" shape="rect" coords="306,224,500,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -140,7 +142,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides a container for plot data. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01447">1447</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01449">1449</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ac123412a93ac152f4e0971b6e33b18b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac123412a93ac152f4e0971b6e33b18b8">&#9670;&nbsp;</a></span>get_name()</h2>
@@ -168,7 +170,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 <dl class="section return"><dt>Returns</dt><dd>The name.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data) :: pd</div><div class="line">    <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: name</div><div class="line"></div><div class="line">    <span class="comment">! Get the name</span></div><div class="line">    name = pd%get_name()</div><div class="line"><span class="keyword">end program </span></div></div><!-- fragment --></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01474">1474</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01476">1476</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -198,7 +200,7 @@ character(len=<a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea00
 </dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div><div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div><div class="line">    <span class="keywordtype">implicit none</span></div><div class="line"></div><div class="line">    <span class="keywordtype">type</span>(plot_data) :: pd</div><div class="line"></div><div class="line">    <span class="comment">! Set the name</span></div><div class="line">    <span class="keyword">call </span>pd%set_name(<span class="stringliteral">&quot;Example Data Set&quot;</span>)</div><div class="line"><span class="keyword">end program </span></div></div><!-- fragment --></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01496">1496</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l01498">1498</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

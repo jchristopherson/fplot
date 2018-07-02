@@ -9,6 +9,8 @@ var searchData=
   ['plot_5fdata',['plot_data',['../structfplot__core_1_1plot__data.html',1,'fplot_core']]],
   ['plot_5fdata_5f2d',['plot_data_2d',['../structfplot__core_1_1plot__data__2d.html',1,'fplot_core']]],
   ['plot_5fdata_5f3d',['plot_data_3d',['../structfplot__core_1_1plot__data__3d.html',1,'fplot_core']]],
+  ['plot_5fdata_5fcolored',['plot_data_colored',['../structfplot__core_1_1plot__data__colored.html',1,'fplot_core']]],
+  ['plot_5fdata_5ferror_5fbars',['plot_data_error_bars',['../structfplot__core_1_1plot__data__error__bars.html',1,'fplot_core']]],
   ['plot_5flabel',['plot_label',['../structfplot__core_1_1plot__label.html',1,'fplot_core']]],
   ['plot_5fobject',['plot_object',['../structfplot__core_1_1plot__object.html',1,'fplot_core']]],
   ['png_5fterminal',['png_terminal',['../structfplot__core_1_1png__terminal.html',1,'fplot_core']]]

@@ -12,6 +12,8 @@ var searchData=
   ['plot_5fdata',['plot_data',['../structfplot__core_1_1plot__data.html',1,'fplot_core']]],
   ['plot_5fdata_5f2d',['plot_data_2d',['../structfplot__core_1_1plot__data__2d.html',1,'fplot_core']]],
   ['plot_5fdata_5f3d',['plot_data_3d',['../structfplot__core_1_1plot__data__3d.html',1,'fplot_core']]],
+  ['plot_5fdata_5fcolored',['plot_data_colored',['../structfplot__core_1_1plot__data__colored.html',1,'fplot_core']]],
+  ['plot_5fdata_5ferror_5fbars',['plot_data_error_bars',['../structfplot__core_1_1plot__data__error__bars.html',1,'fplot_core']]],
   ['plot_5fgnuplot_5ffile_5ferror',['plot_gnuplot_file_error',['../namespacefplot__errors.html#a30e0efa01cc5ad636bcae1c097a768fe',1,'fplot_errors']]],
   ['plot_5finvalid_5finput_5ferror',['plot_invalid_input_error',['../namespacefplot__errors.html#a6ec636c83abdb96a29ead622c37c7408',1,'fplot_errors']]],
   ['plot_5finvalid_5foperation_5ferror',['plot_invalid_operation_error',['../namespacefplot__errors.html#a4e51e94150cf61807209618ddf49c978',1,'fplot_errors']]],

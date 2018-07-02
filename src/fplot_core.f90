@@ -8129,7 +8129,46 @@ module fplot_core
 ! ******************************************************************************
 ! FPLOT_PLOT_DATA_ERRORS.F90
 ! ------------------------------------------------------------------------------
-    !
+    !> @brief Defines a 2D error bar based data set.
+    !!
+    !! @par Example
+    !! The following example illustrates the use of y error bars.
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: n = 50
+    !!
+    !!     ! Local Variables
+    !!     real(real64) :: x(n), y(n), yerr(n)
+    !!     type(plot_2d) :: plt
+    !!     type(plot_data_2d) :: d1
+    !!     type(plot_data_error_bars) :: e1
+    !!
+    !!     ! Initialization
+    !!     x = linspace(0.0d0, 1.0d1, n)
+    !!     y = sin(x)
+    !!     call random_number(yerr)
+    !!     yerr = 3.0d-1 * (yerr - 0.5d0)
+    !!
+    !!     ! Create the plot
+    !!     call plt% initialize()
+    !!
+    !!     call d1%define_data(x, y)
+    !!     call d1%set_name("Raw")
+    !!
+    !!     call e1%define_y_error_data(x, y, yerr)
+    !!     call e1%set_name("Errors")
+    !!
+    !!     call plt%push(d1)
+    !!     call plt%push(e1)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_y_errorbars_1.png
     type, extends(plot_data_colored) :: plot_data_error_bars
         !> Display x error bars?
         logical :: m_xBars = .false.
@@ -8144,13 +8183,353 @@ module fplot_core
     contains
         procedure, public :: get_command_string => pde_get_cmd
         procedure, public :: get_data_string => pde_get_data_cmd
+        !> @brief Defines the x error data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_x_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xerr(:), optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_error_bars object.
+        !! @param[in] x An N-element array containing the x coordinates of the 
+        !!  data.
+        !! @param[in] y An N-element array containing the y coordinates of the 
+        !!  data.
+        !! @param[in] xerr An N-element array containing the x errors at each
+        !!  data point.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input arrays are not
+        !!      the same size.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
+        !!      available.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of x error bars.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 50
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(n), y(n), xerr(n)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: d1
+        !!     type(plot_data_error_bars) :: e1
+        !!
+        !!     ! Initialization
+        !!     x = linspace(0.0d0, 1.0d1, n)
+        !!     y = sin(x)
+        !!     call random_number(xerr)
+        !!     xerr = (xerr - 0.5d0)
+        !!
+        !!     ! Create the plot
+        !!     call plt% initialize()
+        !!
+        !!     call d1%define_data(x, y)
+        !!     call d1%set_name("Raw")
+        !!
+        !!     call e1%define_x_error_data(x, y, xerr)
+        !!     call e1%set_name("Errors")
+        !!
+        !!     call plt%push(d1)
+        !!     call plt%push(e1)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_x_errorbars_1.png
         procedure, public :: define_x_error_data => pde_define_x_err
+        !> @brief Defines the y error data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_y_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) yerr(:), optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_error_bars object.
+        !! @param[in] x An N-element array containing the x coordinates of the 
+        !!  data.
+        !! @param[in] y An N-element array containing the y coordinates of the 
+        !!  data.
+        !! @param[in] yerr An N-element array containing the y errors at each
+        !!  data point.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input arrays are not
+        !!      the same size.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
+        !!      available.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of y error bars.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 50
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(n), y(n), yerr(n)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: d1
+        !!     type(plot_data_error_bars) :: e1
+        !!
+        !!     ! Initialization
+        !!     x = linspace(0.0d0, 1.0d1, n)
+        !!     y = sin(x)
+        !!     call random_number(yerr)
+        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
+        !!
+        !!     ! Create the plot
+        !!     call plt% initialize()
+        !!
+        !!     call d1%define_data(x, y)
+        !!     call d1%set_name("Raw")
+        !!
+        !!     call e1%define_y_error_data(x, y, yerr)
+        !!     call e1%set_name("Errors")
+        !!
+        !!     call plt%push(d1)
+        !!     call plt%push(e1)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_y_errorbars_1.png
         procedure, public :: define_y_error_data => pde_define_y_err
+        !> @brief Defines the x and y error data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_xy_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xerr(:), real(real64) yerr(:), optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_error_bars object.
+        !! @param[in] x An N-element array containing the x coordinates of the 
+        !!  data.
+        !! @param[in] y An N-element array containing the y coordinates of the 
+        !!  data.
+        !! @param[in] xerr An N-element array containing the x errors at each
+        !!  data point.
+        !! @param[in] yerr An N-element array containing the y errors at each
+        !!  data point.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input arrays are not
+        !!      the same size.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
+        !!      available.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of x and y error bars.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 50
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(n), y(n), xerr(n), yerr(n)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: d1
+        !!     type(plot_data_error_bars) :: e1
+        !!
+        !!     ! Initialization
+        !!     x = linspace(0.0d0, 1.0d1, n)
+        !!     y = sin(x)
+        !!     call random_number(xerr)
+        !!     xerr = (xerr - 0.5d0)
+        !!     call random_number(yerr)
+        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
+        !!
+        !!     ! Create the plot
+        !!     call plt% initialize()
+        !!
+        !!     call d1%define_data(x, y)
+        !!     call d1%set_name("Raw")
+        !!
+        !!     call e1%define_xy_error_data(x, y, xerr, yerr)
+        !!     call e1%set_name("Errors")
+        !!
+        !!     call plt%push(d1)
+        !!     call plt%push(e1)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_xy_errorbars_1.png
         procedure, public :: define_xy_error_data => pde_define_xy_err
+        !> @brief Tests to see if the x error bar data has been defined, and as
+        !!  a result, if the x error data is to be plotted.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_plot_x_error_bars(class(plot_data_error_bars) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_error_bars object.
+        !! @return Returns true if the x error bars are to be plotted; else,
+        !!  false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data_error_bars) :: obj
+        !!     logical :: check
+        !!
+        !!     check = obj%get_plot_x_error_bars()
+        !! end program
+        !! @endcode
         procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
+        !> @brief Tests to see if the y error bar data has been defined, and as
+        !!  a result, if the y error data is to be plotted.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_plot_y_error_bars(class(plot_data_error_bars) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_error_bars object.
+        !! @return Returns true if the y error bars are to be plotted; else,
+        !!  false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data_error_bars) :: obj
+        !!     logical :: check
+        !!
+        !!     check = obj%get_plot_y_error_bars()
+        !! end program
+        !! @endcode
         procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
+        !> @brief Gets the number of stored data points.
+        !!
+        !! @param[in] this The plot_data_error_bars object.
+        !! @return The number of data points.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data_error_bars) :: obj
+        !!     integer(int32) :: n
+        !!
+        !!     n = obj%get_count()
+        !! end program
+        !! @endcode
         procedure, public :: get_count => pde_get_count
+        !> @brief Tests to see if the x and y error boxes should be utilized.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_error_box(class(plot_data_error_bars) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_error_bars object.
+        !! @return Returns true if the error boxes are to be plotted; else,
+        !!  false.
+        !!
+        !! @par Remarks
+        !! Notice, the error boxes are only utilized if there is both x and y
+        !! error data defined, regardless of the value of this property.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(plot_data_error_bars) :: obj
+        !!     logical :: check
+        !!
+        !!     check = obj%get_use_error_box()
+        !! end program
+        !! @endcode
         procedure, public :: get_use_error_box => pde_get_box
+        !> @brief Deterimines if the x and y error boxes should be utilized.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_error_box(class(plot_data_error_bars) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_error_bars object.
+        !! @param[in] x Set to true if the error boxes are to be plotted; else,
+        !!  false.
+        !!
+        !! @par Remarks
+        !! Notice, the error boxes are only utilized if there is both x and y
+        !! error data defined, regardless of the value of this property.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of error boxes instead of
+        !! error bars.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 50
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(n), y(n), xerr(n), yerr(n)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: d1
+        !!     type(plot_data_error_bars) :: e1
+        !!
+        !!     ! Initialization
+        !!     x = linspace(0.0d0, 1.0d1, n)
+        !!     y = sin(x)
+        !!     call random_number(xerr)
+        !!     xerr = (xerr - 0.5d0)
+        !!     call random_number(yerr)
+        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
+        !!
+        !!     ! Create the plot
+        !!     call plt% initialize()
+        !!
+        !!     call d1%define_data(x, y)
+        !!     call d1%set_name("Raw")
+        !!
+        !!     call e1%define_xy_error_data(x, y, xerr, yerr)
+        !!     call e1%set_name("Errors")
+        !!     call e1%set_use_error_box(.true.)
+        !!
+        !!     call plt%push(d1)
+        !!     call plt%push(e1)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_xy_errorbox_1.png
         procedure, public :: set_use_error_box => pde_set_box
     end type
 
