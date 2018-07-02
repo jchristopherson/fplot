@@ -73,6 +73,10 @@ target_link_libraries(fplot_multi_3 fplot)
 add_executable(fplot_err_1 fplot_err_1.f90)
 target_link_libraries(fplot_err_1 fplot)
 
+# Example 19
+add_executable(fplot_clear_1 fplot_clear_1.f90)
+target_link_libraries(fplot_clear_1 fplot)
+
 # Copy the FERROR shared object to the runtime directory on Windows
 if (WIN32)
     get_target_property(ferror_LibLocation ferror LOCATION)
