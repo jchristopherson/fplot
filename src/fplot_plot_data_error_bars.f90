@@ -27,14 +27,18 @@ contains
         end if
 
         ! Color
-        clr = this%get_color()
+        clr = this%get_line_color()
         call str%append(' lc rgb "#')
         call str%append(clr%to_hex_string())
         call str%append('"')
 
         ! Error Bars
         if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
-            call str%append(" w xyerr")
+            if (this%get_use_error_box()) then
+                call str%append(" w boxxyerr")
+            else
+                call str%append(" w xyerr")
+            end if
         else if (this%get_plot_x_error_bars() .and. .not.this%get_plot_y_error_bars()) then
             call str%append(" w xerr")
         else if (.not.this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
@@ -254,32 +258,18 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_color(this) result(x)
-        ! Arguments
+    pure module function pde_get_box(this) result(x)
         class(plot_data_error_bars), intent(in) :: this
-        type(color) :: x
-
-        ! Process
-        if (this%m_useAutoColor) then
-            x = color_list(this%m_colorIndex)
-        else
-            x = this%m_color
-        end if
+        logical :: x
+        x = this%m_box
     end function
 
 ! --------------------
-    module subroutine pde_set_color(this, x)
+    module subroutine pde_set_box(this, x)
         class(plot_data_error_bars), intent(inout) :: this
-        type(color), intent(in) :: x
-        this%m_color = x
-        this%m_useAutoColor = .false.
+        logical, intent(in) :: x
+        this%m_box = x
     end subroutine
-
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_set_color_index(this, x)
-        class(plot_data_error_bars), intent(inout) :: this
-        integer(int32), intent(in) :: x
-        this%m_colorIndex = x
-    end subroutine
 end submodule

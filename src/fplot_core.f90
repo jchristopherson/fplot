@@ -99,6 +99,7 @@ module fplot_core
     public :: plot_label
     public :: multiplot
     public :: plot_data_error_bars
+    public :: plot_data_colored
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -1510,6 +1511,66 @@ module fplot_core
         module subroutine pd_set_name(this, txt)
             class(plot_data), intent(inout) :: this
             character(len = *), intent(in) :: txt
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_DATA_COLORED.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a plot_data based object best represented by a color.
+    type, abstract, extends(plot_data) :: plot_data_colored
+    private
+        !> The line color.
+        type(color) :: m_color = CLR_BLUE
+        !> Let the object choose colors automatically
+        logical :: m_useAutoColor = .true.
+        !> The color index to use, assuming we're using auto color
+        integer(int32) :: m_colorIndex = 1
+    contains
+        !> @brief Gets the line color.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure type(color) function get_line_color(class(plot_data_colored) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_colored instance.
+        !! @return The color.
+        procedure, public :: get_line_color => pdc_get_line_color
+        !> @brief Sets the line color.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_color(class(plot_data_colored) this, type(color) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_colored instance.
+        !! @param[in] x The color.
+        procedure, public :: set_line_color => pdc_set_line_color
+        procedure, private :: get_color_index => pdc_get_color_index
+        procedure, private :: set_color_index => pdc_set_color_index
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function pdc_get_line_color(this) result(x)
+            class(plot_data_colored), intent(in) :: this
+            type(color) :: x
+        end function
+
+        module subroutine pdc_set_line_color(this, x)
+            class(plot_data_colored), intent(inout) :: this
+            type(color), intent(in) :: x
+        end subroutine
+
+        pure module function pdc_get_color_index(this) result(x)
+            class(plot_data_colored), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        module subroutine pdc_set_color_index(this, x)
+            class(plot_data_colored), intent(inout) :: this
+            integer(int32), intent(in) :: x
         end subroutine
     end interface
 
@@ -3672,7 +3733,7 @@ module fplot_core
 ! FPLOT_SCATTER_PLOT_DATA.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot_data object for describing scatter plot data sets.
-    type, abstract, extends(plot_data) :: scatter_plot_data
+    type, abstract, extends(plot_data_colored) :: scatter_plot_data
     private
         !> Draw the line?
         logical :: m_drawLine = .true.
@@ -3680,8 +3741,6 @@ module fplot_core
         logical :: m_drawMarkers = .false.
         !> Marker frequency.
         integer(int32) :: m_markerFrequency = 1
-        !> Line color.
-        type(color) :: m_lineColor = CLR_BLUE
         !> Line width.
         real(real32) :: m_lineWidth = 1.0
         !> Line style.
@@ -3690,10 +3749,6 @@ module fplot_core
         integer(int32) :: m_markerType = MARKER_X
         !> Marker size multiplier.
         real(real32) :: m_markerSize = 1.0
-        !> Let the object choose colors automatically
-        logical :: m_useAutoColor = .true.
-        !> The color index to use, assuming we're using auto color
-        integer(int32) :: m_colorIndex = 1
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -3823,59 +3878,6 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_line_style => spd_set_line_style
-        !> @brief Gets the line color.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! pure type(color) function get_line_color(class(scatter_plot_data) this)
-        !! @endcode
-        !!
-        !! @param[in] this The scatter_plot_data object.
-        !! @return The color.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     type(color) :: clr
-        !!
-        !!     ! Get the line color
-        !!     clr = pd%get_line_color()
-        !! end program
-        !! @endcode
-        procedure, public :: get_line_color => spd_get_line_color
-        !> @brief Sets the line color.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_line_color(class(scatter_plot_data) this, type(color) x)
-        !! @endcode
-        !!
-        !! @param[in,out] this The scatter_plot_data object.
-        !! @param[in] x The color.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the line color to red
-        !!     call pd%set_line_color(CLR_RED)
-        !! end program
-        !! @endcode
-        procedure, public :: set_line_color => spd_set_line_color
         !> @brief Gets a value determining if a line should be drawn.
         !!
         !! @par Syntax
@@ -4185,10 +4187,6 @@ module fplot_core
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
         procedure(spd_get_string_result), deferred, public :: get_axes_string
-        
-        ! Private Routines
-        ! ----------------
-        procedure, private :: set_color_index => spd_set_color_index
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4216,16 +4214,6 @@ module fplot_core
         module subroutine spd_set_line_style(this, x)
             class(scatter_plot_data), intent(inout) :: this
             integer(int32), intent(in) :: x
-        end subroutine
-
-        pure module function spd_get_line_color(this) result(x)
-            class(scatter_plot_data), intent(in) :: this
-            type(color) :: x
-        end function
-
-        module subroutine spd_set_line_color(this, x)
-            class(scatter_plot_data), intent(inout) :: this
-            type(color), intent(in) :: x
         end subroutine
 
         pure module function spd_get_draw_line(this) result(x)
@@ -4274,11 +4262,6 @@ module fplot_core
         end function
 
         module subroutine spd_set_marker_frequency(this, x)
-            class(scatter_plot_data), intent(inout) :: this
-            integer(int32), intent(in) :: x
-        end subroutine
-
-        module subroutine spd_set_color_index(this, x)
             class(scatter_plot_data), intent(inout) :: this
             integer(int32), intent(in) :: x
         end subroutine
@@ -8147,7 +8130,7 @@ module fplot_core
 ! FPLOT_PLOT_DATA_ERRORS.F90
 ! ------------------------------------------------------------------------------
     !
-    type, extends(plot_data) :: plot_data_error_bars
+    type, extends(plot_data_colored) :: plot_data_error_bars
         !> Display x error bars?
         logical :: m_xBars = .false.
         !> Display y error bars?
@@ -8156,12 +8139,8 @@ module fplot_core
         !! x coordinate, column 2 for the y coordinate, and the remaining 
         !! columns are for the error data (x, then y if applicable)
         real(real64), allocatable, dimension(:,:) :: m_data
-        !> The marker color.
-        type(color) :: m_color = CLR_BLUE
-        !> Let the object choose colors automatically
-        logical :: m_useAutoColor = .true.
-        !> The color index to use, assuming we're using auto color
-        integer(int32) :: m_colorIndex = 1
+        !> Display an error box for the case where x and y errors are defined.
+        logical :: m_box = .false.
     contains
         procedure, public :: get_command_string => pde_get_cmd
         procedure, public :: get_data_string => pde_get_data_cmd
@@ -8171,12 +8150,8 @@ module fplot_core
         procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
         procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
         procedure, public :: get_count => pde_get_count
-        procedure, public :: get_color => pde_get_color
-        procedure, public :: set_color => pde_set_color
-
-        ! Private Routines
-        ! ----------------
-        procedure, private :: set_color_index => pde_set_color_index
+        procedure, public :: get_use_error_box => pde_get_box
+        procedure, public :: set_use_error_box => pde_set_box
     end type
 
 ! ------------------------------------------------------------------------------
@@ -8224,19 +8199,14 @@ module fplot_core
             integer(int32) :: x
         end function
 
-        pure module function pde_get_color(this) result(x)
+        pure module function pde_get_box(this) result(x)
             class(plot_data_error_bars), intent(in) :: this
-            type(color) :: x
+            logical :: x
         end function
 
-        module subroutine pde_set_color(this, x)
+        module subroutine pde_set_box(this, x)
             class(plot_data_error_bars), intent(inout) :: this
-            type(color), intent(in) :: x
-        end subroutine
-
-        module subroutine pde_set_color_index(this, x)
-            class(plot_data_error_bars), intent(inout) :: this
-            integer(int32), intent(in) :: x
+            logical, intent(in) :: x
         end subroutine
     end interface
 

@@ -40,11 +40,7 @@ contains
         call str%append(to_string(this%get_line_width()))
 
         ! Line Color
-        if (this%m_useAutoColor) then
-            clr = color_list(this%m_colorIndex)
-        else
-            clr = this%get_line_color()
-        end if
+        clr = this%get_line_color()
         call str%append(' lc rgb "#')
         call str%append(clr%to_hex_string())
         call str%append('"')
@@ -108,21 +104,6 @@ contains
             ! Only reset the line style if it is a valid type.
             this%m_lineStyle = x
         end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure module function spd_get_line_color(this) result(x)
-        class(scatter_plot_data), intent(in) :: this
-        type(color) :: x
-        x = this%m_lineColor
-    end function
-
-! --------------------
-    module subroutine spd_set_line_color(this, x)
-        class(scatter_plot_data), intent(inout) :: this
-        type(color), intent(in) :: x
-        this%m_lineColor = x
-        this%m_useAutoColor = .false.
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -209,13 +190,6 @@ contains
         class(scatter_plot_data), intent(inout) :: this
         integer(int32), intent(in) :: x
         this%m_markerFrequency = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    module subroutine spd_set_color_index(this, x)
-        class(scatter_plot_data), intent(inout) :: this
-        integer(int32), intent(in) :: x
-        this%m_colorIndex = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
