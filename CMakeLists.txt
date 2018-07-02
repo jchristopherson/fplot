@@ -5,7 +5,7 @@ project(fplot Fortran)
 # Define version information
 set(FPLOT_MAJOR_VERSION 1)
 set(FPLOT_MINOR_VERSION 3)
-set(FPLOT_PATCH_VERSION 0)
+set(FPLOT_PATCH_VERSION 1)
 set(FPLOT_VERSION ${FPLOT_MAJOR_VERSION}.${FPLOT_MINOR_VERSION}.${FPLOT_PATCH_VERSION})
 
 # Locate Dependencies
