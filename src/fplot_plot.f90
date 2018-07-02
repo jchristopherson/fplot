@@ -177,6 +177,7 @@ contains
         call this%m_data%clear()
         lgnd => this%get_legend()
         call lgnd%set_is_visible(.false.)
+        this%m_colorIndex = 1
     end subroutine
 
 ! ------------------------------------------------------------------------------
