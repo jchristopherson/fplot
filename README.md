@@ -241,7 +241,6 @@ project(plot Fortran)
 # Get FPLOT
 find_package(fplot)
 find_package(ferror)
-find_package(collections)
 
 # Build the executable
 add_executable(plot plot.f90)
@@ -258,12 +257,6 @@ get_target_property(fplot_LibLocation fplot LOCATION)
 add_custom_command(TARGET plot POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${fplot_LibLocation} $<TARGET_FILE_DIR:plot>
-)
-
-get_target_property(collections_LibLocation collections LOCATION)
-add_custom_command(TARGET plot POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${collections_LibLocation} $<TARGET_FILE_DIR:plot>
 )
 
 # Run the executable
