@@ -134,14 +134,7 @@ contains
         class(errors), intent(inout), optional, target :: err
         class(legend), pointer :: lgnd
 
-        ! Process
-        call this%m_data%push(x, err)
-        if (this%m_data%get_count() > 1) then
-            lgnd => this%get_legend()
-            call lgnd%set_is_visible(.true.)
-        end if
-
-        ! Index the color tracking index if the type is of scatter_plot_data
+        ! Index the color tracking index if the type is of plot_data_colored
         select type (x)
         class is (plot_data_colored)
             call x%set_color_index(this%m_colorIndex)
@@ -151,6 +144,9 @@ contains
                 this%m_colorIndex = this%m_colorIndex + 1
             end if
         end select
+
+        ! Store the object
+        call this%m_data%push(x, err)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -171,13 +167,10 @@ contains
     module subroutine plt_clear_all(this)
         ! Arguments
         class(plot), intent(inout) :: this
-        class(legend), pointer :: lgnd
 
         ! Process
-        call this%m_data%clear()
-        lgnd => this%get_legend()
-        call lgnd%set_is_visible(.false.)
         this%m_colorIndex = 1
+        call this%m_data%clear()
     end subroutine
 
 ! ------------------------------------------------------------------------------
