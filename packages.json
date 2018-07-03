@@ -2,5 +2,5 @@
     "name": "fplot-jchristopherson",
     "description": "A Fortran library providing a convenient interface for plotting with Gnuplot.",
     "author": "Jason Christopherson",
-    "version": "1.3.1"
+    "version": "1.3.2"
 }
