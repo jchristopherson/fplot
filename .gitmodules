@@ -1,3 +1,0 @@
-[submodule "external/strings"]
-	path = external/strings
-	url = https://github.com/jchristopherson/strings.git
