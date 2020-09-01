@@ -123,12 +123,13 @@ contains
             call str%append(new_line('a'))
             call str%append("set tics out")
         end if
-        if ((xAxis%get_zero_axis() .or. yAxis%get_zero_axis()) .and. &
-                .not.this%get_use_y2_axis()) then
-            ! Set tics to the axis only if there is a zero axis, and no
-            ! secondary y axis
+        if (xAxis%get_zero_axis()) then
             call str%append(new_line('a'))
-            call str%append("set tics axis")
+            call str%append("set xtics axis")
+        end if
+        if (yAxis%get_zero_axis()) then
+            call str%append(new_line('a'))
+            call str%append("set ytics axis")
         end if
 
 

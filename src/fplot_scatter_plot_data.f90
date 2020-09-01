@@ -193,4 +193,32 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure module function spd_get_simplify_data(this) result(x)
+        class(scatter_plot_data), intent(in) :: this
+        logical :: x
+        x = this%m_simplifyData
+    end function
+
+! --------------------
+    module subroutine spd_set_simplify_data(this, x)
+        class(scatter_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_simplifyData = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function spd_get_simplify_factor(this) result(x)
+        class(scatter_plot_data), intent(in) :: this
+        real(real64) :: x
+        x = this%m_simplifyFactor
+    end function
+
+! --------------------
+    module subroutine spd_set_simplify_factor(this, x)
+        class(scatter_plot_data), intent(inout) :: this
+        real(real64), intent(in) :: x
+        this%m_simplifyFactor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

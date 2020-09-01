@@ -27,6 +27,10 @@ set(fplot_sources
     fplot_multiplot.f90
     fplot_plot_data_error_bars.f90
     fplot_plot_data_colored.f90
+    fplot_simplify.f90
+    fplot_plot_data_bar.f90
+    fplot_plot_data_histogram.f90
+    fplot_plot_bar.f90
     ${strings_Sources}
     ${collections_Sources}
 )

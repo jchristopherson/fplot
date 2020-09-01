@@ -10,15 +10,17 @@ set(FPLOT_VERSION ${FPLOT_MAJOR_VERSION}.${FPLOT_MINOR_VERSION}.${FPLOT_PATCH_VE
 
 # Locate Dependencies
 find_package(ferror 1.3.0)
+find_package(fcore 1.0.0)
+
 # find_package(collections 1.1.0)
-set(strings_Sources ${PROJECT_SOURCE_DIR}/external/strings/src/strings.f90)
-set(collectionsSourceDirectory ${PROJECT_SOURCE_DIR}/external/collections/src)
-set(collections_Sources
-    ${collectionsSourceDirectory}/collection_containers.f90
-    ${collectionsSourceDirectory}/collection_errors.f90
-    ${collectionsSourceDirectory}/collection_linked_list.f90
-    ${collectionsSourceDirectory}/collection_list.f90
-)
+# set(strings_Sources ${PROJECT_SOURCE_DIR}/external/strings/src/strings.f90)
+# set(collectionsSourceDirectory ${PROJECT_SOURCE_DIR}/external/collections/src)
+# set(collections_Sources
+#     ${collectionsSourceDirectory}/collection_containers.f90
+#     ${collectionsSourceDirectory}/collection_errors.f90
+#     ${collectionsSourceDirectory}/collection_linked_list.f90
+#     ${collectionsSourceDirectory}/collection_list.f90
+# )
 
 # If FERROR is not installed on the system, build the default implementation
 if (NOT ${ferror_FOUND})
@@ -33,19 +35,6 @@ else()
     set(FERROR_LIBRARIES ferror)
     get_target_property(ferror_LibLocation ferror LOCATION)
 endif()
-
-# # If COLLECTIONS is not installed on the system, build the default implementation
-# if (NOT ${collections_FOUND})
-#     message(STATUS "COLLECTIONS not found.  The default implementation will be used.")
-#     add_subdirectory(external/collections)
-#     include_directories(external/collections/include)
-#     set(COLLECTIONS_LIBRARIES collections)
-#     set(collections_LibLocation ${collections_BINARY_DIR})
-# else()
-#     message(STATUS "An acceptable version of COLLECTIONS (v" ${collections_VERSION} ") was found, and will be utilized.")
-#     set(COLLECTIONS_LIBRARIES collections)
-#     get_target_property(collections_LibLocation collections LOCATION)
-# endif()
 
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)

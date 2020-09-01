@@ -68,26 +68,78 @@ contains
 
         ! Process
         if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
-            do i = 1, n
-                call str%append(to_string(this%m_data(i, 1)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i, 2)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i, 3)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i, 4)))
-                call str%append(nl)
-            end do
+            if (this%get_use_range()) then
+                do i = 1, n
+                    call str%append(to_string(this%m_data(i, 1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 3)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 4)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 5)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 6)))
+                    call str%append(nl)
+                end do
+            else
+                do i = 1, n
+                    call str%append(to_string(this%m_data(i, 1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 3)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 4)))
+                    call str%append(nl)
+                end do
+            end if
         else
-            do i = 1, n
-                call str%append(to_string(this%m_data(i, 1)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i, 2)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i, 3)))
-                call str%append(nl)
-            end do
+            if (this%get_use_range()) then
+                do i = 1, n
+                    call str%append(to_string(this%m_data(i, 1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 3)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 4)))
+                    call str%append(nl)
+                end do
+            else
+                do i = 1, n
+                    call str%append(to_string(this%m_data(i, 1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i, 3)))
+                    call str%append(nl)
+                end do
+            end if
         end if
+
+        ! if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
+        !     do i = 1, n
+        !         call str%append(to_string(this%m_data(i, 1)))
+        !         call str%append(delimiter)
+        !         call str%append(to_string(this%m_data(i, 2)))
+        !         call str%append(delimiter)
+        !         call str%append(to_string(this%m_data(i, 3)))
+        !         call str%append(delimiter)
+        !         call str%append(to_string(this%m_data(i, 4)))
+        !         call str%append(nl)
+        !     end do
+        ! else
+        !     do i = 1, n
+        !         call str%append(to_string(this%m_data(i, 1)))
+        !         call str%append(delimiter)
+        !         call str%append(to_string(this%m_data(i, 2)))
+        !         call str%append(delimiter)
+        !         call str%append(to_string(this%m_data(i, 3)))
+        !         call str%append(nl)
+        !     end do
+        ! end if
 
         ! End
         cmd = str%to_string()
@@ -124,6 +176,7 @@ contains
         ! Process
         this%m_xBars = .false.
         this%m_yBars = .false.
+        this%m_range = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 3), stat = flag)
         if (flag /= 0) then
@@ -137,6 +190,7 @@ contains
             this%m_data(i, 3) = xerr(i)
         end do
         this%m_xBars = .true.
+        this%m_range = .false.
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -170,6 +224,7 @@ contains
         ! Process
         this%m_xBars = .false.
         this%m_yBars = .false.
+        this%m_range = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 3), stat = flag)
         if (flag /= 0) then
@@ -183,6 +238,7 @@ contains
             this%m_data(i, 3) = yerr(i)
         end do
         this%m_yBars = .true.
+        this%m_range = .false.
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -216,6 +272,7 @@ contains
         ! Process
         this%m_xBars = .false.
         this%m_yBars = .false.
+        this%m_range = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 4), stat = flag)
         if (flag /= 0) then
@@ -231,6 +288,7 @@ contains
         end do
         this%m_xBars = .true.
         this%m_yBars = .true.
+        this%m_range = .false.
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -269,6 +327,163 @@ contains
         class(plot_data_error_bars), intent(inout) :: this
         logical, intent(in) :: x
         this%m_box = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function pde_get_use_range(this) result(x)
+        class(plot_data_error_bars), intent(in) :: this
+        logical :: x
+        x = this%m_range
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine pde_define_x_err_lim(this, x, y, xmin, xmax, err)
+        ! Arguments
+        class(plot_data_error_bars), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: x, y, xmin, xmax
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(x)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Checking
+        if (size(y) /= n .or. size(xmin) /= n .or. size(xmax) /= n) then
+            call errmgr%report_error("pde_define_x_err_lim", &
+                "Input arrays must be the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        this%m_xBars = .false.
+        this%m_yBars = .false.
+        this%m_range = .false.
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 4), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pde_define_x_err_lim", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do i = 1, n
+            this%m_data(i, 1) = x(i)
+            this%m_data(i, 2) = y(i)
+            this%m_data(i, 3) = xmin(i)
+            this%m_data(i, 4) = xmax(i)
+        end do
+        this%m_xBars = .true.
+        this%m_range = .true.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module subroutine pde_define_y_err_lim(this, x, y, ymin, ymax, err)
+        ! Arguments
+        class(plot_data_error_bars), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: x, y, ymin, ymax
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(x)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Checking
+        if (size(y) /= n .or. size(ymin) /= n .or. size(ymax) /= n) then
+            call errmgr%report_error("pde_define_y_err_lim", &
+                "Input arrays must be the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        this%m_xBars = .false.
+        this%m_yBars = .false.
+        this%m_range = .false.
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 4), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pde_define_y_err_lim", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do i = 1, n
+            this%m_data(i, 1) = x(i)
+            this%m_data(i, 2) = y(i)
+            this%m_data(i, 3) = ymin(i)
+            this%m_data(i, 4) = ymax(i)
+        end do
+        this%m_yBars = .true.
+        this%m_range = .true.
+    end subroutine
+! ------------------------------------------------------------------------------
+    module subroutine pde_define_xy_err_lim(this, x, y, xmin, xmax, ymin, ymax, err)
+        ! Arguments
+        class(plot_data_error_bars), intent(inout) :: this
+        real(real64), intent(in), dimension(:) :: x, y, xmin, xmax, &
+            ymin, ymax
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: i, n, flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        n = size(x)
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Input Checking
+        if (size(y) /= n .or. size(ymin) /= n .or. size(ymax) /= n) then
+            call errmgr%report_error("pde_define_xy_err_lim", &
+                "Input arrays must be the same size.", &
+                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            return
+        end if
+
+        ! Process
+        this%m_xBars = .false.
+        this%m_yBars = .false.
+        this%m_range = .false.
+        if (allocated(this%m_data)) deallocate(this%m_data)
+        allocate(this%m_data(n, 6), stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("pde_define_xy_err_lim", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+        do i = 1, n
+            this%m_data(i, 1) = x(i)
+            this%m_data(i, 2) = y(i)
+            this%m_data(i, 3) = xmin(i)
+            this%m_data(i, 4) = xmax(i)
+            this%m_data(i, 5) = ymin(i)
+            this%m_data(i, 6) = ymax(i)
+        end do
+        this%m_xBars = .true.
+        this%m_yBars = .true.
+        this%m_range = .true.
     end subroutine
 
 ! ------------------------------------------------------------------------------

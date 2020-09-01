@@ -1,8 +1,8 @@
 ! fplot_core.f90
 
-!> @mainpage
+!> @brief \b fplot_core
 !!
-!! @section intro_sec Introduction
+!! @par Purpose
 !! FPLOT is a Fortran library providing a means of interacting with
 !! [Gnuplot](http://www.gnuplot.info/) from a Fortran program.  The library is
 !! designed in an object-oriented manner, and as such utilizes language features
@@ -11,12 +11,6 @@
 !! functionallity, a minimum of Gnuplot v5.2 is expected.
 !!
 !! @image html example_surface_plot_lighting_2.png
-
-!> @brief \b fplot_core
-!!
-!! @par Purpose
-!! Provides types and routines specific necessary to support plotting
-!! operations.
 module fplot_core
     use, intrinsic :: iso_fortran_env, only : real64, real32, int32
     use strings
@@ -100,6 +94,9 @@ module fplot_core
     public :: multiplot
     public :: plot_data_error_bars
     public :: plot_data_colored
+    public :: plot_data_bar
+    public :: plot_data_histogram
+    public :: plot_bar
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -2439,7 +2436,8 @@ module fplot_core
         !> The GNUPLOT terminal object to target.
         class(terminal), pointer :: m_terminal => null()
         !> A collection of plot_data items to plot.
-        type(list) :: m_data
+        ! type(list) :: m_data  ! Switched to a persistent_list on 12/23/2019 - JAC
+        type(persistent_list) :: m_data
         !> The legend.
         type(legend), pointer :: m_legend => null()
         !> Show grid lines?
@@ -3744,6 +3742,13 @@ module fplot_core
         integer(int32) :: m_markerType = MARKER_X
         !> Marker size multiplier.
         real(real32) :: m_markerSize = 1.0
+        !> True if large data sets should be simplified before sending to
+        !! GNUPLOT.
+        logical :: m_simplifyData = .true.
+        !> A scaling factor used to establish the simplification tolerance.
+        !! The simplification tolerance is established by multiplying this
+        !! factor by the range in the dependent variable data.
+        real(real64) :: m_simplifyFactor = 1.0d-3
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -4182,6 +4187,115 @@ module fplot_core
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
         procedure(spd_get_string_result), deferred, public :: get_axes_string
+        !> @brief Gets a value determining if the stored data should be
+        !! simplified (reduced) before passing to GNUPLOT.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_simplify_data(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if the data should be simplified prior to sending
+        !!  to GNUPLOT; else, false to leave the data alone.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: x
+        !!
+        !!     x = this%get_simplify_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_simplify_data => spd_get_simplify_data
+        !> @brief Sets a value determining if the stored data should be
+        !! simplified (reduced) before passing to GNUPLOT.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_simplify_data(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x True if the data should be simplified prior to sending
+        !!  to GNUPLOT; else, false to leave the data alone.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     call this%get_simplify_data(.false.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_simplify_data => spd_set_simplify_data
+        !> @brief Gets a factor used to establish the simplification tolerance.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real64) function get_simplification_factor(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns the scaling factor.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64) :: x
+        !!
+        !!     x = this%get_simplification_factor()
+        !! end program
+        !! @endcode
+        procedure, public :: get_simplification_factor => spd_get_simplify_factor
+        !> @brief Sets a factor used to establish the simplification tolerance.  The
+        !! tolerance is established by multplying this factor by the range of the
+        !! dependent variable data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_simplification_factor(class(scatter_plot_data) this, real(real64) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x The scaling factor.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64) :: x
+        !!
+        !!     call this%set_simplification_factor(1.0d-3)
+        !! end program
+        !! @endcode
+        procedure, public :: set_simplification_factor => spd_set_simplify_factor
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4259,6 +4373,26 @@ module fplot_core
         module subroutine spd_set_marker_frequency(this, x)
             class(scatter_plot_data), intent(inout) :: this
             integer(int32), intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_simplify_data(this) result(x)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: x
+        end function
+        
+        module subroutine spd_set_simplify_data(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_simplify_factor(this) result(x)
+            class(scatter_plot_data), intent(in) :: this
+            real(real64) :: x
+        end function
+        
+        module subroutine spd_set_simplify_factor(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            real(real64), intent(in) :: x
         end subroutine
     end interface
 
@@ -4655,6 +4789,57 @@ module fplot_core
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
+
+        !> @brief Gets the stored X data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_x_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: x
+        !!
+        !!     ! Get the data array
+        !!     x = pd%get_x_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_x_data => pd2d_get_x_array
+        !> @brief Gets the stored Y data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_y_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: y
+        !!
+        !!     ! Get the data array
+        !!     y = pd%get_y_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_y_data => pd2d_get_y_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4719,6 +4904,16 @@ module fplot_core
             real(real64), intent(in), dimension(:) :: y
             class(errors), intent(inout), optional, target :: err
         end subroutine
+
+        module function pd2d_get_x_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd2d_get_y_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
     end interface
 
 ! ******************************************************************************
@@ -5006,6 +5201,81 @@ module fplot_core
         !! @endcode
         !! @image html example_plot_3d_1.png
         procedure, public :: define_data => pd3d_set_data_1
+        !> @brief Gets the stored X data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_x_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: x
+        !!
+        !!     ! Get the data array
+        !!     x = pd%get_x_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_x_data => pd3d_get_x_array
+        !> @brief Gets the stored Y data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_y_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: y
+        !!
+        !!     ! Get the data array
+        !!     y = pd%get_y_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_y_data => pd3d_get_y_array
+        !> @brief Gets the stored Z data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_z_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: z
+        !!
+        !!     ! Get the data array
+        !!     z = pd%get_z_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_z_data => pd3d_get_z_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -5066,6 +5336,21 @@ module fplot_core
             real(real64), intent(in), dimension(:) :: x, y, z
             class(errors), intent(inout), optional, target :: err
         end subroutine
+
+        module function pd3d_get_x_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_y_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_z_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
     end interface
 
 ! ******************************************************************************
@@ -6433,6 +6718,8 @@ module fplot_core
         real(real32) :: m_lightIntensity = 0.5
         !> Specular highlight intensity (0 - 1)
         real(real32) :: m_specular = 0.5
+        !> Defines the translucency value.  Must exist on (0, 1].
+        real(real32) :: m_transparency = 1.0
     contains
         !> @brief Cleans up resources held by the surface_plot object.
         !!
@@ -7024,6 +7311,30 @@ module fplot_core
         !! @par Example
         !! See set_use_lighting for example useage.
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
+        !> @brief Gets a factor defining the transparency of plotted surfaces.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_transparency(class(surface_plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The surface_plot object.
+        !! @return A value existing on the set (0 1] defining the level of
+        !!  transparency.  A value of 1 indicates a fully opaque surface.
+        procedure, public :: get_transparency => surf_get_transparency
+        !> @brief Sets a factor defining the transparency of plotted surfaces.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_transparency(class(surface_plot) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The surface_plot object.
+        !! @param[in] x A value existing on the set (0 1] defining the level of
+        !!  transparency.  A value of 1 indicates a fully opaque surface.  
+        !!  Any values supplied outside of the set are clipped to fit within
+        !!  (0 1].
+        procedure, public :: set_transparency => surf_set_transparency
     end type
 
 ! ------------------------------------------------------------------------------
@@ -7121,6 +7432,16 @@ module fplot_core
         end function
 
         module subroutine surf_set_specular_intensity(this, x)
+            class(surface_plot), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function surf_get_transparency(this) result(x)
+            class(surface_plot), intent(in) :: this
+            real(real32) :: x
+        end function
+
+        module subroutine surf_set_transparency(this, x)
             class(surface_plot), intent(inout) :: this
             real(real32), intent(in) :: x
         end subroutine
@@ -8185,6 +8506,8 @@ module fplot_core
         real(real64), allocatable, dimension(:,:) :: m_data
         !> Display an error box for the case where x and y errors are defined.
         logical :: m_box = .false.
+        !> Plot error bars using a defined range vs. a +/- value.
+        logical :: m_range = .false.
     contains
         procedure, public :: get_command_string => pde_get_cmd
         procedure, public :: get_data_string => pde_get_data_cmd
@@ -8194,6 +8517,10 @@ module fplot_core
         !! @code{.f90}
         !! subroutine define_x_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xerr(:), optional class(errors) err)
         !! @endcode
+        !! @par Alternative Syntax
+        !! @code{.f90}
+        !! subroutine define_x_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xmin(:), real(real64) xmax(:), optional class(errors) err)
+        !! @endcode
         !!
         !! @param[in,out] this The plot_data_error_bars object.
         !! @param[in] x An N-element array containing the x coordinates of the 
@@ -8202,6 +8529,10 @@ module fplot_core
         !!  data.
         !! @param[in] xerr An N-element array containing the x errors at each
         !!  data point.
+        !! @param[in] xmin = An N-element array containing the minimum x values
+        !!  at each data point.
+        !! @param[in] xmax = An N-element array containing the maximum x values
+        !!  at each data point.
         !! @param[in,out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -8250,12 +8581,17 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_x_errorbars_1.png
-        procedure, public :: define_x_error_data => pde_define_x_err
+        generic, public :: define_x_error_data => pde_define_x_err, &
+            pde_define_x_err_lim
         !> @brief Defines the y error data.
         !!
         !! @par Syntax
         !! @code{.f90}
         !! subroutine define_y_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) yerr(:), optional class(errors) err)
+        !! @endcode
+        !! @par Alternative Syntax
+        !! @code{.f90}
+        !! subroutine define_y_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) ymin(:), real(real64) ymax(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_error_bars object.
@@ -8265,6 +8601,10 @@ module fplot_core
         !!  data.
         !! @param[in] yerr An N-element array containing the y errors at each
         !!  data point.
+        !! @param[in] ymin = An N-element array containing the minimum y values
+        !!  at each data point.
+        !! @param[in] ymax = An N-element array containing the maximum y values
+        !!  at each data point.
         !! @param[in,out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -8313,12 +8653,17 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_y_errorbars_1.png
-        procedure, public :: define_y_error_data => pde_define_y_err
+        generic, public :: define_y_error_data => pde_define_y_err, &
+            pde_define_y_err_lim
         !> @brief Defines the x and y error data.
         !!
         !! @par Syntax
         !! @code{.f90}
         !! subroutine define_xy_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xerr(:), real(real64) yerr(:), optional class(errors) err)
+        !! @endcode
+        !! @par Alternative Syntax
+        !! @code{.f90}
+        !! subroutine define_xy_error_data(class(plot_data_error_bars) this, real(real64) x(:), real(real64) y(:), real(real64) xmin(:), real(real64) xmax(:), real(real64) ymin(:), real(real64) ymax(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_error_bars object.
@@ -8330,6 +8675,14 @@ module fplot_core
         !!  data point.
         !! @param[in] yerr An N-element array containing the y errors at each
         !!  data point.
+        !! @param[in] xmin = An N-element array containing the minimum x values
+        !!  at each data point.
+        !! @param[in] xmax = An N-element array containing the maximum x values
+        !!  at each data point.
+        !! @param[in] ymin = An N-element array containing the minimum y values
+        !!  at each data point.
+        !! @param[in] ymax = An N-element array containing the maximum y values
+        !!  at each data point.
         !! @param[in,out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -8380,7 +8733,8 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_xy_errorbars_1.png
-        procedure, public :: define_xy_error_data => pde_define_xy_err
+        generic, public :: define_xy_error_data => pde_define_xy_err, &
+            pde_define_xy_err_lim
         !> @brief Tests to see if the x error bar data has been defined, and as
         !!  a result, if the x error data is to be plotted.
         !!
@@ -8536,6 +8890,24 @@ module fplot_core
         !! @endcode
         !! @image html example_xy_errorbox_1.png
         procedure, public :: set_use_error_box => pde_set_box
+        !> @brief Gets a value determining if a defined range is being used
+        !! to define the error bar extremes.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_range(class(plot_data_error_bars) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_error_bars object.
+        !! @return True if a defined range is being used; else, false.
+        procedure, public :: get_use_range => pde_get_use_range
+
+        procedure :: pde_define_x_err
+        procedure :: pde_define_y_err
+        procedure :: pde_define_xy_err
+        procedure :: pde_define_x_err_lim
+        procedure :: pde_define_y_err_lim
+        procedure :: pde_define_xy_err_lim
     end type
 
 ! ------------------------------------------------------------------------------
@@ -8592,6 +8964,401 @@ module fplot_core
             class(plot_data_error_bars), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
+
+        pure module function pde_get_use_range(this) result(x)
+            class(plot_data_error_bars), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine pde_define_x_err_lim(this, x, y, xmin, xmax, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, xmin, xmax
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pde_define_y_err_lim(this, x, y, ymin, ymax, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, ymin, ymax
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pde_define_xy_err_lim(this, x, y, xmin, xmax, ymin, &
+                ymax, err)
+            class(plot_data_error_bars), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, xmin, xmax, &
+                ymin, ymax
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
     end interface
 
+! ******************************************************************************
+! FPLOT_PLOT_DATA_BAR.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a data set tailored to bar charts.
+    !!
+    !! @par Example
+    !! The following example illustrates the plotting of a simple bar chart.
+    !!
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     use strings
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     real(real64) :: x(5)
+    !!     type(string) :: labels(5)
+    !!     type(plot_2d) :: plt
+    !!     type(plot_data_bar) :: pd1
+    !!
+    !!     ! Initialization
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!
+    !!     labels(1)%str = '"Label 1"'
+    !!     labels(2)%str = '"Label 2"'
+    !!     labels(3)%str = '"Label 3"'
+    !!     labels(4)%str = '"Label 4"'
+    !!     labels(5)%str = '"Label 5"'
+    !!
+    !!     ! Plot the data
+    !!     call random_number(x)
+    !!     call pd1%define_data(labels, x)
+    !!     call pd1%set_transparency(0.2)
+    !!     call plt%push(pd1)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! The above program produces the following output.
+    !! @image html box_plot_example_1.png
+    type, extends(plot_data_colored) :: plot_data_bar
+    private
+        !> @brief An array containing axis labels to associate with each bar.
+        type(string), allocatable, dimension(:) :: m_axisLabels
+        !> @brief An array of data defining each bar - the matrix contains
+        !!  multiple columns to allow multiple bars per label.
+        real(real64), allocatable, dimension(:,:) :: m_barData
+        !> @brief Determines if the axis labels should be used - only applicable
+        !! if there is existing data stored in m_axisLabels & m_axisLabels
+        !! is the same size as m_barData.
+        logical :: m_useAxisLabels = .true.
+        !> Draw against the secondary y axis?
+        logical :: m_useY2 = .false.
+        !> @brief Determines if each bar is filled.
+        logical :: m_filled = .true.
+        !> @brief The alpha value (transparency) for each bar
+        real(real32) :: m_alpha = 1.0
+    contains
+        procedure, public :: get_count => pdb_get_count
+        procedure, public :: get => pdb_get_data
+        procedure, public :: set => pdb_set_data
+        procedure, public :: get_data => pdb_get_data_set
+        procedure, public :: get_label => pdb_get_label
+        procedure, public :: set_label => pdb_set_label
+        procedure, public :: get_use_labels => pdb_get_use_labels
+        procedure, public :: set_use_labels => pdb_set_use_labels
+        procedure, public :: get_command_string => pdb_get_cmd
+        procedure, public :: get_data_string => pdb_get_data_cmd
+        procedure, public :: get_axes_string => pdb_get_axes_cmd
+        procedure, public :: get_bar_per_label_count => pdb_get_col_count
+        procedure, public :: get_draw_against_y2 => pdb_get_use_y2
+        procedure, public :: set_draw_against_y2 => pdb_set_use_y2
+        procedure, public :: get_is_filled => pdb_get_is_filled
+        procedure, public :: set_is_filled => pdb_set_is_filled
+        procedure, public :: get_transparency => pdb_get_alpha
+        procedure, public :: set_transparency => pdb_set_alpha
+        generic, public :: define_data => pdb_set_data_1, pdb_set_data_2, &
+            pdb_set_data_3
+        procedure :: pdb_set_data_1
+        procedure :: pdb_set_data_2
+        procedure :: pdb_set_data_3
+        procedure :: set_data_1 => pdb_set_data_1_core
+        procedure :: set_data_2 => pdb_set_data_2_core
+        procedure :: set_data_3 => pdb_set_data_3_core
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function pdb_get_count(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        pure module function pdb_get_data(this, index, col) result(x)
+            class(plot_data_bar), intent(in) :: this
+            integer(int32), intent(in) :: index, col
+            real(real64) :: x
+        end function
+
+        module subroutine pdb_set_data(this, index, col, x)
+            class(plot_data_bar), intent(inout) :: this
+            integer(int32), intent(in) :: index, col
+            real(real64), intent(in) :: x
+        end subroutine
+
+        pure module function pdb_get_data_set(this, col) result(x)
+            class(plot_data_bar), intent(in) :: this
+            integer(int32), intent(in) :: col
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        pure module function pdb_get_label(this, index) result(x)
+            class(plot_data_bar), intent(in) :: this
+            integer(int32), intent(in) :: index
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine pdb_set_label(this, index, txt)
+            class(plot_data_bar), intent(inout) :: this
+            integer(int32) :: index
+            character(len = *), intent(in) :: txt
+        end subroutine
+
+        pure module function pdb_get_use_labels(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine pdb_set_use_labels(this, x)
+            class(plot_data_bar), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module function pdb_get_cmd(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function pdb_get_data_cmd(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function pdb_get_axes_cmd(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function pdb_get_col_count(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        pure module function pdb_get_use_y2(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine pdb_set_use_y2(this, x)
+            class(plot_data_bar), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function pdb_get_is_filled(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine pdb_set_is_filled(this, x)
+            class(plot_data_bar), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module subroutine pdb_set_data_1(this, x, err)
+            class(plot_data_bar), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdb_set_data_2(this, labels, x, err)
+            class(plot_data_bar), intent(inout) :: this
+            class(string), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdb_set_data_3(this, labels, x, fmt, err)
+            class(plot_data_bar), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            character(len = *), intent(in), optional :: fmt
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function pdb_get_alpha(this) result(x)
+            class(plot_data_bar), intent(in) :: this
+            real(real32) :: x
+        end function
+
+        module subroutine pdb_set_alpha(this, x)
+            class(plot_data_bar), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        module subroutine pdb_set_data_1_core(this, x, err)
+            class(plot_data_bar), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdb_set_data_2_core(this, labels, x, err)
+            class(plot_data_bar), intent(inout) :: this
+            class(string), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
+            class(plot_data_bar), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            character(len = *), intent(in), optional :: fmt
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_DATA_HISTOGRAM.F90
+! ------------------------------------------------------------------------------
+    !> @brief A container for plotting data in the form of a histogram.
+    !!
+    !! @par Example
+    !! The following example illustrates the construction of a simple histogram.
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     integer(int32), parameter :: n = 500
+    !!     integer(int32), parameter :: nbins = 10
+    !!     real(real64) :: x(n)
+    !!     type(plot_2d) :: plt
+    !!     type(plot_data_histogram) :: pd1
+    !!
+    !!     ! Initialization
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!
+    !!     ! Plot the data
+    !!     call random_number(x)
+    !!     call pd1%set_bin_count(nbins)   ! must be called before define_data
+    !!     call pd1%define_data(x)
+    !!     call pd1%set_transparency(0.2)
+    !!     call plt%push(pd1)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! The above program produces the following output.
+    !! @image html histogram_example_1.png
+    type, extends(plot_data_bar) :: plot_data_histogram
+    private
+        !> @brief The number of bins.
+        integer(int32) :: m_binCount = 10
+        !> @brief The numerical label format string.
+        character(len = :), allocatable :: m_numberFmt
+    contains
+        procedure, public :: get_bin_count => pdh_get_bin_count
+        procedure, public :: set_bin_count => pdh_set_bin_count
+        procedure, public :: bin_data => pdh_bin_data
+        procedure, public :: get_extreme_values => pdh_get_extremes
+        procedure, public :: get_number_format => pdh_get_num_fmt
+        procedure, public :: set_number_format => pdh_set_num_fmt
+        procedure :: set_data_1 => pdh_set_data_1
+        procedure :: set_data_2 => pdh_set_data_2
+        procedure :: set_data_3 => pdh_set_data_3
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function pdh_get_bin_count(this) result(x)
+            class(plot_data_histogram), intent(in) :: this
+            integer(int32) :: x
+        end function
+
+        module subroutine pdh_set_bin_count(this, x)
+            class(plot_data_histogram), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        module function pdh_bin_data(this, x, err) result(bx)
+            class(plot_data_histogram), intent(in) :: this
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: bx
+        end function
+
+        pure module function pdh_get_extremes(this) result(x)
+            class(plot_data_histogram), intent(in) :: this
+            real(real64), dimension(2) :: x
+        end function
+
+        module subroutine pdh_set_data_1(this, x, err)
+            class(plot_data_histogram), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdh_set_data_2(this, labels, x, err)
+            class(plot_data_histogram), intent(inout) :: this
+            class(string), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine pdh_set_data_3(this, labels, x, fmt, err)
+            class(plot_data_histogram), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: labels
+            real(real64), intent(in), dimension(:) :: x
+            character(len = *), intent(in), optional :: fmt
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function pdh_get_num_fmt(this) result(x)
+            class(plot_data_histogram), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine pdh_set_num_fmt(this, x)
+            class(plot_data_histogram), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_BAR.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a 2D plot tailored towards bar plotting.
+    type, extends(plot_2d) :: plot_bar
+    private
+        !> @brief A relative scaling of the width of a single bar.  The value
+        !! must be between 0 and 1 with 1 being full width.
+        real(real32) :: m_barWidth = 0.75d0
+    contains
+        procedure, public :: get_bar_width => pb_get_bar_width
+        procedure, public :: set_bar_width => pb_set_bar_width
+        procedure, public :: get_command_string => pb_get_cmd
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        pure module function pb_get_bar_width(this) result(x)
+            class(plot_bar), intent(in) :: this
+            real(real32) :: x
+        end function
+
+        module subroutine pb_set_bar_width(this, x)
+            class(plot_bar), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        module function pb_get_cmd(this) result(x)
+            class(plot_bar), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+! ------------------------------------------------------------------------------
 end module

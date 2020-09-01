@@ -1,6 +1,7 @@
 ! fplot_plot_data_3d.f90
 
 submodule (fplot_core) fplot_plot_data_3d
+    use fplot_simplify
 contains
 ! ------------------------------------------------------------------------------
     pure module function pd3d_get_data_count(this) result(x)
@@ -97,24 +98,46 @@ contains
 
         ! Local Variables
         type(string_builder) :: str
-        integer(int32) :: i, n
+        integer(int32) :: i
         character :: delimiter, nl
+        real(real64), allocatable, dimension(:) :: xv, yv, zv
+        real(real64), allocatable, dimension(:,:) :: pts
+        real(real64) :: tol, maxz, minz, eps
 
         ! Initialization
         call str%initialize()
         delimiter = achar(9) ! tab delimiter
         nl = new_line(nl)
-        n = this%get_count()
 
         ! Process
-        do i = 1, n
-            call str%append(to_string(this%get_x(i)))
-            call str%append(delimiter)
-            call str%append(to_string(this%get_y(i)))
-            call str%append(delimiter)
-            call str%append(to_string(this%get_z(i)))
-            call str%append(nl)
-        end do
+        xv = this%get_x_data()
+        yv = this%get_y_data()
+        zv = this%get_z_data()
+        if (this%get_simplify_data()) then
+            maxz = maxval(zv)
+            minz = minval(zv)
+            tol = abs(this%get_simplification_factor() * (maxy - miny))
+            eps = 10.0d0 * epsilon(eps)
+            if (tol < eps) tol = eps
+            pts = simplify_polyline(xv, yv, zv, tol)
+            do i = 1, size(pts, 1)
+                call str%append(to_string(pts(i,1)))
+                call str%append(delimiter)
+                call str%append(to_string(pts(i,2)))
+                call str%append(delimiter)
+                call str%append(to_string(pts(i,3)))
+                call str%append(nl)
+            end do
+        else
+            do i = 1, size(xv)
+                call str%append(to_string(xv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(yv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(zv(i)))
+                call str%append(nl)
+            end do
+        end if
 
         ! End
         x = str%to_string()
@@ -163,4 +186,41 @@ contains
         end do
     end subroutine
 
+! ------------------------------------------------------------------------------
+    module function pd3d_get_x_array(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        real(real64), allocatable, dimension(:) :: x
+
+        ! Process
+        if (allocated(this%m_data)) then
+            x = this%m_data(:,1)
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    module function pd3d_get_y_array(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        real(real64), allocatable, dimension(:) :: x
+
+        ! Process
+        if (allocated(this%m_data)) then
+            x = this%m_data(:,2)
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    module function pd3d_get_z_array(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        real(real64), allocatable, dimension(:) :: x
+
+        ! Process
+        if (allocated(this%m_data)) then
+            x = this%m_data(:,3)
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
 end submodule

@@ -63,7 +63,7 @@ contains
 
         ! Process
         call str%initialize()
-        call str%append("set term png ")
+        call str%append("set term pngcairo enhanced ")
         call str%append(" font ")
         call str%append('"')
         call str%append(this%get_font_name())

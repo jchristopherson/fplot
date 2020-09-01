@@ -31,6 +31,9 @@ contains
         ! Do not display the legend
         lgnd => this%get_legend()
         call lgnd%set_is_visible(.false.)
+
+        ! Nullify the colormap
+        nullify(this%m_colormap)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -99,6 +102,13 @@ contains
             call str%append(to_string(this%get_light_intensity()))
             call str%append(" specular ")
             call str%append(to_string(this%get_specular_intensity()))
+        end if
+
+        ! Translucent
+        if (this%get_transparency() < 1.0 .and. this%get_transparency() > 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set style fill transparent solid ")
+            call str%append(to_string(this%get_transparency()))
         end if
 
         ! Call the base class to define the rest of the plot commands
@@ -238,6 +248,26 @@ contains
             this%m_specular = 1.0
         else
             this%m_specular = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function surf_get_transparency(this) result(x)
+        class(surface_plot), intent(in) :: this
+        real(real32) :: x
+        x = this%m_transparency
+    end function
+
+! --------------------
+    module subroutine surf_set_transparency(this, x)
+        class(surface_plot), intent(inout) :: this
+        real(real32), intent(in) :: x
+        if (x > 1.0) then
+            this%m_transparency = 1.0
+        else if (x <= 0.0) then
+            this%m_transparency = 0.1
+        else
+            this%m_transparency = x
         end if
     end subroutine
 
