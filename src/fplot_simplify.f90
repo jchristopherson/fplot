@@ -7,7 +7,6 @@
 module fplot_simplify
     use iso_fortran_env
     use ferror
-    use geometry
     use fplot_errors
     implicit none
     private

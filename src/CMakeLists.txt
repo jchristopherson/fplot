@@ -37,7 +37,7 @@ set(fplot_sources
 
 # Build the library
 add_library(fplot ${fplot_sources})
-target_link_libraries(fplot ${FERROR_LIBRARIES})
+target_link_libraries(fplot ${FERROR_LIBRARIES} ${FCORE_LIBRARIES})
 
 
 # ------------------------------------------------------------------------------
