@@ -10,6 +10,8 @@ var structfplot__core_1_1scatter__plot__data =
     [ "get_marker_frequency", "structfplot__core_1_1scatter__plot__data.html#ade9aad89528dace6c75b7421f003ea08", null ],
     [ "get_marker_scaling", "structfplot__core_1_1scatter__plot__data.html#a0b80d8d4a9cf2feb0c113830c949a5d9", null ],
     [ "get_marker_style", "structfplot__core_1_1scatter__plot__data.html#a9bcecde323ae4490416633863ebfa01c", null ],
+    [ "get_simplification_factor", "structfplot__core_1_1scatter__plot__data.html#a3a1cbcceadfa758b87d1dc4352f73116", null ],
+    [ "get_simplify_data", "structfplot__core_1_1scatter__plot__data.html#a0dd0bb92bb96963ba3189eef41c9a95c", null ],
     [ "get_x", "structfplot__core_1_1scatter__plot__data.html#ae038dcad122bf9d82f60496a947c7ed8", null ],
     [ "get_y", "structfplot__core_1_1scatter__plot__data.html#ae5abd6e4863622891da0ee915d0a79ce", null ],
     [ "set_draw_line", "structfplot__core_1_1scatter__plot__data.html#a136c985907602a1e9cc9c0db476a8519", null ],
@@ -19,6 +21,8 @@ var structfplot__core_1_1scatter__plot__data =
     [ "set_marker_frequency", "structfplot__core_1_1scatter__plot__data.html#a3947fc4c9bc0cf7fc8ad8431897b0596", null ],
     [ "set_marker_scaling", "structfplot__core_1_1scatter__plot__data.html#a56221fa96775c49c4b6249d353fd1900", null ],
     [ "set_marker_style", "structfplot__core_1_1scatter__plot__data.html#ac6f9a3cdbc2c6829cc93e86f563c9230", null ],
+    [ "set_simplification_factor", "structfplot__core_1_1scatter__plot__data.html#a666a5a0660aeabf20eb03928098f03bc", null ],
+    [ "set_simplify_data", "structfplot__core_1_1scatter__plot__data.html#acc27533e04adc12c1a15fdaa85a510e8", null ],
     [ "set_x", "structfplot__core_1_1scatter__plot__data.html#ab8987d4d901790331275393b7e8faa54", null ],
     [ "set_y", "structfplot__core_1_1scatter__plot__data.html#ac0f3a7cc92dd3be8b85ccac215a4ce03", null ],
     [ "m_drawline", "structfplot__core_1_1scatter__plot__data.html#a06df1b2ace5394328f5cc69c56aae2fe", null ],
@@ -27,5 +31,7 @@ var structfplot__core_1_1scatter__plot__data =
     [ "m_linewidth", "structfplot__core_1_1scatter__plot__data.html#a5f0a764e897869a8b40e5572cf643eff", null ],
     [ "m_markerfrequency", "structfplot__core_1_1scatter__plot__data.html#afd73c87e0c8333d8e2af840d73aa5467", null ],
     [ "m_markersize", "structfplot__core_1_1scatter__plot__data.html#ac32e05719b497dca629b92ccaa2bc40a", null ],
-    [ "m_markertype", "structfplot__core_1_1scatter__plot__data.html#a5cf90a01f00ed353e00df87c099999ce", null ]
+    [ "m_markertype", "structfplot__core_1_1scatter__plot__data.html#a5cf90a01f00ed353e00df87c099999ce", null ],
+    [ "m_simplifydata", "structfplot__core_1_1scatter__plot__data.html#a98d9bfb493e1dae5462ac95979fbcbb4", null ],
+    [ "m_simplifyfactor", "structfplot__core_1_1scatter__plot__data.html#a307b01a8a110ab7a676ac51c05d3074b", null ]
 ];

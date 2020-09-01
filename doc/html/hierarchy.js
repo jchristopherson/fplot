@@ -14,7 +14,9 @@ var hierarchy =
       [ "fplot_core::legend", "structfplot__core_1_1legend.html", null ],
       [ "fplot_core::multiplot", "structfplot__core_1_1multiplot.html", null ],
       [ "fplot_core::plot", "structfplot__core_1_1plot.html", [
-        [ "fplot_core::plot_2d", "structfplot__core_1_1plot__2d.html", null ],
+        [ "fplot_core::plot_2d", "structfplot__core_1_1plot__2d.html", [
+          [ "fplot_core::plot_bar", "structfplot__core_1_1plot__bar.html", null ]
+        ] ],
         [ "fplot_core::plot_3d", "structfplot__core_1_1plot__3d.html", [
           [ "fplot_core::surface_plot", "structfplot__core_1_1surface__plot.html", null ]
         ] ]
@@ -27,6 +29,9 @@ var hierarchy =
       ] ],
       [ "fplot_core::plot_data", "structfplot__core_1_1plot__data.html", [
         [ "fplot_core::plot_data_colored", "structfplot__core_1_1plot__data__colored.html", [
+          [ "fplot_core::plot_data_bar", "structfplot__core_1_1plot__data__bar.html", [
+            [ "fplot_core::plot_data_histogram", "structfplot__core_1_1plot__data__histogram.html", null ]
+          ] ],
           [ "fplot_core::plot_data_error_bars", "structfplot__core_1_1plot__data__error__bars.html", null ],
           [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
             [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
@@ -44,6 +49,7 @@ var hierarchy =
         [ "fplot_core::wxt_terminal", "structfplot__core_1_1wxt__terminal.html", null ]
       ] ]
     ] ],
+    [ "fplot_simplify::simplify_polyline", "interfacefplot__simplify_1_1simplify__polyline.html", null ],
     [ "fplot_core::spd_get_int_value", "interfacefplot__core_1_1spd__get__int__value.html", null ],
     [ "fplot_core::spd_get_string_result", "interfacefplot__core_1_1spd__get__string__result.html", null ],
     [ "fplot_core::spd_get_value", "interfacefplot__core_1_1spd__get__value.html", null ],

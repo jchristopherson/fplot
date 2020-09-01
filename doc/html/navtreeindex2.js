@@ -1,0 +1,19 @@
+var NAVTREEINDEX2 =
+{
+"structfplot__core_1_1windows__terminal.html#af215f20aa2e4e2de14bed3f928a4f40f":[1,0,0,37,1],
+"structfplot__core_1_1wxt__terminal.html":[1,0,0,38],
+"structfplot__core_1_1wxt__terminal.html#a1d5b03366bc38e5ae7dab696b40d5ccb":[1,0,0,38,1],
+"structfplot__core_1_1wxt__terminal.html#adb941a77dcf40d3c6bf173d9761d11ee":[1,0,0,38,0],
+"structfplot__core_1_1x__axis.html":[1,0,0,39],
+"structfplot__core_1_1x__axis.html#a1ba3cb85ef3bbd932fa6ada1442aa73f":[1,0,0,39,1],
+"structfplot__core_1_1x__axis.html#a5e30a7e239a4b2238937e94209499d4e":[1,0,0,39,0],
+"structfplot__core_1_1y2__axis.html":[1,0,0,40],
+"structfplot__core_1_1y2__axis.html#a3d7f8ca15f441f30f988496c798483cb":[1,0,0,40,1],
+"structfplot__core_1_1y2__axis.html#a76c94e8b18110ee1579f0c96959a5095":[1,0,0,40,0],
+"structfplot__core_1_1y__axis.html":[1,0,0,41],
+"structfplot__core_1_1y__axis.html#a14850c501203a783fb7aa0e7ac44e140":[1,0,0,41,1],
+"structfplot__core_1_1y__axis.html#a9679043787a1cce3f354ee2af6c78cf4":[1,0,0,41,0],
+"structfplot__core_1_1z__axis.html":[1,0,0,42],
+"structfplot__core_1_1z__axis.html#a7a1db8eb5d9b81d6775856702b25aeda":[1,0,0,42,0],
+"structfplot__core_1_1z__axis.html#addc6091f267c1ac64cb7faaae05f2b63":[1,0,0,42,1]
+};

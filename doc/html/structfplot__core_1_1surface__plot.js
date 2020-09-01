@@ -8,6 +8,7 @@ var structfplot__core_1_1surface__plot =
     [ "get_show_contours", "structfplot__core_1_1surface__plot.html#a307f55d23647ce4f67a40cc4aba72ec8", null ],
     [ "get_show_hidden", "structfplot__core_1_1surface__plot.html#a19882dbb5e37acfd2d29690383cf77a5", null ],
     [ "get_specular_intensity", "structfplot__core_1_1surface__plot.html#ae34fa3cbc672b43575cd68f48f25098a", null ],
+    [ "get_transparency", "structfplot__core_1_1surface__plot.html#a00bd91ec8903a0eeebaa032bbd4cb735", null ],
     [ "get_use_lighting", "structfplot__core_1_1surface__plot.html#ade7581582432846ff3428f7e81c58bda", null ],
     [ "initialize", "structfplot__core_1_1surface__plot.html#a7ee1fab08335357f2a8b0afdff373171", null ],
     [ "set_allow_smoothing", "structfplot__core_1_1surface__plot.html#ac0eaa568dfb58df38348ecc534d44e8c", null ],
@@ -17,6 +18,7 @@ var structfplot__core_1_1surface__plot =
     [ "set_show_contours", "structfplot__core_1_1surface__plot.html#ae449da228b62d103860df52de42d97a4", null ],
     [ "set_show_hidden", "structfplot__core_1_1surface__plot.html#a11b5bce1da59a612c14a2a004eb9fe4c", null ],
     [ "set_specular_intensity", "structfplot__core_1_1surface__plot.html#aeef99673df7159bd8bff00b7d95cdb05", null ],
+    [ "set_transparency", "structfplot__core_1_1surface__plot.html#afdac9bd3caae94ec5e568c5864cc6b44", null ],
     [ "set_use_lighting", "structfplot__core_1_1surface__plot.html#a2e2e0b701a190dabb529aaac3e611673", null ],
     [ "surf_clean_up", "structfplot__core_1_1surface__plot.html#a1834b89a6fa4730c885020159659038e", null ],
     [ "m_colormap", "structfplot__core_1_1surface__plot.html#a41a03940c430c3088bb3d3b826e6f9e8", null ],
@@ -26,5 +28,6 @@ var structfplot__core_1_1surface__plot =
     [ "m_showhidden", "structfplot__core_1_1surface__plot.html#ac881849ed85ad0b25e59c00204aa0960", null ],
     [ "m_smooth", "structfplot__core_1_1surface__plot.html#ac54f0f8105db3eb118eb8a05b7ca7857", null ],
     [ "m_specular", "structfplot__core_1_1surface__plot.html#a33443c0ebe2f233cdeb90a2eed6267ad", null ],
+    [ "m_transparency", "structfplot__core_1_1surface__plot.html#acf55e49e1212536b0bca656c8d5f302d", null ],
     [ "m_uselighting", "structfplot__core_1_1surface__plot.html#ad25c21f74ffc0f3b18bce8207621ba70", null ]
 ];
