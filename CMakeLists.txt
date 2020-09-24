@@ -1,10 +1,10 @@
 # CMake project file for FPLOT
 cmake_minimum_required(VERSION 3.7)
-project(fplot Fortran)
+project(fplot Fortran C)
 
 # Define version information
 set(FPLOT_MAJOR_VERSION 1)
-set(FPLOT_MINOR_VERSION 4)
+set(FPLOT_MINOR_VERSION 5)
 set(FPLOT_PATCH_VERSION 0)
 set(FPLOT_VERSION ${FPLOT_MAJOR_VERSION}.${FPLOT_MINOR_VERSION}.${FPLOT_PATCH_VERSION})
 
@@ -46,6 +46,9 @@ SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 # Locate the module files
 set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_SOURCE_DIR}/include)
+
+# Locate header files
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Define output directories, if undefined
 if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)

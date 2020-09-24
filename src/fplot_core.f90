@@ -12,7 +12,8 @@
 !!
 !! @image html example_surface_plot_lighting_2.png
 module fplot_core
-    use, intrinsic :: iso_fortran_env, only : real64, real32, int32
+    use iso_fortran_env, only : real64, real32, int32
+    use iso_c_binding
     use strings
     use collections
     use fplot_errors
@@ -97,6 +98,7 @@ module fplot_core
     public :: plot_data_bar
     public :: plot_data_histogram
     public :: plot_bar
+    public :: delaunay_tri_2d
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -9358,6 +9360,153 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
     end interface
+
+! ******************************************************************************
+! DELAUNAY TRIANGULATION SUPPORT (FPLOT_DELAUNAY.F90)
+! ------------------------------------------------------------------------------
+    !> @brief Provides a container for a 2D Delaunay triangulation.
+    !!
+    !! @par Remarks
+    !! This type utilizes the triangulation code by eloraiby available at 
+    !! https://github.com/eloraiby/delaunay.
+    type, extends(plot_data) :: delaunay_tri_2d
+    private
+        !> @brief An array of the x-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_x
+        !> @brief An array of the y-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_y
+        !> @brief A 3-column matrix containing the indices of each triangle's
+        !! vertex.
+        integer(int32), allocatable, dimension(:,:) :: m_indices
+    contains
+        !> @brief Creates an unconstrained 2D Delaunay triangulation given a 
+        !! set of x-y points.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine create(class(delaunay_tri_2d) this, real(real64) x(:), real(real64) y(:), class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The delaunay_tri_2d object.
+        !! @param[in] x An N-element array containing the x-coordinates of each
+        !!  data point.
+        !! @param[in] y An N-element array containing the y-coordinates of each
+        !!  data point. 
+        !! @param[in,out] err An optional errors-based object that if provided 
+        !!  can be used to retrieve information relating to any errors 
+        !!  encountered during execution.  If not provided, a default 
+        !!  implementation of the errors class is used internally to provide 
+        !!  error handling.  Possible errors and warning messages that may be 
+        !!  encountered are as follows.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input arrays are not
+        !!      the same size.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
+        !!      available.
+        procedure, public :: create => d2d_init
+        !> @brief Gets the number of points in the triangulation.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function get_point_count(class(delaunay_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return The number of points in the triangulation.
+        procedure, public :: get_point_count => d2d_get_pt_count
+        !> @brief Gets the number of triangles in the triangulation.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function get_triangle_count(class(delaunay_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return The number of triangles in the triangulation.
+        procedure, public :: get_triangle_count => d2d_get_tri_count
+        !> @brief Gets the x-coordinates of each point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_points_x(class(delaunay_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return An array of the x-coordinates of each point.
+        procedure, public :: get_points_x => d2d_get_x_pts
+        !> @brief Gets the y-coordinates of each point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_points_y(class(delaunay_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return An array of the y-coordinates of each point.
+        procedure, public :: get_points_y => d2d_get_y_pts
+        !> @brief Gets a list of the indices of each triangle vertex.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32)(:,:) function get_indices(class(delaunay_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return An N-by-3 matrix with each column containing the index of the
+        !!  vertex of each triangle where N is the number of triangles.
+        procedure, public :: get_indices => d2d_get_tris
+        procedure, public :: get_data_string => d2d_get_data_cmd
+        procedure, public :: get_command_string => d2d_get_cmd
+    end type
+
+! ----------
+    interface
+        module subroutine d2d_init(this, x, y, err)
+            class(delaunay_tri_2d), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y
+            class(errors), intent(inout), target, optional :: err
+        end subroutine
+
+        pure module function d2d_get_pt_count(this) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        pure module function d2d_get_tri_count(this) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        pure module function d2d_get_x_pts(this) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: rst
+        end function
+
+        pure module function d2d_get_y_pts(this) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: rst
+        end function
+
+        pure module function d2d_get_tris(this) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            integer(int32), allocatable, dimension(:,:) :: rst
+        end function
+
+        module function d2d_get_data_cmd(this) result(x)
+            class(delaunay_tri_2d), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function d2d_get_cmd(this) result(x)
+            class(delaunay_tri_2d), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
 
 ! ------------------------------------------------------------------------------
 end module

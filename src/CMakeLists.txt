@@ -31,8 +31,8 @@ set(fplot_sources
     fplot_plot_data_bar.f90
     fplot_plot_data_histogram.f90
     fplot_plot_bar.f90
-    ${strings_Sources}
-    ${collections_Sources}
+    delaunay.c
+    fplot_delaunay.f90
 )
 
 # Build the library
