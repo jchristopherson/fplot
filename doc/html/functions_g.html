@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.4.0</span>
+   &#160;<span id="projectnumber">1.5.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 : <a class="el" href="structfplot__core_1_1plot__data__2d.html#a78581879fc994e47ec2bc2ab55441888">fplot_core::plot_data_2d</a>
 , <a class="el" href="structfplot__core_1_1plot__data__3d.html#a7807d42b5ab731bf4bb3a6363522fe2e">fplot_core::plot_data_3d</a>
 , <a class="el" href="structfplot__core_1_1scatter__plot__data.html#a649b045c1555fa8eaa6fb0c7449a5554">fplot_core::scatter_plot_data</a>
+</li>
+<li>get_axis_equal()
+: <a class="el" href="structfplot__core_1_1plot.html#a0fafc565a33ac65b8aa229d323799797">fplot_core::plot</a>
 </li>
 <li>get_azimuth()
 : <a class="el" href="structfplot__core_1_1plot__3d.html#ae2ce20367e6d58f3b1126b1a6c8dad80">fplot_core::plot_3d</a>
@@ -200,6 +203,9 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 , <a class="el" href="structfplot__core_1_1y__axis.html#a9679043787a1cce3f354ee2af6c78cf4">fplot_core::y_axis</a>
 , <a class="el" href="structfplot__core_1_1z__axis.html#a7a1db8eb5d9b81d6775856702b25aeda">fplot_core::z_axis</a>
 </li>
+<li>get_indices()
+: <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#a967cb1dab09647632d7d273e0ef51563">fplot_core::delaunay_tri_2d</a>
+</li>
 <li>get_is_log_scaled()
 : <a class="el" href="structfplot__core_1_1plot__axis.html#a5700e1b05a0850ead7fefaa50a22aa13">fplot_core::plot_axis</a>
 </li>
@@ -226,10 +232,12 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 : <a class="el" href="structfplot__core_1_1plot__data__colored.html#aecbc56a696ec866cc11ea173c51f5899">fplot_core::plot_data_colored</a>
 </li>
 <li>get_line_style()
-: <a class="el" href="structfplot__core_1_1scatter__plot__data.html#acf567be7cb3182c836673d142ef53db4">fplot_core::scatter_plot_data</a>
+: <a class="el" href="structfplot__core_1_1plot__data__tri__2d.html#af0258012ec3f473c8ad4dcf7feeb7a95">fplot_core::plot_data_tri_2d</a>
+, <a class="el" href="structfplot__core_1_1scatter__plot__data.html#acf567be7cb3182c836673d142ef53db4">fplot_core::scatter_plot_data</a>
 </li>
 <li>get_line_width()
-: <a class="el" href="structfplot__core_1_1scatter__plot__data.html#a25edf93854d1252583cd76b045a5fda9">fplot_core::scatter_plot_data</a>
+: <a class="el" href="structfplot__core_1_1plot__data__tri__2d.html#a10ccfa34308f40de404fd79e5709bd19">fplot_core::plot_data_tri_2d</a>
+, <a class="el" href="structfplot__core_1_1scatter__plot__data.html#a25edf93854d1252583cd76b045a5fda9">fplot_core::scatter_plot_data</a>
 </li>
 <li>get_marker_frequency()
 : <a class="el" href="structfplot__core_1_1scatter__plot__data.html#ade9aad89528dace6c75b7421f003ea08">fplot_core::scatter_plot_data</a>
@@ -254,6 +262,15 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 </li>
 <li>get_plot_y_error_bars()
 : <a class="el" href="structfplot__core_1_1plot__data__error__bars.html#a38eccd256a9875c841c34cef3a67b0c0">fplot_core::plot_data_error_bars</a>
+</li>
+<li>get_point_count()
+: <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#a300e05f98a35d004a1abfd1d4c1d9574">fplot_core::delaunay_tri_2d</a>
+</li>
+<li>get_points_x()
+: <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#a8e4d98e6b5936c80c421c57e9a6d6335">fplot_core::delaunay_tri_2d</a>
+</li>
+<li>get_points_y()
+: <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#aee17aaf53fd8a379bf90c4c2f194f322">fplot_core::delaunay_tri_2d</a>
 </li>
 <li>get_position()
 : <a class="el" href="structfplot__core_1_1plot__label.html#a4d265d87322364949e5ded5177742400">fplot_core::plot_label</a>
@@ -303,6 +320,9 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 </li>
 <li>get_transparency()
 : <a class="el" href="structfplot__core_1_1surface__plot.html#a00bd91ec8903a0eeebaa032bbd4cb735">fplot_core::surface_plot</a>
+</li>
+<li>get_triangle_count()
+: <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#ada5ec82f9c0c6873dd00e64ba61a3b4c">fplot_core::delaunay_tri_2d</a>
 </li>
 <li>get_use_error_box()
 : <a class="el" href="structfplot__core_1_1plot__data__error__bars.html#a556fec0042994a5aaad2e928825d4735">fplot_core::plot_data_error_bars</a>

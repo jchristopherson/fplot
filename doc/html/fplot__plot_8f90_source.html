@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.4.0</span>
+   &#160;<span id="projectnumber">1.5.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -536,8 +536,24 @@ $(document).ready(function(){initNavTree('fplot__plot_8f90_source.html','');});
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="keyword">call </span>this%m_labels%clear()</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <span class="keyword">end subroutine</span></div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="keyword">end </span>submodule</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<span class="comment">! ******************************************************************************</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="comment">! ADDED: SEPT. 25, 2020 - JAC</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    <span class="keywordtype">pure</span> <span class="keyword">module</span> function plt_get_axis_equal(this) result(rst)</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        <span class="keywordtype">class</span>(plot), <span class="keywordtype">intent(in)</span> :: this</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        <span class="keywordtype">logical</span> :: rst</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        rst = this%m_axisEqual</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="comment">! --------------------</span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    <span class="keyword">module</span> subroutine plt_set_axis_equal(this, x)</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="keywordtype">class</span>(plot), <span class="keywordtype">intent(inout)</span> :: this</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        <span class="keywordtype">logical</span>, <span class="keywordtype">intent(in)</span> :: x</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        this%m_axisEqual = x</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    <span class="keyword">end subroutine</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="keyword">end </span>submodule</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacefplot__core_html"><div class="ttname"><a href="namespacefplot__core.html">fplot_core</a></div><div class="ttdoc">fplot_core</div><div class="ttdef"><b>Definition:</b> <a href="fplot__core_8f90_source.html#l00014">fplot_core.f90:14</a></div></div>

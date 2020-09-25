@@ -23,5 +23,6 @@ var searchData=
   ['color_21',['color',['../structfplot__core_1_1color.html',1,'fplot_core']]],
   ['colormap_22',['colormap',['../structfplot__core_1_1colormap.html',1,'fplot_core']]],
   ['cool_5fcolormap_23',['cool_colormap',['../structfplot__core_1_1cool__colormap.html',1,'fplot_core']]],
-  ['copy_5ffrom_24',['copy_from',['../structfplot__core_1_1color.html#a5663a29b930c889d6c6c3c0b4dde3da4',1,'fplot_core::color']]]
+  ['copy_5ffrom_24',['copy_from',['../structfplot__core_1_1color.html#a5663a29b930c889d6c6c3c0b4dde3da4',1,'fplot_core::color']]],
+  ['create_25',['create',['../structfplot__core_1_1delaunay__tri__2d.html#a56807234730c31384eaca32196c68a00',1,'fplot_core::delaunay_tri_2d']]]
 ];

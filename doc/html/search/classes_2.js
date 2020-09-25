@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hot_5fcolormap_343',['hot_colormap',['../structfplot__core_1_1hot__colormap.html',1,'fplot_core']]]
+  ['face_5fs_361',['face_s',['../structface__s.html',1,'']]]
 ];

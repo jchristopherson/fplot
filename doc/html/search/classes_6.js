@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qt_5fterminal_364',['qt_terminal',['../structfplot__core_1_1qt__terminal.html',1,'fplot_core']]]
+  ['multiplot_367',['multiplot',['../structfplot__core_1_1multiplot.html',1,'fplot_core']]]
 ];
