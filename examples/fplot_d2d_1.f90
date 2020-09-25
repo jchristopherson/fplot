@@ -12,6 +12,8 @@ program example
     ! Local Variables
     type(delaunay_tri_2d) :: tri
     real(real64) :: x(npts), y(npts), theta(npts), radius(npts)
+    type(plot_2d) :: plt
+    type(plot_data_tri_2d) :: ds
 
     ! Initialization
     call random_number(theta)
@@ -32,4 +34,11 @@ program example
         " triangles."
 
     ! Plot the triangulation
+    call plt%initialize()
+    call plt%set_font_size(14)
+
+    call ds%define_data(tri)
+    call plt%push(ds)
+
+    call plt%draw()
 end program

@@ -99,6 +99,7 @@ module fplot_core
     public :: plot_data_histogram
     public :: plot_bar
     public :: delaunay_tri_2d
+    public :: plot_data_tri_2d
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -2451,6 +2452,8 @@ module fplot_core
         type(list) :: m_labels ! Added 6/22/2018, JAC
         !> The color index to use for automatic line coloring for scatter plots.
         integer(int32) :: m_colorIndex = 1
+        !> Determines if the axes should be scaled proportionally
+        logical :: m_axisEqual = .false.
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
@@ -3268,6 +3271,28 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: clear_all_labels => plt_clear_labels
+        !> @brief Gets a flag determining if the axes should be equally scaled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical function get_axis_equal(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the axes should be scaled equally; else, 
+        !!  false.
+        procedure, public :: get_axis_equal => plt_get_axis_equal
+        !> @brief Sets a flag determining if the axes should be equally scaled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_axis_equal(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the axes should be scaled equally; else, 
+        !!  false.
+        procedure, public :: set_axis_equal => plt_set_axis_equal
     end type
 
 ! ------------------------------------------------------------------------------
@@ -3430,6 +3455,16 @@ module fplot_core
 
         module subroutine plt_clear_labels(this)
             class(plot), intent(inout) :: this
+        end subroutine
+
+        pure module function plt_get_axis_equal(this) result(rst)
+            class(plot), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine plt_set_axis_equal(this, x)
+            class(plot), intent(inout) :: this
+            logical, intent(in) :: x
         end subroutine
     end interface
 
@@ -9369,7 +9404,7 @@ module fplot_core
     !! @par Remarks
     !! This type utilizes the triangulation code by eloraiby available at 
     !! https://github.com/eloraiby/delaunay.
-    type, extends(plot_data) :: delaunay_tri_2d
+    type delaunay_tri_2d
     private
         !> @brief An array of the x-coordinates of each point.
         real(real64), allocatable, dimension(:) :: m_x
@@ -9454,8 +9489,6 @@ module fplot_core
         !! @return An N-by-3 matrix with each column containing the index of the
         !!  vertex of each triangle where N is the number of triangles.
         procedure, public :: get_indices => d2d_get_tris
-        procedure, public :: get_data_string => d2d_get_data_cmd
-        procedure, public :: get_command_string => d2d_get_cmd
     end type
 
 ! ----------
@@ -9490,19 +9523,179 @@ module fplot_core
             class(delaunay_tri_2d), intent(in) :: this
             integer(int32), allocatable, dimension(:,:) :: rst
         end function
-
-        module function d2d_get_data_cmd(this) result(x)
-            class(delaunay_tri_2d), intent(in) :: this
-            character(len = :), allocatable :: x
-        end function
-
-        module function d2d_get_cmd(this) result(x)
-            class(delaunay_tri_2d), intent(in) :: this
-            character(len = :), allocatable :: x
-        end function
     end interface
 
+! ******************************************************************************
+! FPLOT_PLOT_DATA_TRI_2D.F90
 ! ------------------------------------------------------------------------------
+    !> @brief Defines a 2D triangulated data set.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: npts = 1000
+    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+    !!
+    !!     ! Local Variables
+    !!     type(delaunay_tri_2d) :: tri
+    !!     real(real64) :: x(npts), y(npts), theta(npts), radius(npts)
+    !!     type(plot_2d) :: plt
+    !!     type(plot_data_tri_2d) :: ds
+    !!
+    !!     ! Initialization
+    !!     call random_number(theta)
+    !!     theta = 2.0d0 * pi * theta
+    !!
+    !!     call random_number(radius)
+    !!     radius = radius + 0.5d0
+    !!
+    !!     x = radius * cos(theta)
+    !!     y = radius * sin(theta)
+    !!
+    !!     ! Create a 2D triangulation from the data
+    !!     call tri%create(x, y)
+    !!
+    !!     ! Display the number of points and elements
+    !!     print '(AI0AI0A)', "The triangulation consists of ", &
+    !!         tri%get_point_count(), " points, and ", tri%get_triangle_count(), &
+    !!         " triangles."
+    !!
+    !!     ! Plot the triangulation
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!
+    !!     call ds%define_data(tri)
+    !!     call plt%push(ds)
+    !!
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! The above program produces the following output.
+    !! @code{.txt}
+    !! The triangulation consists of 1000 points, and 1966 triangles.
+    !! @endcode
+    !! @image html example_delaunay_2d_1.png
+    type, extends(plot_data_colored) :: plot_data_tri_2d
+    private
+        !> @brief An array of the x-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_x
+        !> @brief An array of the y-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_y
+        !> @brief A 3-column matrix containing the indices of each triangle's
+        !! vertex.
+        integer(int32), allocatable, dimension(:,:) :: m_indices
+        !> @brief The line width.
+        real(real32) :: m_lineWidth = 1.0
+        !> @brief The line style
+        integer(int32) :: m_lineStyle = LINE_SOLID
+    contains
+        procedure, public :: get_data_string => pdt2d_get_data_cmd
+        procedure, public :: get_command_string => pdt2d_get_cmd
+        !> @brief Defines the data to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine(class(plot_data_tri_2d) this, class(delaunay_tri_2d) tri)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_tri_2d object.
+        !! @param[in] tri The triangulation data to plot.
+        procedure, public :: define_data => pdt2d_define_data
+        !> @brief Gets the width of the lines used to draw the triangulation.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real32) function get_line_width(class(plot_data_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_tri_2d object.
+        !! @return The line width.
+        procedure, public :: get_line_width => pdt2d_get_line_width
+        !> @brief Sets the width of the lines used to draw the triangulation.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_width(class(plot_data_tri_2d) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_tri_2d object.
+        !! @param[in] x The line width.
+        procedure, public :: set_line_width => pdt2d_set_line_width
+        !> @brief
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function get_line_style(class(plot_data_tri_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_tri_2d object.
+        !! @return The line sytle flag.
+        procedure, public :: get_line_style => pdt2d_get_line_style
+        !> @brief
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_style(class(plot_data_tri_2d) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_tri_2d object.
+        !! @param[in] x The line style.  The line style must be one of the
+        !!      following:
+        !!  - LINE_DASHED
+        !!  - LINE_DASH_DOTTED
+        !!  - LINE_DASH_DOT_DOT
+        !!  - LINE_DOTTED
+        !!  - LINE_SOLID
+        procedure, public :: set_line_style => pdt2d_set_line_style
+    end type
+
+! --------------------
+    interface
+        module function pdt2d_get_data_cmd(this) result(x)
+            class(plot_data_tri_2d), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function pdt2d_get_cmd(this) result(x)
+            class(plot_data_tri_2d), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine pdt2d_define_data(this, tri)
+            class(plot_data_tri_2d), intent(inout) :: this
+            class(delaunay_tri_2d), intent(in) :: tri
+        end subroutine
+
+        module function pdt2d_get_axes_cmd(this) result(x)
+            class(plot_data_tri_2d), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function pdt2d_get_line_width(this) result(rst)
+            class(plot_data_tri_2d), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine pdt2d_set_line_width(this, x)
+            class(plot_data_tri_2d), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function pdt2d_get_line_style(this) result(rst)
+            class(plot_data_tri_2d), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine pdt2d_set_line_style(this, x)
+            class(plot_data_tri_2d), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+    end interface
 
 ! ------------------------------------------------------------------------------
 

@@ -200,16 +200,4 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function d2d_get_data_cmd(this) result(x)
-        class(delaunay_tri_2d), intent(in) :: this
-        character(len = :), allocatable :: x
-    end function
-
-! ------------------------------------------------------------------------------
-    module function d2d_get_cmd(this) result(x)
-        class(delaunay_tri_2d), intent(in) :: this
-        character(len = :), allocatable :: x
-    end function
-
-! ------------------------------------------------------------------------------
 end submodule

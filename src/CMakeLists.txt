@@ -33,6 +33,7 @@ set(fplot_sources
     fplot_plot_bar.f90
     delaunay.c
     fplot_delaunay.f90
+    fplot_plot_data_tri_2d.f90
 )
 
 # Build the library
