@@ -9749,9 +9749,64 @@ module fplot_core
     end interface
 
 ! ******************************************************************************
-! FPLOT_TRI_SURFACE.F90
+! FPLOT_DELAUNAY_TRI_SURFACE.F90
 ! ------------------------------------------------------------------------------
     !> @brief Provides a type describing a triangulated surface.
+    type, extends(delaunay_tri_2d) :: delaunay_tri_surface
+    private
+        !> @brief An array of the z-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_z
+    contains
+        !> @brief Defines the function values that correspond to the x and y
+        !! data points.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_function_values(class(delaunay_tri_surface) this, real(real64) z(:), class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The delaunay_tri_surface object.
+        !! @param[in] z An N-element array containing the function values for
+        !!  each x and y coordinate.  Notice, the x and y coordinates must 
+        !!  already be defined prior to calling this routine.
+        !! @param[in,out] err An optional errors-based object that if provided 
+        !!  can be used to retrieve information relating to any errors 
+        !!  encountered during execution.  If not provided, a default 
+        !!  implementation of the errors class is used internally to provide 
+        !!  error handling.  Possible errors and warning messages that may be 
+        !!  encountered are as follows.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p z is not the same
+        !!      size as the number of x-y data points.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
+        !!      available.
+        !!  - PLOT_INVALID_OPERATION_ERROR: Occurs if the x-y point data has
+        !!      not been defined.
+        procedure, public :: define_function_values => dts_define_fcn
+        !> @brief Gets the z-coordinates of each point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_points_x(class(delaunay_tri_surface) this)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @return An array of the z-coordinates of each point.
+        procedure, public :: get_points_z => dts_get_z
+    end type
+
+! --------------------
+    interface
+        module subroutine dts_define_fcn(this, z, err)
+            class(delaunay_tri_surface), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: z
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function dts_get_z(this) result(rst)
+            class(delaunay_tri_surface), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: rst
+        end function
+    end interface
 
 ! ------------------------------------------------------------------------------
 

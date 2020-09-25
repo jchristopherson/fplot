@@ -34,6 +34,7 @@ set(fplot_sources
     delaunay.c
     fplot_delaunay.f90
     fplot_plot_data_tri_2d.f90
+    fplot_delaunay_tri_surface.f90
 )
 
 # Build the library
