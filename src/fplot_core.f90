@@ -100,6 +100,8 @@ module fplot_core
     public :: plot_bar
     public :: delaunay_tri_2d
     public :: plot_data_tri_2d
+    public :: delaunay_tri_surface
+    public :: tri_surface_plot_data
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -9402,8 +9404,8 @@ module fplot_core
     !> @brief Provides a container for a 2D Delaunay triangulation.
     !!
     !! @par Remarks
-    !! This type utilizes the triangulation code by eloraiby available at 
-    !! https://github.com/eloraiby/delaunay.
+    !! This type utilizes the GEOMPACK triangulation code available at 
+    !! https://people.sc.fsu.edu/~jburkardt/f77_src/geompack/geompack.html.
     !!
     !! @par Example
     !! @code{.f90}
@@ -9452,7 +9454,7 @@ module fplot_core
     !! @endcode
     !! The above program produces the following output.
     !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1966 triangles.
+    !! The triangulation consists of 1000 points, and 1964 triangles.
     !! @endcode
     !! @image html example_delaunay_2d_1.png
     type delaunay_tri_2d
@@ -9628,7 +9630,7 @@ module fplot_core
     !! @endcode
     !! The above program produces the following output.
     !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1966 triangles.
+    !! The triangulation consists of 1000 points, and 1964 triangles.
     !! @endcode
     !! @image html example_delaunay_2d_1.png
     type, extends(plot_data_colored) :: plot_data_tri_2d
@@ -9792,6 +9794,23 @@ module fplot_core
         !! @param[in] this The delaunay_tri_2d object.
         !! @return An array of the z-coordinates of each point.
         procedure, public :: get_points_z => dts_get_z
+        !> @brief
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64) function evaluate(class(delaunay_tri_surface) this, real(real64) x, real(real64) y)
+        !! @endcode
+        !!
+        !! @param[in] this
+        !! @param[in] x The x-coordinate at which to evaluate the function.
+        !! @param[in] y The y-coordinate at which to evaluate the function.
+        !!
+        !! @return The function value.  If the point (@p x, @p y) does not lie
+        !!  within the range of defined values, then a value of NaN is returned.
+        generic, public :: evaluate => dts_interp_1, dts_interp_2
+
+        procedure :: dts_interp_1
+        procedure :: dts_interp_2
     end type
 
 ! --------------------
@@ -9806,9 +9825,73 @@ module fplot_core
             class(delaunay_tri_surface), intent(in) :: this
             real(real64), allocatable, dimension(:) :: rst
         end function
+
+        pure module function dts_interp_1(this, x, y) result(z)
+            class(delaunay_tri_surface), intent(in) :: this
+            real(real64), intent(in) :: x, y
+            real(real64) :: z
+        end function
+
+        pure module function dts_interp_2(this, x, y) result(z)
+            class(delaunay_tri_surface), intent(in) :: this
+            real(real64), intent(in), dimension(:) :: x, y
+            real(real64), allocatable, dimension(:) :: z
+        end function
     end interface
 
+! ******************************************************************************
+! FPLOT_TRI_SURFACE_PLOT_DATA.F90
 ! ------------------------------------------------------------------------------
+    !> @brief Provides a three-dimensional surface plot data set constructed of
+    !! triangulated points.
+    type, extends(plot_data) :: tri_surface_plot_data
+    private
+        !> @brief An array of the x-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_x
+        !> @brief An array of the y-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_y
+        !> @brief An array of the z-coordinates of each point.
+        real(real64), allocatable, dimension(:) :: m_z
+        !> @brief A 3-column matrix containing the indices of each triangle's
+        !! vertex.
+        integer(int32), allocatable, dimension(:,:) :: m_indices
+        !> @brief Determines if the surface should be drawn as a wireframe.
+        logical :: m_wireframe = .false.
+    contains
+        procedure, public :: get_data_string => tspd_get_data_cmd
+        procedure, public :: get_command_string => tspd_get_cmd
+        procedure, public :: get_use_wireframe => tspd_get_wireframe
+        procedure, public :: set_use_wireframe => tspd_set_wireframe
+        procedure, public :: define_data => tspd_define_data
+    end type
+
+! --------------------
+    interface
+        module function tspd_get_data_cmd(this) result(x)
+            class(tri_surface_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function tspd_get_cmd(this) result(x)
+            class(tri_surface_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function tspd_get_wireframe(this) result(rst)
+            class(tri_surface_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine tspd_set_wireframe(this, x)
+            class(tri_surface_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module subroutine tspd_define_data(this, tri)
+            class(tri_surface_plot_data), intent(inout) :: this
+            class(delaunay_tri_surface), intent(in) :: tri
+        end subroutine
+    end interface
 
 ! ------------------------------------------------------------------------------
 end module

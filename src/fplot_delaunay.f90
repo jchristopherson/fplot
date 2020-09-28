@@ -1,56 +1,6 @@
 ! fplot_delaunay.f90
 
 submodule (fplot_core) fplot_delaunay
-    use iso_c_binding
-
-    type, bind(C) :: del_point2d_t
-        real(c_double) :: x
-        real(c_double) :: y
-    end type
-
-    type, bind(C) :: delaunay2d_t
-        integer(c_int) :: num_points
-        type(c_ptr) :: points
-        integer(c_int) :: num_faces
-        type(c_ptr) :: faces
-    end type
-
-    type, bind(C) :: tri_delaunay2d_t
-        integer(c_int) :: num_points
-        type(c_ptr) :: points
-        integer(c_int) :: num_triangles
-        type(c_ptr) :: tris
-    end type
-
-    interface
-        function delaunay2d_from(points, num_points) &
-                bind(C, name = "delaunay2d_from") result(rst)
-            use iso_c_binding
-            import del_point2d_t
-            integer(c_int), intent(in), value :: num_points
-            type(del_point2d_t), intent(in) :: points(num_points)
-            type(c_ptr) :: rst
-        end function
-
-        subroutine delaunay2d_release(del) bind(C, name = "delaunay2d_release")
-            use iso_c_binding
-            type(c_ptr), value :: del
-        end subroutine
-
-        function tri_delaunay2d_from(del) result(rst) &
-                bind(C, name = "tri_delaunay2d_from")
-            use iso_c_binding
-            type(c_ptr), intent(in), value :: del
-            type(c_ptr) :: rst
-        end function
-
-        subroutine tri_delaunay2d_release(tdel) &
-                bind(C, name = "tri_delaunay2d_release")
-            use iso_c_binding
-            type(c_ptr), value :: tdel
-        end subroutine
-    end interface
-
 contains
 ! ------------------------------------------------------------------------------
     module subroutine d2d_init(this, x, y, err)
@@ -63,12 +13,9 @@ contains
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         character(len = 256) :: errmsg
-        integer(int32) :: i, j, npts, ntri, flag
-        type(del_point2d_t), allocatable, dimension(:) :: pts
-        type(c_ptr) :: dptr, tptr
-        type(tri_delaunay2d_t), pointer :: mesh
-        type(del_point2d_t), pointer, dimension(:) :: nodes
-        integer(c_int), pointer, dimension(:) :: tris
+        integer(int32) :: i, npts, ntri, flag
+        real(real64), allocatable, dimension(:,:) :: nodexy
+        integer(int32), allocatable, dimension(:,:) :: trinode, trinbr
         
         ! Initialization
         if (present(err)) then
@@ -93,46 +40,34 @@ contains
         if (allocated(this%m_y)) deallocate(this%m_y)
         if (allocated(this%m_indices)) deallocate(this%m_indices)
 
-        ! Set up the triangulation
-        allocate(pts(npts), stat = flag)
+        ! Allocate workspace arrays for the triangulation
+        allocate(nodexy(2, npts), stat = flag)
+        if (flag == 0) allocate(trinode(3, 2 * npts), stat = flag)
+        if (flag == 0) allocate(trinbr(3, 2 * npts), stat = flag)
         if (flag /= 0) go to 100
+
+        ! Generate the points list
         do i = 1, npts
-            pts(i)%x = x(i)
-            pts(i)%y = y(i)
+            nodexy(1,i) = x(i)
+            nodexy(2,i) = y(i)
         end do
-        
-        ! Construct the triangulation
-        dptr = delaunay2d_from(pts, npts)
-        tptr = tri_delaunay2d_from(dptr)
+
+        ! Compute the triangulation
+        call r8tris2(npts, nodexy, ntri, trinode, trinbr)
 
         ! Populate the remainder of the object
-        call c_f_pointer(tptr, mesh)
-        ntri = mesh%num_triangles
-        npts = mesh%num_points
-
         allocate(this%m_x(npts), stat = flag)
         if (flag == 0) allocate(this%m_y(npts), stat = flag)
         if (flag == 0) allocate(this%m_indices(ntri, 3), stat = flag)
-        
-        call c_f_pointer(mesh%points, nodes, [npts])
+
         do i = 1, npts
-            this%m_x(i) = nodes(i)%x
-            this%m_y(i) = nodes(i)%y
+            this%m_x(i) = nodexy(1,i)
+            this%m_y(i) = nodexy(2, i)
         end do
 
-        call c_f_pointer(mesh%tris, tris, [3 * ntri])
-        j = 1
         do i = 1, ntri
-            ! +1 accounts for C zero-based indexing
-            this%m_indices(i,1) = tris(j) + 1
-            this%m_indices(i,2) = tris(j + 1) + 1
-            this%m_indices(i,3) = tris(j + 2) + 1
-            j = j + 3
+            this%m_indices(i,:) = trinode(:,i)
         end do
-
-        ! Clean up
-        call delaunay2d_release(dptr)
-        call delaunay2d_release(tptr)
 
         ! End
         return

@@ -1,6 +1,7 @@
 ! fplot_delaunay_tri_surface.f90
 
 submodule (fplot_core) fplot_delaunay_tri_surface
+    use ieee_arithmetic
 contains
 ! ------------------------------------------------------------------------------
     module subroutine dts_define_fcn(this, z, err)
@@ -66,8 +67,132 @@ contains
     ! Interpolation Routine - Barycentric Coordinate Approach
     ! https://www.iue.tuwien.ac.at/phd/nentchev/node25.html
     ! https://academic.csuohio.edu/duffy_s/CVE_512_11.pdf
+    pure module function dts_interp_1(this, x, y) result(z)
+        ! Arguments
+        class(delaunay_tri_surface), intent(in) :: this
+        real(real64), intent(in) :: x, y
+        real(real64) :: z
 
-    ! TO DO: Write the interpolation routine
+        ! Local Variables
+        integer(int32) :: i, n1, n2, n3
+        real(real64) :: x1, x2, x3, y1, y2, y3, z1, z2, z3
+        integer(int32), allocatable, dimension(:,:) :: indices
+        real(real64), allocatable, dimension(:) :: xc, yc, zc
+        logical :: found
+
+        ! Initialization
+        z = ieee_value(z, ieee_quiet_nan)
+        found = .false.
+        indices = this%get_indices()
+        xc = this%get_points_x()
+        yc = this%get_points_y()
+        zc = this%get_points_z()
+
+        ! Quick Return
+        if (this%get_triangle_count() == 0 .or. &
+            this%get_point_count() == 0 .or. &
+            size(zc) == 0) return
+
+        ! Locate the triangle to which the point (x, y) belongs.  If no triangle
+        ! is found, simply return NaN
+        do i = 1, this%get_triangle_count()
+            ! Get the triangle vertices
+            n1 = indices(i, 1)
+            n2 = indices(i, 2)
+            n3 = indices(i, 3)
+
+            x1 = xc(n1)
+            y1 = yc(n1)
+            z1 = zc(n1)
+
+            x2 = xc(n2)
+            y2 = yc(n2)
+            z2 = zc(n2)
+
+            x3 = xc(n3)
+            y3 = yc(n3)
+            z3 = zc(n3)
+
+            ! Check to see if the point (x, y) lies within the triangle
+            if (point_inside_triangle(x1, y1, x2, y2, x3, y3, x, y)) then
+                found = .true.
+                exit
+            end if
+        end do
+
+        ! Quick return - if nothing was found
+        if (.not.found) return
+
+        ! Perform the interpolation
+        z = linear_interp(x1, y1, z1, x2, y2, z2, x3, y3, z3, x, y)
+    end function
+
+! --------------------
+    pure module function dts_interp_2(this, x, y) result(z)
+        ! Arguments
+        class(delaunay_tri_surface), intent(in) :: this
+        real(real64), intent(in), dimension(:) :: x, y
+        real(real64), allocatable, dimension(:) :: z
+
+        ! Local Variables
+        integer(int32) :: i, j, n1, n2, n3, nxy
+        real(real64) :: x1, x2, x3, y1, y2, y3, z1, z2, z3, nan
+        integer(int32), allocatable, dimension(:,:) :: indices
+        real(real64), allocatable, dimension(:) :: xc, yc, zc
+        logical :: found
+
+        ! Initialization
+        nxy = min(size(x), size(y))
+        nan = ieee_value(nan, ieee_quiet_nan)
+        allocate(z(nxy))
+        z = nan
+        indices = this%get_indices()
+        xc = this%get_points_x()
+        yc = this%get_points_y()
+        zc = this%get_points_z()
+
+        ! Quick Return
+        if (this%get_triangle_count() == 0 .or. &
+            this%get_point_count() == 0 .or. &
+            size(zc) == 0) return
+
+        ! Locate the triangle to which the point (x, y) belongs.  If no triangle
+        ! is found, simply return NaN
+        do j = 1, nxy
+            found = .false.
+            iloop: do i = 1, this%get_triangle_count()
+                ! Get the triangle vertices
+                n1 = indices(i, 1)
+                n2 = indices(i, 2)
+                n3 = indices(i, 3)
+
+                x1 = xc(n1)
+                y1 = yc(n1)
+                z1 = zc(n1)
+
+                x2 = xc(n2)
+                y2 = yc(n2)
+                z2 = zc(n2)
+
+                x3 = xc(n3)
+                y3 = yc(n3)
+                z3 = zc(n3)
+
+                ! Check to see if the point (x, y) lies within the triangle
+                if (point_inside_triangle(x1, y1, x2, y2, x3, y3, &
+                        x(i), y(i))) then
+                    found = .true.
+                    exit iloop
+                end if
+            end do iloop
+
+            ! Quick check - move on if nothing was found
+            if (.not.found) continue
+
+            ! Perform the interpolation
+            z(j) = linear_interp(x1, y1, z1, x2, y2, z2, x3, y3, z3, x(j), y(j))
+        end do
+    end function
 
 ! ------------------------------------------------------------------------------
     ! Determine if a point lies within a triangle.

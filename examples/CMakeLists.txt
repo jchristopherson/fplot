@@ -81,11 +81,6 @@ target_link_libraries(fplot_clear_1 fplot)
 add_executable(fplot_d2d_1 fplot_d2d_1.f90)
 target_link_libraries(fplot_d2d_1 fplot)
 
-# # Copy the FERROR shared object to the runtime directory on Windows
-# if (WIN32)
-#     get_target_property(ferror_LibLocation ferror LOCATION)
-#     add_custom_command(TARGET fplot_2d_1 POST_BUILD
-#         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#         ${ferror_LibLocation} $<TARGET_FILE_DIR:fplot_2d_1>
-#     )
-# endif()
+# Example 21
+add_executable(fplot_tri_surf_1 fplot_tri_surf_1.f90)
+target_link_libraries(fplot_tri_surf_1 fplot)
