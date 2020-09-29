@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.4.0</span>
+   &#160;<span id="projectnumber">1.5.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -207,6 +207,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aba04c14ccf1a3ba101fdf6bc2015c136"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#aba04c14ccf1a3ba101fdf6bc2015c136">clear_all_labels</a> =&gt; plt_clear_labels</td></tr>
 <tr class="memdesc:aba04c14ccf1a3ba101fdf6bc2015c136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all <a class="el" href="structfplot__core_1_1plot__label.html" title="Defines a label object for a plot.">plot_label</a> objects from the plot.  <a href="structfplot__core_1_1plot.html#aba04c14ccf1a3ba101fdf6bc2015c136">More...</a><br /></td></tr>
 <tr class="separator:aba04c14ccf1a3ba101fdf6bc2015c136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fafc565a33ac65b8aa229d323799797"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a0fafc565a33ac65b8aa229d323799797">get_axis_equal</a> =&gt; plt_get_axis_equal</td></tr>
+<tr class="memdesc:a0fafc565a33ac65b8aa229d323799797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a flag determining if the axes should be equally scaled.  <a href="structfplot__core_1_1plot.html#a0fafc565a33ac65b8aa229d323799797">More...</a><br /></td></tr>
+<tr class="separator:a0fafc565a33ac65b8aa229d323799797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78fe70750e1e034d382f8d89180e6097"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a78fe70750e1e034d382f8d89180e6097">set_axis_equal</a> =&gt; plt_set_axis_equal</td></tr>
+<tr class="memdesc:a78fe70750e1e034d382f8d89180e6097"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a flag determining if the axes should be equally scaled.  <a href="structfplot__core_1_1plot.html#a78fe70750e1e034d382f8d89180e6097">More...</a><br /></td></tr>
+<tr class="separator:a78fe70750e1e034d382f8d89180e6097"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structfplot__core_1_1plot__object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structfplot__core_1_1plot__object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structfplot__core_1_1plot__object.html">fplot_core::plot_object</a></td></tr>
 <tr class="memitem:a7468d9c46604d4559a4f342f884fd461 inherit pub_methods_structfplot__core_1_1plot__object"><td class="memItemLeft" align="right" valign="top"><a id="a7468d9c46604d4559a4f342f884fd461"></a>
 procedure(<a class="el" href="interfacefplot__core_1_1get__string__result.html">get_string_result</a>), deferred, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__object.html#a7468d9c46604d4559a4f342f884fd461">get_command_string</a></td></tr>
@@ -255,11 +261,15 @@ type(list)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a423c6b5d5a4077e12672a789d0dd07f4">m_colorindex</a> = 1</td></tr>
 <tr class="memdesc:a423c6b5d5a4077e12672a789d0dd07f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The color index to use for automatic line coloring for scatter plots. <br /></td></tr>
 <tr class="separator:a423c6b5d5a4077e12672a789d0dd07f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a39b7ef7066651e8acd9cf4777941b0"><td class="memItemLeft" align="right" valign="top"><a id="a9a39b7ef7066651e8acd9cf4777941b0"></a>
+logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a9a39b7ef7066651e8acd9cf4777941b0">m_axisequal</a> = .false.</td></tr>
+<tr class="memdesc:a9a39b7ef7066651e8acd9cf4777941b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the axes should be scaled proportionally. <br /></td></tr>
+<tr class="separator:a9a39b7ef7066651e8acd9cf4777941b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the basic GNUPLOT plot. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02430">2430</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02435">2435</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a0cc70568df72a20b732e1ef8434860aa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0cc70568df72a20b732e1ef8434860aa">&#9670;&nbsp;</a></span>clear_all()</h2>
@@ -296,7 +306,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02665">2665</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02672">2672</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -334,7 +344,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03268">3268</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03275">3275</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -369,7 +379,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02808">2808</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02815">2815</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -398,7 +408,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02463">2463</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02470">2470</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -442,7 +452,37 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02694">2694</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02701">2701</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="a0fafc565a33ac65b8aa229d323799797"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fafc565a33ac65b8aa229d323799797">&#9670;&nbsp;</a></span>get_axis_equal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::plot::get_axis_equal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets a flag determining if the axes should be equally scaled. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">logical </span><span class="keyword">function </span>get_axis_equal(class(plot) this)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The plot object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the axes should be scaled equally; else, false. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03286">3286</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -483,7 +523,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02599">2599</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02606">2606</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -523,7 +563,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03052">3052</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03059">3059</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -563,7 +603,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02895">2895</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02902">2902</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -604,7 +644,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02946">2946</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02953">2953</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -645,7 +685,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03193">3193</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03200">3200</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -686,7 +726,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03245">3245</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03252">3252</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -718,7 +758,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02573">2573</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02580">2580</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -758,7 +798,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02761">2761</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02768">2768</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -789,7 +829,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the GNUPLOT terminal object.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02736">2736</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02743">2743</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -829,7 +869,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03000">3000</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03007">3007</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -869,7 +909,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02515">2515</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02522">2522</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -912,7 +952,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02490">2490</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02497">2497</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -952,7 +992,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02557">2557</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02564">2564</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -990,7 +1030,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02641">2641</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02648">2648</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1028,7 +1068,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03167">3167</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03174">3174</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1063,7 +1103,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02618">2618</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02625">2625</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1147,7 +1187,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03144">3144</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03151">3151</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1224,7 +1264,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02870">2870</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02877">2877</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1268,7 +1308,37 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02723">2723</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02730">2730</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="a78fe70750e1e034d382f8d89180e6097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78fe70750e1e034d382f8d89180e6097">&#9670;&nbsp;</a></span>set_axis_equal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::plot::set_axis_equal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a flag determining if the axes should be equally scaled. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_axis_equal(class(plot) this, logical x)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The plot object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>Set to true if the axes should be scaled equally; else, false. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03297">3297</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1308,7 +1378,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03077">3077</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03084">3084</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1348,7 +1418,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02920">2920</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02927">2927</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1388,7 +1458,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02973">2973</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02980">2980</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1429,7 +1499,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03219">3219</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03226">3226</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1469,7 +1539,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02786">2786</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02793">2793</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1509,7 +1579,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03027">3027</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l03034">3034</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -1540,7 +1610,7 @@ integer(int32)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <code><a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a></code> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02530">2530</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l02537">2537</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

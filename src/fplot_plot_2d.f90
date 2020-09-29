@@ -162,6 +162,12 @@ contains
             call str%append("unset border")
         end if
 
+        ! Scaling
+        if (this%get_axis_equal()) then
+            call str%append(new_line('a'))
+            call str%append("set view equal xy")
+        end if
+
         ! Legend
         call str%append(new_line('a'))
         leg => this%get_legend()

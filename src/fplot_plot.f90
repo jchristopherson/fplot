@@ -443,5 +443,21 @@ contains
         call this%m_labels%clear()
     end subroutine
 
+! ******************************************************************************
+! ADDED: SEPT. 25, 2020 - JAC
+! ------------------------------------------------------------------------------
+    pure module function plt_get_axis_equal(this) result(rst)
+        class(plot), intent(in) :: this
+        logical :: rst
+        rst = this%m_axisEqual
+    end function
+
+! --------------------
+    module subroutine plt_set_axis_equal(this, x)
+        class(plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_axisEqual = x
+    end subroutine
+
 ! ------------------------------------------------------------------------------
 end submodule
