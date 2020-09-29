@@ -22,23 +22,9 @@ contains
         ! Process
         ! https://stackoverflow.com/questions/42784369/drawing-triangular-mesh-using-gnuplot
         ! http://www.gnuplot.info/faq/faq.html#x1-530005.10
-        !
-        ! The data pattern is this:
-        ! # Triangle 1
-        ! x1 y1 z1
-        ! x2 y2 z2
-        !
-        ! x3 y3 z3
-        ! x1 y1 z1
-        !
-        !
-        ! # Triangle 2
-        ! x1 y1 z1
-        ! x2 y2 z2
-        !
-        ! x3 y3 z3
-        ! x1 y1 z1
+        ! https://codeyarns.com/2011/01/25/gnuplot-plotting-a-3d-triangulation/
         do i = 1, n
+            ! Line 1-2
             ! Vertex 1
             j = this%m_indices(i, 1)
             call str%append(to_string(this%m_x(j)))
@@ -57,6 +43,28 @@ contains
             call str%append("0.0")
             call str%append(nl)
 
+            ! Line 2-3
+            ! Vertex 2
+            call str%append(nl)
+            j = this%m_indices(i, 2)
+            call str%append(to_string(this%m_x(j)))
+            call str%append(delimiter)
+            call str%append(to_string(this%m_y(j)))
+            call str%append(delimiter)
+            call str%append("0.0")
+            call str%append(nl)
+
+
+            ! Vertex 3
+            j = this%m_indices(i, 3)
+            call str%append(to_string(this%m_x(j)))
+            call str%append(delimiter)
+            call str%append(to_string(this%m_y(j)))
+            call str%append(delimiter)
+            call str%append("0.0")
+            call str%append(nl)
+
+            ! Line 3-1
             ! Vertex 3
             call str%append(nl)
             j = this%m_indices(i, 3)
@@ -67,7 +75,7 @@ contains
             call str%append("0.0")
             call str%append(nl)
 
-            ! Vertex 1 - 2nd Time
+            ! Vertex 1
             j = this%m_indices(i, 1)
             call str%append(to_string(this%m_x(j)))
             call str%append(delimiter)

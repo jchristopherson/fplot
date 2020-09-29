@@ -135,4 +135,67 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
+    pure module function d2d_get_tri_with_pt(this, x, y) result(rst)
+        ! Arguments
+        class(delaunay_tri_2d), intent(in) :: this
+        real(real64), intent(in) :: x, y
+        integer(int32) :: rst
+
+        ! Local Variables
+        integer(int32) :: i, j
+        real(real64) :: x1, y1, x2, y2, x3, y3
+        logical :: check
+        
+        ! Initialization
+        rst = -1
+
+        ! Process
+        do i = 1, this%get_triangle_count()
+            j = this%m_indices(i, 1)
+            x1 = this%m_x(j)
+            y1 = this%m_y(j)
+
+            j = this%m_indices(i, 2)
+            x2 = this%m_x(j)
+            y2 = this%m_y(j)
+
+            j = this%m_indices(i, 3)
+            x3 = this%m_x(j)
+            y3 = this%m_y(j)
+
+            check = point_inside_triangle(x1, y1, x2, y2, x3, y3, x, y)
+            if (check) then
+                rst = i
+            end if
+        end do
+    end function
+
+! ------------------------------------------------------------------------------
+    ! Determine if a point lies within a triangle.
+    ! https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+    ! https://en.wikipedia.org/wiki/Barycentric_coordinate_system
+    pure elemental function point_inside_triangle(x1, y1, x2, y2, x3, y3, &
+            x, y) result(rst)
+        ! Arguments
+        real(real64), intent(in) :: x1, y1, x2, y2, x3, y3, x, y
+        logical :: rst
+
+        ! Local Variables
+        real(real64) :: lambda1, lambda2, dT
+
+        ! Initialization
+        dT = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3)
+        lambda1 = ((y2 - y3) * (x - x3) + (x3 - x2) * (y - y3)) / dT
+        lambda2 = ((y3 - y1) * (x - x3) + (x1 - x3) * (y - y3)) / dT
+
+        ! The point is within the triangle if:
+        ! 0 <= lambda1 <= 1
+        ! 0 <= lambda2 <= 1
+        ! 0 <= lambda1 + lambda2 <= 1
+        rst = (lambda1 <= 1.0d0 .and. lambda1 >= 0.0d0) .and. &
+            (lambda2 <= 1.0d0 .and. lambda2 >= 0.0d0) .and. &
+            (lambda1 + lambda2 >= 0.0d0 .and. lambda1 + lambda2 <= 1.0d0)
+    end function
+
+! ------------------------------------------------------------------------------
 end submodule

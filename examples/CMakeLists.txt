@@ -84,3 +84,7 @@ target_link_libraries(fplot_d2d_1 fplot)
 # Example 21
 add_executable(fplot_tri_surf_1 fplot_tri_surf_1.f90)
 target_link_libraries(fplot_tri_surf_1 fplot)
+
+# Example 22
+add_executable(fplot_d2d_2 fplot_d2d_2.f90)
+target_link_libraries(fplot_d2d_2 fplot)

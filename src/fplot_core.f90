@@ -9454,7 +9454,7 @@ module fplot_core
     !! @endcode
     !! The above program produces the following output.
     !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1964 triangles.
+    !! The triangulation consists of 1000 points, and 1970 triangles.
     !! @endcode
     !! @image html example_delaunay_2d_1.png
     type delaunay_tri_2d
@@ -9542,6 +9542,100 @@ module fplot_core
         !! @return An N-by-3 matrix with each column containing the index of the
         !!  vertex of each triangle where N is the number of triangles.
         procedure, public :: get_indices => d2d_get_tris
+        !> @brief Finds the triangle that contains the specified point.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! integer(int32) function find_triangle(class(delaunay_tri_2d) this, real(real64) x, real(real64) y)
+        !! @endcode
+        !!
+        !! @param[in] this The delaunay_tri_2d object.
+        !! @param[in] x The x-coordinate of the point.
+        !! @param[in] y The y-coordinate of the point.
+        !!
+        !! @return Returns the index of the triangle containing the specified
+        !!  point.  If no triangle contains the specified point, a value of
+        !!  -1 is returned.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64), parameter :: xpt = 0.75d0
+        !!     real(real64), parameter :: ypt = 0.75d0
+        !!
+        !!     ! Local Variables
+        !!     type(delaunay_tri_2d) :: tri
+        !!     real(real64) :: x(npts), y(npts), theta(npts), radius(npts), &
+        !!         xtri(3), ytri(3)
+        !!     integer(int32) :: ind, n1, n2, n3
+        !!     integer(int32), allocatable, dimension(:,:) :: indices
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_tri_2d) :: ds
+        !!     type(plot_data_2d) :: dtri, dpt
+        !!
+        !!     ! Initialization
+        !!     call random_number(theta)
+        !!     theta = 2.0d0 * pi * theta
+        !!
+        !!     call random_number(radius)
+        !!     radius = radius + 0.5d0
+        !!
+        !!     x = radius * cos(theta)
+        !!     y = radius * sin(theta)
+        !!
+        !!     ! Create a 2D triangulation from the data
+        !!     call tri%create(x, y)
+        !!
+        !!     ! Find the index of the triangle containing (xpt, ypt)
+        !!     ind = tri%find_triangle(xpt, ypt)
+        !!     if (ind == -1) then
+        !!         print '(A)', "No triangle was found that included the specified point."
+        !!     end if
+        !!
+        !!     ! Get the vertices of this triangle
+        !!     indices = tri%get_indices()
+        !!     n1 = indices(ind, 1)
+        !!     n2 = indices(ind, 2)
+        !!     n3 = indices(ind, 3)
+        !!     xtri = [x(n1), x(n2), x(n3)]
+        !!     ytri = [y(n1), y(n2), y(n3)]
+        !!
+        !!     ! Plot the triangulation, the point of interest, and highlight the triangle
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!
+        !!     call ds%define_data(tri)
+        !!     call plt%push(ds)
+        !!
+        !!     call dtri%define_data(xtri, ytri)
+        !!     call dtri%set_draw_line(.false.)
+        !!     call dtri%set_draw_markers(.true.)
+        !!     call dtri%set_marker_style(MARKER_FILLED_CIRCLE)
+        !!     call dtri%set_marker_scaling(1.2)
+        !!     call dtri%set_line_color(CLR_LIME)
+        !!     call plt%push(dtri)
+        !!
+        !!     call dpt%define_data([xpt], [ypt])
+        !!     call dpt%set_draw_line(.false.)
+        !!     call dpt%set_draw_markers(.true.)
+        !!     call dpt%set_marker_style(MARKER_X)
+        !!     call dpt%set_marker_scaling(3.0)
+        !!     call dpt%set_line_width(2.0)
+        !!     call plt%push(dpt)
+        !!
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_delaunay_2d_2a.png
+        !! @image html example_delaunay_2d_2b.png
+        procedure, public :: find_triangle => d2d_get_tri_with_pt
     end type
 
 ! ----------
@@ -9575,6 +9669,12 @@ module fplot_core
         pure module function d2d_get_tris(this) result(rst)
             class(delaunay_tri_2d), intent(in) :: this
             integer(int32), allocatable, dimension(:,:) :: rst
+        end function
+
+        pure module function d2d_get_tri_with_pt(this, x, y) result(rst)
+            class(delaunay_tri_2d), intent(in) :: this
+            real(real64), intent(in) :: x, y
+            integer(int32) :: rst
         end function
     end interface
 
@@ -9630,7 +9730,7 @@ module fplot_core
     !! @endcode
     !! The above program produces the following output.
     !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1964 triangles.
+    !! The triangulation consists of 1000 points, and 1970 triangles.
     !! @endcode
     !! @image html example_delaunay_2d_1.png
     type, extends(plot_data_colored) :: plot_data_tri_2d
@@ -9794,19 +9894,100 @@ module fplot_core
         !! @param[in] this The delaunay_tri_2d object.
         !! @return An array of the z-coordinates of each point.
         procedure, public :: get_points_z => dts_get_z
-        !> @brief
+        !> @brief Evaluates the function at the requested point by means of 
+        !!  linear interpolation.
         !!
         !! @par Syntax
         !! @code{.f90}
         !! real(real64) function evaluate(class(delaunay_tri_surface) this, real(real64) x, real(real64) y)
         !! @endcode
         !!
-        !! @param[in] this
+        !! @param[in] this The delaunay_tri_surface object.
         !! @param[in] x The x-coordinate at which to evaluate the function.
         !! @param[in] y The y-coordinate at which to evaluate the function.
         !!
         !! @return The function value.  If the point (@p x, @p y) does not lie
         !!  within the range of defined values, then a value of NaN is returned.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Variables
+        !!     integer(int32), parameter :: npts = 15
+        !!     real(real64), allocatable :: xc(:,:), yc(:,:), x(:), y(:), z(:), xy(:,:,:)
+        !!     real(real64) :: xi, yi, zi
+        !!     type(delaunay_tri_surface) :: tri
+        !!     type(tri_surface_plot_data) :: ds
+        !!     type(plot_data_3d) :: di
+        !!     type(surface_plot) :: plt
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!     integer(int32) :: i
+        !!
+        !!     ! Initialization
+        !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, npts), linspace(-5.0d0, 5.0d0, npts))
+        !!     xc = xy(:,:,1)
+        !!     yc = xy(:,:,2)
+        !!     x = reshape(xc, [npts * npts])
+        !!     y = reshape(yc, [npts * npts])
+        !!     z = sin(x) + sin(y)
+        !!
+        !!     ! Generate the triangulation
+        !!     call tri%create(x, y)
+        !!     call tri%define_function_values(z)
+        !!
+        !!     ! Interpolate using the triangulation
+        !!     xi = 2.0d0
+        !!     yi = 2.0d0
+        !!     zi = tri%evaluate(xi, yi)
+        !!
+        !!     ! Print the interpolated values
+        !!     print '(A)', "Interpolated Value:"
+        !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), zi
+        !!
+        !!     print '(A)', "Actual Values:"
+        !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), &
+        !!         sin(xi) + sin(yi)
+        !!
+        !!     ! Generate the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     yAxis => plt%get_y_axis()
+        !!     zAxis => plt%get_z_axis()
+        !!
+        !!     call xAxis%set_title("x")
+        !!     call yAxis%set_title("y")
+        !!     call zAxis%set_title("f(x,y)")
+        !!
+        !!     call ds%define_data(tri)
+        !!     call ds%set_use_wireframe(.true.)
+        !!
+        !!     call di%define_data([xi], [yi], [zi])
+        !!     call di%set_draw_line(.false.)
+        !!     call di%set_line_width(2.0)
+        !!     call di%set_draw_markers(.true.)
+        !!     call di%set_marker_style(MARKER_FILLED_CIRCLE)
+        !!     call di%set_marker_scaling(3.0)
+        !!     call di%set_line_color(CLR_RED)
+        !!
+        !!     call plt%push(ds)
+        !!     call plt%push(di)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! The above program produced the following output.
+        !! @code{.txt}
+        !! Interpolated Value:
+        !!         2.000   2.000   1.741
+        !! Actual Values:
+        !!         2.000   2.000   1.819
+        !! @endcode
+        !! @image html example_tri_surf_1.png
         generic, public :: evaluate => dts_interp_1, dts_interp_2
 
         procedure :: dts_interp_1
@@ -9844,6 +10025,85 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief Provides a three-dimensional surface plot data set constructed of
     !! triangulated points.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Variables
+    !!     integer(int32), parameter :: npts = 15
+    !!     real(real64), allocatable :: xc(:,:), yc(:,:), x(:), y(:), z(:), xy(:,:,:)
+    !!     real(real64) :: xi, yi, zi
+    !!     type(delaunay_tri_surface) :: tri
+    !!     type(tri_surface_plot_data) :: ds
+    !!     type(plot_data_3d) :: di
+    !!     type(surface_plot) :: plt
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!     integer(int32) :: i
+    !!
+    !!     ! Initialization
+    !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, npts), linspace(-5.0d0, 5.0d0, npts))
+    !!     xc = xy(:,:,1)
+    !!     yc = xy(:,:,2)
+    !!     x = reshape(xc, [npts * npts])
+    !!     y = reshape(yc, [npts * npts])
+    !!     z = sin(x) + sin(y)
+    !!
+    !!     ! Generate the triangulation
+    !!     call tri%create(x, y)
+    !!     call tri%define_function_values(z)
+    !!
+    !!     ! Interpolate using the triangulation
+    !!     xi = 2.0d0
+    !!     yi = 2.0d0
+    !!     zi = tri%evaluate(xi, yi)
+    !!
+    !!     ! Print the interpolated values
+    !!     print '(A)', "Interpolated Value:"
+    !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), zi
+    !!
+    !!     print '(A)', "Actual Values:"
+    !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), &
+    !!         sin(xi) + sin(yi)
+    !!
+    !!     ! Generate the plot
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     yAxis => plt%get_y_axis()
+    !!     zAxis => plt%get_z_axis()
+    !!
+    !!     call xAxis%set_title("x")
+    !!     call yAxis%set_title("y")
+    !!     call zAxis%set_title("f(x,y)")
+    !!
+    !!     call ds%define_data(tri)
+    !!
+    !!     call di%define_data([xi], [yi], [zi])
+    !!     call di%set_draw_line(.false.)
+    !!     call di%set_line_width(2.0)
+    !!     call di%set_draw_markers(.true.)
+    !!     call di%set_marker_style(MARKER_FILLED_CIRCLE)
+    !!     call di%set_marker_scaling(3.0)
+    !!     call di%set_line_color(CLR_RED)
+    !!
+    !!     call plt%push(ds)
+    !!     call plt%push(di)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! The above program produced the following output.
+    !! @code{.txt}
+    !! Interpolated Value:
+    !!         2.000   2.000   1.741
+    !! Actual Values:
+    !!         2.000   2.000   1.819
+    !! @endcode
+    !! @image html example_tri_surf_1.png
     type, extends(plot_data) :: tri_surface_plot_data
     private
         !> @brief An array of the x-coordinates of each point.
@@ -9856,12 +10116,43 @@ module fplot_core
         !! vertex.
         integer(int32), allocatable, dimension(:,:) :: m_indices
         !> @brief Determines if the surface should be drawn as a wireframe.
-        logical :: m_wireframe = .false.
+        logical :: m_wireframe = .true.
     contains
         procedure, public :: get_data_string => tspd_get_data_cmd
         procedure, public :: get_command_string => tspd_get_cmd
+        !> @brief Gets a value determining if a wireframe mesh should be 
+        !!  displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical function get_use_wireframe(class(tri_surface_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The tri_surface_plot_data object.
+        !! @return Returns true if the plot is to be drawn as a wireframe; else,
+        !!  false to draw as a surface.
         procedure, public :: get_use_wireframe => tspd_get_wireframe
+        !> @brief Sets a value determining if a wireframe mesh should be 
+        !!  displayed.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_wireframe(class(tri_surface_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The tri_surface_plot_data object.
+        !! @param[in] x Set to true if the plot is to be drawn as a wireframe;
+        !!  else, set to false to draw as a surface.
         procedure, public :: set_use_wireframe => tspd_set_wireframe
+        !> @brief Defines the data to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(tri_surface_plot_data) this, class(delaunay_tri_surface) tri)
+        !! @endcode
+        !!
+        !! @param[in,out] this The tri_surface_plot_data object.
+        !! @param[in] tri The triangulation to plot.
         procedure, public :: define_data => tspd_define_data
     end type
 

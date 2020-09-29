@@ -78,11 +78,9 @@ contains
         real(real64) :: x1, x2, x3, y1, y2, y3, z1, z2, z3
         integer(int32), allocatable, dimension(:,:) :: indices
         real(real64), allocatable, dimension(:) :: xc, yc, zc
-        logical :: found
 
         ! Initialization
         z = ieee_value(z, ieee_quiet_nan)
-        found = .false.
         indices = this%get_indices()
         xc = this%get_points_x()
         yc = this%get_points_y()
@@ -95,33 +93,25 @@ contains
 
         ! Locate the triangle to which the point (x, y) belongs.  If no triangle
         ! is found, simply return NaN
-        do i = 1, this%get_triangle_count()
-            ! Get the triangle vertices
-            n1 = indices(i, 1)
-            n2 = indices(i, 2)
-            n3 = indices(i, 3)
+        i = this%find_triangle(x, y)
+        if (i == -1) return
 
-            x1 = xc(n1)
-            y1 = yc(n1)
-            z1 = zc(n1)
+        ! Get the triangle vertices
+        n1 = indices(i, 1)
+        n2 = indices(i, 2)
+        n3 = indices(i, 3)
 
-            x2 = xc(n2)
-            y2 = yc(n2)
-            z2 = zc(n2)
+        x1 = xc(n1)
+        y1 = yc(n1)
+        z1 = zc(n1)
 
-            x3 = xc(n3)
-            y3 = yc(n3)
-            z3 = zc(n3)
+        x2 = xc(n2)
+        y2 = yc(n2)
+        z2 = zc(n2)
 
-            ! Check to see if the point (x, y) lies within the triangle
-            if (point_inside_triangle(x1, y1, x2, y2, x3, y3, x, y)) then
-                found = .true.
-                exit
-            end if
-        end do
-
-        ! Quick return - if nothing was found
-        if (.not.found) return
+        x3 = xc(n3)
+        y3 = yc(n3)
+        z3 = zc(n3)
 
         ! Perform the interpolation
         z = linear_interp(x1, y1, z1, x2, y2, z2, x3, y3, z3, x, y)
@@ -139,7 +129,6 @@ contains
         real(real64) :: x1, x2, x3, y1, y2, y3, z1, z2, z3, nan
         integer(int32), allocatable, dimension(:,:) :: indices
         real(real64), allocatable, dimension(:) :: xc, yc, zc
-        logical :: found
 
         ! Initialization
         nxy = min(size(x), size(y))
@@ -158,62 +147,32 @@ contains
 
         ! Locate the triangle to which the point (x, y) belongs.  If no triangle
         ! is found, simply return NaN
-        do j = 1, nxy
-            found = .false.
-            iloop: do i = 1, this%get_triangle_count()
-                ! Get the triangle vertices
-                n1 = indices(i, 1)
-                n2 = indices(i, 2)
-                n3 = indices(i, 3)
+        do i = 1, nxy
+            ! Find the index of the triangle
+            j = this%find_triangle(x(i), y(i))
 
-                x1 = xc(n1)
-                y1 = yc(n1)
-                z1 = zc(n1)
+            if (j == -1) cycle  ! Skip if we couldn't find a triangle
 
-                x2 = xc(n2)
-                y2 = yc(n2)
-                z2 = zc(n2)
+            ! Get the vertices
+            n1 = indices(j, 1)
+            n2 = indices(j, 2)
+            n3 = indices(j, 3)
 
-                x3 = xc(n3)
-                y3 = yc(n3)
-                z3 = zc(n3)
+            x1 = xc(n1)
+            y1 = yc(n1)
+            z1 = zc(n1)
 
-                ! Check to see if the point (x, y) lies within the triangle
-                if (point_inside_triangle(x1, y1, x2, y2, x3, y3, &
-                        x(i), y(i))) then
-                    found = .true.
-                    exit iloop
-                end if
-            end do iloop
+            x2 = xc(n2)
+            y2 = yc(n2)
+            z2 = zc(n2)
 
-            ! Quick check - move on if nothing was found
-            if (.not.found) continue
+            x3 = xc(n3)
+            y3 = yc(n3)
+            z3 = zc(n3)
 
             ! Perform the interpolation
-            z(j) = linear_interp(x1, y1, z1, x2, y2, z2, x3, y3, z3, x(j), y(j))
+            z(i) = linear_interp(x1, y1, z1, x2, y2, z2, x3, y3, z3, x(i), y(i))
         end do
-    end function
-
-! ------------------------------------------------------------------------------
-    ! Determine if a point lies within a triangle.
-    ! https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
-    ! https://en.wikipedia.org/wiki/Barycentric_coordinate_system
-    pure elemental function point_inside_triangle(x1, y1, x2, y2, x3, y3, &
-            x, y) result(rst)
-        real(real64), intent(in) :: x1, y1, x2, y2, x3, y3, x, y
-        logical :: rst
-        real(real64) :: lambda1, lambda2, dT
-        dT = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3)
-        lambda1 = ((y2 - y3) * (x - x3) + (x3 - x2) * (y - y3)) / dT
-        lambda2 = ((y3 - y1) * (x - x3) + (x1 - x3) * (y - y3)) / dT
-
-        ! The point is within the triangle if:
-        ! 0 <= lambda1 <= 1
-        ! 0 <= lambda2 <= 1
-        ! lambda1 + lambda2 <= 1
-        rst = (lambda1 <= 1.0d0 .and. lambda1 >= 0.0d0) .and. &
-            (lambda2 <= 1.0d0 .and. lambda2 >= 0.0d0) .and. &
-            (lambda1 + lambda2 <= 1.0d0)
     end function
 
 ! ------------------------------------------------------------------------------
