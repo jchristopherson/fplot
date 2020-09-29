@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['p2d_5fclean_5fup_503',['p2d_clean_up',['../structfplot__core_1_1plot__2d.html#ad42a85aa260a7a8340e858dd3a5c5caf',1,'fplot_core::plot_2d']]],
-  ['p3d_5fclean_5fup_504',['p3d_clean_up',['../structfplot__core_1_1plot__3d.html#aa725bd27229d18499d8040967a359eda',1,'fplot_core::plot_3d']]],
-  ['pop_505',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
-  ['pop_5flabel_506',['pop_label',['../structfplot__core_1_1plot.html#a72556bd3398bf491d2aa192ceaab9807',1,'fplot_core::plot']]],
-  ['push_507',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]],
-  ['push_5flabel_508',['push_label',['../structfplot__core_1_1plot.html#a89f704e48794d3805d2f13c96082096c',1,'fplot_core::plot']]]
+  ['initialize_513',['initialize',['../structfplot__core_1_1plot.html#a945ff02d37879c256fbc56315782011d',1,'fplot_core::plot::initialize()'],['../structfplot__core_1_1plot__2d.html#a7d4a94f41b2bb99d80a3b3f8c805e7d0',1,'fplot_core::plot_2d::initialize()'],['../structfplot__core_1_1plot__3d.html#a499a3199dc9362cf4766ee9fc883f269',1,'fplot_core::plot_3d::initialize()'],['../structfplot__core_1_1surface__plot.html#a7ee1fab08335357f2a8b0afdff373171',1,'fplot_core::surface_plot::initialize()'],['../structfplot__core_1_1multiplot.html#a098fd1411de0cf38c26c9bd7f970f7db',1,'fplot_core::multiplot::initialize()']]],
+  ['is_5ftitle_5fdefined_514',['is_title_defined',['../structfplot__core_1_1plot__axis.html#a6692fd4f9aa180a96ae597073093d5e5',1,'fplot_core::plot_axis::is_title_defined()'],['../structfplot__core_1_1plot.html#a2edf85d4a618f260b7dd9e5bfb92af04',1,'fplot_core::plot::is_title_defined()'],['../structfplot__core_1_1multiplot.html#a4fc3681e3bf594b4b318d77e2a1bb140',1,'fplot_core::multiplot::is_title_defined()']]]
 ];

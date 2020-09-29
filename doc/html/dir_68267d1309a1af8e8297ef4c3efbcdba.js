@@ -7,6 +7,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_core.f90", "fplot__core_8f90_source.html", null ],
     [ "fplot_core_routines.f90", "fplot__core__routines_8f90_source.html", null ],
     [ "fplot_delaunay.f90", "fplot__delaunay_8f90_source.html", null ],
+    [ "fplot_delaunay_tri_surface.f90", "fplot__delaunay__tri__surface_8f90_source.html", null ],
     [ "fplot_errors.f90", "fplot__errors_8f90_source.html", null ],
     [ "fplot_label.f90", "fplot__label_8f90_source.html", null ],
     [ "fplot_latex_terminal.f90", "fplot__latex__terminal_8f90_source.html", null ],
@@ -32,6 +33,8 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_surface_plot.f90", "fplot__surface__plot_8f90_source.html", null ],
     [ "fplot_surface_plot_data.f90", "fplot__surface__plot__data_8f90_source.html", null ],
     [ "fplot_terminal.f90", "fplot__terminal_8f90_source.html", null ],
+    [ "fplot_tri_surface_plot_data.f90", "fplot__tri__surface__plot__data_8f90_source.html", null ],
     [ "fplot_windows_terminal.f90", "fplot__windows__terminal_8f90_source.html", null ],
-    [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ]
+    [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ],
+    [ "geompack.f", "geompack_8f_source.html", null ]
 ];

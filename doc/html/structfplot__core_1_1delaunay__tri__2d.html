@@ -98,6 +98,15 @@ $(document).ready(function(){initNavTree('structfplot__core_1_1delaunay__tri__2d
 
 <p>Provides a container for a 2D Delaunay triangulation.  
  <a href="structfplot__core_1_1delaunay__tri__2d.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for fplot_core::delaunay_tri_2d:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="structfplot__core_1_1delaunay__tri__2d.png" usemap="#fplot_5Fcore::delaunay_5Ftri_5F2d_map" alt=""/>
+  <map id="fplot_5Fcore::delaunay_5Ftri_5F2d_map" name="fplot_5Fcore::delaunay_5Ftri_5F2d_map">
+<area href="structfplot__core_1_1delaunay__tri__surface.html" title="Provides a type describing a triangulated surface." alt="fplot_core::delaunay_tri_surface" shape="rect" coords="0,56,195,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -119,6 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a967cb1dab09647632d7d273e0ef51563"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#a967cb1dab09647632d7d273e0ef51563">get_indices</a> =&gt; d2d_get_tris</td></tr>
 <tr class="memdesc:a967cb1dab09647632d7d273e0ef51563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a list of the indices of each triangle vertex.  <a href="structfplot__core_1_1delaunay__tri__2d.html#a967cb1dab09647632d7d273e0ef51563">More...</a><br /></td></tr>
 <tr class="separator:a967cb1dab09647632d7d273e0ef51563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ccedfbd9d816807bd689cce92d5e3ba"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1delaunay__tri__2d.html#a0ccedfbd9d816807bd689cce92d5e3ba">find_triangle</a> =&gt; d2d_get_tri_with_pt</td></tr>
+<tr class="memdesc:a0ccedfbd9d816807bd689cce92d5e3ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the triangle that contains the specified point.  <a href="structfplot__core_1_1delaunay__tri__2d.html#a0ccedfbd9d816807bd689cce92d5e3ba">More...</a><br /></td></tr>
+<tr class="separator:a0ccedfbd9d816807bd689cce92d5e3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -137,7 +149,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides a container for a 2D Delaunay triangulation. </p>
-<dl class="section user"><dt>Remarks</dt><dd>This type utilizes the triangulation code by eloraiby available at <a href="https://github.com/eloraiby/delaunay">https://github.com/eloraiby/delaunay</a>.</dd></dl>
+<dl class="section user"><dt>Remarks</dt><dd>This type utilizes the GEOMPACK triangulation code available at <a href="https://people.sc.fsu.edu/~jburkardt/f77_src/geompack/geompack.html">https://people.sc.fsu.edu/~jburkardt/f77_src/geompack/geompack.html</a>.</dd></dl>
 <dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div>
 <div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div>
 <div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div>
@@ -180,13 +192,13 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 <div class="line"> </div>
 <div class="line">    <span class="keyword">call </span>plt%draw()</div>
 <div class="line"><span class="keyword">end program</span></div>
-</div><!-- fragment --> The above program produces the following output. <div class="fragment"><div class="line">The triangulation consists of 1000 points, and 1966 triangles.</div>
+</div><!-- fragment --> The above program produces the following output. <div class="fragment"><div class="line">The triangulation consists of 1000 points, and 1970 triangles.</div>
 </div><!-- fragment --> <div class="image">
 <img src="example_delaunay_2d_1.png" alt=""/>
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09458">9458</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09460">9460</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a56807234730c31384eaca32196c68a00"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56807234730c31384eaca32196c68a00">&#9670;&nbsp;</a></span>create()</h2>
@@ -220,7 +232,119 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09491">9491</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09493">9493</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="a0ccedfbd9d816807bd689cce92d5e3ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ccedfbd9d816807bd689cce92d5e3ba">&#9670;&nbsp;</a></span>find_triangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::delaunay_tri_2d::find_triangle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finds the triangle that contains the specified point. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">integer(int32) </span><span class="keyword">function </span>find_triangle(class(delaunay_tri_2d) this, real(real64) x, real(real64) y)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1delaunay__tri__2d.html" title="Provides a container for a 2D Delaunay triangulation.">delaunay_tri_2d</a> object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x-coordinate of the point. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y-coordinate of the point.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns the index of the triangle containing the specified point. If no triangle contains the specified point, a value of -1 is returned.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div>
+<div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div>
+<div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div>
+<div class="line">    <span class="keywordtype">implicit none</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Parameters</span></div>
+<div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">parameter</span> :: npts = 1000</div>
+<div class="line"><span class="keywordtype">    real</span>(real64), <span class="keywordtype">parameter</span> :: pi = 2.0d0 * acos(0.0d0)</div>
+<div class="line"><span class="keywordtype">    real</span>(real64), <span class="keywordtype">parameter</span> :: xpt = 0.75d0</div>
+<div class="line"><span class="keywordtype">    real</span>(real64), <span class="keywordtype">parameter</span> :: ypt = 0.75d0</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Local Variables</span></div>
+<div class="line">    <span class="keywordtype">type</span>(delaunay_tri_2d) :: tri</div>
+<div class="line"><span class="keywordtype">    real</span>(real64) :: x(npts), y(npts), theta(npts), radius(npts), &amp;</div>
+<div class="line">        xtri(3), ytri(3)</div>
+<div class="line">    <span class="keywordtype">integer(int32)</span> :: ind, n1, n2, n3</div>
+<div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:,:)</span> :: indices</div>
+<div class="line">    <span class="keywordtype">type</span>(plot_2d) :: plt</div>
+<div class="line">    <span class="keywordtype">type</span>(plot_data_tri_2d) :: ds</div>
+<div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: dtri, dpt</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Initialization</span></div>
+<div class="line">    <span class="keyword">call </span>random_number(theta)</div>
+<div class="line">    theta = 2.0d0 * pi * theta</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>random_number(radius)</div>
+<div class="line">    radius = radius + 0.5d0</div>
+<div class="line"> </div>
+<div class="line">    x = radius * cos(theta)</div>
+<div class="line">    y = radius * sin(theta)</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Create a 2D triangulation from the data</span></div>
+<div class="line">    <span class="keyword">call </span>tri%create(x, y)</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Find the index of the triangle containing (xpt, ypt)</span></div>
+<div class="line">    ind = tri%find_triangle(xpt, ypt)</div>
+<div class="line">    <span class="keywordflow">if</span> (ind == -1) <span class="keywordflow">then</span></div>
+<div class="line">        print <span class="stringliteral">&#39;(A)&#39;</span>, <span class="stringliteral">&quot;No triangle was found that included the specified point.&quot;</span></div>
+<div class="line"><span class="keywordflow">    end if</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Get the vertices of this triangle</span></div>
+<div class="line">    indices = tri%get_indices()</div>
+<div class="line">    n1 = indices(ind, 1)</div>
+<div class="line">    n2 = indices(ind, 2)</div>
+<div class="line">    n3 = indices(ind, 3)</div>
+<div class="line">    xtri = [x(n1), x(n2), x(n3)]</div>
+<div class="line">    ytri = [y(n1), y(n2), y(n3)]</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Plot the triangulation, the point of interest, and highlight the triangle</span></div>
+<div class="line">    <span class="keyword">call </span>plt%initialize()</div>
+<div class="line">    <span class="keyword">call </span>plt%set_font_size(14)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>ds%define_data(tri)</div>
+<div class="line">    <span class="keyword">call </span>plt%push(ds)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>dtri%define_data(xtri, ytri)</div>
+<div class="line">    <span class="keyword">call </span>dtri%set_draw_line(.false.)</div>
+<div class="line">    <span class="keyword">call </span>dtri%set_draw_markers(.true.)</div>
+<div class="line">    <span class="keyword">call </span>dtri%set_marker_style(marker_filled_circle)</div>
+<div class="line">    <span class="keyword">call </span>dtri%set_marker_scaling(1.2)</div>
+<div class="line">    <span class="keyword">call </span>dtri%set_line_color(clr_lime)</div>
+<div class="line">    <span class="keyword">call </span>plt%push(dtri)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>dpt%define_data([xpt], [ypt])</div>
+<div class="line">    <span class="keyword">call </span>dpt%set_draw_line(.false.)</div>
+<div class="line">    <span class="keyword">call </span>dpt%set_draw_markers(.true.)</div>
+<div class="line">    <span class="keyword">call </span>dpt%set_marker_style(marker_x)</div>
+<div class="line">    <span class="keyword">call </span>dpt%set_marker_scaling(3.0)</div>
+<div class="line">    <span class="keyword">call </span>dpt%set_line_width(2.0)</div>
+<div class="line">    <span class="keyword">call </span>plt%push(dpt)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>plt%draw()</div>
+<div class="line"><span class="keyword">end program</span></div>
+</div><!-- fragment --> <div class="image">
+<img src="example_delaunay_2d_2a.png" alt=""/>
+</div>
+ <div class="image">
+<img src="example_delaunay_2d_2b.png" alt=""/>
+</div>
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09638">9638</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -250,7 +374,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An N-by-3 matrix with each column containing the index of the vertex of each triangle where N is the number of triangles. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09542">9542</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09544">9544</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -280,7 +404,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of points in the triangulation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09501">9501</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09503">9503</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -310,7 +434,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An array of the x-coordinates of each point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09521">9521</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09523">9523</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -340,7 +464,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An array of the y-coordinates of each point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09531">9531</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09533">9533</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -370,7 +494,7 @@ integer(int32), dimension(:,:), allocatable&#160;</td><td class="memItemRight" v
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of triangles in the triangulation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09511">9511</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l09513">9513</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

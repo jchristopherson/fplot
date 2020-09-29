@@ -3,7 +3,9 @@ var hierarchy =
     [ "fplot_core::cm_get_string_result", "interfacefplot__core_1_1cm__get__string__result.html", null ],
     [ "fplot_core::color", "structfplot__core_1_1color.html", null ],
     [ "delaunay_s", "structdelaunay__s.html", null ],
-    [ "fplot_core::delaunay_tri_2d", "structfplot__core_1_1delaunay__tri__2d.html", null ],
+    [ "fplot_core::delaunay_tri_2d", "structfplot__core_1_1delaunay__tri__2d.html", [
+      [ "fplot_core::delaunay_tri_surface", "structfplot__core_1_1delaunay__tri__surface.html", null ]
+    ] ],
     [ "face_s", "structface__s.html", null ],
     [ "fplot_core::get_string_result", "interfacefplot__core_1_1get__string__result.html", null ],
     [ "halfedge_s", "structhalfedge__s.html", null ],
@@ -43,7 +45,8 @@ var hierarchy =
             [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
           ] ]
         ] ],
-        [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ]
+        [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ],
+        [ "fplot_core::tri_surface_plot_data", "structfplot__core_1_1tri__surface__plot__data.html", null ]
       ] ],
       [ "fplot_core::plot_label", "structfplot__core_1_1plot__label.html", null ],
       [ "fplot_core::terminal", "structfplot__core_1_1terminal.html", [
