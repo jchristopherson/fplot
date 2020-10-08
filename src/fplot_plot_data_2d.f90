@@ -27,7 +27,7 @@ contains
         type(string_builder) :: str
         integer(int32) :: i
         character :: delimiter, nl
-        real(real64), allocatable, dimension(:) :: xv, yv
+        real(real64), allocatable, dimension(:) :: xv, yv, cv
         real(real64), allocatable, dimension(:,:) :: pts
         real(real64) :: tol, maxy, miny, eps
 
@@ -39,26 +39,38 @@ contains
         ! Process
         xv = this%get_x_data()
         yv = this%get_y_data()
-        if (this%get_simplify_data()) then
-            maxy = maxval(yv)
-            miny = minval(yv)
-            tol = abs(this%get_simplification_factor() * (maxy - miny))
-            eps = 10.0d0 * epsilon(eps)
-            if (tol < eps) tol = eps
-            pts = simplify_polyline(xv, yv, tol)
-            do i = 1, size(pts, 1)
-                call str%append(to_string(pts(i,1)))
-                call str%append(delimiter)
-                call str%append(to_string(pts(i,2)))
-                call str%append(nl)
-            end do
-        else
+        if (this%get_use_data_dependent_colors()) then
+            cv = this%get_color_data()
             do i = 1, size(xv)
                 call str%append(to_string(xv(i)))
                 call str%append(delimiter)
                 call str%append(to_string(yv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(cv(i)))
                 call str%append(nl)
             end do
+        else
+            if (this%get_simplify_data()) then
+                maxy = maxval(yv)
+                miny = minval(yv)
+                tol = abs(this%get_simplification_factor() * (maxy - miny))
+                eps = 10.0d0 * epsilon(eps)
+                if (tol < eps) tol = eps
+                pts = simplify_polyline(xv, yv, tol)
+                do i = 1, size(pts, 1)
+                    call str%append(to_string(pts(i,1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(pts(i,2)))
+                    call str%append(nl)
+                end do
+            else
+                do i = 1, size(xv)
+                    call str%append(to_string(xv(i)))
+                    call str%append(delimiter)
+                    call str%append(to_string(yv(i)))
+                    call str%append(nl)
+                end do
+            end if
         end if
         
         ! End
@@ -121,19 +133,22 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine pd2d_set_data_1(this, x, y, err)
+    module subroutine pd2d_set_data_1(this, x, y, c, err)
         ! Arguments
         class(plot_data_2d), intent(inout) :: this
         real(real64), intent(in), dimension(:) :: x, y
+        real(real64), intent(in), dimension(:), optional :: c
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
-        integer(int32) :: i, n, flag
+        integer(int32) :: i, n, flag, ncols
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
 
         ! Initialization
         n = size(x)
+        ncols = 2
+        if (present(c)) ncols = 3
         if (present(err)) then
             errmgr => err
         else
@@ -147,20 +162,37 @@ contains
                 PLOT_ARRAY_SIZE_MISMATCH_ERROR)
             return
         end if
+        if (present(c)) then
+            if (size(c) /= n) then
+                call errmgr%report_error("pd2d_set_data_1", &
+                    "The input arrays are not the same size.", &
+                    PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+                return
+            end if
+        end if
 
         ! Process
-        this%m_useColors = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
-        allocate(this%m_data(n, 2), stat = flag)
+        allocate(this%m_data(n, ncols), stat = flag)
         if (flag /= 0) then
             call errmgr%report_error("pd2d_set_data_1", &
                 "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
             return
         end if
-        do concurrent (i = 1:n)
-            this%m_data(i, 1) = x(i)
-            this%m_data(i, 2) = y(i)
-        end do
+        if (present(c)) then
+            call this%set_use_data_dependent_colors(.true.)
+            do concurrent (i = 1:n)
+                this%m_data(i, 1) = x(i)
+                this%m_data(i, 2) = y(i)
+                this%m_data(i, 3) = c(i)
+            end do
+        else
+            call this%set_use_data_dependent_colors(.false.)
+            do concurrent (i = 1:n)
+                this%m_data(i, 1) = x(i)
+                this%m_data(i, 2) = y(i)
+            end do
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -198,7 +230,6 @@ contains
         end if
 
         ! Process
-        this%m_useColors = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 2), stat = flag)
         if (flag /= 0) then
@@ -239,6 +270,16 @@ contains
 ! ******************************************************************************
 ! ADDED: OCT. 8, 2020 - JAC
 ! ------------------------------------------------------------------------------
+    module function pd2d_get_c_array(this) result(x)
+        ! Arguments
+        class(plot_data_2d), intent(in) :: this
+        real(real64), allocatable, dimension(:) :: x
+
+        ! Process
+        if (allocated(this%m_data)) then
+            if (size(this%m_data, 2) > 2) x = this%m_data(:,3)
+        end if
+    end function
 
 ! ------------------------------------------------------------------------------
 end submodule

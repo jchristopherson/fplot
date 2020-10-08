@@ -3934,6 +3934,8 @@ module fplot_core
         !! The simplification tolerance is established by multiplying this
         !! factor by the range in the dependent variable data.
         real(real64) :: m_simplifyFactor = 1.0d-3
+        !> Determines if the data should utilize data-dependent colors.
+        logical :: m_dataDependentColors = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -4481,6 +4483,63 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_simplification_factor => spd_set_simplify_factor
+        !> @brief Gets a value determing if data-dependent colors should be 
+        !! used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_data_dependent_colors(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if data-dependent colors should be used; else, 
+        !! false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: x
+        !!
+        !!     x = this%get_use_data_dependent_colors()
+        !! end program
+        !! @endcode
+        procedure, public :: get_use_data_dependent_colors => &
+            spd_get_data_dependent_colors
+        !> @brief Sets a value determing if data dependent colors should be 
+        !! used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_data_dependent_colors(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x True if data-dependent colors should be used; else, 
+        !!  false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     call this%set_use_data_dependent_colors(.true.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_use_data_dependent_colors => &
+            spd_set_data_dependent_colors
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4579,6 +4638,16 @@ module fplot_core
             class(scatter_plot_data), intent(inout) :: this
             real(real64), intent(in) :: x
         end subroutine
+
+        pure module function spd_get_data_dependent_colors(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_data_dependent_colors(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
     end interface
 
 ! ******************************************************************************
@@ -4591,10 +4660,6 @@ module fplot_core
         real(real64), allocatable, dimension(:,:) :: m_data
         !> Draw against the secondary y axis?
         logical :: m_useY2 = .false.
-        !> Use individual colors for each data point.
-        logical :: m_useColors = .false.
-        !> An N-element array of colors corresponding to the x-y data
-        type(color), allocatable, dimension(:) :: m_colors
     contains
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
@@ -5029,6 +5094,31 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: get_y_data => pd2d_get_y_array
+        !> @brief Gets the stored color scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_color_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: c
+        !!
+        !!     ! Get the data array
+        !!     c = pd%get_color_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_color_data => pd2d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -5072,9 +5162,10 @@ module fplot_core
             real(real64), intent(in) :: x
         end subroutine
 
-        module subroutine pd2d_set_data_1(this, x, y, err)
+        module subroutine pd2d_set_data_1(this, x, y, c, err)
             class(plot_data_2d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y
+            real(real64), intent(in), dimension(:), optional :: c
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -5100,6 +5191,11 @@ module fplot_core
         end function
 
         module function pd2d_get_y_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd2d_get_c_array(this) result(x)
             class(plot_data_2d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function

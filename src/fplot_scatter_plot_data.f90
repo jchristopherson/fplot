@@ -40,10 +40,15 @@ contains
         call str%append(to_string(this%get_line_width()))
 
         ! Line Color
-        clr = this%get_line_color()
-        call str%append(' lc rgb "#')
-        call str%append(clr%to_hex_string())
-        call str%append('"')
+        if (this%get_use_data_dependent_colors()) then
+            ! http://www.gnuplotting.org/using-a-palette-as-line-color/
+            call str%append(" lc palette")
+        else
+            clr = this%get_line_color()
+            call str%append(' lc rgb "#')
+            call str%append(clr%to_hex_string())
+            call str%append('"')
+        end if
 
         ! Define other properties specific to the lines and points
         if (this%get_draw_line()) then
@@ -218,6 +223,20 @@ contains
         class(scatter_plot_data), intent(inout) :: this
         real(real64), intent(in) :: x
         this%m_simplifyFactor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function spd_get_data_dependent_colors(this) result(rst)
+        class(scatter_plot_data), intent(in) :: this
+        logical :: rst
+        rst = this%m_dataDependentColors
+    end function
+
+! --------------------
+    module subroutine spd_set_data_dependent_colors(this, x)
+        class(scatter_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_dataDependentColors = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
