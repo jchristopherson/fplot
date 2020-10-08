@@ -2428,11 +2428,302 @@ module fplot_core
         end function
     end interface
 
+
+! ******************************************************************************
+! FPLOT_COLORMAP.F90
+! ------------------------------------------------------------------------------
+    !> @brief A colormap object for a surface plot.
+    type, abstract, extends(plot_object) :: colormap
+    contains
+        !> @brief Gets the GNUPLOT command string to represent this colormap
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable :: get_command_string(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return The command string.
+        procedure, public :: get_command_string => cm_get_cmd
+        !> @brief Gets the GNUPLOT string defining the color distribution.  For
+        !! instance, this routine could return the string: '0 "dark-blue",
+        !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red",
+        !! 7 "dark-red"'.  This string would result in a rainbow type map.
+        procedure(cm_get_string_result), deferred, public :: get_color_string
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a rainbow colormap.
+    !!
+    !! @par Example
+    !! The following example illustrates a surface plot using a rainbow
+    !! colormap.
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(rainbow_colormap) :: map ! Using a rainbow colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot.png
+    type, extends(colormap) :: rainbow_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(rainbow_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The rainbow_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => rcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "hot" colors.
+    !!
+    !! @par Example
+    !! The following example illustrates a surface plot using a rainbow
+    !! colormap.
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(hot_colormap) :: map ! Using a hot colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_hot.png
+    type, extends(colormap) :: hot_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(hot_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The hot_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => hcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "cool" colors.
+    !!
+    !! @par Example
+    !! The following example illustrates a surface plot using a rainbow
+    !! colormap.
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(cool_colormap) :: map ! Using a cool colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_cool.png
+    type, extends(colormap) :: cool_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(cool_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The cool_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => ccm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function cm_get_cmd(this) result(x)
+            class(colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function rcm_get_clr(this) result(x)
+            class(rainbow_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function hcm_get_clr(this) result(x)
+            class(hot_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function ccm_get_clr(this) result(x)
+            class(cool_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
 ! ******************************************************************************
 ! FPLOT_PLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines the basic GNUPLOT plot.
-    type, abstract, extends(plot_object) :: plot
+    type, extends(plot_object) :: plot
     private
         !> The plot title
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title = ""
@@ -2456,6 +2747,10 @@ module fplot_core
         integer(int32) :: m_colorIndex = 1
         !> Determines if the axes should be scaled proportionally
         logical :: m_axisEqual = .false.
+        !> The colormap.
+        class(colormap), pointer :: m_colormap
+        !> Show the colorbar?
+        logical :: m_showColorbar = .true.
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
@@ -3295,6 +3590,122 @@ module fplot_core
         !! @param[in] x Set to true if the axes should be scaled equally; else, 
         !!  false.
         procedure, public :: set_axis_equal => plt_set_axis_equal
+        !> @brief Gets a pointer to the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(colormap) function, pointer get_colormap(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return A pointer to the colormap object.  If no colormap is defined, a
+        !!  null pointer is returned.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     class(colormap), pointer :: map
+        !!
+        !!     ! Get a pointer to the current colormap
+        !!     map => plt%get_colormap()
+        !! end program
+        !! @endcode
+        procedure, public :: get_colormap => plt_get_colormap
+        !> @brief Sets the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_colormap(class(plot) this, class(colormap) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x The colormap object.  Notice, a copy of this object is
+        !!  stored, and the plot object then manages the lifetime of the
+        !!  copy.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     type(rainbow_colormap) :: map
+        !!
+        !!     ! Set the colormap to a rainbow colormap
+        !!     call plt%set_colormap(map)
+        !! end program
+        !! @endcode
+        procedure, public :: set_colormap => plt_set_colormap
+        !> @brief Gets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_colorbar(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Check to see if the colorbar is shown
+        !!     check = plt%get_show_colorbar()
+        !! end program
+        !! @endcode
+        procedure, public :: get_show_colorbar => plt_get_show_colorbar
+        !> @brief Sets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_colorbar(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Hide the colorbar
+        !!     call plt%set_show_colorbar(.false.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_show_colorbar => plt_set_show_colorbar
+        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The command string.
+        procedure, public :: get_command_string => plt_get_cmd
     end type
 
 ! ------------------------------------------------------------------------------
@@ -3468,294 +3879,30 @@ module fplot_core
             class(plot), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
-    end interface
 
-! ******************************************************************************
-! FPLOT_COLORMAP.F90
-! ------------------------------------------------------------------------------
-    !> @brief A colormap object for a surface plot.
-    type, abstract, extends(plot_object) :: colormap
-    contains
-        !> @brief Gets the GNUPLOT command string to represent this colormap
-        !! object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable :: get_command_string(class(colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The colormap object.
-        !! @return The command string.
-        procedure, public :: get_command_string => cm_get_cmd
-        !> @brief Gets the GNUPLOT string defining the color distribution.  For
-        !! instance, this routine could return the string: '0 "dark-blue",
-        !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red",
-        !! 7 "dark-red"'.  This string would result in a rainbow type map.
-        procedure(cm_get_string_result), deferred, public :: get_color_string
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a rainbow colormap.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(rainbow_colormap) :: map ! Using a rainbow colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot.png
-    type, extends(colormap) :: rainbow_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(rainbow_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The rainbow_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => rcm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a colormap consisting of "hot" colors.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(hot_colormap) :: map ! Using a hot colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_hot.png
-    type, extends(colormap) :: hot_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(hot_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The hot_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => hcm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a colormap consisting of "cool" colors.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(cool_colormap) :: map ! Using a cool colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_cool.png
-    type, extends(colormap) :: cool_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(cool_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The cool_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => ccm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    interface
-        module function cm_get_cmd(this) result(x)
-            class(colormap), intent(in) :: this
-            character(len = :), allocatable :: x
+        module function plt_get_colormap(this) result(x)
+            class(plot), intent(in) :: this
+            class(colormap), pointer :: x
         end function
 
-        module function rcm_get_clr(this) result(x)
-            class(rainbow_colormap), intent(in) :: this
-            character(len = :), allocatable :: x
+        module subroutine plt_set_colormap(this, x, err)
+            class(plot), intent(inout) :: this
+            class(colormap), intent(in) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function plt_get_show_colorbar(this) result(x)
+            class(plot), intent(in) :: this
+            logical :: x
         end function
 
-        module function hcm_get_clr(this) result(x)
-            class(hot_colormap), intent(in) :: this
-            character(len = :), allocatable :: x
-        end function
+        module subroutine plt_set_show_colorbar(this, x)
+            class(plot), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
 
-        module function ccm_get_clr(this) result(x)
-            class(cool_colormap), intent(in) :: this
+        module function plt_get_cmd(this) result(x)
+            class(plot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
@@ -4444,6 +4591,10 @@ module fplot_core
         real(real64), allocatable, dimension(:,:) :: m_data
         !> Draw against the secondary y axis?
         logical :: m_useY2 = .false.
+        !> Use individual colors for each data point.
+        logical :: m_useColors = .false.
+        !> An N-element array of colors corresponding to the x-y data
+        type(color), allocatable, dimension(:) :: m_colors
     contains
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
@@ -6743,13 +6894,13 @@ module fplot_core
         !> Show hidden lines
         logical :: m_showHidden = .false.
         !> The colormap
-        class(colormap), pointer :: m_colormap
+        ! class(colormap), pointer :: m_colormap
         !> Smooth the surface?
         logical :: m_smooth = .true.
         !> Show a contour plot as well as the surface plot?
         logical :: m_contour = .false.
-        !> Show the colorbar?
-        logical :: m_showColorbar = .true.
+        ! !> Show the colorbar?
+        ! logical :: m_showColorbar = .true.
         !> Use lighting?
         logical :: m_useLighting = .false.
         !> Lighting intensity (0 - 1) - default is 0.5
@@ -6762,7 +6913,7 @@ module fplot_core
         !> @brief Cleans up resources held by the surface_plot object.
         !!
         !! @param[in,out] this The surface_plot object.
-        final :: surf_clean_up
+        ! final :: surf_clean_up
         !> @brief Initializes the surface_plot object.
         !!
         !! @par Syntax
@@ -6902,63 +7053,6 @@ module fplot_core
         !! @param[in] this The surface_plot object.
         !! @return The command string.
         procedure, public :: get_command_string => surf_get_cmd
-        !> @brief Gets a pointer to the colormap object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! class(colormap) function, pointer get_colormap(class(surface_plot) this)
-        !! @endcode
-        !!
-        !! @param[in] this The surface_plot object.
-        !! @return A pointer to the colormap object.  If no colormap is defined, a
-        !!  null pointer is returned.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     class(colormap), pointer :: map
-        !!
-        !!     ! Get a pointer to the current colormap
-        !!     map => plt%get_colormap()
-        !! end program
-        !! @endcode
-        procedure, public :: get_colormap => surf_get_colormap
-        !> @brief Sets the colormap object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_colormap(class(surface_plot) this, class(colormap) x, optional class(errors) err)
-        !! @endcode
-        !!
-        !! @param[in,out] this The surface_plot object.
-        !! @param[in] x The colormap object.  Notice, a copy of this object is
-        !!  stored, and the surface_plot object then manages the lifetime of the
-        !!  copy.
-        !! @param[out] err An optional errors-based object that if provided can be
-        !!  used to retrieve information relating to any errors encountered during
-        !!  execution.  If not provided, a default implementation of the errors
-        !!  class is used internally to provide error handling.  Possible errors and
-        !!  warning messages that may be encountered are as follows.
-        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     type(rainbow_colormap) :: map
-        !!
-        !!     ! Set the colormap to a rainbow colormap
-        !!     call plt%set_colormap(map)
-        !! end program
-        !! @endcode
-        procedure, public :: set_colormap => surf_set_colormap
         !> @brief Gets a value determining if the plotted surfaces should be
         !! smoothed.
         !!
@@ -7114,54 +7208,6 @@ module fplot_core
         !! @endcode
         !! @image html example_surface_plot_with_contour_1.png
         procedure, public :: set_show_contours => surf_set_show_contours
-        !> @brief Gets a value determining if the colorbar should be shown.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! pure logical function get_show_colorbar(class(surface_plot) this)
-        !! @endcode
-        !!
-        !! @param[in] this The surface_plot object.
-        !! @return Returns true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if the colorbar is shown
-        !!     check = plt%get_show_colorbar()
-        !! end program
-        !! @endcode
-        procedure, public :: get_show_colorbar => surf_get_show_colorbar
-        !> @brief Sets a value determining if the colorbar should be shown.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_show_colorbar(class(surface_plot) this, logical x)
-        !! @endcode
-        !!
-        !! @param[in,out] this The surface_plot object.
-        !! @param[in] x Set to true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Hide the colorbar
-        !!     call plt%set_show_colorbar(.false.)
-        !! end program
-        !! @endcode
-        procedure, public :: set_show_colorbar => surf_set_show_colorbar
         !> @brief Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         !!
@@ -7377,9 +7423,9 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        module subroutine surf_clean_up(this)
-            type(surface_plot), intent(inout) :: this
-        end subroutine
+        ! module subroutine surf_clean_up(this)
+        !     type(surface_plot), intent(inout) :: this
+        ! end subroutine
 
         module subroutine surf_init(this, term, fname, err)
             class(surface_plot), intent(inout) :: this
@@ -7403,16 +7449,16 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module function surf_get_colormap(this) result(x)
-            class(surface_plot), intent(in) :: this
-            class(colormap), pointer :: x
-        end function
+        ! module function surf_get_colormap(this) result(x)
+        !     class(surface_plot), intent(in) :: this
+        !     class(colormap), pointer :: x
+        ! end function
 
-        module subroutine surf_set_colormap(this, x, err)
-            class(surface_plot), intent(inout) :: this
-            class(colormap), intent(in) :: x
-            class(errors), intent(inout), optional, target :: err
-        end subroutine
+        ! module subroutine surf_set_colormap(this, x, err)
+        !     class(surface_plot), intent(inout) :: this
+        !     class(colormap), intent(in) :: x
+        !     class(errors), intent(inout), optional, target :: err
+        ! end subroutine
 
         pure module function surf_get_smooth(this) result(x)
             class(surface_plot), intent(in) :: this
@@ -7434,15 +7480,15 @@ module fplot_core
             logical, intent(in) :: x
         end subroutine
 
-        pure module function surf_get_show_colorbar(this) result(x)
-            class(surface_plot), intent(in) :: this
-            logical :: x
-        end function
+        ! pure module function surf_get_show_colorbar(this) result(x)
+        !     class(surface_plot), intent(in) :: this
+        !     logical :: x
+        ! end function
 
-        module subroutine surf_set_show_colorbar(this, x)
-            class(surface_plot), intent(inout) :: this
-            logical, intent(in) :: x
-        end subroutine
+        ! module subroutine surf_set_show_colorbar(this, x)
+        !     class(surface_plot), intent(inout) :: this
+        !     logical, intent(in) :: x
+        ! end subroutine
 
         pure module function surf_get_use_lighting(this) result(x)
             class(surface_plot), intent(in) :: this

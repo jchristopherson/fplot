@@ -60,7 +60,7 @@ contains
                 call str%append(nl)
             end do
         end if
-
+        
         ! End
         x = str%to_string()
     end function
@@ -149,6 +149,7 @@ contains
         end if
 
         ! Process
+        this%m_useColors = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 2), stat = flag)
         if (flag /= 0) then
@@ -197,6 +198,7 @@ contains
         end if
 
         ! Process
+        this%m_useColors = .false.
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 2), stat = flag)
         if (flag /= 0) then
@@ -234,4 +236,9 @@ contains
         end if
     end function
 
+! ******************************************************************************
+! ADDED: OCT. 8, 2020 - JAC
+! ------------------------------------------------------------------------------
+
+! ------------------------------------------------------------------------------
 end submodule

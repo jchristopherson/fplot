@@ -13,12 +13,9 @@ program example
     type(plot_3d) :: plt
     type(plot_data_3d) :: d1
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    type(legend), pointer :: leg
 
     ! Initialize the plot object
     call plt%initialize()
-    leg => plt%get_legend()
-    call leg%set_is_visible(.false.)
 
     ! Define titles
     call plt%set_title("Example Plot")

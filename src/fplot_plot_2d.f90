@@ -81,6 +81,9 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Call the base routine
+        call str%append(this%plot%get_command_string())
+
         ! Grid
         if (this%get_show_gridlines()) then
             call str%append(new_line('a'))

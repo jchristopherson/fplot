@@ -116,7 +116,7 @@ contains
         if (this%get_simplify_data()) then
             maxz = maxval(zv)
             minz = minval(zv)
-            tol = abs(this%get_simplification_factor() * (maxy - miny))
+            tol = abs(this%get_simplification_factor() * (maxz - minz))
             eps = 10.0d0 * epsilon(eps)
             if (tol < eps) tol = eps
             pts = simplify_polyline(xv, yv, zv, tol)
