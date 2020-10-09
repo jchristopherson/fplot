@@ -205,6 +205,7 @@ contains
             return
         end if
         if (present(c)) then
+            call this%set_use_data_dependent_colors(.true.)
             do concurrent (i = 1:n)
                 this%m_data(i, 1) = x(i)
                 this%m_data(i, 2) = y(i)
@@ -212,6 +213,7 @@ contains
                 this%m_data(i, 4) = c(i)
             end do
         else
+            call this%set_use_data_dependent_colors(.false.)
             do concurrent (i = 1:n)
                 this%m_data(i, 1) = x(i)
                 this%m_data(i, 2) = y(i)

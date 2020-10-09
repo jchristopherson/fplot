@@ -92,3 +92,7 @@ target_link_libraries(fplot_d2d_2 fplot)
 # Example 23
 add_executable(fplot_2d_clr_1 fplot_2d_clr_1.f90)
 target_link_libraries(fplot_2d_clr_1 fplot)
+
+# Example 24
+add_executable(fplot_3d_clr_1 fplot_3d_clr_1.f90)
+target_link_libraries(fplot_3d_clr_1 fplot)
