@@ -26,9 +26,8 @@ var searchData=
   ['plot_5fout_5fof_5fmemory_5ferror_271',['plot_out_of_memory_error',['../namespacefplot__errors.html#adc52a2e51a08eef130e6fa2f3bbedc53',1,'fplot_errors']]],
   ['plotdata_5fmax_5fname_5flength_272',['plotdata_max_name_length',['../namespacefplot__core.html#acfa29ac62a50b61ea009b20a898d45e5',1,'fplot_core']]],
   ['png_5fterminal_273',['png_terminal',['../structfplot__core_1_1png__terminal.html',1,'fplot_core']]],
-  ['point2d_5fs_274',['point2d_s',['../structpoint2d__s.html',1,'']]],
-  ['pop_275',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
-  ['pop_5flabel_276',['pop_label',['../structfplot__core_1_1plot.html#a72556bd3398bf491d2aa192ceaab9807',1,'fplot_core::plot']]],
-  ['push_277',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]],
-  ['push_5flabel_278',['push_label',['../structfplot__core_1_1plot.html#a89f704e48794d3805d2f13c96082096c',1,'fplot_core::plot']]]
+  ['pop_274',['pop',['../structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708',1,'fplot_core::plot']]],
+  ['pop_5flabel_275',['pop_label',['../structfplot__core_1_1plot.html#a72556bd3398bf491d2aa192ceaab9807',1,'fplot_core::plot']]],
+  ['push_276',['push',['../structfplot__core_1_1plot.html#a5066eea4fa7b7d5bf557e46652ef20fd',1,'fplot_core::plot']]],
+  ['push_5flabel_277',['push_label',['../structfplot__core_1_1plot.html#a89f704e48794d3805d2f13c96082096c',1,'fplot_core::plot']]]
 ];

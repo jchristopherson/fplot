@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">fplot
-   &#160;<span id="projectnumber">1.5.0</span>
+   &#160;<span id="projectnumber">1.6.0</span>
    </div>
    <div id="projectbrief">A Fortran library providing a convenient interface for plotting with Gnuplot.</div>
   </td>
@@ -152,6 +152,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1864fb292620d810250d70f5aa4520bf"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__data__3d.html#a1864fb292620d810250d70f5aa4520bf">get_z_data</a> =&gt; pd3d_get_z_array</td></tr>
 <tr class="memdesc:a1864fb292620d810250d70f5aa4520bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the stored Z data array.  <a href="structfplot__core_1_1plot__data__3d.html#a1864fb292620d810250d70f5aa4520bf">More...</a><br /></td></tr>
 <tr class="separator:a1864fb292620d810250d70f5aa4520bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad467e4a0071c3434f4fb7c50c4ebca0a"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__data__3d.html#ad467e4a0071c3434f4fb7c50c4ebca0a">get_color_data</a> =&gt; pd3d_get_c_array</td></tr>
+<tr class="memdesc:ad467e4a0071c3434f4fb7c50c4ebca0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the stored color scaling data array.  <a href="structfplot__core_1_1plot__data__3d.html#ad467e4a0071c3434f4fb7c50c4ebca0a">More...</a><br /></td></tr>
+<tr class="separator:ad467e4a0071c3434f4fb7c50c4ebca0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structfplot__core_1_1scatter__plot__data"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structfplot__core_1_1scatter__plot__data')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structfplot__core_1_1scatter__plot__data.html">fplot_core::scatter_plot_data</a></td></tr>
 <tr class="memitem:a1c2441b0246abe768500aee479889eb3 inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1scatter__plot__data.html#a1c2441b0246abe768500aee479889eb3">get_command_string</a> =&gt; spd_get_cmd</td></tr>
 <tr class="memdesc:a1c2441b0246abe768500aee479889eb3 inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the GNUPLOT command string to represent this <a class="el" href="structfplot__core_1_1scatter__plot__data.html" title="A plot_data object for describing scatter plot data sets.">scatter_plot_data</a> object.  <a href="structfplot__core_1_1scatter__plot__data.html#a1c2441b0246abe768500aee479889eb3">More...</a><br /></td></tr>
@@ -234,6 +237,12 @@ procedure(<a class="el" href="interfacefplot__core_1_1spd__get__string__result.h
 <tr class="memitem:a666a5a0660aeabf20eb03928098f03bc inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1scatter__plot__data.html#a666a5a0660aeabf20eb03928098f03bc">set_simplification_factor</a> =&gt; spd_set_simplify_factor</td></tr>
 <tr class="memdesc:a666a5a0660aeabf20eb03928098f03bc inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a factor used to establish the simplification tolerance. The tolerance is established by multplying this factor by the range of the dependent variable data.  <a href="structfplot__core_1_1scatter__plot__data.html#a666a5a0660aeabf20eb03928098f03bc">More...</a><br /></td></tr>
 <tr class="separator:a666a5a0660aeabf20eb03928098f03bc inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3882e2825fa0482b49698d007b184ff9 inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1scatter__plot__data.html#a3882e2825fa0482b49698d007b184ff9">get_use_data_dependent_colors</a> =&gt; spd_get_data_dependent_colors</td></tr>
+<tr class="memdesc:a3882e2825fa0482b49698d007b184ff9 inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value determing if data-dependent colors should be used.  <a href="structfplot__core_1_1scatter__plot__data.html#a3882e2825fa0482b49698d007b184ff9">More...</a><br /></td></tr>
+<tr class="separator:a3882e2825fa0482b49698d007b184ff9 inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa317e6f7083b205231b8e52fa888a29b inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1scatter__plot__data.html#aa317e6f7083b205231b8e52fa888a29b">set_use_data_dependent_colors</a> =&gt; spd_set_data_dependent_colors</td></tr>
+<tr class="memdesc:aa317e6f7083b205231b8e52fa888a29b inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a value determing if data dependent colors should be used.  <a href="structfplot__core_1_1scatter__plot__data.html#aa317e6f7083b205231b8e52fa888a29b">More...</a><br /></td></tr>
+<tr class="separator:aa317e6f7083b205231b8e52fa888a29b inherit pub_methods_structfplot__core_1_1scatter__plot__data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structfplot__core_1_1plot__data__colored"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structfplot__core_1_1plot__data__colored')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structfplot__core_1_1plot__data__colored.html">fplot_core::plot_data_colored</a></td></tr>
 <tr class="memitem:aecbc56a696ec866cc11ea173c51f5899 inherit pub_methods_structfplot__core_1_1plot__data__colored"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__data__colored.html#aecbc56a696ec866cc11ea173c51f5899">get_line_color</a> =&gt; pdc_get_line_color</td></tr>
 <tr class="memdesc:aecbc56a696ec866cc11ea173c51f5899 inherit pub_methods_structfplot__core_1_1plot__data__colored"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the line color.  <a href="structfplot__core_1_1plot__data__colored.html#aecbc56a696ec866cc11ea173c51f5899">More...</a><br /></td></tr>
@@ -268,7 +277,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a three-dimensional plot data set. </p>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04961">4961</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05264">5264</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a1da0fc15c57415ca0a4d85392ef3a1de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1da0fc15c57415ca0a4d85392ef3a1de">&#9670;&nbsp;</a></span>define_data()</h2>
@@ -357,7 +366,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05241">5241</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05544">5544</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -387,7 +396,49 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05154">5154</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05457">5457</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="ad467e4a0071c3434f4fb7c50c4ebca0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad467e4a0071c3434f4fb7c50c4ebca0a">&#9670;&nbsp;</a></span>get_color_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::plot_data_3d::get_color_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the stored color scaling data array. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">real</span>(real64)(:) function get_color_data(<span class="keywordtype">class</span>(plot_data_3d) this)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1plot__data__3d.html" title="Defines a three-dimensional plot data set.">plot_data_3d</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A copy of the stored data array.</dd></dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div>
+<div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div>
+<div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div>
+<div class="line">    <span class="keywordtype">implicit none</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">type</span>(plot_data_3d) :: pd</div>
+<div class="line"><span class="keywordtype">    real</span>(real64), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: c</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Get the data array</span></div>
+<div class="line">    c = pd%get_color_data()</div>
+<div class="line"><span class="keyword">end program</span></div>
+</div><!-- fragment --> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05644">5644</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -429,7 +480,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l04990">4990</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05293">5293</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -459,7 +510,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05165">5165</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05468">5468</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -502,7 +553,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05016">5016</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05319">5319</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -544,7 +595,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05266">5266</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05569">5569</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -587,7 +638,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05067">5067</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05370">5370</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -629,7 +680,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05291">5291</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05594">5594</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -672,7 +723,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05118">5118</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05421">5421</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -714,7 +765,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05316">5316</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05619">5619</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -756,7 +807,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05041">5041</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05344">5344</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -798,7 +849,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05092">5092</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05395">5395</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -840,7 +891,7 @@ real(real64), dimension(:,:), allocatable&#160;</td><td class="memItemRight" val
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05143">5143</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l05446">5446</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

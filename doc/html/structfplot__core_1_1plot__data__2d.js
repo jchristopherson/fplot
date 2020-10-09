@@ -2,6 +2,7 @@ var structfplot__core_1_1plot__data__2d =
 [
     [ "define_data", "structfplot__core_1_1plot__data__2d.html#aff57fa2b2c46830fffdd2a038544ca60", null ],
     [ "get_axes_string", "structfplot__core_1_1plot__data__2d.html#a78581879fc994e47ec2bc2ab55441888", null ],
+    [ "get_color_data", "structfplot__core_1_1plot__data__2d.html#a143eea36b5c38e47985ff3083cca8e54", null ],
     [ "get_count", "structfplot__core_1_1plot__data__2d.html#a937f989993c119cdf44303f0f6a653e1", null ],
     [ "get_data_string", "structfplot__core_1_1plot__data__2d.html#abb62e47e7d470c8b202ff6d1313d527f", null ],
     [ "get_draw_against_y2", "structfplot__core_1_1plot__data__2d.html#a1aaf946fdcbe59c3e9f6749f377066a4", null ],

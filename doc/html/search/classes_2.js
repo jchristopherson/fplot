@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['face_5fs_368',['face_s',['../structface__s.html',1,'']]]
+  ['get_5fstring_5fresult_365',['get_string_result',['../interfacefplot__core_1_1get__string__result.html',1,'fplot_core']]]
 ];

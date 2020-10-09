@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['latex_5fterminal_372',['latex_terminal',['../structfplot__core_1_1latex__terminal.html',1,'fplot_core']]],
-  ['legend_373',['legend',['../structfplot__core_1_1legend.html',1,'fplot_core']]]
+  ['multiplot_369',['multiplot',['../structfplot__core_1_1multiplot.html',1,'fplot_core']]]
 ];

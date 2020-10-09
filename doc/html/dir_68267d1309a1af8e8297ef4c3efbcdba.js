@@ -1,6 +1,5 @@
 var dir_68267d1309a1af8e8297ef4c3efbcdba =
 [
-    [ "delaunay.c", "delaunay_8c_source.html", null ],
     [ "fplot_axis.f90", "fplot__axis_8f90_source.html", null ],
     [ "fplot_colormap.f90", "fplot__colormap_8f90_source.html", null ],
     [ "fplot_colors.f90", "fplot__colors_8f90_source.html", null ],
@@ -36,5 +35,6 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_tri_surface_plot_data.f90", "fplot__tri__surface__plot__data_8f90_source.html", null ],
     [ "fplot_windows_terminal.f90", "fplot__windows__terminal_8f90_source.html", null ],
     [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ],
-    [ "geompack.f", "geompack_8f_source.html", null ]
+    [ "geompack.f", "geompack_8f_source.html", null ],
+    [ "tripack.f", "tripack_8f_source.html", null ]
 ];

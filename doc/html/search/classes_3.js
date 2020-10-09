@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['get_5fstring_5fresult_369',['get_string_result',['../interfacefplot__core_1_1get__string__result.html',1,'fplot_core']]]
+  ['hot_5fcolormap_366',['hot_colormap',['../structfplot__core_1_1hot__colormap.html',1,'fplot_core']]]
 ];
