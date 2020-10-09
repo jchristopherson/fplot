@@ -5040,6 +5040,62 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_plot_2d_2.png
+        !!
+        !! @par Overload 3
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), real(real64) c(:), optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[in] c An N-element array defining how color should vary with
+        !!  the current colormap for each value.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+        !!      same size.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of the third overload.
+        !! This form of the routine simply plots the data with a colormap
+        !! defining the colors at each value.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: ds
+        !!     type(cool_colormap) :: cmap
+        !!
+        !!     ! Build the data set
+        !!     x = linspace(0.0d0, 1.0d1, npts)
+        !!     y = exp(-0.2 * x) * sin(10.0d0 * x) * cos(5.0d0 * x)
+        !!
+        !!     ! Plot the data set
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(cmap)
+        !!     call plt%set_font_size(14)
+        !!     call ds%define_data(x, y, y)
+        !!     call ds%set_line_width(3.0)
+        !!     call plt%push(ds)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_data_depend_color_2d.png
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
@@ -5561,6 +5617,31 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: get_z_data => pd3d_get_z_array
+        !> @brief Gets the stored color scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_color_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: c
+        !!
+        !!     ! Get the data array
+        !!     c = pd%get_color_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_color_data => pd3d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -5616,9 +5697,10 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine pd3d_set_data_1(this, x, y, z, err)
+        module subroutine pd3d_set_data_1(this, x, y, z, c, err)
             class(plot_data_3d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y, z
+            real(real64), intent(in), dimension(:), optional :: c
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -5633,6 +5715,11 @@ module fplot_core
         end function
 
         module function pd3d_get_z_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_c_array(this) result(x)
             class(plot_data_3d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
