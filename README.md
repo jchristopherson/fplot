@@ -228,8 +228,7 @@ Documentation can be found [here](http://htmlpreview.github.io/?https://github.c
 ## External Libraries
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
-- [STRINGS](https://github.com/jchristopherson/strings)
-- [COLLECTIONS](https://github.com/jchristopherson/collections)
+- [FCORE](https://github.com/jchristopherson/fcore)
 
 ## Using FPLOT
 Using fplot in an application utilizing CMake is straight forward.  The following CMake script illustrates a bare bones implementation that generates and runs an executable by the name of "plot."
