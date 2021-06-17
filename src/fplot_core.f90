@@ -102,6 +102,7 @@ module fplot_core
     public :: plot_data_tri_2d
     public :: delaunay_tri_surface
     public :: tri_surface_plot_data
+    public :: vector_field_plot_data
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -10464,6 +10465,84 @@ module fplot_core
         module subroutine tspd_define_data(this, tri)
             class(tri_surface_plot_data), intent(inout) :: this
             class(delaunay_tri_surface), intent(in) :: tri
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_VECTOR_FIELD_PLOT_DATA.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a two-dimensional vector-field plot data set.
+    !
+    ! REF:
+    ! http://www.gnuplotting.org/vector-field-from-data-file/
+    ! http://gnuplot.sourceforge.net/demo_5.4/vector.html
+    type, abstract, extends(plot_data_colored) :: vector_field_plot_data
+    private
+        !> @brief An M-by-N-by-4 array containing the x, y, dx, and dy plot
+        !! data points.
+        real(real64), allocatable, dimension(:,:,:) :: m_data
+    contains
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_data_string => vfpd_get_data_cmd
+        !> @brief Gets the GNUPLOT command string to represent this
+        !! vector_field_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_command_string => vfpd_get_cmd
+        !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(vector_field_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) dx(:,:), real(real64) dy(:,:), class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x An M-by-N matrix containing the x-locations of each arrow's origin.
+        !! @param[in] y An M-by-N matrix containing the y-locations of each arrow's origin.
+        !! @param[in] dx An M-by-N matrix containing the x-direction of each arrow.
+        !! @param[in] dy An M-by-N matrix containing the y-direction of each arrow.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input matrices are
+        !!      not the same size.
+        procedure, public :: define_data => vfpd_define_data
+    end type
+
+! --------------------
+    interface
+         module function vfpd_get_data_cmd(this) result(x)
+            class(vector_field_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function vfpd_get_cmd(this) result(x)
+            class(vector_field_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine vfpd_define_data(this, x, y, dx, dy, err)
+            class(vector_field_plot_data), intent(inout) :: this
+            real(real64), intent(in), dimension(:,:) :: x, y, dx, dy
+            class(errors), intent(inout), optional, target :: err
         end subroutine
     end interface
 
