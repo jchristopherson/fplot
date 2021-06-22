@@ -36,6 +36,7 @@ set(fplot_sources
     fplot_delaunay_tri_surface.f90
     fplot_tri_surface_plot_data.f90
     fplot_vector_field_plot_data.f90
+    fplot_plot_polar.f90
     geompack.f
     tripack.f
 )
