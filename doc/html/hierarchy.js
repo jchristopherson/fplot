@@ -40,7 +40,8 @@ var hierarchy =
           [ "fplot_core::scatter_plot_data", "structfplot__core_1_1scatter__plot__data.html", [
             [ "fplot_core::plot_data_2d", "structfplot__core_1_1plot__data__2d.html", null ],
             [ "fplot_core::plot_data_3d", "structfplot__core_1_1plot__data__3d.html", null ]
-          ] ]
+          ] ],
+          [ "fplot_core::vector_field_plot_data", "structfplot__core_1_1vector__field__plot__data.html", null ]
         ] ],
         [ "fplot_core::surface_plot_data", "structfplot__core_1_1surface__plot__data.html", null ],
         [ "fplot_core::tri_surface_plot_data", "structfplot__core_1_1tri__surface__plot__data.html", null ]

@@ -38,8 +38,9 @@ var NAVTREEINDEX0 =
 "fplot__surface__plot__data_8f90_source.html":[2,0,0,30],
 "fplot__terminal_8f90_source.html":[2,0,0,31],
 "fplot__tri__surface__plot__data_8f90_source.html":[2,0,0,32],
-"fplot__windows__terminal_8f90_source.html":[2,0,0,33],
-"fplot__wxt__terminal_8f90_source.html":[2,0,0,34],
+"fplot__vector__field__plot__data_8f90_source.html":[2,0,0,33],
+"fplot__windows__terminal_8f90_source.html":[2,0,0,34],
+"fplot__wxt__terminal_8f90_source.html":[2,0,0,35],
 "functions.html":[1,3,0,0],
 "functions.html":[1,3,0],
 "functions_c.html":[1,3,0,1],
@@ -64,7 +65,7 @@ var NAVTREEINDEX0 =
 "functions_s.html":[1,3,0,10],
 "functions_t.html":[1,3,0,11],
 "functions_vars.html":[1,3,2],
-"geompack_8f_source.html":[2,0,0,35],
+"geompack_8f_source.html":[2,0,0,36],
 "hierarchy.html":[1,2],
 "index.html":[],
 "interfacefplot__core_1_1cm__get__string__result.html":[1,0,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "structfplot__core_1_1plot__3d.html#a367445072c6703adc1b29a171b35e47e":[1,0,0,15,5],
 "structfplot__core_1_1plot__3d.html#a499a3199dc9362cf4766ee9fc883f269":[1,0,0,15,7],
 "structfplot__core_1_1plot__3d.html#a7226add39b3360bb2ab92643200c9243":[1,0,0,15,9],
-"structfplot__core_1_1plot__3d.html#a79988f48191eb1a9c44b1dc24d6a14f2":[1,0,0,15,6],
-"structfplot__core_1_1plot__3d.html#a82024af6132050a2e631621d0b424d96":[1,0,0,15,10]
+"structfplot__core_1_1plot__3d.html#a79988f48191eb1a9c44b1dc24d6a14f2":[1,0,0,15,6]
 };

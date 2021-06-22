@@ -41,6 +41,7 @@ var namespacefplot__core =
     [ "term_get_string_result", "interfacefplot__core_1_1term__get__string__result.html", "interfacefplot__core_1_1term__get__string__result" ],
     [ "terminal", "structfplot__core_1_1terminal.html", "structfplot__core_1_1terminal" ],
     [ "tri_surface_plot_data", "structfplot__core_1_1tri__surface__plot__data.html", "structfplot__core_1_1tri__surface__plot__data" ],
+    [ "vector_field_plot_data", "structfplot__core_1_1vector__field__plot__data.html", "structfplot__core_1_1vector__field__plot__data" ],
     [ "windows_terminal", "structfplot__core_1_1windows__terminal.html", "structfplot__core_1_1windows__terminal" ],
     [ "wxt_terminal", "structfplot__core_1_1wxt__terminal.html", "structfplot__core_1_1wxt__terminal" ],
     [ "x_axis", "structfplot__core_1_1x__axis.html", "structfplot__core_1_1x__axis" ],

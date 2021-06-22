@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"structfplot__core_1_1plot__3d.html#a82024af6132050a2e631621d0b424d96":[1,0,0,15,10],
 "structfplot__core_1_1plot__3d.html#a90b555f32aea599e425ea77d93025c7d":[1,0,0,15,11],
 "structfplot__core_1_1plot__3d.html#a98005ccb84b50864dcba1e206ea7b800":[1,0,0,15,4],
 "structfplot__core_1_1plot__3d.html#a9ef099b9a8182bcd1a3cd3ca43653688":[1,0,0,15,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structfplot__core_1_1surface__plot.html#ac54f0f8105db3eb118eb8a05b7ca7857":[1,0,0,36,19],
 "structfplot__core_1_1surface__plot.html#ac881849ed85ad0b25e59c00204aa0960":[1,0,0,36,18],
 "structfplot__core_1_1surface__plot.html#acf55e49e1212536b0bca656c8d5f302d":[1,0,0,36,21],
-"structfplot__core_1_1surface__plot.html#ad25c21f74ffc0f3b18bce8207621ba70":[1,0,0,36,22],
-"structfplot__core_1_1surface__plot.html#ade7581582432846ff3428f7e81c58bda":[1,0,0,36,7]
+"structfplot__core_1_1surface__plot.html#ad25c21f74ffc0f3b18bce8207621ba70":[1,0,0,36,22]
 };

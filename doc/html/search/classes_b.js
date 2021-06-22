@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['windows_5fterminal_401',['windows_terminal',['../structfplot__core_1_1windows__terminal.html',1,'fplot_core']]],
-  ['wxt_5fterminal_402',['wxt_terminal',['../structfplot__core_1_1wxt__terminal.html',1,'fplot_core']]]
+  ['vector_5ffield_5fplot_5fdata_408',['vector_field_plot_data',['../structfplot__core_1_1vector__field__plot__data.html',1,'fplot_core']]]
 ];

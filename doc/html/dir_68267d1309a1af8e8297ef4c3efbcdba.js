@@ -33,6 +33,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_surface_plot_data.f90", "fplot__surface__plot__data_8f90_source.html", null ],
     [ "fplot_terminal.f90", "fplot__terminal_8f90_source.html", null ],
     [ "fplot_tri_surface_plot_data.f90", "fplot__tri__surface__plot__data_8f90_source.html", null ],
+    [ "fplot_vector_field_plot_data.f90", "fplot__vector__field__plot__data_8f90_source.html", null ],
     [ "fplot_windows_terminal.f90", "fplot__windows__terminal_8f90_source.html", null ],
     [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ],
     [ "geompack.f", "geompack_8f_source.html", null ],
