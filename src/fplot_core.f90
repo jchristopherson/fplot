@@ -10471,16 +10471,94 @@ module fplot_core
 ! ******************************************************************************
 ! FPLOT_VECTOR_FIELD_PLOT_DATA.F90
 ! ------------------------------------------------------------------------------
-    !> @brief Defines a two-dimensional vector-field plot data set.
-    !
     ! REF:
     ! http://www.gnuplotting.org/vector-field-from-data-file/
     ! http://gnuplot.sourceforge.net/demo_5.4/vector.html
-    type, abstract, extends(plot_data_colored) :: vector_field_plot_data
+    ! http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf (pg 79)
+
+    !> @brief Defines a two-dimensional vector-field plot data set.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     type(plot_2d) :: plt
+    !!     type(vector_field_plot_data) :: ds1
+    !!     class(plot_axis), pointer :: xAxis, yAxis
+    !!     real(real64), allocatable, dimension(:,:,:) :: pts
+    !!     real(real64), allocatable, dimension(:,:) :: dx, dy
+    !!     real(real64) :: dxdt(2)
+    !!     integer(int32) :: i, j
+    !!
+    !!     ! Create a grid of points defining the vector locations
+    !!     pts = meshgrid( &
+    !!         linspace(-2.0d0, 2.0d0, 20), &
+    !!         linspace(-5.0d0, 5.0d0, 20))
+    !!
+    !!     ! Compute the values of each derivative
+    !!     allocate(dx(size(pts, 1), size(pts, 2)))
+    !!     allocate(dy(size(pts, 1), size(pts, 2)))
+    !!     do j = 1, size(pts, 2)
+    !!         do i = 1, size(pts, 1)
+    !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
+    !!             dx(i,j) = dxdt(1)
+    !!             dy(i,j) = dxdt(2)
+    !!         end do
+    !!     end do
+    !!
+    !!     ! Define arrow properties
+    !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
+    !!     call ds1%set_fill_arrow(.true.) ! .false. by default
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!     xAxis => plt%get_x_axis()
+    !!     yAxis => plt%get_y_axis()
+    !!
+    !!     ! Define axis labels
+    !!     call xAxis%set_title("x(t)")
+    !!     call yAxis%set_title("dx/dt")
+    !!
+    !!     ! Set plot style information
+    !!     call xAxis%set_zero_axis(.true.)
+    !!     call yAxis%set_zero_axis(.true.)
+    !!     call plt%set_draw_border(.false.)
+    !!     call plt%set_show_gridlines(.false.)
+    !!
+    !!     ! Add the data to the plot
+    !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy)
+    !!     call plt%push(ds1)
+    !!
+    !!     call plt%draw()
+    !! contains
+    !!     ! Van der Pol Equation
+    !!     ! x" - mu * (1 - x^2) * x' + x = 0
+    !!     subroutine eqn(x, dxdt)
+    !!         real(real64), intent(in) :: x(2)
+    !!         real(real64), intent(out) :: dxdt(2)
+    !!
+    !!         real(real64), parameter :: mu = 2.0d0
+    !!
+    !!         dxdt(1) = x(2)
+    !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
+    !!     end subroutine
+    !! end program
+    !! @endcode
+    !! @image html vector_plot_1.png
+    type, extends(plot_data_colored) :: vector_field_plot_data
     private
         !> @brief An M-by-N-by-4 array containing the x, y, dx, and dy plot
         !! data points.
         real(real64), allocatable, dimension(:,:,:) :: m_data
+        !> @brief The vector size (scaling factor).
+        real(real64) :: m_arrowSize = 1.0d0
+        !> @brief Fill the arrow heads?
+        logical :: m_filledHeads = .false.
     contains
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
@@ -10525,6 +10603,46 @@ module fplot_core
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input matrices are
         !!      not the same size.
         procedure, public :: define_data => vfpd_define_data
+        !> @brief Gets the scaling factor used to determine the arrow size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64) get_arrow_size(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The scaling factor.
+        procedure, public :: get_arrow_size => vfpd_get_arrow_size
+        !> @brief Sets the scaling factor used to determine the arrow size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_arrow_size(class(vector_field_plot_data) this, real(real64) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x The scaling factor.
+        procedure, public :: set_arrow_size => vfpd_set_arrow_size
+        !> @brief Gets a value determining if the arrow heads should be filled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_fill_arrow(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return True if the arrow heads should be filled; else, false.
+        procedure, public :: get_fill_arrow => vfpd_get_fill_arrow
+        !> @brief Sets a value determining if the arrow heads should be filled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_fill_arrow(class(vector_field_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x True if the arrow heads should be filled; else, false.
+        procedure, public :: set_fill_arrow => vfpd_set_fill_arrow
     end type
 
 ! --------------------
@@ -10543,6 +10661,26 @@ module fplot_core
             class(vector_field_plot_data), intent(inout) :: this
             real(real64), intent(in), dimension(:,:) :: x, y, dx, dy
             class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function vfpd_get_arrow_size(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            real(real64) :: rst
+        end function
+
+        module subroutine vfpd_set_arrow_size(this, x)
+            class(vector_field_plot_data), intent(inout) :: this
+            real(real64), intent(in) :: x
+        end subroutine
+
+        pure module function vfpd_get_fill_arrow(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine vfpd_set_fill_arrow(this, x)
+            class(vector_field_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
         end subroutine
     end interface
 

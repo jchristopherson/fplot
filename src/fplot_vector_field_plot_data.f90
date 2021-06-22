@@ -12,11 +12,13 @@ contains
         type(string_builder) :: str
         integer(int32) :: i, j, m, n
         character :: delimiter, nl
+        real(real64) :: scaling
 
         ! Initialization
         call str%initialize()
         delimiter = achar(9)    ! tab delimiter
         nl = new_line(nl)
+        scaling = this%get_arrow_size()
         
         ! Fix later
         m = size(this%m_data, 1)
@@ -32,9 +34,9 @@ contains
                 call str%append(delimiter)
                 call str%append(to_string(this%m_data(i,j,2)))
                 call str%append(delimiter)
-                call str%append(to_string(this%m_data(i,j,3)))
+                call str%append(to_string(scaling * this%m_data(i,j,3)))
                 call str%append(delimiter)
-                call str%append(to_string(this%m_data(i,j,4)))
+                call str%append(to_string(scaling * this%m_data(i,j,4)))
                 call str%append(nl)
             end do
         end do
@@ -68,6 +70,10 @@ contains
 
         ! Property Definition
         call str%append(" with vectors")
+
+        if (this%get_fill_arrow()) then
+            call str%append(" filled head")
+        end if
 
         ! End
         x = str%to_string()
@@ -173,8 +179,32 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure module function vfpd_get_arrow_size(this) result(rst)
+        class(vector_field_plot_data), intent(in) :: this
+        real(real64) :: rst
+        rst = this%m_arrowSize
+    end function
+
+! --------------------
+    module subroutine vfpd_set_arrow_size(this, x)
+        class(vector_field_plot_data), intent(inout) :: this
+        real(real64), intent(in) :: x
+        this%m_arrowSize = x
+    end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure module function vfpd_get_fill_arrow(this) result(rst)
+        class(vector_field_plot_data), intent(in) :: this
+        logical :: rst
+        rst = this%m_filledHeads
+    end function
+
+! --------------------
+    module subroutine vfpd_set_fill_arrow(this, x)
+        class(vector_field_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_filledHeads = x
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 
