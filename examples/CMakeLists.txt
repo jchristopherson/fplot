@@ -100,3 +100,7 @@ target_link_libraries(fplot_3d_clr_1 fplot)
 # Example 25
 add_executable(fplot_vector_1 fplot_vector_1.f90)
 target_link_libraries(fplot_vector_1 fplot)
+
+# Example 26
+add_executable(fplot_vector_2 fplot_vector_2.f90)
+target_link_libraries(fplot_vector_2 fplot)
