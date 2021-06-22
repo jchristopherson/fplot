@@ -10553,7 +10553,8 @@ module fplot_core
     type, extends(plot_data_colored) :: vector_field_plot_data
     private
         !> @brief An M-by-N-by-4 array containing the x, y, dx, and dy plot
-        !! data points.
+        !! data points.  Optionally, a 5th page can be added to define the
+        !! color for each arrow.
         real(real64), allocatable, dimension(:,:,:) :: m_data
         !> @brief The vector size (scaling factor).
         real(real64) :: m_arrowSize = 1.0d0
@@ -10586,7 +10587,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! subroutine define_data(class(vector_field_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) dx(:,:), real(real64) dy(:,:), class(errors) err)
+        !! subroutine define_data(class(vector_field_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) dx(:,:), real(real64) dy(:,:), real(real64) c(:,:), class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The vector_field_plot_data object.
@@ -10594,6 +10595,8 @@ module fplot_core
         !! @param[in] y An M-by-N matrix containing the y-locations of each arrow's origin.
         !! @param[in] dx An M-by-N matrix containing the x-direction of each arrow.
         !! @param[in] dy An M-by-N matrix containing the y-direction of each arrow.
+        !! @param[in] c An optional M-by-N matrix containing information on how to color the
+        !!  arrows.  The colors are determined by the active colormap.
         !! @param[in,out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -10602,6 +10605,85 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input matrices are
         !!      not the same size.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of data-dependent coloring
+        !! of the Van der Pol equation phase portrait.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     type(plot_2d) :: plt
+        !!     type(vector_field_plot_data) :: ds1
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(rainbow_colormap) :: cmap
+        !!     real(real64), allocatable, dimension(:,:,:) :: pts
+        !!     real(real64), allocatable, dimension(:,:) :: dx, dy
+        !!     real(real64) :: dxdt(2)
+        !!     integer(int32) :: i, j
+        !!
+        !!     ! Create a grid of points defining the vector locations
+        !!     pts = meshgrid( &
+        !!         linspace(-2.0d0, 2.0d0, 20), &
+        !!         linspace(-5.0d0, 5.0d0, 20))
+        !!
+        !!     ! Compute the values of each derivative
+        !!     allocate(dx(size(pts, 1), size(pts, 2)))
+        !!     allocate(dy(size(pts, 1), size(pts, 2)))
+        !!     do j = 1, size(pts, 2)
+        !!         do i = 1, size(pts, 1)
+        !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
+        !!             dx(i,j) = dxdt(1)
+        !!             dy(i,j) = dxdt(2)
+        !!         end do
+        !!     end do
+        !!
+        !!     ! Define arrow properties
+        !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
+        !!     call ds1%set_fill_arrow(.true.) ! .false. by default
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     xAxis => plt%get_x_axis()
+        !!     yAxis => plt%get_y_axis()
+        !!
+        !!     ! Define axis labels
+        !!     call xAxis%set_title("x(t)")
+        !!     call yAxis%set_title("dx/dt")
+        !!
+        !!     ! Set plot style information
+        !!     call xAxis%set_zero_axis(.true.)
+        !!     call yAxis%set_zero_axis(.true.)
+        !!     call plt%set_draw_border(.false.)
+        !!     call plt%set_show_gridlines(.false.)
+        !!
+        !!     ! Define the colormap
+        !!     call plt%set_colormap(cmap)
+        !!
+        !!     ! Add the data to the plot - color by the magnitude of gradient
+        !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))
+        !!     call plt%push(ds1)
+        !!
+        !!     call plt%draw()
+        !! contains
+        !!     ! Van der Pol Equation
+        !!     ! x" - mu * (1 - x^2) * x' + x = 0
+        !!     subroutine eqn(x, dxdt)
+        !!         real(real64), intent(in) :: x(2)
+        !!         real(real64), intent(out) :: dxdt(2)
+        !!
+        !!         real(real64), parameter :: mu = 2.0d0
+        !!
+        !!         dxdt(1) = x(2)
+        !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
+        !!     end subroutine
+        !! end program
+        !! @endcode
+        !! @image html vector_plot_2.png
         procedure, public :: define_data => vfpd_define_data
         !> @brief Gets the scaling factor used to determine the arrow size.
         !!
@@ -10643,6 +10725,20 @@ module fplot_core
         !! @param[in,out] this The vector_field_plot_data object.
         !! @param[in] x True if the arrow heads should be filled; else, false.
         procedure, public :: set_fill_arrow => vfpd_set_fill_arrow
+        !> @brief Gets a value indicating if data-dependent coloring should be
+        !! used.  This is defined by supplying information on how to scale the
+        !! coloring when calling define_data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_use_data_dependent_colors(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! return Returns true if data-dependent coloring is being used; else,
+        !!  false.
+        procedure, public :: get_use_data_dependent_colors => &
+            vfpd_get_use_data_dependent_colors
     end type
 
 ! --------------------
@@ -10657,9 +10753,10 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine vfpd_define_data(this, x, y, dx, dy, err)
+        module subroutine vfpd_define_data(this, x, y, dx, dy, c, err)
             class(vector_field_plot_data), intent(inout) :: this
             real(real64), intent(in), dimension(:,:) :: x, y, dx, dy
+            real(real64), intent(in), dimension(:,:), optional :: c
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -10682,6 +10779,11 @@ module fplot_core
             class(vector_field_plot_data), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
+
+        pure module function vfpd_get_use_data_dependent_colors(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            logical :: rst
+        end function
     end interface
 
 ! ------------------------------------------------------------------------------

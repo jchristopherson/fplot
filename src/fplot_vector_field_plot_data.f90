@@ -27,19 +27,37 @@ contains
         ! Need a quick return in the event no data exists
 
         ! Process
-        do j = 1, n
-            do i = 1, m
-                ! ORDER: X, Y, DX, DY
-                call str%append(to_string(this%m_data(i,j,1)))
-                call str%append(delimiter)
-                call str%append(to_string(this%m_data(i,j,2)))
-                call str%append(delimiter)
-                call str%append(to_string(scaling * this%m_data(i,j,3)))
-                call str%append(delimiter)
-                call str%append(to_string(scaling * this%m_data(i,j,4)))
-                call str%append(nl)
+        if (this%get_use_data_dependent_colors()) then
+            do j = 1, n
+                do i = 1, m
+                    ! ORDER: X, Y, DX, DY
+                    call str%append(to_string(this%m_data(i,j,1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i,j,2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(scaling * this%m_data(i,j,3)))
+                    call str%append(delimiter)
+                    call str%append(to_string(scaling * this%m_data(i,j,4)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i,j,5)))
+                    call str%append(nl)
+                end do
             end do
-        end do
+        else
+            do j = 1, n
+                do i = 1, m
+                    ! ORDER: X, Y, DX, DY
+                    call str%append(to_string(this%m_data(i,j,1)))
+                    call str%append(delimiter)
+                    call str%append(to_string(this%m_data(i,j,2)))
+                    call str%append(delimiter)
+                    call str%append(to_string(scaling * this%m_data(i,j,3)))
+                    call str%append(delimiter)
+                    call str%append(to_string(scaling * this%m_data(i,j,4)))
+                    call str%append(nl)
+                end do
+            end do
+        end if
 
         ! End
         x = str%to_string()
@@ -54,6 +72,7 @@ contains
         ! Local Variables
         type(string_builder) :: str
         integer(int32) :: n
+        type(color) :: clr
         
         ! Initialization
         call str%initialize()
@@ -75,15 +94,25 @@ contains
             call str%append(" filled head")
         end if
 
+        if (this%get_use_data_dependent_colors()) then
+            call str%append(" lc palette")
+        else
+            clr = this%get_line_color()
+            call str%append(' lc rgb "#')
+            call str%append(clr%to_hex_string())
+            call str%append('"')
+        end if
+
         ! End
         x = str%to_string()
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine vfpd_define_data(this, x, y, dx, dy, err)
+    module subroutine vfpd_define_data(this, x, y, dx, dy, c, err)
         ! Arguments
         class(vector_field_plot_data), intent(inout) :: this
         real(real64), intent(in), dimension(:,:) :: x, y, dx, dy
+        real(real64), intent(in), dimension(:,:), optional :: c
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -114,10 +143,20 @@ contains
             call write_errmsg("dy", size(y, 1), size(y, 2), m, n, errmsg)
             go to 100
         end if
+        if (present(c)) then
+            if (.not.check_size(c, m, n)) then
+                call write_errmsg("c", size(c, 1), size(c, 2), m, n, errmsg)
+                go to 100
+            end if
+        end if
 
         ! Allocate space for the data
         if (allocated(this%m_data)) deallocate(this%m_data)
-        allocate(this%m_data(m, n, 4), stat = flag)
+        if (present(c)) then
+            allocate(this%m_data(m, n, 5), stat = flag)
+        else
+            allocate(this%m_data(m, n, 4), stat = flag)
+        end if
         if (flag /= 0) then
             call errmgr%report_error("vfpd_define_data", &
                 "Insufficient memory available.", &
@@ -126,14 +165,26 @@ contains
         end if
 
         ! Store the data
-        do concurrent(j = 1:n)
-            do i = 1, m
-                this%m_data(i,j,1) = x(i,j)
-                this%m_data(i,j,2) = y(i,j)
-                this%m_data(i,j,3) = dx(i,j)
-                this%m_data(i,j,4) = dy(i,j)
+        if (present(c)) then
+            do concurrent(j = 1:n)
+                do i = 1, m
+                    this%m_data(i,j,1) = x(i,j)
+                    this%m_data(i,j,2) = y(i,j)
+                    this%m_data(i,j,3) = dx(i,j)
+                    this%m_data(i,j,4) = dy(i,j)
+                    this%m_data(i,j,5) = c(i,j)
+                end do
             end do
-        end do
+        else
+            do concurrent(j = 1:n)
+                do i = 1, m
+                    this%m_data(i,j,1) = x(i,j)
+                    this%m_data(i,j,2) = y(i,j)
+                    this%m_data(i,j,3) = dx(i,j)
+                    this%m_data(i,j,4) = dy(i,j)
+                end do
+            end do
+        end if
 
         ! End
         return
@@ -207,6 +258,13 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure module function vfpd_get_use_data_dependent_colors(this) result(rst)
+        class(vector_field_plot_data), intent(in) :: this
+        logical :: rst
+        rst = .false.
+        if (.not.allocated(this%m_data)) return
+        rst = size(this%m_data, 3) >= 5
+    end function
 
 ! ------------------------------------------------------------------------------
 
