@@ -103,6 +103,7 @@ module fplot_core
     public :: delaunay_tri_surface
     public :: tri_surface_plot_data
     public :: vector_field_plot_data
+    public :: plot_polar
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -10783,6 +10784,60 @@ module fplot_core
         pure module function vfpd_get_use_data_dependent_colors(this) result(rst)
             class(vector_field_plot_data), intent(in) :: this
             logical :: rst
+        end function
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_POLAR.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a 2D polar plot.
+    type, extends(plot) :: plot_polar
+    private
+    contains
+        final :: plr_clean_up
+        !> @brief Initializes the plot_polar object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(plot_polar) this, optional integer(int32) term, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        procedure, public :: initialize => plr_init
+        procedure, public :: get_command_string => plr_get_cmd
+    end type
+
+! --------------------
+    interface
+        module subroutine plr_clean_up(this)
+            type(plot_polar), intent(inout) :: this
+        end subroutine
+
+        module subroutine plr_init(this, term, fname, err)
+            class(plot_polar), intent(inout) :: this
+            integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module function plr_get_cmd(this) result(x)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: x
         end function
     end interface
 
