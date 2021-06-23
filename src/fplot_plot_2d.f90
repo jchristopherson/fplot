@@ -171,6 +171,11 @@ contains
             call str%append("set view equal xy")
         end if
 
+        if (this%get_square_axes()) then
+            call str%append(new_line('a'))
+            call str%append("set size square")
+        end if
+
         ! Legend
         call str%append(new_line('a'))
         leg => this%get_legend()
@@ -246,4 +251,19 @@ contains
         this%m_useY2 = x
     end subroutine
 
+! ------------------------------------------------------------------------------
+    pure module function p2d_get_square_axes(this) result(rst)
+        class(plot_2d), intent(in) :: this
+        logical :: rst
+        rst = this%m_set2square
+    end function
+
+! --------------------
+    module subroutine p2d_set_square_axes(this, x)
+        class(plot_2d), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_set2square = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

@@ -6368,6 +6368,8 @@ module fplot_core
         type(y2_axis), pointer :: m_y2Axis => null()
         !> Display the secondary y axis?
         logical :: m_useY2 = .false.
+        !> Set to square scaling
+        logical :: m_set2square = .false.
     contains
         !> @brief Cleans up resources held by the plot_2d object.
         !!
@@ -6583,6 +6585,69 @@ module fplot_core
         !! @endcode
         !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
+        !> @brief Gets a logical flag determining if the axes size should be
+        !!  squared off.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_square_axes(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return Returns true if the axes are to be sized to a square; else,
+        !!  false.
+        procedure, public :: get_square_axes => p2d_get_square_axes
+        !> @brief Sets a logical flag determining if the axes size should be
+        !!  squared off.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_square_axes(class(plot_2d) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_2d object.
+        !! @param[in] Set to true if the axes are to be sized to a square; else,
+        !!  false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Generate the data
+        !!     t = linspace(0.0d0, 2.0d0 * pi, npts)
+        !!     x = cos(t)
+        !!     y = sin(t)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Default Settings")
+        !!
+        !!     call pd%define_data(x, y)
+        !!     call plt%push(pd)
+        !!
+        !!     call plt%draw()
+        !!
+        !!     ! Now show the effects of square axes
+        !!     call plt%set_axis_equal(.false.)
+        !!     call plt%set_square_axes(.true.)
+        !!     call plt%set_title("Square Axes")
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html default_2d_example.png
+        !! @image html square_2d_example.png
+        procedure, public :: set_square_axes => p2d_set_square_axes
     end type
 
 ! ------------------------------------------------------------------------------
@@ -6624,6 +6689,16 @@ module fplot_core
         end function
 
         module subroutine p2d_set_use_y2(this, x)
+            class(plot_2d), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function p2d_get_square_axes(this) result(rst)
+            class(plot_2d), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine p2d_set_square_axes(this, x)
             class(plot_2d), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
