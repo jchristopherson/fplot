@@ -180,6 +180,9 @@ Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__object.html">plot_object</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base type for a GNUPLOT object.  <a href="structfplot__core_1_1plot__object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__polar.html">plot_polar</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a 2D polar plot.  <a href="structfplot__core_1_1plot__polar.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1png__terminal.html">png_terminal</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a GNUPLOT PNG terminal object.  <a href="structfplot__core_1_1png__terminal.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -355,6 +358,30 @@ character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="b
 character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb">legend_bottom</a> = &quot;bottom&quot;</td></tr>
 <tr class="memdesc:afaa74509b5150505854f6f411109dfdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the legend should be placed at the bottom of the plot. <br /></td></tr>
 <tr class="separator:afaa74509b5150505854f6f411109dfdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5d751fa6cfbf02b759a3858d0858f4"><td class="memItemLeft" align="right" valign="top"><a id="a4c5d751fa6cfbf02b759a3858d0858f4"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a4c5d751fa6cfbf02b759a3858d0858f4">polar_theta_top</a> = &quot;top&quot;</td></tr>
+<tr class="memdesc:a4c5d751fa6cfbf02b759a3858d0858f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should start at the top of the plot. <br /></td></tr>
+<tr class="separator:a4c5d751fa6cfbf02b759a3858d0858f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab582c30f182b32ad10fb85a2cdee5a2b"><td class="memItemLeft" align="right" valign="top"><a id="ab582c30f182b32ad10fb85a2cdee5a2b"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#ab582c30f182b32ad10fb85a2cdee5a2b">polar_theta_right</a> = &quot;right&quot;</td></tr>
+<tr class="memdesc:ab582c30f182b32ad10fb85a2cdee5a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should start at the right of the plot. <br /></td></tr>
+<tr class="separator:ab582c30f182b32ad10fb85a2cdee5a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ed8d21802d919dd891a4ea8af0ec91"><td class="memItemLeft" align="right" valign="top"><a id="af3ed8d21802d919dd891a4ea8af0ec91"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#af3ed8d21802d919dd891a4ea8af0ec91">polar_theta_bottom</a> = &quot;bottom&quot;</td></tr>
+<tr class="memdesc:af3ed8d21802d919dd891a4ea8af0ec91"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should start at the bottom of the plot. <br /></td></tr>
+<tr class="separator:af3ed8d21802d919dd891a4ea8af0ec91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a783a98c4f406054602d757133e496c19"><td class="memItemLeft" align="right" valign="top"><a id="a783a98c4f406054602d757133e496c19"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#a783a98c4f406054602d757133e496c19">polar_theta_left</a> = &quot;left&quot;</td></tr>
+<tr class="memdesc:a783a98c4f406054602d757133e496c19"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should start at the left of the plot. <br /></td></tr>
+<tr class="separator:a783a98c4f406054602d757133e496c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae803ea1ff95802b0295be3661e11ce98"><td class="memItemLeft" align="right" valign="top"><a id="ae803ea1ff95802b0295be3661e11ce98"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#ae803ea1ff95802b0295be3661e11ce98">polar_theta_ccw</a> = &quot;ccw&quot;</td></tr>
+<tr class="memdesc:ae803ea1ff95802b0295be3661e11ce98"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should proceed in a counter-clockwise direction. <br /></td></tr>
+<tr class="separator:ae803ea1ff95802b0295be3661e11ce98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8546dbedb11e1fdf11e0ccdc8d6df0"><td class="memItemLeft" align="right" valign="top"><a id="aff8546dbedb11e1fdf11e0ccdc8d6df0"></a>
+character(len=*), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#aff8546dbedb11e1fdf11e0ccdc8d6df0">polar_theta_cw</a> = &quot;cw&quot;</td></tr>
+<tr class="memdesc:aff8546dbedb11e1fdf11e0ccdc8d6df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">States that theta should proceed in a clockwise direction. <br /></td></tr>
+<tr class="separator:aff8546dbedb11e1fdf11e0ccdc8d6df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfa29ac62a50b61ea009b20a898d45e5"><td class="memItemLeft" align="right" valign="top"><a id="acfa29ac62a50b61ea009b20a898d45e5"></a>
 integer(int32), parameter, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefplot__core.html#acfa29ac62a50b61ea009b20a898d45e5">plotdata_max_name_length</a> = 128</td></tr>
 <tr class="memdesc:acfa29ac62a50b61ea009b20a898d45e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the maximum number of characters allowed in a graph label. <br /></td></tr>

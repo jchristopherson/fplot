@@ -130,6 +130,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ee9c9c0f7348352e2e635a2998f1025"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__2d.html#a5ee9c9c0f7348352e2e635a2998f1025">set_use_y2_axis</a> =&gt; p2d_set_use_y2</td></tr>
 <tr class="memdesc:a5ee9c9c0f7348352e2e635a2998f1025"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a flag determining if the secondary y-axis should be displayed.  <a href="structfplot__core_1_1plot__2d.html#a5ee9c9c0f7348352e2e635a2998f1025">More...</a><br /></td></tr>
 <tr class="separator:a5ee9c9c0f7348352e2e635a2998f1025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8542a3da9ffd50b69e9f080219197ed4"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__2d.html#a8542a3da9ffd50b69e9f080219197ed4">get_square_axes</a> =&gt; p2d_get_square_axes</td></tr>
+<tr class="memdesc:a8542a3da9ffd50b69e9f080219197ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a logical flag determining if the axes size should be squared off.  <a href="structfplot__core_1_1plot__2d.html#a8542a3da9ffd50b69e9f080219197ed4">More...</a><br /></td></tr>
+<tr class="separator:a8542a3da9ffd50b69e9f080219197ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf4c5b5aa3718922a87a58857c0e13d2"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__2d.html#abf4c5b5aa3718922a87a58857c0e13d2">set_square_axes</a> =&gt; p2d_set_square_axes</td></tr>
+<tr class="memdesc:abf4c5b5aa3718922a87a58857c0e13d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a logical flag determining if the axes size should be squared off.  <a href="structfplot__core_1_1plot__2d.html#abf4c5b5aa3718922a87a58857c0e13d2">More...</a><br /></td></tr>
+<tr class="separator:abf4c5b5aa3718922a87a58857c0e13d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structfplot__core_1_1plot"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structfplot__core_1_1plot')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structfplot__core_1_1plot.html">fplot_core::plot</a></td></tr>
 <tr class="memitem:a95cb39f01fc6f2438ef408d2c41a2f85 inherit pub_methods_structfplot__core_1_1plot"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot.html#a95cb39f01fc6f2438ef408d2c41a2f85">free_resources</a> =&gt; plt_clean_up</td></tr>
 <tr class="memdesc:a95cb39f01fc6f2438ef408d2c41a2f85 inherit pub_methods_structfplot__core_1_1plot"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans up resources held by the plot object. Inheriting classes are expected to call this routine to free internally held resources.  <a href="structfplot__core_1_1plot.html#a95cb39f01fc6f2438ef408d2c41a2f85">More...</a><br /></td></tr>
@@ -275,6 +281,10 @@ type(<a class="el" href="structfplot__core_1_1y2__axis.html">y2_axis</a>), point
 logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__2d.html#a5fe52108ffac0ca723f0061111082338">m_usey2</a> = .false.</td></tr>
 <tr class="memdesc:a5fe52108ffac0ca723f0061111082338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the secondary y axis? <br /></td></tr>
 <tr class="separator:a5fe52108ffac0ca723f0061111082338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cd3bd4fc18c1c07e7cb76ca1cf60d7b"><td class="memItemLeft" align="right" valign="top"><a id="a9cd3bd4fc18c1c07e7cb76ca1cf60d7b"></a>
+logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfplot__core_1_1plot__2d.html#a9cd3bd4fc18c1c07e7cb76ca1cf60d7b">m_set2square</a> = .false.</td></tr>
+<tr class="memdesc:a9cd3bd4fc18c1c07e7cb76ca1cf60d7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set to square scaling. <br /></td></tr>
+<tr class="separator:a9cd3bd4fc18c1c07e7cb76ca1cf60d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A plot object defining a 2D plot. </p>
@@ -346,7 +356,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06338">6338</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06462">6462</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="acb1e73d18b6cb1fcbd10c7463266d6bb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb1e73d18b6cb1fcbd10c7463266d6bb">&#9670;&nbsp;</a></span>get_command_string()</h2>
@@ -371,7 +381,34 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The command string. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06395">6395</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06521">6521</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="a8542a3da9ffd50b69e9f080219197ed4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8542a3da9ffd50b69e9f080219197ed4">&#9670;&nbsp;</a></span>get_square_axes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::plot_2d::get_square_axes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets a logical flag determining if the axes size should be squared off. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keywordtype">logical</span> get_square_axes(<span class="keywordtype">class</span>(plot_2d) this)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot.">plot_2d</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the axes are to be sized to a square; else, false. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06700">6700</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -409,7 +446,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06492">6492</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06618">6618</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -447,7 +484,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06419">6419</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06545">6545</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -485,7 +522,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06467">6467</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06593">6593</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -523,7 +560,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <div class="line"><span class="keyword">end program</span></div>
 </div><!-- fragment --> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06443">6443</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06569">6569</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -563,7 +600,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </dl>
 <dl class="section user"><dt>Example</dt><dd>See <a class="el" href="structfplot__core_1_1png__terminal.html" title="Defines a GNUPLOT PNG terminal object.">png_terminal</a> for an example. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06384">6384</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06510">6510</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -597,7 +634,74 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06357">6357</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06483">6483</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+
+</div>
+</div>
+<a id="abf4c5b5aa3718922a87a58857c0e13d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf4c5b5aa3718922a87a58857c0e13d2">&#9670;&nbsp;</a></span>set_square_axes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public fplot_core::plot_2d::set_square_axes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a logical flag determining if the axes size should be squared off. </p>
+<dl class="section user"><dt>Syntax</dt><dd><div class="fragment"><div class="line"><span class="keyword">subroutine </span>set_square_axes(class(plot_2d) this, logical x)</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">this</td><td>The <a class="el" href="structfplot__core_1_1plot__2d.html" title="A plot object defining a 2D plot.">plot_2d</a> object. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Set</td><td>to true if the axes are to be sized to a square; else, false.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="keyword">program</span> example</div>
+<div class="line">    <span class="keywordtype">use </span>iso_fortran_env</div>
+<div class="line">    <span class="keywordtype">use </span><a class="code" href="namespacefplot__core.html">fplot_core</a></div>
+<div class="line">    <span class="keywordtype">implicit none</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Local Variables</span></div>
+<div class="line">    <span class="keywordtype">integer(int32)</span>, <span class="keywordtype">parameter</span> :: npts = 1000</div>
+<div class="line"><span class="keywordtype">    real</span>(real64), <span class="keywordtype">parameter</span> :: pi = 2.0d0 * acos(0.0d0)</div>
+<div class="line"><span class="keywordtype">    real</span>(real64) :: t(npts), x(npts), y(npts)</div>
+<div class="line">    <span class="keywordtype">type</span>(plot_2d) :: plt</div>
+<div class="line">    <span class="keywordtype">type</span>(plot_data_2d) :: pd</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Generate the data</span></div>
+<div class="line">    t = linspace(0.0d0, 2.0d0 * pi, npts)</div>
+<div class="line">    x = cos(t)</div>
+<div class="line">    y = sin(t)</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Set up the plot</span></div>
+<div class="line">    <span class="keyword">call </span>plt%initialize()</div>
+<div class="line">    <span class="keyword">call </span>plt%set_font_size(14)</div>
+<div class="line">    <span class="keyword">call </span>plt%set_title(<span class="stringliteral">&quot;Default Settings&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>pd%define_data(x, y)</div>
+<div class="line">    <span class="keyword">call </span>plt%push(pd)</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">call </span>plt%draw()</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">! Now show the effects of square axes</span></div>
+<div class="line">    <span class="keyword">call </span>plt%set_axis_equal(.false.)</div>
+<div class="line">    <span class="keyword">call </span>plt%set_square_axes(.true.)</div>
+<div class="line">    <span class="keyword">call </span>plt%set_title(<span class="stringliteral">&quot;Square Axes&quot;</span>)</div>
+<div class="line">    <span class="keyword">call </span>plt%draw()</div>
+<div class="line"><span class="keyword">end program</span></div>
+</div><!-- fragment --> <div class="image">
+<img src="default_2d_example.png" alt=""/>
+</div>
+ <div class="image">
+<img src="square_2d_example.png" alt=""/>
+</div>
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06751">6751</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>
@@ -681,7 +785,7 @@ logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 </div>
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06562">6562</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fplot__core_8f90_source.html#l06688">6688</a> of file <a class="el" href="fplot__core_8f90_source.html">fplot_core.f90</a>.</p>
 
 </div>
 </div>

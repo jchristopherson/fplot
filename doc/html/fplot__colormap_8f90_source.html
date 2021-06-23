@@ -110,40 +110,69 @@ $(document).ready(function(){initNavTree('fplot__colormap_8f90_source.html','');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">call </span>str%append(this%get_color_string())</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">call </span>str%append(<span class="stringliteral">&quot;)&quot;</span>)</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">! End</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        x = str%to_string()</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">end function</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">! ******************************************************************************</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">! RAINBOW_COLORMAP MEMBERS</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">module</span> function rcm_get_clr(this) result(x)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">class</span>(rainbow_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;dark-blue&quot;, 1 &quot;blue&quot;, 2 &quot;cyan&quot;, 3 &quot;green&quot;, 4 &quot;yellow&quot;, &#39;</span> // &amp;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="stringliteral">&#39;5 &quot;orange&quot;, 6 &quot;red&quot;, 7 &quot;dark-red&quot;&#39;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">end function</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">! ******************************************************************************</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">! HOT_COLORMAP MEMBERS</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">module</span> function hcm_get_clr(this) result(x)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">class</span>(hot_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;black&quot;, 1 &quot;red&quot;, 2 &quot;orange&quot;, 3 &quot;yellow&quot;, 4 &quot;white&quot;&#39;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">end function</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">! ******************************************************************************</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">! COOL_COLORMAP MEMBERS</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">module</span> function ccm_get_clr(this) result(x)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">class</span>(cool_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;blue&quot;, 1 &quot;turquoise&quot;, 2 &quot;light-green&quot;&#39;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">end function</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">end </span>submodule</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">if</span> (len(this%get_label()) &gt; 0) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">call </span>str%append(new_line(<span class="stringliteral">&#39;a&#39;</span>))</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keyword">call </span>str%append(<span class="stringliteral">&#39;set cblabel &quot;&#39;</span>)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keyword">call </span>str%append(this%get_label())</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keyword">call </span>str%append(<span class="stringliteral">&#39;&quot;&#39;</span>)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordflow">        end if</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">! End</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        x = str%to_string()</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">pure</span> <span class="keyword">module</span> function cm_get_label(this) result(rst)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">class</span>(colormap), <span class="keywordtype">intent(in)</span> :: this</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: rst</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(this%m_label)) <span class="keywordflow">then</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            rst = this%m_label</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            rst = <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordflow">        end if</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">! --------------------</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">module</span> subroutine cm_set_label(this, x)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">class</span>(colormap), <span class="keywordtype">intent(inout)</span> :: this</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">character(len = *)</span>, <span class="keywordtype">intent(in)</span> :: x</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        this%m_label = x</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">end subroutine</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">! TO DO:</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">!   - Set user-defined tic labels &amp; limits (ref: http://gnuplot.sourceforge.net/demo_5.4/cerf.html)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">! ******************************************************************************</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">! RAINBOW_COLORMAP MEMBERS</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">module</span> function rcm_get_clr(this) result(x)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">class</span>(rainbow_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;dark-blue&quot;, 1 &quot;blue&quot;, 2 &quot;cyan&quot;, 3 &quot;green&quot;, 4 &quot;yellow&quot;, &#39;</span> // &amp;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="stringliteral">&#39;5 &quot;orange&quot;, 6 &quot;red&quot;, 7 &quot;dark-red&quot;&#39;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">! ******************************************************************************</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">! HOT_COLORMAP MEMBERS</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">module</span> function hcm_get_clr(this) result(x)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">class</span>(hot_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;black&quot;, 1 &quot;red&quot;, 2 &quot;orange&quot;, 3 &quot;yellow&quot;, 4 &quot;white&quot;&#39;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">! ******************************************************************************</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">! COOL_COLORMAP MEMBERS</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">module</span> function ccm_get_clr(this) result(x)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordtype">class</span>(cool_colormap), <span class="keywordtype">intent(in)</span> :: this</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">character(len = :)</span>, <span class="keywordtype">allocatable</span> :: x</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        x = <span class="stringliteral">&#39;0 &quot;blue&quot;, 1 &quot;turquoise&quot;, 2 &quot;light-green&quot;&#39;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">end function</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">! ------------------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">end </span>submodule</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacefplot__core_html"><div class="ttname"><a href="namespacefplot__core.html">fplot_core</a></div><div class="ttdoc">fplot_core</div><div class="ttdef"><b>Definition:</b> <a href="fplot__core_8f90_source.html#l00014">fplot_core.f90:14</a></div></div>

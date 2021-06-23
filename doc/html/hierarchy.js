@@ -22,7 +22,8 @@ var hierarchy =
         ] ],
         [ "fplot_core::plot_3d", "structfplot__core_1_1plot__3d.html", [
           [ "fplot_core::surface_plot", "structfplot__core_1_1surface__plot.html", null ]
-        ] ]
+        ] ],
+        [ "fplot_core::plot_polar", "structfplot__core_1_1plot__polar.html", null ]
       ] ],
       [ "fplot_core::plot_axis", "structfplot__core_1_1plot__axis.html", [
         [ "fplot_core::x_axis", "structfplot__core_1_1x__axis.html", null ],

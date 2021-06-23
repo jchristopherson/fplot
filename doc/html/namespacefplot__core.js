@@ -28,6 +28,7 @@ var namespacefplot__core =
     [ "plot_data_tri_2d", "structfplot__core_1_1plot__data__tri__2d.html", "structfplot__core_1_1plot__data__tri__2d" ],
     [ "plot_label", "structfplot__core_1_1plot__label.html", "structfplot__core_1_1plot__label" ],
     [ "plot_object", "structfplot__core_1_1plot__object.html", "structfplot__core_1_1plot__object" ],
+    [ "plot_polar", "structfplot__core_1_1plot__polar.html", "structfplot__core_1_1plot__polar" ],
     [ "png_terminal", "structfplot__core_1_1png__terminal.html", "structfplot__core_1_1png__terminal" ],
     [ "qt_terminal", "structfplot__core_1_1qt__terminal.html", "structfplot__core_1_1qt__terminal" ],
     [ "rainbow_colormap", "structfplot__core_1_1rainbow__colormap.html", "structfplot__core_1_1rainbow__colormap" ],
