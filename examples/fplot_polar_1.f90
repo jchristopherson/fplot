@@ -19,8 +19,11 @@ program example
     call plt%initialize()
     call plt%set_font_size(14)
     call plt%set_title("Polar Plot Example")
+    call plt%set_autoscale(.false.)
+    call plt%set_radial_limits([0.0d0, 6.0d0])
 
     call pd%define_data(t, x)
+    call pd%set_line_width(2.0)
     call plt%push(pd)
     call plt%draw()
 end program
