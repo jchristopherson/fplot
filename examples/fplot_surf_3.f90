@@ -34,8 +34,12 @@ program example
     ! Define the function to plot
     z = sin(sqrt(x**2 + y**2))
 
+    ! Label the colorbar
+    call map%set_label("Example")
+
     ! Create the plot
     call plt%initialize()
+    call plt%set_font_size(14)
     call plt%set_colormap(map)
     call plt%set_show_contours(.true.)
     call plt%set_z_intersect_xy(.false.)
@@ -54,7 +58,6 @@ program example
 
     ! Define the data set
     call d1%define_data(x, y, z)
-    call d1%set_name("sin(sqrt(x**2 + y**2))")
     call plt%push(d1)
 
     ! Let GNUPLOT draw the plot
