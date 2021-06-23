@@ -2458,6 +2458,9 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief A colormap object for a surface plot.
     type, abstract, extends(plot_object) :: colormap
+    private
+        !> The label to associate with the colormap
+        character(len = :), allocatable :: m_label
     contains
         !> @brief Gets the GNUPLOT command string to represent this colormap
         !! object.
@@ -2475,6 +2478,94 @@ module fplot_core
         !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red",
         !! 7 "dark-red"'.  This string would result in a rainbow type map.
         procedure(cm_get_string_result), deferred, public :: get_color_string
+        !> @brief Gets the label to associate with the colorbar.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_label(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return The label.
+        procedure, public :: get_label => cm_get_label
+        !> @brief Sets the label to associate with the colorbar.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_label(class(colormap) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x The label.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(rainbow_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Label the colorbar
+        !!     call map%set_label("Example")
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_colormap(map)
+        !!     call plt%set_show_contours(.true.)
+        !!     call plt%set_z_intersect_xy(.false.)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html surface_example_w_cb_label.png
+        procedure, public :: set_label => cm_set_label
     end type
 
 ! ------------------------------------------------------------------------------
@@ -2741,6 +2832,16 @@ module fplot_core
             class(cool_colormap), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        pure module function cm_get_label(this) result(rst)
+            class(colormap), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine cm_set_label(this, x)
+            class(colormap), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
     end interface
 
 ! ******************************************************************************

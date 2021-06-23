@@ -21,9 +21,38 @@ contains
         call str%append(this%get_color_string())
         call str%append(")")
 
+        if (len(this%get_label()) > 0) then
+            call str%append(new_line('a'))
+            call str%append('set cblabel "')
+            call str%append(this%get_label())
+            call str%append('"')
+        end if
+
         ! End
         x = str%to_string()
     end function
+
+! ------------------------------------------------------------------------------
+    pure module function cm_get_label(this) result(rst)
+        class(colormap), intent(in) :: this
+        character(len = :), allocatable :: rst
+        if (allocated(this%m_label)) then
+            rst = this%m_label
+        else
+            rst = ""
+        end if
+    end function
+
+! --------------------
+    module subroutine cm_set_label(this, x)
+        class(colormap), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        this%m_label = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+! TO DO:
+!   - Set user-defined tic labels & limits (ref: http://gnuplot.sourceforge.net/demo_5.4/cerf.html)
 
 ! ******************************************************************************
 ! RAINBOW_COLORMAP MEMBERS
