@@ -65,6 +65,12 @@ module fplot_core
     public :: LEGEND_RIGHT
     public :: LEGEND_TOP
     public :: LEGEND_BOTTOM
+    public :: POLAR_THETA_BOTTOM
+    public :: POLAR_THETA_LEFT
+    public :: POLAR_THETA_RIGHT
+    public :: POLAR_THETA_TOP
+    public :: POLAR_THETA_CCW
+    public :: POLAR_THETA_CW
     public :: PLOTDATA_MAX_NAME_LENGTH
     public :: linspace
     public :: logspace
@@ -176,6 +182,22 @@ module fplot_core
     character(len = *), parameter :: LEGEND_RIGHT = "right"
     !> @brief Defines the legend should be placed at the bottom of the plot.
     character(len = *), parameter :: LEGEND_BOTTOM = "bottom"
+
+! ******************************************************************************
+! POLAR PLOT CONSTANTS
+! ------------------------------------------------------------------------------
+    !> @brief States that theta should start at the top of the plot.
+    character(len = *), parameter :: POLAR_THETA_TOP = "top"
+    !> @brief States that theta should start at the right of the plot.
+    character(len = *), parameter :: POLAR_THETA_RIGHT = "right"
+    !> @brief States that theta should start at the bottom of the plot.
+    character(len = *), parameter :: POLAR_THETA_BOTTOM = "bottom"
+    !> @brief States that theta should start at the left of the plot.
+    character(len = *), parameter :: POLAR_THETA_LEFT = "left"
+    !> @brief States that theta should proceed in a counter-clockwise direction.
+    character(len = *), parameter :: POLAR_THETA_CCW = "ccw"
+    !> @brief States that theta should proceed in a clockwise direction.
+    character(len = *), parameter :: POLAR_THETA_CW = "cw"
 
 ! ******************************************************************************
 ! PLOT DATA CONSTANTS
@@ -10791,8 +10813,52 @@ module fplot_core
 ! FPLOT_PLOT_POLAR.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a 2D polar plot.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!
+    !!     ! Local Variables
+    !!     integer(int32), parameter :: npts = 1000
+    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+    !!     real(real64) :: t(npts), x(npts)
+    !!     type(plot_polar) :: plt
+    !!     type(plot_data_2d) :: pd
+    !!
+    !!     ! Create a function to plot
+    !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+    !!     x = t * sin(t)
+    !!
+    !!     ! Plot the function
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!     call plt%set_title("Polar Plot Example")
+    !!     call plt%set_autoscale(.false.)
+    !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+    !!
+    !!     call pd%define_data(t, x)
+    !!     call pd%set_line_width(2.0)
+    !!     call plt%push(pd)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html polar_example_1.png
     type, extends(plot) :: plot_polar
     private
+        !> @brief Allow the plot to autoscale?
+        logical :: m_autoscale = .true.
+        !> @brief The minimum radius value - only applicable if m_autoscale is
+        !!  false.
+        real(real64) :: m_minrad = 0.0d0
+        !> @brief The maximum radius value - only applicable if m_autoscale is
+        !!  false.
+        real(real64) :: m_maxrad = 1.0d0
+        !> @brief The location for theta = 0
+        character(len = :), allocatable :: m_thetaStart 
+        !> @brief The direction for theta
+        character(len = :), allocatable :: m_thetaDirection
     contains
         final :: plr_clean_up
         !> @brief Initializes the plot_polar object.
@@ -10819,7 +10885,186 @@ module fplot_core
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         procedure, public :: initialize => plr_init
+        !> @brief Gets the GNUPLOT command string to represent this plot_polar
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The command string.
         procedure, public :: get_command_string => plr_get_cmd
+        !> @brief Gets a logical value determining if the axis should be 
+        !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_autoscale(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return Returns true if the plot will autoscale; else, false.
+        procedure, public :: get_autoscale => plr_get_autoscale
+        !> @brief Sets a logical value determining if the axis should be 
+        !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_autoscale(class(plot_polar) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x Set to true if the plot will autoscale; else, false.
+        procedure, public :: set_autoscale => plr_set_autoscale
+        !> @brief Gets the radial axis limits if autoscaling is inactive.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(2) get_radial_limits(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @returns A 2-element array containing the minimum and maximum limit
+        !!  values in that order.
+        procedure, public :: get_radial_limits => plr_get_limits
+        !> @brief Sets the radial axis limits if autoscaling is inactive.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_radial_limits(class(plot_polar) this, real(real64) x(2))
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] A 2-element array containing the minimum and maximum limit
+        !!  values.
+        procedure, public :: set_radial_limits => plr_set_limits
+        !> @brief Gets the position for theta = 0.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_theta_start_position(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The starting position.  It is one of the following flags.
+        !!  - POLAR_THETA_BOTTOM
+        !!  - POLAR_THETA_TOP
+        !!  - POLAR_THETA_RIGHT
+        !!  - POLAR_THETA_LEFT
+        procedure, public :: get_theta_start_position => plr_get_theta_start
+        !> @brief Sets the position for theta = 0.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_theta_start_position(class(plot_polar) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x The starting position.  It must be one of the following 
+        !!  flags.
+        !!  - POLAR_THETA_BOTTOM
+        !!  - POLAR_THETA_TOP
+        !!  - POLAR_THETA_RIGHT
+        !!  - POLAR_THETA_LEFT
+        !!
+        !! @par Example
+        !! The following example illustrates resetting the starting position and
+        !! orientation of theta.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts)
+        !!     type(plot_polar) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Create a function to plot
+        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+        !!     x = t * sin(t)
+        !!
+        !!     ! Plot the function
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Polar Plot Example")
+        !!     call plt%set_autoscale(.false.)
+        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
+        !!     call plt%set_theta_direction(POLAR_THETA_CW)
+        !!
+        !!     call pd%define_data(t, x)
+        !!     call pd%set_line_width(2.0)
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html polar_example_2.png
+        procedure, public :: set_theta_start_position => plr_set_theta_start
+        !> @brief Gets the theta direction.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_theta_direction(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The direction.  It is one of the following flags.
+        !!  - POLAR_THETA_CCW
+        !!  - POLAR_THETA_CW
+        procedure, public :: get_theta_direction => plr_get_theta_direction
+        !> @brief Sets the theta direction.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_theta_direction(class(plot_polar) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x The direction.  It must be one of the following flags.
+        !!  - POLAR_THETA_CCW
+        !!  - POLAR_THETA_CW
+        !!
+        !! @par Example
+        !! The following example illustrates resetting the starting position and
+        !! orientation of theta.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts)
+        !!     type(plot_polar) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Create a function to plot
+        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+        !!     x = t * sin(t)
+        !!
+        !!     ! Plot the function
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Polar Plot Example")
+        !!     call plt%set_autoscale(.false.)
+        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
+        !!     call plt%set_theta_direction(POLAR_THETA_CW)
+        !!
+        !!     call pd%define_data(t, x)
+        !!     call pd%set_line_width(2.0)
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html polar_example_2.png
+        procedure, public :: set_theta_direction => plr_set_theta_direction
     end type
 
 ! --------------------
@@ -10839,6 +11084,46 @@ module fplot_core
             class(plot_polar), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        pure module function plr_get_autoscale(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine plr_set_autoscale(this, x)
+            class(plot_polar), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function plr_get_limits(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            real(real64) :: rst(2)
+        end function
+
+        module subroutine plr_set_limits(this, x)
+            class(plot_polar), intent(inout) :: this
+            real(real64), intent(in) :: x(2)
+        end subroutine
+
+        pure module function plr_get_theta_start(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine plr_set_theta_start(this, x)
+            class(plot_polar), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        pure module function plr_get_theta_direction(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine plr_set_theta_direction(this, x)
+            class(plot_polar), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
     end interface
 
 ! ------------------------------------------------------------------------------

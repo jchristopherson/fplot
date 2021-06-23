@@ -17,7 +17,6 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
-        integer(int32) :: flag
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
 
@@ -32,15 +31,9 @@ contains
         call plt_init(this, term, fname, errmgr)
         if (errmgr%has_error_occurred()) return
 
-        ! Initialize axis objects
-        flag = 0
-
-        ! Error Checking
-        if (flag /= 0) then
-            call errmgr%report_error("p2d_init", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
-            return
-        end if
+        ! Initialize the rest of the object
+        this%m_thetaStart = POLAR_THETA_RIGHT
+        this%m_thetaDirection = POLAR_THETA_CCW
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -53,6 +46,7 @@ contains
         integer(int32) :: i, n
         type(string_builder) :: str
         type(legend), pointer :: leg
+        real(real64) :: lim(2)
         class(plot_label), pointer :: lbl
         class(plot_data), pointer :: ptr
 
@@ -64,17 +58,41 @@ contains
 
         ! Polar-Specific Settings
         call str%append(new_line('a'))
+        call str%append("unset border")
+
+        call str%append(new_line('a'))
         call str%append("set polar")
+
         call str%append(new_line('a'))
         call str%append("set size square")
+
         call str%append(new_line('a'))
         call str%append("unset xtics")
         call str%append(new_line('a'))
         call str%append("unset ytics")
+
         call str%append(new_line('a'))
-        call str%append("set ttics 0, 30")
+        call str%append('set ttics 0, 30 format "%g".GPVAL_DEGREE_SIGN')
+
         call str%append(new_line('a'))
         call str%append("set mttics 3")
+
+        call str%append(new_line('a'))
+        call str%append("set theta ")
+        call str%append(this%get_theta_start_position())
+        call str%append(" ")
+        call str%append(this%get_theta_direction())
+
+        ! Radial Limits
+        if (.not.this%get_autoscale()) then
+            lim = this%get_radial_limits()
+            call str%append(new_line('a'))
+            call str%append("set rrange [")
+            call str%append(to_string(lim(1)))
+            call str%append(":")
+            call str%append(to_string(lim(2)))
+            call str%append("]")
+        end if
 
         ! Grid
         if (this%get_show_gridlines()) then
@@ -130,9 +148,6 @@ contains
             call str%append(new_line('a'))
             call str%append(ptr%get_data_string())
             call str%append("e")
-            ! if (i /= n) then
-            !     call str%append("e")
-            ! end if
         end do
 
         ! End
@@ -140,10 +155,79 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
+    pure module function plr_get_autoscale(this) result(rst)
+        class(plot_polar), intent(in) :: this
+        logical :: rst
+        rst = this%m_autoscale
+    end function
+
+! --------------------
+    module subroutine plr_set_autoscale(this, x)
+        class(plot_polar), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_autoscale = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plr_get_limits(this) result(rst)
+        class(plot_polar), intent(in) :: this
+        real(real64) :: rst(2)
+        rst = [this%m_minrad, this%m_maxrad]
+    end function
+
+! --------------------
+    module subroutine plr_set_limits(this, x)
+        class(plot_polar), intent(inout) :: this
+        real(real64), intent(in) :: x(2)
+        this%m_minrad = minval(x)
+        this%m_maxrad = maxval(x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plr_get_theta_start(this) result(rst)
+        class(plot_polar), intent(in) :: this
+        character(len = :), allocatable :: rst
+        rst = this%m_thetaStart
+    end function
+
+! --------------------
+    module subroutine plr_set_theta_start(this, x)
+        class(plot_polar), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        if (x /= POLAR_THETA_BOTTOM .and. &
+            x /= POLAR_THETA_TOP .and. &
+            x /= POLAR_THETA_LEFT .and. &
+            x /= POLAR_THETA_RIGHT) &
+        then
+            ! Reset to default
+            this%m_thetaStart = POLAR_THETA_RIGHT
+        else
+            this%m_thetaStart = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plr_get_theta_direction(this) result(rst)
+        class(plot_polar), intent(in) :: this
+        character(len = :), allocatable :: rst
+        rst = this%m_thetaDirection
+    end function
+
+! --------------------
+    module subroutine plr_set_theta_direction(this, x)
+        class(plot_polar), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        if (x /= POLAR_THETA_CCW .and. x /= POLAR_THETA_CW) then
+            ! Reset to default
+            this%m_thetaDirection = POLAR_THETA_CCW
+        else
+            this%m_thetaDirection = x
+        end if
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 
-! ------------------------------------------------------------------------------
+! --------------------
 
 ! ------------------------------------------------------------------------------
 end submodule
