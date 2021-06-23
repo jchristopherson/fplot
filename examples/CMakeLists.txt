@@ -108,3 +108,7 @@ target_link_libraries(fplot_vector_2 fplot)
 # Example 27
 add_executable(fplot_polar_1 fplot_polar_1.f90)
 target_link_libraries(fplot_polar_1 fplot)
+
+# Example 28
+add_executable(fplot_2d_9 fplot_2d_9.f90)
+target_link_libraries(fplot_2d_9 fplot)
