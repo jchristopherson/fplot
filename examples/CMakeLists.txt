@@ -1,6 +1,3 @@
-# Inform the user we're building the examples
-message(STATUS "Building FPLOT examples.")
-
 # Example 1
 add_executable(fplot_2d_1 fplot_2d_1.f90)
 target_link_libraries(fplot_2d_1 fplot)

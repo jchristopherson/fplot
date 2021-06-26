@@ -4,13 +4,13 @@ project(fplot Fortran)
 
 # Define version information
 set(FPLOT_MAJOR_VERSION 1)
-set(FPLOT_MINOR_VERSION 5)
+set(FPLOT_MINOR_VERSION 6)
 set(FPLOT_PATCH_VERSION 0)
 set(FPLOT_VERSION ${FPLOT_MAJOR_VERSION}.${FPLOT_MINOR_VERSION}.${FPLOT_PATCH_VERSION})
 
 # Locate Dependencies
 find_package(ferror 1.3.0)
-find_package(fcore 1.0.0)
+find_package(fcore 1.1.0)
 
 if (NOT ${ferror_FOUND})
     message(STATUS "FERROR not found.")
