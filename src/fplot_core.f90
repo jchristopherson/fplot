@@ -11411,7 +11411,7 @@ module fplot_core
     !!     call plt%draw()
     !! end program
     !! @endcode
-    !! image html filled_example_2.png
+    !! @image html filled_example_2.png
     type, extends(plot_data_colored) :: filled_plot_data
     private
         !> Plot against the secondary y-axis
@@ -11523,7 +11523,7 @@ module fplot_core
         !!     call plt%draw()
         !! end program
         !! @endcode
-        !! image html filled_example_2.png
+        !! @image html filled_example_2.png
         procedure, public :: define_data => fpd_define_data
     end type
 
