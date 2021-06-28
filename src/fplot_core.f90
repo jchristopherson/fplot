@@ -110,6 +110,7 @@ module fplot_core
     public :: tri_surface_plot_data
     public :: vector_field_plot_data
     public :: plot_polar
+    public :: filled_plot_data
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -11375,6 +11376,188 @@ module fplot_core
         module subroutine plr_set_theta_direction(this, x)
             class(plot_polar), intent(inout) :: this
             character(len = *), intent(in) :: x
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_FILLED_PLOT_DATA.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a two-dimensional filled plot data set.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     integer(int32), parameter :: npts = 100
+    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+    !!     real(real64) :: x(npts), y(npts)
+    !!     type(plot_2d) :: plt
+    !!     type(filled_plot_data) :: pd
+    !!
+    !!     ! Generate the curve to plot
+    !!     x = linspace(0.0d0, 1.0d0, npts)
+    !!     y = sin(4.0d0 * pi * x)
+    !!
+    !!     ! Plot the data
+    !!     call plt%initialize()
+    !!
+    !!     call pd%define_data(x, y, 0.25d0 * y)
+    !!
+    !!     call plt%push(pd)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! image html filled_example_2.png
+    type, extends(plot_data_colored) :: filled_plot_data
+    private
+        !> Plot against the secondary y-axis
+        logical :: m_useY2 = .false.
+        !> The data set (column 1 = x, column 2 = y, column 3 = constraint y)
+        real(real64), allocatable, dimension(:,:) :: m_data
+    contains
+        !> @brief Gets the GNUPLOT command string defining which axes the data
+        !! is to be plotted against.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_axis_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_axes_string => fpd_get_axes_cmd
+        !> @brief Gets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_draw_against_y2(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return Returns true if the data should be plotted against the secondary
+        !!  y-axis; else, false to plot against the primary y-axis.
+        procedure, public :: get_draw_against_y2 => fpd_get_draw_against_y2
+        !> @brief Sets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_against_y2(class(filled_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The filled_plot_data object.
+        !! @param[in] x Set to true if the data should be plotted against the
+        !!  secondary y-axis; else, false to plot against the primary y-axis.
+        procedure, public :: set_draw_against_y2 => fpd_set_draw_against_y2
+        !> @brief Gets the GNUPLOT command string to represent this
+        !! filled_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_command_string => fpd_get_cmd
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_data_string => fpd_get_data_cmd
+        !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(filled_plot_data) this, real(real64) x(:), real(real64) y(:), real(real64) yc(:))
+        !! @endcode
+        !!
+        !! @param[in,out] this The filled_plot_data object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[in] yc An N-element array containing the constraining curve y coordinate data.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+        !!      same size.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 100
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(filled_plot_data) :: pd
+        !!
+        !!     ! Generate the curve to plot
+        !!     x = linspace(0.0d0, 1.0d0, npts)
+        !!     y = sin(4.0d0 * pi * x)
+        !!
+        !!     ! Plot the data
+        !!     call plt%initialize()
+        !!
+        !!     call pd%define_data(x, y, 0.25d0 * y)
+        !!
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! image html filled_example_2.png
+        procedure, public :: define_data => fpd_define_data
+    end type
+
+! --------------------
+    interface
+        module function fpd_get_axes_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function fpd_get_draw_against_y2(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine fpd_set_draw_against_y2(this, x)
+            class(filled_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module function fpd_get_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function fpd_get_data_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine fpd_define_data(this, x, y, yc, err)
+            class(filled_plot_data), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, yc
+            class(errors), intent(inout), optional, target :: err
         end subroutine
     end interface
 
