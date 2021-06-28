@@ -385,9 +385,17 @@ module fplot_core
     type(color), parameter :: CLR_ORANGE = color(255, 165, 0)
 
     ! A list of colors that can be cycled through by plotting code
-    type(color), parameter, dimension(8) :: color_list = [ &
-        CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
-        CLR_ORANGE, CLR_BLACK]
+    type(color), parameter, dimension(7) :: color_list = [ &
+        color(0, int(0.447 * 255), int(0.741 * 255)), &
+        color(int(0.85 * 255), int(0.325 * 255), int(0.098 * 255)), &
+        color(int(0.929 * 255), int(0.694 * 255), int(0.125 * 255)), &
+        color(int(0.494 * 255), int(0.184 * 255), int(0.556 * 255)), &
+        color(int(0.466 * 255), int(0.674 * 255), int(0.188 * 255)), &
+        color(int(0.301 * 255), int(0.745 * 255), int(0.933 * 255)), &
+        color(int(0.635 * 255), int(0.078 * 255), int(0.184 * 255))]
+    ! type(color), parameter, dimension(8) :: color_list = [ &
+    !     CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
+    !     CLR_ORANGE, CLR_BLACK]
 
 ! ******************************************************************************
 ! FPLOT_LABEL.F90
