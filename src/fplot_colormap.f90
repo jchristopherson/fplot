@@ -83,4 +83,6 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
+! Additional Color Maps:
+! https://github.com/Gnuplotting/gnuplot-palettes
 end submodule
