@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['y2_5faxis_437',['y2_axis',['../structfplot__core_1_1y2__axis.html',1,'fplot_core']]],
-  ['y_5faxis_438',['y_axis',['../structfplot__core_1_1y__axis.html',1,'fplot_core']]]
+  ['x_5faxis_438',['x_axis',['../structfplot__core_1_1x__axis.html',1,'fplot_core']]]
 ];

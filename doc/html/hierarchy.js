@@ -33,6 +33,7 @@ var hierarchy =
       ] ],
       [ "fplot_core::plot_data", "structfplot__core_1_1plot__data.html", [
         [ "fplot_core::plot_data_colored", "structfplot__core_1_1plot__data__colored.html", [
+          [ "fplot_core::filled_plot_data", "structfplot__core_1_1filled__plot__data.html", null ],
           [ "fplot_core::plot_data_bar", "structfplot__core_1_1plot__data__bar.html", [
             [ "fplot_core::plot_data_histogram", "structfplot__core_1_1plot__data__histogram.html", null ]
           ] ],

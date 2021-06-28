@@ -8,6 +8,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_delaunay.f90", "fplot__delaunay_8f90_source.html", null ],
     [ "fplot_delaunay_tri_surface.f90", "fplot__delaunay__tri__surface_8f90_source.html", null ],
     [ "fplot_errors.f90", "fplot__errors_8f90_source.html", null ],
+    [ "fplot_filled_plot_data.f90", "fplot__filled__plot__data_8f90_source.html", null ],
     [ "fplot_label.f90", "fplot__label_8f90_source.html", null ],
     [ "fplot_latex_terminal.f90", "fplot__latex__terminal_8f90_source.html", null ],
     [ "fplot_legend.f90", "fplot__legend_8f90_source.html", null ],

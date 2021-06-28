@@ -6,6 +6,7 @@ var namespacefplot__core =
     [ "cool_colormap", "structfplot__core_1_1cool__colormap.html", "structfplot__core_1_1cool__colormap" ],
     [ "delaunay_tri_2d", "structfplot__core_1_1delaunay__tri__2d.html", "structfplot__core_1_1delaunay__tri__2d" ],
     [ "delaunay_tri_surface", "structfplot__core_1_1delaunay__tri__surface.html", "structfplot__core_1_1delaunay__tri__surface" ],
+    [ "filled_plot_data", "structfplot__core_1_1filled__plot__data.html", "structfplot__core_1_1filled__plot__data" ],
     [ "get_string_result", "interfacefplot__core_1_1get__string__result.html", "interfacefplot__core_1_1get__string__result" ],
     [ "hot_colormap", "structfplot__core_1_1hot__colormap.html", "structfplot__core_1_1hot__colormap" ],
     [ "latex_terminal", "structfplot__core_1_1latex__terminal.html", "structfplot__core_1_1latex__terminal" ],
