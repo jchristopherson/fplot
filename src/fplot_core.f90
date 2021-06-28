@@ -217,7 +217,7 @@ module fplot_core
     !> @brief Defines the default font used by text on the graph.
     character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Calibri"
     !> @brief Defines the default font size used by text on the graph.
-    integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 10
+    integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 14
     !> @brief Defines the maximum number of characters allowed in a file path.
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
@@ -4061,6 +4061,8 @@ module fplot_core
         real(real64) :: m_simplifyFactor = 1.0d-3
         !> Determines if the data should utilize data-dependent colors.
         logical :: m_dataDependentColors = .false.
+        !> Fill the curve?
+        logical :: m_filledCurve = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -4665,6 +4667,62 @@ module fplot_core
         !! @endcode
         procedure, public :: set_use_data_dependent_colors => &
             spd_set_data_dependent_colors
+        !> @brief Gets a logical value determining if a filled curve should be
+        !!  drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical function get_fill_curve(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if the curve should be filled; else, false.
+        procedure, public :: get_fill_curve => spd_get_filled
+        !> @brief Sets a logical value determining if a filled curve should be
+        !!  drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_fill_curve(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] Set to true if the curve should be filled; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 100
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Generate the curve to plot
+        !!     x = linspace(0.0d0, 1.0d0, npts)
+        !!     y = sin(4.0d0 * pi * x)
+        !!
+        !!     ! Plot the data
+        !!     call plt%initialize()
+        !!
+        !!     call pd%define_data(x, y)
+        !!     call pd%set_fill_curve(.true.)
+        !!     call plt%push(pd)
+        !!
+        !!     call pd%define_data(x, -0.25d0 * y)
+        !!     call pd%set_fill_curve(.true.)
+        !!     call plt%push(pd)
+        !!
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html filled_example_1.png
+        procedure, public :: set_fill_curve => spd_set_filled
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4770,6 +4828,16 @@ module fplot_core
         end function
 
         module subroutine spd_set_data_dependent_colors(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_filled(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_filled(this, x)
             class(scatter_plot_data), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine

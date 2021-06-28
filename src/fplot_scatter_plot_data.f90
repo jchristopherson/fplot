@@ -26,13 +26,17 @@ contains
             call str%append(' "-" notitle')
         end if
 
-        ! Lines or points?
-        if (this%get_draw_line() .and. this%get_draw_markers()) then
-            call str%append(" with linespoints")
-        else if (.not.this%get_draw_line() .and. this%get_draw_markers()) then
-            call str%append(" with points")
+        ! Lines, points, or filled
+        if (this%get_fill_curve()) then
+            call str%append(" with filledcurves")
         else
-            call str%append(" with lines")
+            if (this%get_draw_line() .and. this%get_draw_markers()) then
+                call str%append(" with linespoints")
+            else if (.not.this%get_draw_line() .and. this%get_draw_markers()) then
+                call str%append(" with points")
+            else
+                call str%append(" with lines")
+            end if
         end if
 
         ! Line Width
@@ -237,6 +241,22 @@ contains
         class(scatter_plot_data), intent(inout) :: this
         logical, intent(in) :: x
         this%m_dataDependentColors = x
+    end subroutine
+
+! ******************************************************************************
+! ADDED: JUNE 28, 2021 - JAC
+! ------------------------------------------------------------------------------
+    pure module function spd_get_filled(this) result(rst)
+        class(scatter_plot_data), intent(in) :: this
+        logical :: rst
+        rst = this%m_filledCurve
+    end function
+
+! --------------------
+    module subroutine spd_set_filled(this, x)
+        class(scatter_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_filledCurve = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
