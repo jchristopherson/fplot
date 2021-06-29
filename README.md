@@ -344,5 +344,4 @@ Documentation can be found [here](http://htmlpreview.github.io/?https://github.c
 ## External Libraries
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
-- [STRINGS](https://github.com/jchristopherson/strings)
-- [COLLECTIONS](https://github.com/jchristopherson/collections)
+- [FCORE](https://github.com/jchristopherson/fcore)
