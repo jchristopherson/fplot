@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rainbow_5fcolormap_423',['rainbow_colormap',['../structfplot__core_1_1rainbow__colormap.html',1,'fplot_core']]]
+  ['qt_5fterminal_428',['qt_terminal',['../structfplot__core_1_1qt__terminal.html',1,'fplot_core']]]
 ];

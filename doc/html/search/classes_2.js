@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filled_5fplot_5fdata_397',['filled_plot_data',['../structfplot__core_1_1filled__plot__data.html',1,'fplot_core']]]
+  ['earth_5fcolormap_400',['earth_colormap',['../structfplot__core_1_1earth__colormap.html',1,'fplot_core']]]
 ];

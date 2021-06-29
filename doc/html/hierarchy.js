@@ -11,7 +11,10 @@ var hierarchy =
     [ "fplot_core::plot_object", "structfplot__core_1_1plot__object.html", [
       [ "fplot_core::colormap", "structfplot__core_1_1colormap.html", [
         [ "fplot_core::cool_colormap", "structfplot__core_1_1cool__colormap.html", null ],
+        [ "fplot_core::earth_colormap", "structfplot__core_1_1earth__colormap.html", null ],
+        [ "fplot_core::grey_colormap", "structfplot__core_1_1grey__colormap.html", null ],
         [ "fplot_core::hot_colormap", "structfplot__core_1_1hot__colormap.html", null ],
+        [ "fplot_core::parula_colormap", "structfplot__core_1_1parula__colormap.html", null ],
         [ "fplot_core::rainbow_colormap", "structfplot__core_1_1rainbow__colormap.html", null ]
       ] ],
       [ "fplot_core::legend", "structfplot__core_1_1legend.html", null ],
