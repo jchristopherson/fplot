@@ -16,7 +16,7 @@ contains
         ! Initialization
         call str%initialize()
 
-        ! Process
+        ! Palette Definition
         call str%append("set palette defined (")
         call str%append(this%get_color_string())
         call str%append(")")
@@ -26,6 +26,38 @@ contains
             call str%append('set cblabel "')
             call str%append(this%get_label())
             call str%append('"')
+        end if
+
+        ! Orientation
+        if (this%get_horizontal()) then
+            call str%append(new_line('a'))
+            call str%append("set colorbox horizontal")
+            call str%append(new_line('a'))
+            call str%append("set size 0.8,0.8; set origin 0.1,0.2")
+            call str%append(new_line('a'))
+            call str%append("set colorbox user origin 0.1,0.175 size 0.8,0.055")
+
+            if (len(this%get_label()) > 0) then
+                call str%append(new_line('a'))
+                call str%append("set cblabel offset 0,0.8")
+            end if
+        end if
+
+        ! Border & Tic Marks
+        if (.not.this%get_draw_border()) then
+            ! Eliminate the border
+            call str%append(new_line('a'))
+            call str%append("set colorbox noborder")
+
+            ! Hide the tic marks
+            call str%append(new_line('a'))
+            call str%append("set cbtic scale 0")
+        else
+            ! Respect the tic mark visibility setting if the border is shown
+            if (.not.this%get_show_tics()) then
+                call str%append(new_line('a'))
+                call str%append("set cbtic scale 0")
+            end if
         end if
 
         ! End
@@ -48,6 +80,48 @@ contains
         class(colormap), intent(inout) :: this
         character(len = *), intent(in) :: x
         this%m_label = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function cm_get_horizontal(this) result(rst)
+        class(colormap), intent(in) :: this
+        logical :: rst
+        rst = this%m_horizontal
+    end function
+
+! --------------------
+    module subroutine cm_set_horizontal(this, x)
+        class(colormap), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_horizontal = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function cm_get_draw_border(this) result(rst)
+        class(colormap), intent(in) :: this
+        logical :: rst
+        rst = this%m_drawBorder
+    end function
+
+! --------------------
+    module subroutine cm_set_draw_border(this, x)
+        class(colormap), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_drawBorder = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function cm_get_show_tics(this) result(rst)
+        class(colormap), intent(in) :: this
+        logical :: rst
+        rst = this%m_showTics
+    end function
+
+! --------------------
+    module subroutine cm_set_show_tics(this, x)
+        class(colormap), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_showTics = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
