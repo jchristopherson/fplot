@@ -111,6 +111,9 @@ module fplot_core
     public :: vector_field_plot_data
     public :: plot_polar
     public :: filled_plot_data
+    public :: parula_colormap
+    public :: grey_colormap
+    public :: earth_colormap
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -2581,8 +2584,6 @@ module fplot_core
     !> @brief Defines a rainbow colormap.
     !!
     !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
     !! @code{.f90}
     !! program example
     !!     use, intrinsic :: iso_fortran_env
@@ -2662,8 +2663,6 @@ module fplot_core
     !> @brief Defines a colormap consisting of "hot" colors.
     !!
     !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
     !! @code{.f90}
     !! program example
     !!     use, intrinsic :: iso_fortran_env
@@ -2743,8 +2742,6 @@ module fplot_core
     !> @brief Defines a colormap consisting of "cool" colors.
     !!
     !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
     !! @code{.f90}
     !! program example
     !!     use, intrinsic :: iso_fortran_env
@@ -2821,6 +2818,240 @@ module fplot_core
     end type
 
 ! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap equivalent to the MATLAB parula colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(parula_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_parula.png
+    type, extends(colormap) :: parula_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(parula_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The parula_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => pcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a grey-scaled colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(grey_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_grey.png
+    type, extends(colormap) :: grey_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(grey_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The grey_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => gcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines an earthy-colored colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(earth_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_earth.png
+    type, extends(colormap) :: earth_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(earth_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The earth_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => ecm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
     interface
         module function cm_get_cmd(this) result(x)
             class(colormap), intent(in) :: this
@@ -2851,6 +3082,21 @@ module fplot_core
             class(colormap), intent(inout) :: this
             character(len = *), intent(in) :: x
         end subroutine
+
+        module function pcm_get_clr(this) result(x)
+            class(parula_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function gcm_get_clr(this) result(x)
+            class(grey_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function ecm_get_clr(this) result(x)
+            class(earth_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
     end interface
 
 ! ******************************************************************************

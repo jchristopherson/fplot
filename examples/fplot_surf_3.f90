@@ -21,7 +21,7 @@ program example
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
-    type(rainbow_colormap) :: map
+    type(earth_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
@@ -34,15 +34,11 @@ program example
     ! Define the function to plot
     z = sin(sqrt(x**2 + y**2))
 
-    ! Label the colorbar
-    call map%set_label("Example")
-
     ! Create the plot
     call plt%initialize()
-    call plt%set_font_size(14)
     call plt%set_colormap(map)
-    call plt%set_show_contours(.true.)
-    call plt%set_z_intersect_xy(.false.)
+    ! call plt%set_show_contours(.true.)
+    ! call plt%set_z_intersect_xy(.false.)
 
     ! Define titles
     call plt%set_title("Example Plot")
