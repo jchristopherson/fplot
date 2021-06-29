@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['halfedge_5fs_370',['halfedge_s',['../structhalfedge__s.html',1,'']]],
-  ['hot_5fcolormap_371',['hot_colormap',['../structfplot__core_1_1hot__colormap.html',1,'fplot_core']]]
+  ['get_5fstring_5fresult_408',['get_string_result',['../interfacefplot__core_1_1get__string__result.html',1,'fplot_core']]],
+  ['grey_5fcolormap_409',['grey_colormap',['../structfplot__core_1_1grey__colormap.html',1,'fplot_core']]]
 ];

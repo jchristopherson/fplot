@@ -1,6 +1,3 @@
-# Inform the user we're building the examples
-message(STATUS "Building FPLOT examples.")
-
 # Example 1
 add_executable(fplot_2d_1 fplot_2d_1.f90)
 target_link_libraries(fplot_2d_1 fplot)
@@ -88,3 +85,35 @@ target_link_libraries(fplot_tri_surf_1 fplot)
 # Example 22
 add_executable(fplot_d2d_2 fplot_d2d_2.f90)
 target_link_libraries(fplot_d2d_2 fplot)
+
+# Example 23
+add_executable(fplot_2d_clr_1 fplot_2d_clr_1.f90)
+target_link_libraries(fplot_2d_clr_1 fplot)
+
+# Example 24
+add_executable(fplot_3d_clr_1 fplot_3d_clr_1.f90)
+target_link_libraries(fplot_3d_clr_1 fplot)
+
+# Example 25
+add_executable(fplot_vector_1 fplot_vector_1.f90)
+target_link_libraries(fplot_vector_1 fplot)
+
+# Example 26
+add_executable(fplot_vector_2 fplot_vector_2.f90)
+target_link_libraries(fplot_vector_2 fplot)
+
+# Example 27
+add_executable(fplot_polar_1 fplot_polar_1.f90)
+target_link_libraries(fplot_polar_1 fplot)
+
+# Example 28
+add_executable(fplot_2d_9 fplot_2d_9.f90)
+target_link_libraries(fplot_2d_9 fplot)
+
+# Example 29
+add_executable(fplot_fill_1 fplot_fill_1.f90)
+target_link_libraries(fplot_fill_1 fplot)
+
+# Example 30
+add_executable(fplot_fill_2 fplot_fill_2.f90)
+target_link_libraries(fplot_fill_2 fplot)

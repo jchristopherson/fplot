@@ -3,16 +3,16 @@
 submodule (fplot_core) fplot_surface_plot
 contains
 ! ------------------------------------------------------------------------------
-    module subroutine surf_clean_up(this)
-        type(surface_plot), intent(inout) :: this
-        if (associated(this%m_colormap)) then
-            deallocate(this%m_colormap)
-            nullify(this%m_colormap)
-        end if
+    ! module subroutine surf_clean_up(this)
+    !     type(surface_plot), intent(inout) :: this
+    !     if (associated(this%m_colormap)) then
+    !         deallocate(this%m_colormap)
+    !         nullify(this%m_colormap)
+    !     end if
 
-        ! No need to call the base class finalization routine as the compiler
-        ! takes care of that for us.
-    end subroutine
+    !     ! No need to call the base class finalization routine as the compiler
+    !     ! takes care of that for us.
+    ! end subroutine
 
 ! ------------------------------------------------------------------------------
     module subroutine surf_init(this, term, fname, err)
@@ -33,7 +33,7 @@ contains
         call lgnd%set_is_visible(.false.)
 
         ! Nullify the colormap
-        nullify(this%m_colormap)
+        ! nullify(this%m_colormap)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -58,12 +58,16 @@ contains
 
         ! Local Variables
         type(string_builder) :: str
-        class(colormap), pointer :: clr
+        ! class(colormap), pointer :: clr
 
         ! Initialization
         call str%initialize()
 
+        ! Call the base routine
+        call str%append(this%plot%get_command_string())
+
         ! Hidden Stuff
+        call str%append(new_line('a'))
         if (this%get_show_hidden()) then
             call str%append("unset hidden3d")
         else
@@ -71,11 +75,11 @@ contains
         end if
 
         ! Define the colormap
-        clr => this%get_colormap()
-        if (associated(clr)) then
-            call str%append(new_line('a'))
-            call str%append(clr%get_command_string())
-        end if
+        ! clr => this%get_colormap()
+        ! if (associated(clr)) then
+        !     call str%append(new_line('a'))
+        !     call str%append(clr%get_command_string())
+        ! end if
 
         ! Allow for smoothing interpolation
         if (this%get_allow_smoothing()) then
@@ -90,10 +94,10 @@ contains
         end if
 
         ! Show colorbar
-        if (.not.this%get_show_colorbar()) then
-            call str%append(new_line('a'))
-            call str%append("unset colorbox")
-        end if
+        ! if (.not.this%get_show_colorbar()) then
+        !     call str%append(new_line('a'))
+        !     call str%append("unset colorbox")
+        ! end if
 
         ! Lighting
         if (this%get_use_lighting()) then
@@ -120,40 +124,40 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function surf_get_colormap(this) result(x)
-        class(surface_plot), intent(in) :: this
-        class(colormap), pointer :: x
-        x => this%m_colormap
-    end function
+!     module function surf_get_colormap(this) result(x)
+!         class(surface_plot), intent(in) :: this
+!         class(colormap), pointer :: x
+!         x => this%m_colormap
+!     end function
 
-! --------------------
-    module subroutine surf_set_colormap(this, x, err)
-        ! Arguments
-        class(surface_plot), intent(inout) :: this
-        class(colormap), intent(in) :: x
-        class(errors), intent(inout), optional, target :: err
+! ! --------------------
+!     module subroutine surf_set_colormap(this, x, err)
+!         ! Arguments
+!         class(surface_plot), intent(inout) :: this
+!         class(colormap), intent(in) :: x
+!         class(errors), intent(inout), optional, target :: err
 
-        ! Local Variables
-        integer(int32) :: flag
-        class(errors), pointer :: errmgr
-        type(errors), target :: deferr
+!         ! Local Variables
+!         integer(int32) :: flag
+!         class(errors), pointer :: errmgr
+!         type(errors), target :: deferr
 
-        ! Initialization
-        if (present(err)) then
-            errmgr => err
-        else
-            errmgr => deferr
-        end if
+!         ! Initialization
+!         if (present(err)) then
+!             errmgr => err
+!         else
+!             errmgr => deferr
+!         end if
 
-        ! Process
-        if (associated(this%m_colormap)) deallocate(this%m_colormap)
-        allocate(this%m_colormap, stat = flag, source = x)
-        if (flag /= 0) then
-            call errmgr%report_error("surf_set_colormap", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
-            return
-        end if
-    end subroutine
+!         ! Process
+!         if (associated(this%m_colormap)) deallocate(this%m_colormap)
+!         allocate(this%m_colormap, stat = flag, source = x)
+!         if (flag /= 0) then
+!             call errmgr%report_error("surf_set_colormap", &
+!                 "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+!             return
+!         end if
+!     end subroutine
 
 ! ------------------------------------------------------------------------------
     pure module function surf_get_smooth(this) result(x)
@@ -184,18 +188,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function surf_get_show_colorbar(this) result(x)
-        class(surface_plot), intent(in) :: this
-        logical :: x
-        x = this%m_showColorbar
-    end function
+!     pure module function surf_get_show_colorbar(this) result(x)
+!         class(surface_plot), intent(in) :: this
+!         logical :: x
+!         x = this%m_showColorbar
+!     end function
 
-! --------------------
-    module subroutine surf_set_show_colorbar(this, x)
-        class(surface_plot), intent(inout) :: this
-        logical, intent(in) :: x
-        this%m_showColorbar = x
-    end subroutine
+! ! --------------------
+!     module subroutine surf_set_show_colorbar(this, x)
+!         class(surface_plot), intent(inout) :: this
+!         logical, intent(in) :: x
+!         this%m_showColorbar = x
+!     end subroutine
 
 ! ------------------------------------------------------------------------------
     pure module function surf_get_use_lighting(this) result(x)

@@ -13,6 +13,10 @@ contains
             deallocate(this%m_legend)
             nullify(this%m_legend)
         end if
+        if (associated(this%m_colormap)) then
+            deallocate(this%m_colormap)
+            nullify(this%m_colormap)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -67,6 +71,9 @@ contains
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
         end select
+
+        ! Establish the colormap
+        nullify(this%m_colormap)
 
         if (flag == 0 .and. .not.associated(this%m_legend)) then
             allocate(this%m_legend, stat = flag)
@@ -458,6 +465,88 @@ contains
         logical, intent(in) :: x
         this%m_axisEqual = x
     end subroutine
+
+! ******************************************************************************
+! ADDED: OCT. 8, 2020 - JAC
+! ------------------------------------------------------------------------------
+    module function plt_get_colormap(this) result(x)
+        class(plot), intent(in) :: this
+        class(colormap), pointer :: x
+        x => this%m_colormap
+    end function
+
+! --------------------
+    module subroutine plt_set_colormap(this, x, err)
+        ! Arguments
+        class(plot), intent(inout) :: this
+        class(colormap), intent(in) :: x
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Process
+        if (associated(this%m_colormap)) deallocate(this%m_colormap)
+        allocate(this%m_colormap, stat = flag, source = x)
+        if (flag /= 0) then
+            call errmgr%report_error("surf_set_colormap", &
+                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plt_get_show_colorbar(this) result(x)
+        class(plot), intent(in) :: this
+        logical :: x
+        x = this%m_showColorbar
+    end function
+
+! --------------------
+    module subroutine plt_set_show_colorbar(this, x)
+        class(plot), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_showColorbar = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function plt_get_cmd(this) result(x)
+        ! Arguments
+        class(plot), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        ! Local Variables
+        type(string_builder) :: str
+        class(colormap), pointer :: clr
+
+        ! Initialization
+        call str%initialize()
+
+        ! Define the colormap
+        clr => this%get_colormap()
+        if (associated(clr)) then
+            call str%append(new_line('a'))
+            call str%append(clr%get_command_string())
+        end if
+
+        ! Show the colorbar
+        if (.not.this%get_show_colorbar()) then
+            call str%append(new_line('a'))
+            call str%append("unset colorbox")
+        end if
+
+        ! End
+        x = str%to_string()
+    end function
 
 ! ------------------------------------------------------------------------------
 end submodule

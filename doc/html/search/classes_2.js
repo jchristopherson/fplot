@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['face_5fs_368',['face_s',['../structface__s.html',1,'']]]
+  ['earth_5fcolormap_406',['earth_colormap',['../structfplot__core_1_1earth__colormap.html',1,'fplot_core']]]
 ];

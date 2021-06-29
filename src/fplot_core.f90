@@ -65,6 +65,12 @@ module fplot_core
     public :: LEGEND_RIGHT
     public :: LEGEND_TOP
     public :: LEGEND_BOTTOM
+    public :: POLAR_THETA_BOTTOM
+    public :: POLAR_THETA_LEFT
+    public :: POLAR_THETA_RIGHT
+    public :: POLAR_THETA_TOP
+    public :: POLAR_THETA_CCW
+    public :: POLAR_THETA_CW
     public :: PLOTDATA_MAX_NAME_LENGTH
     public :: linspace
     public :: logspace
@@ -102,6 +108,12 @@ module fplot_core
     public :: plot_data_tri_2d
     public :: delaunay_tri_surface
     public :: tri_surface_plot_data
+    public :: vector_field_plot_data
+    public :: plot_polar
+    public :: filled_plot_data
+    public :: parula_colormap
+    public :: grey_colormap
+    public :: earth_colormap
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -176,6 +188,22 @@ module fplot_core
     character(len = *), parameter :: LEGEND_BOTTOM = "bottom"
 
 ! ******************************************************************************
+! POLAR PLOT CONSTANTS
+! ------------------------------------------------------------------------------
+    !> @brief States that theta should start at the top of the plot.
+    character(len = *), parameter :: POLAR_THETA_TOP = "top"
+    !> @brief States that theta should start at the right of the plot.
+    character(len = *), parameter :: POLAR_THETA_RIGHT = "right"
+    !> @brief States that theta should start at the bottom of the plot.
+    character(len = *), parameter :: POLAR_THETA_BOTTOM = "bottom"
+    !> @brief States that theta should start at the left of the plot.
+    character(len = *), parameter :: POLAR_THETA_LEFT = "left"
+    !> @brief States that theta should proceed in a counter-clockwise direction.
+    character(len = *), parameter :: POLAR_THETA_CCW = "ccw"
+    !> @brief States that theta should proceed in a clockwise direction.
+    character(len = *), parameter :: POLAR_THETA_CW = "cw"
+
+! ******************************************************************************
 ! PLOT DATA CONSTANTS
 ! ------------------------------------------------------------------------------
     !> @brief Defines the maximum number of characters allowed in a graph label.
@@ -193,7 +221,7 @@ module fplot_core
     !> @brief Defines the default font used by text on the graph.
     character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Calibri"
     !> @brief Defines the default font size used by text on the graph.
-    integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 10
+    integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 14
     !> @brief Defines the maximum number of characters allowed in a file path.
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
@@ -361,9 +389,17 @@ module fplot_core
     type(color), parameter :: CLR_ORANGE = color(255, 165, 0)
 
     ! A list of colors that can be cycled through by plotting code
-    type(color), parameter, dimension(8) :: color_list = [ &
-        CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
-        CLR_ORANGE, CLR_BLACK]
+    type(color), parameter, dimension(7) :: color_list = [ &
+        color(0, int(0.447 * 255), int(0.741 * 255)), &
+        color(int(0.85 * 255), int(0.325 * 255), int(0.098 * 255)), &
+        color(int(0.929 * 255), int(0.694 * 255), int(0.125 * 255)), &
+        color(int(0.494 * 255), int(0.184 * 255), int(0.556 * 255)), &
+        color(int(0.466 * 255), int(0.674 * 255), int(0.188 * 255)), &
+        color(int(0.301 * 255), int(0.745 * 255), int(0.933 * 255)), &
+        color(int(0.635 * 255), int(0.078 * 255), int(0.184 * 255))]
+    ! type(color), parameter, dimension(8) :: color_list = [ &
+    !     CLR_BLUE, CLR_GREEN, CLR_RED, CLR_CYAN, CLR_LIME, CLR_PURPLE, &
+    !     CLR_ORANGE, CLR_BLACK]
 
 ! ******************************************************************************
 ! FPLOT_LABEL.F90
@@ -2428,11 +2464,968 @@ module fplot_core
         end function
     end interface
 
+
+! ******************************************************************************
+! FPLOT_COLORMAP.F90
+! ------------------------------------------------------------------------------
+    !> @brief A colormap object for a surface plot.
+    type, abstract, extends(plot_object) :: colormap
+    private
+        !> The label to associate with the colormap
+        character(len = :), allocatable :: m_label
+        !> The colormap should be drawn horizontally
+        logical :: m_horizontal = .false.
+        !> Draw the colormap border
+        logical :: m_drawBorder = .true.
+        !> Show the tic marks
+        logical :: m_showTics = .true.
+    contains
+        !> @brief Gets the GNUPLOT command string to represent this colormap
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable :: get_command_string(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return The command string.
+        procedure, public :: get_command_string => cm_get_cmd
+        !> @brief Gets the GNUPLOT string defining the color distribution.  For
+        !! instance, this routine could return the string: '0 "dark-blue",
+        !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red",
+        !! 7 "dark-red"'.  This string would result in a rainbow type map.
+        procedure(cm_get_string_result), deferred, public :: get_color_string
+        !> @brief Gets the label to associate with the colorbar.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_label(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return The label.
+        procedure, public :: get_label => cm_get_label
+        !> @brief Sets the label to associate with the colorbar.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_label(class(colormap) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x The label.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(rainbow_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Label the colorbar
+        !!     call map%set_label("Example")
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_colormap(map)
+        !!     call plt%set_show_contours(.true.)
+        !!     call plt%set_z_intersect_xy(.false.)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html surface_example_w_cb_label.png
+        procedure, public :: set_label => cm_set_label
+        !> @brief Gets a logical value determining if the colormap should be
+        !! drawn horizontally and below the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_horizontal(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return Returns true if the colormap should be drawn horizontally;
+        !!  else, false.
+        procedure, public :: get_horizontal => cm_get_horizontal
+        !> @brief Sets a logical value determining if the colormap should be
+        !! drawn horizontally and below the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_horizontal(class(colormap) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x Set to true if the colormap should be drawn 
+        !!  horizontally; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(cool_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Define colormap settings
+        !!     call map%set_horizontal(.true.)
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_horizontal.png
+        procedure, public :: set_horizontal => cm_set_horizontal
+        !> @brief Gets a logical value determining if the border should be
+        !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_draw_border(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return Returns true if the border should be drawn; else, false.
+        procedure, public :: get_draw_border => cm_get_draw_border
+        !> @brief Sets a logical value determining if the border should be
+        !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_border(class(colormap) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x Set to true if the border should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(cool_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Define colormap settings - turn off the border
+        !!     call map%set_draw_border(.false.)
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_no_border.png
+        procedure, public :: set_draw_border => cm_set_draw_border
+        !> @brief Gets a logical value determining if the tic marks should be
+        !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_show_tics(class(colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The colormap object.
+        !! @return Returns true if the tic marks should be drawn; else, false.
+        procedure, public :: get_show_tics => cm_get_show_tics
+        !> @brief Sets a logical value determining if the tic marks should be
+        !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_tics(class(colormap) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x Set to true if the tic marks should be drawn; else, 
+        !!  false.
+        !> @brief Sets a logical value determining if the border should be
+        !! drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_border(class(colormap) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The colormap object.
+        !! @param[in] x Set to true if the border should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: m = 50
+        !!     integer(int32), parameter :: n = 50
+        !!     real(real64), parameter :: xMax = 5.0d0
+        !!     real(real64), parameter :: xMin = -5.0d0
+        !!     real(real64), parameter :: yMax = 5.0d0
+        !!     real(real64), parameter :: yMin = -5.0d0
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: xdata
+        !!     real(real64), dimension(m) :: ydata
+        !!     real(real64), dimension(:,:), pointer :: x, y
+        !!     real(real64), dimension(m, n, 2), target :: xy
+        !!     real(real64), dimension(m, n) :: z
+        !!     type(surface_plot) :: plt
+        !!     type(surface_plot_data) :: d1
+        !!     type(cool_colormap) :: map
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Define the data
+        !!     xdata = linspace(xMin, xMax, n)
+        !!     ydata = linspace(yMin, yMax, m)
+        !!     xy = meshgrid(xdata, ydata)
+        !!     x => xy(:,:,1)
+        !!     y => xy(:,:,2)
+        !!
+        !!     ! Define the function to plot
+        !!     z = sin(sqrt(x**2 + y**2))
+        !!
+        !!     ! Define colormap settings - turn off the tic marks
+        !!     call map%set_show_tics(.false.)
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(map)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data set
+        !!     call d1%define_data(x, y, z)
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_surface_plot_no_tics.png
+        procedure, public :: set_show_tics => cm_set_show_tics
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a rainbow colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(rainbow_colormap) :: map ! Using a rainbow colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot.png
+    type, extends(colormap) :: rainbow_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(rainbow_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The rainbow_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => rcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "hot" colors.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(hot_colormap) :: map ! Using a hot colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_hot.png
+    type, extends(colormap) :: hot_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(hot_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The hot_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => hcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap consisting of "cool" colors.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(cool_colormap) :: map ! Using a cool colormap
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Surface Example Plot 1")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_cool.png
+    type, extends(colormap) :: cool_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(cool_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The cool_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => ccm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a colormap equivalent to the MATLAB parula colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(parula_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_parula.png
+    type, extends(colormap) :: parula_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(parula_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The parula_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => pcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a grey-scaled colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(grey_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_grey.png
+    type, extends(colormap) :: grey_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(grey_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The grey_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => gcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines an earthy-colored colormap.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use, intrinsic :: iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Parameters
+    !!     integer(int32), parameter :: m = 50
+    !!     integer(int32), parameter :: n = 50
+    !!     real(real64), parameter :: xMax = 5.0d0
+    !!     real(real64), parameter :: xMin = -5.0d0
+    !!     real(real64), parameter :: yMax = 5.0d0
+    !!     real(real64), parameter :: yMin = -5.0d0
+    !!
+    !!     ! Local Variables
+    !!     real(real64), dimension(n) :: xdata
+    !!     real(real64), dimension(m) :: ydata
+    !!     real(real64), dimension(:,:), pointer :: x, y
+    !!     real(real64), dimension(m, n, 2), target :: xy
+    !!     real(real64), dimension(m, n) :: z
+    !!     type(surface_plot) :: plt
+    !!     type(surface_plot_data) :: d1
+    !!     type(earth_colormap) :: map
+    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    !!
+    !!     ! Define the data
+    !!     xdata = linspace(xMin, xMax, n)
+    !!     ydata = linspace(yMin, yMax, m)
+    !!     xy = meshgrid(xdata, ydata)
+    !!     x => xy(:,:,1)
+    !!     y => xy(:,:,2)
+    !!
+    !!     ! Define the function to plot
+    !!     z = sin(sqrt(x**2 + y**2))
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_colormap(map)
+    !!
+    !!     ! Define titles
+    !!     call plt%set_title("Example Plot")
+    !!
+    !!     xAxis => plt%get_x_axis()
+    !!     call xAxis%set_title("X Axis")
+    !!
+    !!     yAxis => plt%get_y_axis()
+    !!     call yAxis%set_title("Y Axis")
+    !!
+    !!     zAxis => plt%get_z_axis()
+    !!     call zAxis%set_title("Z Axis")
+    !!
+    !!     ! Define the data set
+    !!     call d1%define_data(x, y, z)
+    !!     call plt%push(d1)
+    !!
+    !!     ! Let GNUPLOT draw the plot
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html example_surface_plot_earth.png
+    type, extends(colormap) :: earth_colormap
+    contains
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(earth_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The earth_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => ecm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    interface
+        module function cm_get_cmd(this) result(x)
+            class(colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function cm_get_label(this) result(rst)
+            class(colormap), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine cm_set_label(this, x)
+            class(colormap), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        pure module function cm_get_horizontal(this) result(rst)
+            class(colormap), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine cm_set_horizontal(this, x)
+            class(colormap), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function cm_get_draw_border(this) result(rst)
+            class(colormap), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine cm_set_draw_border(this, x)
+            class(colormap), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function cm_get_show_tics(this) result(rst)
+            class(colormap), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine cm_set_show_tics(this, x)
+            class(colormap), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        ! --------------------
+
+        module function rcm_get_clr(this) result(x)
+            class(rainbow_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+
+        module function hcm_get_clr(this) result(x)
+            class(hot_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+
+        module function ccm_get_clr(this) result(x)
+            class(cool_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+
+        module function pcm_get_clr(this) result(x)
+            class(parula_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+
+        module function gcm_get_clr(this) result(x)
+            class(grey_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+
+        module function ecm_get_clr(this) result(x)
+            class(earth_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+    end interface
+
 ! ******************************************************************************
 ! FPLOT_PLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines the basic GNUPLOT plot.
-    type, abstract, extends(plot_object) :: plot
+    type, extends(plot_object) :: plot
     private
         !> The plot title
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title = ""
@@ -2456,6 +3449,10 @@ module fplot_core
         integer(int32) :: m_colorIndex = 1
         !> Determines if the axes should be scaled proportionally
         logical :: m_axisEqual = .false.
+        !> The colormap.
+        class(colormap), pointer :: m_colormap
+        !> Show the colorbar?
+        logical :: m_showColorbar = .true.
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
@@ -3295,6 +4292,122 @@ module fplot_core
         !! @param[in] x Set to true if the axes should be scaled equally; else, 
         !!  false.
         procedure, public :: set_axis_equal => plt_set_axis_equal
+        !> @brief Gets a pointer to the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(colormap) function, pointer get_colormap(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return A pointer to the colormap object.  If no colormap is defined, a
+        !!  null pointer is returned.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     class(colormap), pointer :: map
+        !!
+        !!     ! Get a pointer to the current colormap
+        !!     map => plt%get_colormap()
+        !! end program
+        !! @endcode
+        procedure, public :: get_colormap => plt_get_colormap
+        !> @brief Sets the colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_colormap(class(plot) this, class(colormap) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x The colormap object.  Notice, a copy of this object is
+        !!  stored, and the plot object then manages the lifetime of the
+        !!  copy.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     type(rainbow_colormap) :: map
+        !!
+        !!     ! Set the colormap to a rainbow colormap
+        !!     call plt%set_colormap(map)
+        !! end program
+        !! @endcode
+        procedure, public :: set_colormap => plt_set_colormap
+        !> @brief Gets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_show_colorbar(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return Returns true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Check to see if the colorbar is shown
+        !!     check = plt%get_show_colorbar()
+        !! end program
+        !! @endcode
+        procedure, public :: get_show_colorbar => plt_get_show_colorbar
+        !> @brief Sets a value determining if the colorbar should be shown.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_show_colorbar(class(plot) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot object.
+        !! @param[in] x Set to true if the colorbar should be drawn; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     type(surface_plot) :: plt
+        !!     logical :: check
+        !!
+        !!     ! Hide the colorbar
+        !!     call plt%set_show_colorbar(.false.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_show_colorbar => plt_set_show_colorbar
+        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot object.
+        !! @return The command string.
+        procedure, public :: get_command_string => plt_get_cmd
     end type
 
 ! ------------------------------------------------------------------------------
@@ -3468,294 +4581,30 @@ module fplot_core
             class(plot), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
-    end interface
 
-! ******************************************************************************
-! FPLOT_COLORMAP.F90
-! ------------------------------------------------------------------------------
-    !> @brief A colormap object for a surface plot.
-    type, abstract, extends(plot_object) :: colormap
-    contains
-        !> @brief Gets the GNUPLOT command string to represent this colormap
-        !! object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable :: get_command_string(class(colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The colormap object.
-        !! @return The command string.
-        procedure, public :: get_command_string => cm_get_cmd
-        !> @brief Gets the GNUPLOT string defining the color distribution.  For
-        !! instance, this routine could return the string: '0 "dark-blue",
-        !! 1 "blue", 2 "cyan", 3 "green", 4 "yellow", 5 "orange", 6 "red",
-        !! 7 "dark-red"'.  This string would result in a rainbow type map.
-        procedure(cm_get_string_result), deferred, public :: get_color_string
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a rainbow colormap.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(rainbow_colormap) :: map ! Using a rainbow colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot.png
-    type, extends(colormap) :: rainbow_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(rainbow_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The rainbow_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => rcm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a colormap consisting of "hot" colors.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(hot_colormap) :: map ! Using a hot colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_hot.png
-    type, extends(colormap) :: hot_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(hot_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The hot_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => hcm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    !> @brief Defines a colormap consisting of "cool" colors.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(cool_colormap) :: map ! Using a cool colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_cool.png
-    type, extends(colormap) :: cool_colormap
-    contains
-        !> @brief Gets the GNUPLOT string defining the color distribution.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! character(len = :) function, allocatable get_color_string(class(cool_colormap) this)
-        !! @endcode
-        !!
-        !! @param[in] this The cool_colormap object.
-        !! @return The command string.
-        procedure, public :: get_color_string => ccm_get_clr
-    end type
-
-! ------------------------------------------------------------------------------
-    interface
-        module function cm_get_cmd(this) result(x)
-            class(colormap), intent(in) :: this
-            character(len = :), allocatable :: x
+        module function plt_get_colormap(this) result(x)
+            class(plot), intent(in) :: this
+            class(colormap), pointer :: x
         end function
 
-        module function rcm_get_clr(this) result(x)
-            class(rainbow_colormap), intent(in) :: this
-            character(len = :), allocatable :: x
+        module subroutine plt_set_colormap(this, x, err)
+            class(plot), intent(inout) :: this
+            class(colormap), intent(in) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function plt_get_show_colorbar(this) result(x)
+            class(plot), intent(in) :: this
+            logical :: x
         end function
 
-        module function hcm_get_clr(this) result(x)
-            class(hot_colormap), intent(in) :: this
-            character(len = :), allocatable :: x
-        end function
+        module subroutine plt_set_show_colorbar(this, x)
+            class(plot), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
 
-        module function ccm_get_clr(this) result(x)
-            class(cool_colormap), intent(in) :: this
+        module function plt_get_cmd(this) result(x)
+            class(plot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
     end interface
@@ -3787,6 +4636,10 @@ module fplot_core
         !! The simplification tolerance is established by multiplying this
         !! factor by the range in the dependent variable data.
         real(real64) :: m_simplifyFactor = 1.0d-3
+        !> Determines if the data should utilize data-dependent colors.
+        logical :: m_dataDependentColors = .false.
+        !> Fill the curve?
+        logical :: m_filledCurve = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -4334,6 +5187,119 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_simplification_factor => spd_set_simplify_factor
+        !> @brief Gets a value determing if data-dependent colors should be 
+        !! used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_data_dependent_colors(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if data-dependent colors should be used; else, 
+        !! false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     logical :: x
+        !!
+        !!     x = this%get_use_data_dependent_colors()
+        !! end program
+        !! @endcode
+        procedure, public :: get_use_data_dependent_colors => &
+            spd_get_data_dependent_colors
+        !> @brief Sets a value determing if data dependent colors should be 
+        !! used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_data_dependent_colors(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] x True if data-dependent colors should be used; else, 
+        !!  false.
+        !!
+        !! @par Example
+        !! This example makes use of the plot_data_2d type; however, this
+        !! example is valid for any type that derives from scatter_plot_data.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     call this%set_use_data_dependent_colors(.true.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_use_data_dependent_colors => &
+            spd_set_data_dependent_colors
+        !> @brief Gets a logical value determining if a filled curve should be
+        !!  drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical function get_fill_curve(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return Returns true if the curve should be filled; else, false.
+        procedure, public :: get_fill_curve => spd_get_filled
+        !> @brief Sets a logical value determining if a filled curve should be
+        !!  drawn.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_fill_curve(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The scatter_plot_data object.
+        !! @param[in] Set to true if the curve should be filled; else, false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 100
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Generate the curve to plot
+        !!     x = linspace(0.0d0, 1.0d0, npts)
+        !!     y = sin(4.0d0 * pi * x)
+        !!
+        !!     ! Plot the data
+        !!     call plt%initialize()
+        !!
+        !!     call pd%define_data(x, y)
+        !!     call pd%set_fill_curve(.true.)
+        !!     call plt%push(pd)
+        !!
+        !!     call pd%define_data(x, -0.25d0 * y)
+        !!     call pd%set_fill_curve(.true.)
+        !!     call plt%push(pd)
+        !!
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html filled_example_1.png
+        procedure, public :: set_fill_curve => spd_set_filled
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4431,6 +5397,26 @@ module fplot_core
         module subroutine spd_set_simplify_factor(this, x)
             class(scatter_plot_data), intent(inout) :: this
             real(real64), intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_data_dependent_colors(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_data_dependent_colors(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_filled(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_filled(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
         end subroutine
     end interface
 
@@ -4824,6 +5810,62 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_plot_2d_2.png
+        !!
+        !! @par Overload 3
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), real(real64) c(:), optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_data_2d object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[in] c An N-element array defining how color should vary with
+        !!  the current colormap for each value.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+        !!      same size.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of the third overload.
+        !! This form of the routine simply plots the data with a colormap
+        !! defining the colors at each value.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: npts = 1000
+        !!
+        !!     ! Local Variables
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: ds
+        !!     type(cool_colormap) :: cmap
+        !!
+        !!     ! Build the data set
+        !!     x = linspace(0.0d0, 1.0d1, npts)
+        !!     y = exp(-0.2 * x) * sin(10.0d0 * x) * cos(5.0d0 * x)
+        !!
+        !!     ! Plot the data set
+        !!     call plt%initialize()
+        !!     call plt%set_colormap(cmap)
+        !!     call plt%set_font_size(14)
+        !!     call ds%define_data(x, y, y)
+        !!     call ds%set_line_width(3.0)
+        !!     call plt%push(ds)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_data_depend_color_2d.png
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
@@ -4878,6 +5920,31 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: get_y_data => pd2d_get_y_array
+        !> @brief Gets the stored color scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_color_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_2d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: c
+        !!
+        !!     ! Get the data array
+        !!     c = pd%get_color_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_color_data => pd2d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4921,9 +5988,10 @@ module fplot_core
             real(real64), intent(in) :: x
         end subroutine
 
-        module subroutine pd2d_set_data_1(this, x, y, err)
+        module subroutine pd2d_set_data_1(this, x, y, c, err)
             class(plot_data_2d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y
+            real(real64), intent(in), dimension(:), optional :: c
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -4949,6 +6017,11 @@ module fplot_core
         end function
 
         module function pd2d_get_y_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd2d_get_c_array(this) result(x)
             class(plot_data_2d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
@@ -5183,7 +6256,7 @@ module fplot_core
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are
         !!      not the same size.
         !!
-        !! @par Example
+        !! @par Example 1
         !! The following example adds data to draw a helix to a 3D plot.
         !! @code{.f90}
         !! program example
@@ -5238,6 +6311,60 @@ module fplot_core
         !! end program
         !! @endcode
         !! @image html example_plot_3d_1.png
+        !!
+        !! @par Example 2
+        !! The following example illustrates the use of data-dependent colors.
+        !! @code{.f90}
+        !! program example
+        !!     use, intrinsic :: iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Parameters
+        !!     integer(int32), parameter :: n = 1000
+        !!
+        !!     ! Local Variables
+        !!     real(real64), dimension(n) :: t, x, y, z
+        !!     type(plot_3d) :: plt
+        !!     type(plot_data_3d) :: d1
+        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+        !!
+        !!     ! Initialize the plot object
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!
+        !!     ! Define titles
+        !!     call plt%set_title("Example Plot")
+        !!
+        !!     xAxis => plt%get_x_axis()
+        !!     call xAxis%set_title("X Axis")
+        !!
+        !!     yAxis => plt%get_y_axis()
+        !!     call yAxis%set_title("Y Axis")
+        !!
+        !!     zAxis => plt%get_z_axis()
+        !!     call zAxis%set_title("Z Axis")
+        !!
+        !!     ! Define the data
+        !!     t = linspace(0.0d0, 10.0d0, n)
+        !!     x = cos(5.0d0 * t)
+        !!     y = sin(5.0d0 * t)
+        !!     z = 2.0d0 * t
+        !!
+        !!     call d1%define_data(x, y, z, x * y)
+        !!
+        !!     ! Set up the data set
+        !!     call d1%set_line_color(CLR_BLUE)
+        !!     call d1%set_line_width(2.0)
+        !!
+        !!     ! Add the data to the plot
+        !!     call plt%push(d1)
+        !!
+        !!     ! Let GNUPLOT draw the plot
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html example_data_depend_color_3d.png
         procedure, public :: define_data => pd3d_set_data_1
         !> @brief Gets the stored X data array.
         !!
@@ -5314,6 +6441,31 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: get_z_data => pd3d_get_z_array
+        !> @brief Gets the stored color scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_color_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(plot_data_3d) :: pd
+        !!     real(real64), allocatable, dimension(:) :: c
+        !!
+        !!     ! Get the data array
+        !!     c = pd%get_color_data()
+        !! end program
+        !! @endcode
+        procedure, public :: get_color_data => pd3d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -5369,9 +6521,10 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine pd3d_set_data_1(this, x, y, z, err)
+        module subroutine pd3d_set_data_1(this, x, y, z, c, err)
             class(plot_data_3d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y, z
+            real(real64), intent(in), dimension(:), optional :: c
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -5386,6 +6539,11 @@ module fplot_core
         end function
 
         module function pd3d_get_z_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_c_array(this) result(x)
             class(plot_data_3d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
@@ -5956,6 +7114,8 @@ module fplot_core
         type(y2_axis), pointer :: m_y2Axis => null()
         !> Display the secondary y axis?
         logical :: m_useY2 = .false.
+        !> Set to square scaling
+        logical :: m_set2square = .false.
     contains
         !> @brief Cleans up resources held by the plot_2d object.
         !!
@@ -6171,6 +7331,69 @@ module fplot_core
         !! @endcode
         !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
+        !> @brief Gets a logical flag determining if the axes size should be
+        !!  squared off.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_square_axes(class(plot_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_2d object.
+        !! @return Returns true if the axes are to be sized to a square; else,
+        !!  false.
+        procedure, public :: get_square_axes => p2d_get_square_axes
+        !> @brief Sets a logical flag determining if the axes size should be
+        !!  squared off.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_square_axes(class(plot_2d) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_2d object.
+        !! @param[in] Set to true if the axes are to be sized to a square; else,
+        !!  false.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Generate the data
+        !!     t = linspace(0.0d0, 2.0d0 * pi, npts)
+        !!     x = cos(t)
+        !!     y = sin(t)
+        !!
+        !!     ! Set up the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Default Settings")
+        !!
+        !!     call pd%define_data(x, y)
+        !!     call plt%push(pd)
+        !!
+        !!     call plt%draw()
+        !!
+        !!     ! Now show the effects of square axes
+        !!     call plt%set_axis_equal(.false.)
+        !!     call plt%set_square_axes(.true.)
+        !!     call plt%set_title("Square Axes")
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html default_2d_example.png
+        !! @image html square_2d_example.png
+        procedure, public :: set_square_axes => p2d_set_square_axes
     end type
 
 ! ------------------------------------------------------------------------------
@@ -6212,6 +7435,16 @@ module fplot_core
         end function
 
         module subroutine p2d_set_use_y2(this, x)
+            class(plot_2d), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function p2d_get_square_axes(this) result(rst)
+            class(plot_2d), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine p2d_set_square_axes(this, x)
             class(plot_2d), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
@@ -6743,13 +7976,13 @@ module fplot_core
         !> Show hidden lines
         logical :: m_showHidden = .false.
         !> The colormap
-        class(colormap), pointer :: m_colormap
+        ! class(colormap), pointer :: m_colormap
         !> Smooth the surface?
         logical :: m_smooth = .true.
         !> Show a contour plot as well as the surface plot?
         logical :: m_contour = .false.
-        !> Show the colorbar?
-        logical :: m_showColorbar = .true.
+        ! !> Show the colorbar?
+        ! logical :: m_showColorbar = .true.
         !> Use lighting?
         logical :: m_useLighting = .false.
         !> Lighting intensity (0 - 1) - default is 0.5
@@ -6762,7 +7995,7 @@ module fplot_core
         !> @brief Cleans up resources held by the surface_plot object.
         !!
         !! @param[in,out] this The surface_plot object.
-        final :: surf_clean_up
+        ! final :: surf_clean_up
         !> @brief Initializes the surface_plot object.
         !!
         !! @par Syntax
@@ -6902,63 +8135,6 @@ module fplot_core
         !! @param[in] this The surface_plot object.
         !! @return The command string.
         procedure, public :: get_command_string => surf_get_cmd
-        !> @brief Gets a pointer to the colormap object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! class(colormap) function, pointer get_colormap(class(surface_plot) this)
-        !! @endcode
-        !!
-        !! @param[in] this The surface_plot object.
-        !! @return A pointer to the colormap object.  If no colormap is defined, a
-        !!  null pointer is returned.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     class(colormap), pointer :: map
-        !!
-        !!     ! Get a pointer to the current colormap
-        !!     map => plt%get_colormap()
-        !! end program
-        !! @endcode
-        procedure, public :: get_colormap => surf_get_colormap
-        !> @brief Sets the colormap object.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_colormap(class(surface_plot) this, class(colormap) x, optional class(errors) err)
-        !! @endcode
-        !!
-        !! @param[in,out] this The surface_plot object.
-        !! @param[in] x The colormap object.  Notice, a copy of this object is
-        !!  stored, and the surface_plot object then manages the lifetime of the
-        !!  copy.
-        !! @param[out] err An optional errors-based object that if provided can be
-        !!  used to retrieve information relating to any errors encountered during
-        !!  execution.  If not provided, a default implementation of the errors
-        !!  class is used internally to provide error handling.  Possible errors and
-        !!  warning messages that may be encountered are as follows.
-        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     type(rainbow_colormap) :: map
-        !!
-        !!     ! Set the colormap to a rainbow colormap
-        !!     call plt%set_colormap(map)
-        !! end program
-        !! @endcode
-        procedure, public :: set_colormap => surf_set_colormap
         !> @brief Gets a value determining if the plotted surfaces should be
         !! smoothed.
         !!
@@ -7114,54 +8290,6 @@ module fplot_core
         !! @endcode
         !! @image html example_surface_plot_with_contour_1.png
         procedure, public :: set_show_contours => surf_set_show_contours
-        !> @brief Gets a value determining if the colorbar should be shown.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! pure logical function get_show_colorbar(class(surface_plot) this)
-        !! @endcode
-        !!
-        !! @param[in] this The surface_plot object.
-        !! @return Returns true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if the colorbar is shown
-        !!     check = plt%get_show_colorbar()
-        !! end program
-        !! @endcode
-        procedure, public :: get_show_colorbar => surf_get_show_colorbar
-        !> @brief Sets a value determining if the colorbar should be shown.
-        !!
-        !! @par Syntax
-        !! @code{.f90}
-        !! subroutine set_show_colorbar(class(surface_plot) this, logical x)
-        !! @endcode
-        !!
-        !! @param[in,out] this The surface_plot object.
-        !! @param[in] x Set to true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Hide the colorbar
-        !!     call plt%set_show_colorbar(.false.)
-        !! end program
-        !! @endcode
-        procedure, public :: set_show_colorbar => surf_set_show_colorbar
         !> @brief Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         !!
@@ -7377,9 +8505,9 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     interface
-        module subroutine surf_clean_up(this)
-            type(surface_plot), intent(inout) :: this
-        end subroutine
+        ! module subroutine surf_clean_up(this)
+        !     type(surface_plot), intent(inout) :: this
+        ! end subroutine
 
         module subroutine surf_init(this, term, fname, err)
             class(surface_plot), intent(inout) :: this
@@ -7403,16 +8531,16 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module function surf_get_colormap(this) result(x)
-            class(surface_plot), intent(in) :: this
-            class(colormap), pointer :: x
-        end function
+        ! module function surf_get_colormap(this) result(x)
+        !     class(surface_plot), intent(in) :: this
+        !     class(colormap), pointer :: x
+        ! end function
 
-        module subroutine surf_set_colormap(this, x, err)
-            class(surface_plot), intent(inout) :: this
-            class(colormap), intent(in) :: x
-            class(errors), intent(inout), optional, target :: err
-        end subroutine
+        ! module subroutine surf_set_colormap(this, x, err)
+        !     class(surface_plot), intent(inout) :: this
+        !     class(colormap), intent(in) :: x
+        !     class(errors), intent(inout), optional, target :: err
+        ! end subroutine
 
         pure module function surf_get_smooth(this) result(x)
             class(surface_plot), intent(in) :: this
@@ -7434,15 +8562,15 @@ module fplot_core
             logical, intent(in) :: x
         end subroutine
 
-        pure module function surf_get_show_colorbar(this) result(x)
-            class(surface_plot), intent(in) :: this
-            logical :: x
-        end function
+        ! pure module function surf_get_show_colorbar(this) result(x)
+        !     class(surface_plot), intent(in) :: this
+        !     logical :: x
+        ! end function
 
-        module subroutine surf_set_show_colorbar(this, x)
-            class(surface_plot), intent(inout) :: this
-            logical, intent(in) :: x
-        end subroutine
+        ! module subroutine surf_set_show_colorbar(this, x)
+        !     class(surface_plot), intent(inout) :: this
+        !     logical, intent(in) :: x
+        ! end subroutine
 
         pure module function surf_get_use_lighting(this) result(x)
             class(surface_plot), intent(in) :: this
@@ -10181,6 +11309,823 @@ module fplot_core
         module subroutine tspd_define_data(this, tri)
             class(tri_surface_plot_data), intent(inout) :: this
             class(delaunay_tri_surface), intent(in) :: tri
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_VECTOR_FIELD_PLOT_DATA.F90
+! ------------------------------------------------------------------------------
+    ! REF:
+    ! http://www.gnuplotting.org/vector-field-from-data-file/
+    ! http://gnuplot.sourceforge.net/demo_5.4/vector.html
+    ! http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf (pg 79)
+
+    !> @brief Defines a two-dimensional vector-field plot data set.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     type(plot_2d) :: plt
+    !!     type(vector_field_plot_data) :: ds1
+    !!     class(plot_axis), pointer :: xAxis, yAxis
+    !!     real(real64), allocatable, dimension(:,:,:) :: pts
+    !!     real(real64), allocatable, dimension(:,:) :: dx, dy
+    !!     real(real64) :: dxdt(2)
+    !!     integer(int32) :: i, j
+    !!
+    !!     ! Create a grid of points defining the vector locations
+    !!     pts = meshgrid( &
+    !!         linspace(-2.0d0, 2.0d0, 20), &
+    !!         linspace(-5.0d0, 5.0d0, 20))
+    !!
+    !!     ! Compute the values of each derivative
+    !!     allocate(dx(size(pts, 1), size(pts, 2)))
+    !!     allocate(dy(size(pts, 1), size(pts, 2)))
+    !!     do j = 1, size(pts, 2)
+    !!         do i = 1, size(pts, 1)
+    !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
+    !!             dx(i,j) = dxdt(1)
+    !!             dy(i,j) = dxdt(2)
+    !!         end do
+    !!     end do
+    !!
+    !!     ! Define arrow properties
+    !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
+    !!     call ds1%set_fill_arrow(.true.) ! .false. by default
+    !!
+    !!     ! Create the plot
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!     xAxis => plt%get_x_axis()
+    !!     yAxis => plt%get_y_axis()
+    !!
+    !!     ! Define axis labels
+    !!     call xAxis%set_title("x(t)")
+    !!     call yAxis%set_title("dx/dt")
+    !!
+    !!     ! Set plot style information
+    !!     call xAxis%set_zero_axis(.true.)
+    !!     call yAxis%set_zero_axis(.true.)
+    !!     call plt%set_draw_border(.false.)
+    !!     call plt%set_show_gridlines(.false.)
+    !!
+    !!     ! Add the data to the plot
+    !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy)
+    !!     call plt%push(ds1)
+    !!
+    !!     call plt%draw()
+    !! contains
+    !!     ! Van der Pol Equation
+    !!     ! x" - mu * (1 - x^2) * x' + x = 0
+    !!     subroutine eqn(x, dxdt)
+    !!         real(real64), intent(in) :: x(2)
+    !!         real(real64), intent(out) :: dxdt(2)
+    !!
+    !!         real(real64), parameter :: mu = 2.0d0
+    !!
+    !!         dxdt(1) = x(2)
+    !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
+    !!     end subroutine
+    !! end program
+    !! @endcode
+    !! @image html vector_plot_1.png
+    type, extends(plot_data_colored) :: vector_field_plot_data
+    private
+        !> @brief An M-by-N-by-4 array containing the x, y, dx, and dy plot
+        !! data points.  Optionally, a 5th page can be added to define the
+        !! color for each arrow.
+        real(real64), allocatable, dimension(:,:,:) :: m_data
+        !> @brief The vector size (scaling factor).
+        real(real64) :: m_arrowSize = 1.0d0
+        !> @brief Fill the arrow heads?
+        logical :: m_filledHeads = .false.
+    contains
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_data_string => vfpd_get_data_cmd
+        !> @brief Gets the GNUPLOT command string to represent this
+        !! vector_field_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_command_string => vfpd_get_cmd
+        !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(vector_field_plot_data) this, real(real64) x(:,:), real(real64) y(:,:), real(real64) dx(:,:), real(real64) dy(:,:), real(real64) c(:,:), class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x An M-by-N matrix containing the x-locations of each arrow's origin.
+        !! @param[in] y An M-by-N matrix containing the y-locations of each arrow's origin.
+        !! @param[in] dx An M-by-N matrix containing the x-direction of each arrow.
+        !! @param[in] dy An M-by-N matrix containing the y-direction of each arrow.
+        !! @param[in] c An optional M-by-N matrix containing information on how to color the
+        !!  arrows.  The colors are determined by the active colormap.
+        !! @param[in,out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input matrices are
+        !!      not the same size.
+        !!
+        !! @par Example
+        !! The following example illustrates the use of data-dependent coloring
+        !! of the Van der Pol equation phase portrait.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     type(plot_2d) :: plt
+        !!     type(vector_field_plot_data) :: ds1
+        !!     class(plot_axis), pointer :: xAxis, yAxis
+        !!     type(rainbow_colormap) :: cmap
+        !!     real(real64), allocatable, dimension(:,:,:) :: pts
+        !!     real(real64), allocatable, dimension(:,:) :: dx, dy
+        !!     real(real64) :: dxdt(2)
+        !!     integer(int32) :: i, j
+        !!
+        !!     ! Create a grid of points defining the vector locations
+        !!     pts = meshgrid( &
+        !!         linspace(-2.0d0, 2.0d0, 20), &
+        !!         linspace(-5.0d0, 5.0d0, 20))
+        !!
+        !!     ! Compute the values of each derivative
+        !!     allocate(dx(size(pts, 1), size(pts, 2)))
+        !!     allocate(dy(size(pts, 1), size(pts, 2)))
+        !!     do j = 1, size(pts, 2)
+        !!         do i = 1, size(pts, 1)
+        !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
+        !!             dx(i,j) = dxdt(1)
+        !!             dy(i,j) = dxdt(2)
+        !!         end do
+        !!     end do
+        !!
+        !!     ! Define arrow properties
+        !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
+        !!     call ds1%set_fill_arrow(.true.) ! .false. by default
+        !!
+        !!     ! Create the plot
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     xAxis => plt%get_x_axis()
+        !!     yAxis => plt%get_y_axis()
+        !!
+        !!     ! Define axis labels
+        !!     call xAxis%set_title("x(t)")
+        !!     call yAxis%set_title("dx/dt")
+        !!
+        !!     ! Set plot style information
+        !!     call xAxis%set_zero_axis(.true.)
+        !!     call yAxis%set_zero_axis(.true.)
+        !!     call plt%set_draw_border(.false.)
+        !!     call plt%set_show_gridlines(.false.)
+        !!
+        !!     ! Define the colormap
+        !!     call plt%set_colormap(cmap)
+        !!
+        !!     ! Add the data to the plot - color by the magnitude of gradient
+        !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))
+        !!     call plt%push(ds1)
+        !!
+        !!     call plt%draw()
+        !! contains
+        !!     ! Van der Pol Equation
+        !!     ! x" - mu * (1 - x^2) * x' + x = 0
+        !!     subroutine eqn(x, dxdt)
+        !!         real(real64), intent(in) :: x(2)
+        !!         real(real64), intent(out) :: dxdt(2)
+        !!
+        !!         real(real64), parameter :: mu = 2.0d0
+        !!
+        !!         dxdt(1) = x(2)
+        !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
+        !!     end subroutine
+        !! end program
+        !! @endcode
+        !! @image html vector_plot_2.png
+        procedure, public :: define_data => vfpd_define_data
+        !> @brief Gets the scaling factor used to determine the arrow size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64) get_arrow_size(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return The scaling factor.
+        procedure, public :: get_arrow_size => vfpd_get_arrow_size
+        !> @brief Sets the scaling factor used to determine the arrow size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_arrow_size(class(vector_field_plot_data) this, real(real64) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x The scaling factor.
+        procedure, public :: set_arrow_size => vfpd_set_arrow_size
+        !> @brief Gets a value determining if the arrow heads should be filled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_fill_arrow(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! @return True if the arrow heads should be filled; else, false.
+        procedure, public :: get_fill_arrow => vfpd_get_fill_arrow
+        !> @brief Sets a value determining if the arrow heads should be filled.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_fill_arrow(class(vector_field_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The vector_field_plot_data object.
+        !! @param[in] x True if the arrow heads should be filled; else, false.
+        procedure, public :: set_fill_arrow => vfpd_set_fill_arrow
+        !> @brief Gets a value indicating if data-dependent coloring should be
+        !! used.  This is defined by supplying information on how to scale the
+        !! coloring when calling define_data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_use_data_dependent_colors(class(vector_field_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The vector_field_plot_data object.
+        !! return Returns true if data-dependent coloring is being used; else,
+        !!  false.
+        procedure, public :: get_use_data_dependent_colors => &
+            vfpd_get_use_data_dependent_colors
+    end type
+
+! --------------------
+    interface
+         module function vfpd_get_data_cmd(this) result(x)
+            class(vector_field_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function vfpd_get_cmd(this) result(x)
+            class(vector_field_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine vfpd_define_data(this, x, y, dx, dy, c, err)
+            class(vector_field_plot_data), intent(inout) :: this
+            real(real64), intent(in), dimension(:,:) :: x, y, dx, dy
+            real(real64), intent(in), dimension(:,:), optional :: c
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        pure module function vfpd_get_arrow_size(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            real(real64) :: rst
+        end function
+
+        module subroutine vfpd_set_arrow_size(this, x)
+            class(vector_field_plot_data), intent(inout) :: this
+            real(real64), intent(in) :: x
+        end subroutine
+
+        pure module function vfpd_get_fill_arrow(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine vfpd_set_fill_arrow(this, x)
+            class(vector_field_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function vfpd_get_use_data_dependent_colors(this) result(rst)
+            class(vector_field_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+    end interface
+
+! ******************************************************************************
+! FPLOT_PLOT_POLAR.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a 2D polar plot.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!
+    !!     ! Local Variables
+    !!     integer(int32), parameter :: npts = 1000
+    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+    !!     real(real64) :: t(npts), x(npts)
+    !!     type(plot_polar) :: plt
+    !!     type(plot_data_2d) :: pd
+    !!
+    !!     ! Create a function to plot
+    !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+    !!     x = t * sin(t)
+    !!
+    !!     ! Plot the function
+    !!     call plt%initialize()
+    !!     call plt%set_font_size(14)
+    !!     call plt%set_title("Polar Plot Example")
+    !!     call plt%set_autoscale(.false.)
+    !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+    !!
+    !!     call pd%define_data(t, x)
+    !!     call pd%set_line_width(2.0)
+    !!     call plt%push(pd)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html polar_example_1.png
+    type, extends(plot) :: plot_polar
+    private
+        !> @brief Allow the plot to autoscale?
+        logical :: m_autoscale = .true.
+        !> @brief The minimum radius value - only applicable if m_autoscale is
+        !!  false.
+        real(real64) :: m_minrad = 0.0d0
+        !> @brief The maximum radius value - only applicable if m_autoscale is
+        !!  false.
+        real(real64) :: m_maxrad = 1.0d0
+        !> @brief The location for theta = 0
+        character(len = :), allocatable :: m_thetaStart 
+        !> @brief The direction for theta
+        character(len = :), allocatable :: m_thetaDirection
+    contains
+        final :: plr_clean_up
+        !> @brief Initializes the plot_polar object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine initialize(class(plot_polar) this, optional integer(int32) term, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @param[in] term An optional input that is used to define the terminal.
+        !!  The default terminal is a WXT terminal.  The acceptable inputs are:
+        !!  - GNUPLOT_TERMINAL_PNG
+        !!  - GNUPLOT_TERMINAL_QT
+        !!  - GNUPLOT_TERMINAL_WIN32
+        !!  - GNUPLOT_TERMINAL_WXT
+        !!  - GNUPLOT_TERMINAL_LATEX
+        !! @param[in] fname A filename to pass to the terminal in the event the
+        !!  terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        procedure, public :: initialize => plr_init
+        !> @brief Gets the GNUPLOT command string to represent this plot_polar
+        !! object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The command string.
+        procedure, public :: get_command_string => plr_get_cmd
+        !> @brief Gets a logical value determining if the axis should be 
+        !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical get_autoscale(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return Returns true if the plot will autoscale; else, false.
+        procedure, public :: get_autoscale => plr_get_autoscale
+        !> @brief Sets a logical value determining if the axis should be 
+        !! automatically scaled to fit the data.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_autoscale(class(plot_polar) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x Set to true if the plot will autoscale; else, false.
+        procedure, public :: set_autoscale => plr_set_autoscale
+        !> @brief Gets the radial axis limits if autoscaling is inactive.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(2) get_radial_limits(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @returns A 2-element array containing the minimum and maximum limit
+        !!  values in that order.
+        procedure, public :: get_radial_limits => plr_get_limits
+        !> @brief Sets the radial axis limits if autoscaling is inactive.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_radial_limits(class(plot_polar) this, real(real64) x(2))
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] A 2-element array containing the minimum and maximum limit
+        !!  values.
+        procedure, public :: set_radial_limits => plr_set_limits
+        !> @brief Gets the position for theta = 0.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_theta_start_position(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The starting position.  It is one of the following flags.
+        !!  - POLAR_THETA_BOTTOM
+        !!  - POLAR_THETA_TOP
+        !!  - POLAR_THETA_RIGHT
+        !!  - POLAR_THETA_LEFT
+        procedure, public :: get_theta_start_position => plr_get_theta_start
+        !> @brief Sets the position for theta = 0.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_theta_start_position(class(plot_polar) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x The starting position.  It must be one of the following 
+        !!  flags.
+        !!  - POLAR_THETA_BOTTOM
+        !!  - POLAR_THETA_TOP
+        !!  - POLAR_THETA_RIGHT
+        !!  - POLAR_THETA_LEFT
+        !!
+        !! @par Example
+        !! The following example illustrates resetting the starting position and
+        !! orientation of theta.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts)
+        !!     type(plot_polar) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Create a function to plot
+        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+        !!     x = t * sin(t)
+        !!
+        !!     ! Plot the function
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Polar Plot Example")
+        !!     call plt%set_autoscale(.false.)
+        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
+        !!     call plt%set_theta_direction(POLAR_THETA_CW)
+        !!
+        !!     call pd%define_data(t, x)
+        !!     call pd%set_line_width(2.0)
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html polar_example_2.png
+        procedure, public :: set_theta_start_position => plr_set_theta_start
+        !> @brief Gets the theta direction.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) get_theta_direction(class(plot_polar) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_polar object.
+        !! @return The direction.  It is one of the following flags.
+        !!  - POLAR_THETA_CCW
+        !!  - POLAR_THETA_CW
+        procedure, public :: get_theta_direction => plr_get_theta_direction
+        !> @brief Sets the theta direction.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_theta_direction(class(plot_polar) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_polar object.
+        !! @param[in] x The direction.  It must be one of the following flags.
+        !!  - POLAR_THETA_CCW
+        !!  - POLAR_THETA_CW
+        !!
+        !! @par Example
+        !! The following example illustrates resetting the starting position and
+        !! orientation of theta.
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 1000
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: t(npts), x(npts)
+        !!     type(plot_polar) :: plt
+        !!     type(plot_data_2d) :: pd
+        !!
+        !!     ! Create a function to plot
+        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
+        !!     x = t * sin(t)
+        !!
+        !!     ! Plot the function
+        !!     call plt%initialize()
+        !!     call plt%set_font_size(14)
+        !!     call plt%set_title("Polar Plot Example")
+        !!     call plt%set_autoscale(.false.)
+        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
+        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
+        !!     call plt%set_theta_direction(POLAR_THETA_CW)
+        !!
+        !!     call pd%define_data(t, x)
+        !!     call pd%set_line_width(2.0)
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html polar_example_2.png
+        procedure, public :: set_theta_direction => plr_set_theta_direction
+    end type
+
+! --------------------
+    interface
+        module subroutine plr_clean_up(this)
+            type(plot_polar), intent(inout) :: this
+        end subroutine
+
+        module subroutine plr_init(this, term, fname, err)
+            class(plot_polar), intent(inout) :: this
+            integer(int32), intent(in), optional :: term
+            character(len = *), intent(in), optional :: fname
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module function plr_get_cmd(this) result(x)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function plr_get_autoscale(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine plr_set_autoscale(this, x)
+            class(plot_polar), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function plr_get_limits(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            real(real64) :: rst(2)
+        end function
+
+        module subroutine plr_set_limits(this, x)
+            class(plot_polar), intent(inout) :: this
+            real(real64), intent(in) :: x(2)
+        end subroutine
+
+        pure module function plr_get_theta_start(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine plr_set_theta_start(this, x)
+            class(plot_polar), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        pure module function plr_get_theta_direction(this) result(rst)
+            class(plot_polar), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine plr_set_theta_direction(this, x)
+            class(plot_polar), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_FILLED_PLOT_DATA.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines a two-dimensional filled plot data set.
+    !!
+    !! @par Example
+    !! @code{.f90}
+    !! program example
+    !!     use iso_fortran_env
+    !!     use fplot_core
+    !!     implicit none
+    !!
+    !!     ! Local Variables
+    !!     integer(int32), parameter :: npts = 100
+    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+    !!     real(real64) :: x(npts), y(npts)
+    !!     type(plot_2d) :: plt
+    !!     type(filled_plot_data) :: pd
+    !!
+    !!     ! Generate the curve to plot
+    !!     x = linspace(0.0d0, 1.0d0, npts)
+    !!     y = sin(4.0d0 * pi * x)
+    !!
+    !!     ! Plot the data
+    !!     call plt%initialize()
+    !!
+    !!     call pd%define_data(x, y, 0.25d0 * y)
+    !!
+    !!     call plt%push(pd)
+    !!     call plt%draw()
+    !! end program
+    !! @endcode
+    !! @image html filled_example_2.png
+    type, extends(plot_data_colored) :: filled_plot_data
+    private
+        !> Plot against the secondary y-axis
+        logical :: m_useY2 = .false.
+        !> The data set (column 1 = x, column 2 = y, column 3 = constraint y)
+        real(real64), allocatable, dimension(:,:) :: m_data
+    contains
+        !> @brief Gets the GNUPLOT command string defining which axes the data
+        !! is to be plotted against.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_axis_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_axes_string => fpd_get_axes_cmd
+        !> @brief Gets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_draw_against_y2(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return Returns true if the data should be plotted against the secondary
+        !!  y-axis; else, false to plot against the primary y-axis.
+        procedure, public :: get_draw_against_y2 => fpd_get_draw_against_y2
+        !> @brief Sets a value determining if the data should be plotted against
+        !! the secondary y-axis.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_draw_against_y2(class(filled_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The filled_plot_data object.
+        !! @param[in] x Set to true if the data should be plotted against the
+        !!  secondary y-axis; else, false to plot against the primary y-axis.
+        procedure, public :: set_draw_against_y2 => fpd_set_draw_against_y2
+        !> @brief Gets the GNUPLOT command string to represent this
+        !! filled_plot_data object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_command_string => fpd_get_cmd
+        !> @brief Gets the GNUPLOT command string containing the actual data
+        !! to plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_data_string(class(filled_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The filled_plot_data object.
+        !! @return The command string.
+        procedure, public :: get_data_string => fpd_get_data_cmd
+        !> @brief Defines the data set.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine define_data(class(filled_plot_data) this, real(real64) x(:), real(real64) y(:), real(real64) yc(:))
+        !! @endcode
+        !!
+        !! @param[in,out] this The filled_plot_data object.
+        !! @param[in] x An N-element array containing the x coordinate data.
+        !! @param[in] y An N-element array containing the y coordinate data.
+        !! @param[in] yc An N-element array containing the constraining curve y coordinate data.
+        !! @param[out] err An optional errors-based object that if provided can be
+        !!  used to retrieve information relating to any errors encountered during
+        !!  execution.  If not provided, a default implementation of the errors
+        !!  class is used internally to provide error handling.  Possible errors and
+        !!  warning messages that may be encountered are as follows.
+        !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+        !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
+        !!      same size.
+        !!
+        !! @par Example
+        !! @code{.f90}
+        !! program example
+        !!     use iso_fortran_env
+        !!     use fplot_core
+        !!     implicit none
+        !!
+        !!     ! Local Variables
+        !!     integer(int32), parameter :: npts = 100
+        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
+        !!     real(real64) :: x(npts), y(npts)
+        !!     type(plot_2d) :: plt
+        !!     type(filled_plot_data) :: pd
+        !!
+        !!     ! Generate the curve to plot
+        !!     x = linspace(0.0d0, 1.0d0, npts)
+        !!     y = sin(4.0d0 * pi * x)
+        !!
+        !!     ! Plot the data
+        !!     call plt%initialize()
+        !!
+        !!     call pd%define_data(x, y, 0.25d0 * y)
+        !!
+        !!     call plt%push(pd)
+        !!     call plt%draw()
+        !! end program
+        !! @endcode
+        !! @image html filled_example_2.png
+        procedure, public :: define_data => fpd_define_data
+    end type
+
+! --------------------
+    interface
+        module function fpd_get_axes_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        pure module function fpd_get_draw_against_y2(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            logical :: x
+        end function
+
+        module subroutine fpd_set_draw_against_y2(this, x)
+            class(filled_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module function fpd_get_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module function fpd_get_data_cmd(this) result(x)
+            class(filled_plot_data), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        module subroutine fpd_define_data(this, x, y, yc, err)
+            class(filled_plot_data), intent(inout) :: this
+            real(real64), intent(in), dimension(:) :: x, y, yc
+            class(errors), intent(inout), optional, target :: err
         end subroutine
     end interface
 
