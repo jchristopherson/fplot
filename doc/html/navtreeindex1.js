@@ -1,5 +1,14 @@
 var NAVTREEINDEX1 =
 {
+"structfplot__core_1_1plot.html#aba04c14ccf1a3ba101fdf6bc2015c136":[1,0,0,17,1],
+"structfplot__core_1_1plot.html#abcffef6762be05923cf9c5ab359e8443":[1,0,0,17,12],
+"structfplot__core_1_1plot.html#acb708d36346b0926670563e8ee5ec708":[1,0,0,17,22],
+"structfplot__core_1_1plot.html#aceacfecd4e80176c0f683ed9ec4a6d28":[1,0,0,17,33],
+"structfplot__core_1_1plot.html#ad3ca971b3ac002860fd49f5af36634ae":[1,0,0,17,6],
+"structfplot__core_1_1plot.html#adeffc4ef6eda6c4b5871b40191dd7ca5":[1,0,0,17,8],
+"structfplot__core_1_1plot.html#ae8ae1aba78071e45dc3a42d969fb9719":[1,0,0,17,36],
+"structfplot__core_1_1plot.html#af77b02a0047f392b78e1449453bcff1d":[1,0,0,17,9],
+"structfplot__core_1_1plot__2d.html":[1,0,0,18],
 "structfplot__core_1_1plot__2d.html#a1fb225cc76c710319ca85d6ad56d35f3":[1,0,0,18,2],
 "structfplot__core_1_1plot__2d.html#a3079dfde8daa66c4a79e3d3454b40e2c":[1,0,0,18,13],
 "structfplot__core_1_1plot__2d.html#a5c4e65a6726f52d0f2f037615b9250bd":[1,0,0,18,12],
@@ -240,14 +249,5 @@ var NAVTREEINDEX1 =
 "structfplot__core_1_1scatter__plot__data.html#a0dd0bb92bb96963ba3189eef41c9a95c":[1,0,0,36,12],
 "structfplot__core_1_1scatter__plot__data.html#a136c985907602a1e9cc9c0db476a8519":[1,0,0,36,16],
 "structfplot__core_1_1scatter__plot__data.html#a1c2441b0246abe768500aee479889eb3":[1,0,0,36,1],
-"structfplot__core_1_1scatter__plot__data.html#a25edf93854d1252583cd76b045a5fda9":[1,0,0,36,7],
-"structfplot__core_1_1scatter__plot__data.html#a307b01a8a110ab7a676ac51c05d3074b":[1,0,0,36,39],
-"structfplot__core_1_1scatter__plot__data.html#a36735f734ee39bd406cef7c8e72014a0":[1,0,0,36,4],
-"structfplot__core_1_1scatter__plot__data.html#a3882e2825fa0482b49698d007b184ff9":[1,0,0,36,13],
-"structfplot__core_1_1scatter__plot__data.html#a3947fc4c9bc0cf7fc8ad8431897b0596":[1,0,0,36,21],
-"structfplot__core_1_1scatter__plot__data.html#a3a1cbcceadfa758b87d1dc4352f73116":[1,0,0,36,11],
-"structfplot__core_1_1scatter__plot__data.html#a4eee46d60e67480e67b833b5a606c2aa":[1,0,0,36,3],
-"structfplot__core_1_1scatter__plot__data.html#a5177e61ef1056be4a7be88c85d129554":[1,0,0,36,29],
-"structfplot__core_1_1scatter__plot__data.html#a56221fa96775c49c4b6249d353fd1900":[1,0,0,36,22],
-"structfplot__core_1_1scatter__plot__data.html#a5cf90a01f00ed353e00df87c099999ce":[1,0,0,36,37]
+"structfplot__core_1_1scatter__plot__data.html#a25edf93854d1252583cd76b045a5fda9":[1,0,0,36,7]
 };

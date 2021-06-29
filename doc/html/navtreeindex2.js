@@ -1,5 +1,14 @@
 var NAVTREEINDEX2 =
 {
+"structfplot__core_1_1scatter__plot__data.html#a307b01a8a110ab7a676ac51c05d3074b":[1,0,0,36,39],
+"structfplot__core_1_1scatter__plot__data.html#a36735f734ee39bd406cef7c8e72014a0":[1,0,0,36,4],
+"structfplot__core_1_1scatter__plot__data.html#a3882e2825fa0482b49698d007b184ff9":[1,0,0,36,13],
+"structfplot__core_1_1scatter__plot__data.html#a3947fc4c9bc0cf7fc8ad8431897b0596":[1,0,0,36,21],
+"structfplot__core_1_1scatter__plot__data.html#a3a1cbcceadfa758b87d1dc4352f73116":[1,0,0,36,11],
+"structfplot__core_1_1scatter__plot__data.html#a4eee46d60e67480e67b833b5a606c2aa":[1,0,0,36,3],
+"structfplot__core_1_1scatter__plot__data.html#a5177e61ef1056be4a7be88c85d129554":[1,0,0,36,29],
+"structfplot__core_1_1scatter__plot__data.html#a56221fa96775c49c4b6249d353fd1900":[1,0,0,36,22],
+"structfplot__core_1_1scatter__plot__data.html#a5cf90a01f00ed353e00df87c099999ce":[1,0,0,36,37],
 "structfplot__core_1_1scatter__plot__data.html#a5f0a764e897869a8b40e5572cf643eff":[1,0,0,36,34],
 "structfplot__core_1_1scatter__plot__data.html#a649b045c1555fa8eaa6fb0c7449a5554":[1,0,0,36,0],
 "structfplot__core_1_1scatter__plot__data.html#a666a5a0660aeabf20eb03928098f03bc":[1,0,0,36,24],
