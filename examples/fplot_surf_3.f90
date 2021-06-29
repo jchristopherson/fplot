@@ -21,7 +21,7 @@ program example
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
-    type(earth_colormap) :: map
+    type(cool_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
@@ -33,6 +33,10 @@ program example
 
     ! Define the function to plot
     z = sin(sqrt(x**2 + y**2))
+
+    ! Define colormap settings
+    ! call map%set_horizontal(.true.)
+    call map%set_show_tics(.false.)
 
     ! Create the plot
     call plt%initialize()
