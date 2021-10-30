@@ -1,4 +1,4 @@
-      subroutine alpha_measure ( n, z, triangle_order, triangle_num, 
+      subroutine alpha_measure ( n, z, triangle_order, triangle_num,
      &  triangle_node, alpha_min, alpha_ave, alpha_area )
 
 c*********************************************************************72
@@ -41,7 +41,7 @@ c    Input, integer TRIANGLE_ORDER, the order of the triangles.
 c
 c    Input, integer TRIANGLE_NUM, the number of triangles.
 c
-c    Input, integer TRIANGLE_NODE(TRIANGLE_ORDER,TRIANGLE_NUM), 
+c    Input, integer TRIANGLE_NODE(TRIANGLE_ORDER,TRIANGLE_NUM),
 c    the triangulation.
 c
 c    Output, double precision ALPHA_MIN, the minimum value of ALPHA over all
@@ -106,8 +106,8 @@ c
         c_x = z(1,c_index)
         c_y = z(2,c_index)
 
-        area = 0.5D+00 * abs ( a_x * ( b_y - c_y ) 
-     &                       + b_x * ( c_y - a_y ) 
+        area = 0.5D+00 * abs ( a_x * ( b_y - c_y )
+     &                       + b_x * ( c_y - a_y )
      &                       + c_x * ( a_y - b_y ) )
 
         ab_len = sqrt ( ( a_x - b_x )**2 + ( a_y - b_y )**2 )
@@ -116,8 +116,8 @@ c
 c
 c  Take care of a ridiculous special case.
 c
-        if ( ab_len .eq. 0.0D+00 .and. 
-     &       bc_len .eq. 0.0D+00 .and. 
+        if ( ab_len .eq. 0.0D+00 .and.
+     &       bc_len .eq. 0.0D+00 .and.
      &       ca_len .eq. 0.0D+00 ) then
 
           a_angle = 2.0D+00 * pi / 3.0D+00
@@ -129,24 +129,24 @@ c
           if ( ca_len .eq. 0.0D+00 .or. ab_len .eq. 0.0D+00 ) then
             a_angle = pi
           else
-            a_angle = 
-     &        r8_acos ( ( ca_len**2 + ab_len**2 - bc_len**2 ) 
+            a_angle =
+     &        r8_acos ( ( ca_len**2 + ab_len**2 - bc_len**2 )
      &        / ( 2.0D+00 * ca_len * ab_len ) )
           end if
 
           if ( ab_len .eq. 0.0D+00 .or. bc_len .eq. 0.0D+00 ) then
             b_angle = pi
           else
-            b_angle = 
-     &        r8_acos ( ( ab_len**2 + bc_len**2 - ca_len**2 ) 
+            b_angle =
+     &        r8_acos ( ( ab_len**2 + bc_len**2 - ca_len**2 )
      &        / ( 2.0D+00 * ab_len * bc_len ) )
           end if
 
           if ( bc_len .eq. 0.0D+00 .or. ca_len .eq. 0.0D+00 ) then
             c_angle = pi
           else
-            c_angle = 
-     &        r8_acos ( ( bc_len**2 + ca_len**2 - ab_len**2 ) 
+            c_angle =
+     &        r8_acos ( ( bc_len**2 + ca_len**2 - ab_len**2 )
      &        / ( 2.0D+00 * bc_len * ca_len ) )
           end if
 
@@ -228,11 +228,11 @@ c
       double precision p2(dim_num)
       double precision p3(dim_num)
 
-      p(1) = ( p3(1) - p2(1) ) * ( p1(1) - p2(1) ) 
+      p(1) = ( p3(1) - p2(1) ) * ( p1(1) - p2(1) )
      &     + ( p3(2) - p2(2) ) * ( p1(2) - p2(2) )
 
 
-      p(2) = ( p3(1) - p2(1) ) * ( p1(2) - p2(2) ) 
+      p(2) = ( p3(1) - p2(1) ) * ( p1(2) - p2(2) )
      &     - ( p3(2) - p2(2) ) * ( p1(1) - p2(1) )
 
       if ( p(1) .eq. 0.0D+00 .and. p(2) .eq. 0.0D+00 ) then
@@ -331,10 +331,10 @@ c
       dx32 = x3 - x2
       dy32 = y3 - y2
 
-      tola = tol * max ( abs ( dx10 ), abs ( dy10 ), 
+      tola = tol * max ( abs ( dx10 ), abs ( dy10 ),
      &  abs ( dx30 ), abs ( dy30 ) )
 
-      tolb = tol * max ( abs ( dx12 ), abs ( dy12 ), 
+      tolb = tol * max ( abs ( dx12 ), abs ( dy12 ),
      &  abs ( dx32 ), abs ( dy32 ) )
 
       ca = dx10 * dx30 + dy10 * dy30
@@ -351,7 +351,7 @@ c
       else
 
         tola = max ( tola, tolb )
-        s = ( dx10 * dy30 - dx30 * dy10 ) * cb 
+        s = ( dx10 * dy30 - dx30 * dy10 ) * cb
      &    + ( dx32 * dy12 - dx12 * dy32 ) * ca
 
         if ( tola .lt. s ) then
@@ -388,7 +388,7 @@ c    are special, and will never return those values.
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -785,7 +785,7 @@ c    A(8) A(9) A(10) A(11)
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -937,7 +937,7 @@ c    An I4VEC is a vector of I4 values.
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -1012,7 +1012,7 @@ c    An I4VEC is a vector of I4 values.
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -1125,14 +1125,14 @@ c
       double precision yv1
       double precision yv2
 
-      tol = 100.0D+00 * r8_epsilon ( tol )
+      tol = 100.0D+00 * r8_epsilon ( )
 
       dx = xv2 - xv1
       dy = yv2 - yv1
       dxu = xu - xv1
       dyu = yu - yv1
 
-      tolabs = tol * max ( abs ( dx ), abs ( dy ), abs ( dxu ), 
+      tolabs = tol * max ( abs ( dx ), abs ( dy ), abs ( dxu ),
      &  abs ( dyu ), abs ( dv ) )
 
       t = dy * dxu - dx * dyu + dv * sqrt ( dx * dx + dy * dy )
@@ -1163,7 +1163,7 @@ c    or to 1 if P is a 1-based permutation.
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -1350,7 +1350,7 @@ c
 
       return
       end
-      subroutine points_delaunay_naive_2d ( node_num, node_xy, maxtri, 
+      subroutine points_delaunay_naive_2d ( node_num, node_xy, maxtri,
      &  triangle_num, triangle_node )
 
 !*********************************************************************72
@@ -1395,16 +1395,16 @@ c
 !
 !  Parameters:
 !
-!    Input, integer NODE_NUM, the number of nodes.  
+!    Input, integer NODE_NUM, the number of nodes.
 !
 !    Input, double precision NODE_XY(2,NODE_NUM), the coordinates of the nodes.
 !
 !    Input, integer MAXTRI, the maximum number of triangles.
 !
-!    Output, integer TRIANGLE_NUM, the number of triangles in 
+!    Output, integer TRIANGLE_NUM, the number of triangles in
 !    the triangulation.
 !
-!    Output, integer TRIANGLE_NODE(3,MAXTRI), the indices of 
+!    Output, integer TRIANGLE_NODE(3,MAXTRI), the indices of
 !    the triangle nodes.
 !
       implicit none
@@ -1437,7 +1437,7 @@ c
       do i = 1, node_num
         z(i) = node_xy(1,i)**2 + node_xy(2,i)**2
       end do
-!  
+!
 !  For each triple (I,J,K):
 !
       do i = 1, node_num - 2
@@ -1446,24 +1446,24 @@ c
 
             if ( j .ne. k ) then
 
-              xn = ( node_xy(2,j) - node_xy(2,i) ) * ( z(k) - z(i) ) 
+              xn = ( node_xy(2,j) - node_xy(2,i) ) * ( z(k) - z(i) )
      &           - ( node_xy(2,k) - node_xy(2,i) ) * ( z(j) - z(i) )
 
-              yn = ( node_xy(1,k) - node_xy(1,i) ) * ( z(j) - z(i) ) 
+              yn = ( node_xy(1,k) - node_xy(1,i) ) * ( z(j) - z(i) )
      &           - ( node_xy(1,j) - node_xy(1,i) ) * ( z(k) - z(i) )
 
-              zn = ( node_xy(1,j) - node_xy(1,i) ) 
-     &           * ( node_xy(2,k) - node_xy(2,i) ) 
-     &           - ( node_xy(1,k) - node_xy(1,i) ) 
+              zn = ( node_xy(1,j) - node_xy(1,i) )
+     &           * ( node_xy(2,k) - node_xy(2,i) )
+     &           - ( node_xy(1,k) - node_xy(1,i) )
      &           * ( node_xy(2,j) - node_xy(2,i) )
 
               flag = ( zn .lt. 0.0D+00 )
 
               if ( flag ) then
                 do m = 1, node_num
-                  flag = flag .and. 
-     &              ( ( node_xy(1,m) - node_xy(1,i) ) * xn 
-     &              + ( node_xy(2,m) - node_xy(2,i) ) * yn 
+                  flag = flag .and.
+     &              ( ( node_xy(1,m) - node_xy(1,i) ) * xn
+     &              + ( node_xy(2,m) - node_xy(2,i) ) * yn
      &              + ( z(m)   - z(i) )   * zn .le. 0.0D+00 )
                 end do
               end if
@@ -1514,10 +1514,10 @@ c    Input, integer NODE_NUM, the number of nodes.
 c
 c    Input, double precision NODE_XY(2,NODE_NUM), the coordinates of the nodes.
 c
-c    Output, integer HULL_NUM, the number of nodes that lie on 
+c    Output, integer HULL_NUM, the number of nodes that lie on
 c    the convex hull.
 c
-c    Output, integer HULL(NODE_NUM).  Entries 1 through HULL_NUM 
+c    Output, integer HULL(NODE_NUM).  Entries 1 through HULL_NUM
 c    contain the indices of the nodes that form the convex hull, in order.
 c
       implicit none
@@ -1560,7 +1560,7 @@ c  or possibly a single (repeated) point.
 c
       if ( node_num .eq. 2 ) then
 
-        if ( node_xy(1,1) .ne. node_xy(1,2) .or. 
+        if ( node_xy(1,1) .ne. node_xy(1,2) .or.
      &       node_xy(2,1) .ne. node_xy(2,2) ) then
           hull_num = 2
           hull(1) = 1
@@ -1579,8 +1579,8 @@ c  Call it "Q".
 c
       q = 1
       do i = 2, node_num
-        if ( node_xy(1,i) .lt. node_xy(1,q) .or. 
-     &    ( node_xy(1,i) .eq. node_xy(1,q) .and. 
+        if ( node_xy(1,i) .lt. node_xy(1,q) .or.
+     &    ( node_xy(1,i) .eq. node_xy(1,q) .and.
      &      node_xy(2,i) .lt. node_xy(2,q) ) ) then
           q = i
         end if
@@ -1630,10 +1630,10 @@ c  In case of ties, choose the nearer point.
 c
             else if ( r .ne. 0 .and. angle .eq. angle_max ) then
 
-              di = ( node_xy(1,i) - q_xy(1) )**2 
+              di = ( node_xy(1,i) - q_xy(1) )**2
      &           + ( node_xy(2,i) - q_xy(2) )**2
 
-              dr = ( r_xy(1)      - q_xy(1) )**2 
+              dr = ( r_xy(1)      - q_xy(1) )**2
      &           + ( r_xy(2)      - q_xy(2) )**2
 
               if ( di .lt. dr ) then
@@ -1712,7 +1712,7 @@ c
 c    Input/output, integer SEED, a seed for the random number
 c    generator.
 c
-c    Output, double precision XY(2,NODE_NUM), the coordinates of the 
+c    Output, double precision XY(2,NODE_NUM), the coordinates of the
 c    nodes of the quadrilateral, given in counterclockwise order.
 c
       implicit none
@@ -2026,7 +2026,7 @@ c  Discussion:
 c
 c    An R82VEC is an array of pairs of R8 values.
 c
-c    The same logic can be used to permute an array of objects of any 
+c    The same logic can be used to permute an array of objects of any
 c    arithmetic type, or an array of objects of any complexity.  The only
 c    temporary storage required is enough to store a single object.  The number
 c    of data movements made is N + the number of cycles of order 2 or more,
@@ -2048,7 +2048,7 @@ c             ( 22.0, 44.0, 55.0, 11.0, 33.0 ).
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -2064,7 +2064,7 @@ c    Input, integer N, the number of objects.
 c
 c    Input, integer P(N), the permutation.  P(I) = J means
 c    that the I-th element of the output array should be the J-th
-c    element of the input array.  
+c    element of the input array.
 c
 c    Input/output, double precision A(2,N), the array to be permuted.
 c
@@ -2122,7 +2122,7 @@ c
             if ( iget .lt. 1 .or. n .lt. iget ) then
               write ( *, '(a)' ) ' '
               write ( *, '(a)' ) 'R82VEC_PERMUTE - Fatal error!'
-              write ( *, '(a)' ) 
+              write ( *, '(a)' )
      &          '  A permutation index is out of range.'
               write ( *, '(a,i8,a,i8)' ) '  P(', iput, ') = ', iget
               stop
@@ -2183,7 +2183,7 @@ c    after which A(1:2,I), I = 1 to N is sorted.
 c
 c  Licensing:
 c
-c    This code is distributed under the GNU LGPL license. 
+c    This code is distributed under the GNU LGPL license.
 c
 c  Modified:
 c
@@ -2267,15 +2267,15 @@ c
         if ( j .le. ir ) then
 
           if ( j .lt. ir ) then
-            if (   a(1,indx(j)) .lt.  a(1,indx(j+1)) .or. 
-     &           ( a(1,indx(j)) .eq. a(1,indx(j+1)) .and. 
+            if (   a(1,indx(j)) .lt.  a(1,indx(j+1)) .or.
+     &           ( a(1,indx(j)) .eq. a(1,indx(j+1)) .and.
      &             a(2,indx(j)) .lt.  a(2,indx(j+1)) ) ) then
               j = j + 1
             end if
           end if
 
-          if (   aval(1) .lt.  a(1,indx(j)) .or. 
-     &         ( aval(1) .eq. a(1,indx(j)) .and. 
+          if (   aval(1) .lt.  a(1,indx(j)) .or.
+     &         ( aval(1) .eq. a(1,indx(j)) .and.
      &           aval(2) .lt.  a(2,indx(j)) ) ) then
             indx(i) = indx(j)
             i = j
@@ -2361,7 +2361,7 @@ c
 c
 c  Partition the segment.
 c
-        call r82vec_part_quick_a ( n_segment, a(1,base), l_segment, 
+        call r82vec_part_quick_a ( n_segment, a(1,base), l_segment,
      &    r_segment )
 c
 c  If the left segment has more than one element, we need to partition it.
@@ -2370,9 +2370,9 @@ c
 
           if ( level_max .lt. level ) then
             write ( *, '(a)' ) ' '
-            write ( *, '(a)' ) 
+            write ( *, '(a)' )
      &        'R82VEC_SORT_QUICK_A - Fatal error!'
-            write ( *, '(a,i8)' ) 
+            write ( *, '(a,i8)' )
      &        '  Exceeding recursion maximum of ', level_max
             stop
           end if
@@ -2455,7 +2455,7 @@ c
 
       return
       end
-      subroutine r8mat_transpose_print_some ( m, n, a, ilo, jlo, ihi, 
+      subroutine r8mat_transpose_print_some ( m, n, a, ilo, jlo, ihi,
      &  jhi, title )
 
 c*********************************************************************72
@@ -2634,7 +2634,7 @@ c
 
       return
       end
-      subroutine r8tris2 ( node_num, node_xy, triangle_num, 
+      subroutine r8tris2 ( node_num, node_xy, triangle_num,
      &  triangle_node, triangle_neighbor )
 
 c*********************************************************************72
@@ -2674,22 +2674,22 @@ c
 c    Input, integer NODE_NUM, the number of nodes.
 c
 c    Input/output, real ( kind = 8 ) NODE_XY(2,NODE_NUM), the coordinates
-c    of the nodes.  On output, the vertices have been sorted into 
+c    of the nodes.  On output, the vertices have been sorted into
 c    dictionary order.
 c
-c    Output, integer TRIANGLE_NUM, the number of triangles in the 
-c    triangulation;  TRIANGLE_NUM is equal to 2*NODE_NUM - NB - 2, where NB is 
+c    Output, integer TRIANGLE_NUM, the number of triangles in the
+c    triangulation;  TRIANGLE_NUM is equal to 2*NODE_NUM - NB - 2, where NB is
 c    the number of boundary vertices.
 c
-c    Output, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the nodes that 
+c    Output, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the nodes that
 c    make up each triangle.  The elements are indices of P.  The vertices of
 c    the triangles are in counter clockwise order.
 c
-c    Output, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the 
-c    triangle neighbor list.  Positive elements are indices of TIL; negative 
+c    Output, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the
+c    triangle neighbor list.  Positive elements are indices of TIL; negative
 c    elements are used for links of a counter clockwise linked list of boundary
 c    edges;  LINK = -(3*I + J-1) where I, J = triangle, edge index;
-c    TRIANGLE_NEIGHBOR(J,I) refers to the neighbor along edge from vertex J 
+c    TRIANGLE_NEIGHBOR(J,I) refers to the neighbor along edge from vertex J
 c    to J+1 (mod 3).
 c
       implicit none
@@ -2752,7 +2752,7 @@ c
 
           cmax = max ( abs ( node_xy(j,m) ), abs ( node_xy(j,m1) ) )
 
-          if ( tol * ( cmax + 1.0D+00 ) 
+          if ( tol * ( cmax + 1.0D+00 )
      &         .lt. abs ( node_xy(j,m) - node_xy(j,m1) ) ) then
             k = j
             go to 10
@@ -2768,9 +2768,9 @@ c
           write ( *, '(a,i8)' ) '  Fails for point number I = ', i
           write ( *, '(a,i8)' ) '  M = ', m
           write ( *, '(a,i8)' ) '  M1 = ', m1
-          write ( *, '(a,2g14.6)' ) 
+          write ( *, '(a,2g14.6)' )
      &      '  NODE_XY(M)  = ', ( node_xy(dim,m), dim = 1, dim_num )
-          write ( *, '(a,2g14.6)' ) 
+          write ( *, '(a,2g14.6)' )
      &      '  NODE_XY(M1) = ', ( node_xy(dim,m1), dim = 1, dim_num )
           ierr = 224
           stop
@@ -2796,7 +2796,7 @@ c
 
         m = j
 
-        lr = lrline ( node_xy(1,m), node_xy(2,m), node_xy(1,m1), 
+        lr = lrline ( node_xy(1,m), node_xy(2,m), node_xy(1,m1),
      &    node_xy(2,m1), node_xy(1,m2), node_xy(2,m2), 0.0D+00 )
 
         if ( lr .ne. 0 ) then
@@ -2888,7 +2888,7 @@ c
           m2 = triangle_node(1,ltri)
         end if
 
-        lr = lrline ( node_xy(1,m), node_xy(2,m), node_xy(1,m1), 
+        lr = lrline ( node_xy(1,m), node_xy(2,m), node_xy(1,m1),
      &    node_xy(2,m1), node_xy(1,m2), node_xy(2,m2), 0.0D+00 )
 
         if ( 0 .lt. lr ) then
@@ -2901,8 +2901,8 @@ c
           redg = mod ( l, 3 ) + 1
         end if
 
-        call vbedg ( node_xy(1,m), node_xy(2,m), node_num, node_xy, 
-     &    triangle_num, triangle_node, triangle_neighbor, ltri, ledg, 
+        call vbedg ( node_xy(1,m), node_xy(2,m), node_num, node_xy,
+     &    triangle_num, triangle_node, triangle_neighbor, ltri, ledg,
      &    rtri, redg )
 
         n = triangle_num + 1
@@ -2959,8 +2959,8 @@ c
         ltri = n
         ledg = 2
 
-        call swapec ( m, top, ltri, ledg, node_num, node_xy, 
-     &    triangle_num, triangle_node, triangle_neighbor, stack, 
+        call swapec ( m, top, ltri, ledg, node_num, node_xy,
+     &    triangle_num, triangle_node, triangle_neighbor, stack,
      &    ierr )
 
         if ( ierr .ne. 0 ) then
@@ -3253,7 +3253,7 @@ c
 
       return
       end
-      subroutine swapec ( i, top, btri, bedg, node_num, node_xy, 
+      subroutine swapec ( i, top, btri, bedg, node_num, node_xy,
      &  triangle_num, triangle_node, triangle_neighbor, stack, ierr )
 
 c*********************************************************************72
@@ -3294,7 +3294,7 @@ c
 c    Input/output, integer TOP, the index of the top of the stack.
 c    On output, TOP is zero.
 c
-c    Input/output, integer BTRI, BEDG; on input, if positive, are 
+c    Input/output, integer BTRI, BEDG; on input, if positive, are
 c    the triangle and edge indices of a boundary edge whose updated indices
 c    must be recorded.  On output, these may be updated because of swaps.
 c
@@ -3308,8 +3308,8 @@ c    Input/output, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the
 c    triangle incidence list.  May be updated on output because of swaps.
 c
 c    Input/output, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the
-c    triangle neighbor list; negative values are used for links of the 
-c    counter-clockwise linked list of boundary edges;  May be updated on output 
+c    triangle neighbor list; negative values are used for links of the
+c    counter-clockwise linked list of boundary edges;  May be updated on output
 c    because of swaps.
 c      LINK = -(3*I + J-1) where I, J = triangle, edge index.
 c
@@ -3398,7 +3398,7 @@ c
           c = triangle_node(2,u)
         end if
 
-        swap = diaedg ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,c), 
+        swap = diaedg ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,c),
      &    node_xy(2,c), node_xy(1,b), node_xy(2,b) )
 
         if ( swap .eq. 1 ) then
@@ -3657,19 +3657,19 @@ c
 
       asq = ( t(1,2) - t(1,1) )**2 + ( t(2,2) - t(2,1) )**2
       csq = ( t(1,3) - t(1,1) )**2 + ( t(2,3) - t(2,1) )**2
-      
+
       top(1) =    ( t(2,2) - t(2,1) ) * csq - ( t(2,3) - t(2,1) ) * asq
       top(2) =  - ( t(1,2) - t(1,1) ) * csq + ( t(1,3) - t(1,1) ) * asq
 
-      bot  =  ( t(2,2) - t(2,1) ) * ( t(1,3) - t(1,1) ) 
+      bot  =  ( t(2,2) - t(2,1) ) * ( t(1,3) - t(1,1) )
      &      - ( t(2,3) - t(2,1) ) * ( t(1,2) - t(1,1) )
 
       center(1:2) = t(1:2,1) + 0.5D+00 * top(1:2) / bot
 
       return
       end
-      subroutine triangulation_order3_plot ( file_name, node_num, 
-     &  node_xy, triangle_num, triangle_node, node_show, 
+      subroutine triangulation_order3_plot ( file_name, node_num,
+     &  node_xy, triangle_num, triangle_node, node_show,
      &  triangle_show )
 
 c*********************************************************************72
@@ -3703,8 +3703,8 @@ c    Input, double precision NODE_XY(2,NODE_NUM), the coordinates of the nodes.
 c
 c    Input, integer TRIANGLE_NUM, the number of triangles.
 c
-c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), lists, for 
-c    each triangle, the indices of the nodes that form the vertices of the 
+c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), lists, for
+c    each triangle, the indices of the nodes that form the vertices of the
 c    triangle.
 c
 c    Input, integer NODE_SHOW,
@@ -3794,10 +3794,10 @@ c
       y_ps_max_clip = 684
       y_ps_min = 126
       y_ps_min_clip = 108
-      
+
       if ( x_scale .lt. y_scale ) then
 
-        delta = nint ( dble ( x_ps_max - x_ps_min ) 
+        delta = nint ( dble ( x_ps_max - x_ps_min )
      &    * ( y_scale - x_scale ) / ( 2.0D+00 * y_scale ) )
 
         x_ps_max = x_ps_max - delta
@@ -3810,7 +3810,7 @@ c
 
       else if ( y_scale .lt. x_scale ) then
 
-        delta = nint ( dble ( y_ps_max - y_ps_min ) 
+        delta = nint ( dble ( y_ps_max - y_ps_min )
      &    * ( x_scale - y_scale ) / ( 2.0D+00 * x_scale ) )
 
         y_ps_max      = y_ps_max - delta
@@ -3828,7 +3828,7 @@ c
       open ( unit = file_unit, file = file_name, status = 'replace' )
 
       write ( file_unit, '(a)' ) '%!PS-Adobe-3.0 EPSF-3.0'
-      write ( file_unit, '(a)' ) 
+      write ( file_unit, '(a)' )
      &  '%%Creator: triangulation_order3_plot.f'
       write ( file_unit, '(a)' ) '%%Title: ' // trim ( file_name )
       write ( file_unit, '(a)' ) '%%Pages: 1'
@@ -3843,29 +3843,29 @@ c
       write ( file_unit, '(a)' ) '%%Page: 1 1'
       write ( file_unit, '(a)' ) 'save'
       write ( file_unit, '(a)' ) '%'
-      write ( file_unit, '(a)' ) 
+      write ( file_unit, '(a)' )
      &  '%  Increase line width from default 0.'
       write ( file_unit, '(a)' ) '%'
       write ( file_unit, '(a)' ) '2 setlinewidth'
       write ( file_unit, '(a)' ) '%'
-      write ( file_unit, '(a)' ) 
+      write ( file_unit, '(a)' )
      &  '%  Set the RGB line color to very light gray.'
       write ( file_unit, '(a)' ) '%'
       write ( file_unit, '(a)' ) '0.900  0.900  0.900 setrgbcolor'
       write ( file_unit, '(a)' ) '%'
-      write ( file_unit, '(a)' ) 
+      write ( file_unit, '(a)' )
      &  '%  Draw a gray border around the page.'
       write ( file_unit, '(a)' ) '%'
       write ( file_unit, '(a)' ) 'newpath'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' )
      &  '  ', x_ps_min, y_ps_min, ' moveto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' )
      &  '  ', x_ps_max, y_ps_min, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' )
      &  '  ', x_ps_max, y_ps_max, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' )
      &  '  ', x_ps_min, y_ps_max, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' )
      &  '  ', x_ps_min, y_ps_min, ' lineto'
       write ( file_unit, '(a)' ) 'stroke'
       write ( file_unit, '(a)' ) '%'
@@ -3887,15 +3887,15 @@ c
       write ( file_unit, '(a)' ) '%  Define a clipping polygon.'
       write ( file_unit, '(a)' ) '%'
       write ( file_unit, '(a)' ) 'newpath'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ', 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ',
      &  x_ps_min_clip, y_ps_min_clip, ' moveto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ', 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ',
      &  x_ps_max_clip, y_ps_min_clip, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ', 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ',
      &  x_ps_max_clip, y_ps_max_clip, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ', 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ',
      &  x_ps_min_clip, y_ps_max_clip, ' lineto'
-      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ', 
+      write ( file_unit, '(a,i3,2x,i3,2x,a)' ) '  ',
      &  x_ps_min_clip, y_ps_min_clip, ' lineto'
       write ( file_unit, '(a)' ) 'clip newpath'
 c
@@ -3924,18 +3924,18 @@ c
 
         do node = 1, node_num
 
-          x_ps = int ( 
-     &      ( ( x_max - node_xy(1,node)         ) * dble ( x_ps_min )   
-     &      + (         node_xy(1,node) - x_min ) * dble ( x_ps_max ) ) 
+          x_ps = int (
+     &      ( ( x_max - node_xy(1,node)         ) * dble ( x_ps_min )
+     &      + (         node_xy(1,node) - x_min ) * dble ( x_ps_max ) )
      &      / ( x_max                   - x_min ) )
 
-          y_ps = int ( 
-     &      ( ( y_max - node_xy(2,node)         ) * dble ( y_ps_min )   
-     &      + (         node_xy(2,node) - y_min ) * dble ( y_ps_max ) ) 
+          y_ps = int (
+     &      ( ( y_max - node_xy(2,node)         ) * dble ( y_ps_min )
+     &      + (         node_xy(2,node) - y_min ) * dble ( y_ps_max ) )
      &      / ( y_max                   - y_min ) )
 
-          write ( file_unit, '(a,i4,2x,i4,2x,i4,2x,a)' ) 
-     &      'newpath ', x_ps, y_ps, 
+          write ( file_unit, '(a,i4,2x,i4,2x,i4,2x,a)' )
+     &      'newpath ', x_ps, y_ps,
      &      circle_size, '0 360 arc closepath fill'
 
         end do
@@ -3949,7 +3949,7 @@ c
         write ( file_unit, '(a)' ) '%'
         write ( file_unit, '(a)' ) '%  Label the nodes:'
         write ( file_unit, '(a)' ) '%'
-        write ( file_unit, '(a)' ) 
+        write ( file_unit, '(a)' )
      &    '%  Set the RGB color to darker blue.'
         write ( file_unit, '(a)' ) '%'
         write ( file_unit, '(a)' ) '0.000  0.250  0.850 setrgbcolor'
@@ -3960,20 +3960,20 @@ c
 
         do node = 1, node_num
 
-          x_ps = int ( 
-     &      ( ( x_max - node_xy(1,node)         ) * dble ( x_ps_min )   
-     &      + (       + node_xy(1,node) - x_min ) * dble ( x_ps_max ) ) 
+          x_ps = int (
+     &      ( ( x_max - node_xy(1,node)         ) * dble ( x_ps_min )
+     &      + (       + node_xy(1,node) - x_min ) * dble ( x_ps_max ) )
      &      / ( x_max                   - x_min ) )
 
-          y_ps = int ( 
-     &      ( ( y_max - node_xy(2,node)         ) * dble ( y_ps_min )   
-     &      + (         node_xy(2,node) - y_min ) * dble ( y_ps_max ) ) 
+          y_ps = int (
+     &      ( ( y_max - node_xy(2,node)         ) * dble ( y_ps_min )
+     &      + (         node_xy(2,node) - y_min ) * dble ( y_ps_max ) )
      &      / ( y_max                   - y_min ) )
 
           write ( string, '(i4)' ) node
           string = adjustl ( string )
 
-          write ( file_unit, '(i4,2x,i4,a)' ) x_ps, y_ps+5, 
+          write ( file_unit, '(i4,2x,i4,a)' ) x_ps, y_ps+5,
      &      ' moveto (' // trim ( string ) // ') show'
 
         end do
@@ -4001,25 +4001,25 @@ c
 
             node = triangle_node(e,triangle)
 
-            x_ps = int ( 
-     &        ( ( x_max - node_xy(1,node)         ) 
-     &        * dble ( x_ps_min )   
-     &        + (         node_xy(1,node) - x_min ) 
+            x_ps = int (
+     &        ( ( x_max - node_xy(1,node)         )
+     &        * dble ( x_ps_min )
+     &        + (         node_xy(1,node) - x_min )
      &        * dble ( x_ps_max ) )
      &        / ( x_max                   - x_min ) )
 
-            y_ps = int ( 
-     &        ( ( y_max - node_xy(2,node)         ) 
-     &        * dble ( y_ps_min )   
-     &        + (         node_xy(2,node) - y_min ) 
+            y_ps = int (
+     &        ( ( y_max - node_xy(2,node)         )
+     &        * dble ( y_ps_min )
+     &        + (         node_xy(2,node) - y_min )
      &        * dble ( y_ps_max ) )
      &        / ( y_max                   - y_min ) )
 
             if ( i .eq. 1 ) then
-              write ( file_unit, '(i3,2x,i3,2x,a)' ) 
+              write ( file_unit, '(i3,2x,i3,2x,a)' )
      &          x_ps, y_ps, ' moveto'
             else
-              write ( file_unit, '(i3,2x,i3,2x,a)' ) 
+              write ( file_unit, '(i3,2x,i3,2x,a)' )
      &          x_ps, y_ps, ' lineto'
             end if
 
@@ -4063,20 +4063,20 @@ c
           ave_x = ave_x / 3.0D+00
           ave_y = ave_y / 3.0D+00
 
-          x_ps = int ( 
-     &      ( ( x_max - ave_x         ) * dble ( x_ps_min )   
-     &      + (       + ave_x - x_min ) * dble ( x_ps_max ) ) 
+          x_ps = int (
+     &      ( ( x_max - ave_x         ) * dble ( x_ps_min )
+     &      + (       + ave_x - x_min ) * dble ( x_ps_max ) )
      &      / ( x_max         - x_min ) )
 
-          y_ps = int ( 
-     &      ( ( y_max - ave_y         ) * dble ( y_ps_min )   
-     &      + (         ave_y - y_min ) * dble ( y_ps_max ) ) 
+          y_ps = int (
+     &      ( ( y_max - ave_y         ) * dble ( y_ps_min )
+     &      + (         ave_y - y_min ) * dble ( y_ps_max ) )
      &      / ( y_max         - y_min ) )
 
           write ( string, '(i4)' ) triangle
           string = adjustl ( string )
 
-          write ( file_unit, '(i4,2x,i4,a)' ) x_ps, y_ps, ' moveto (' 
+          write ( file_unit, '(i4,2x,i4,a)' ) x_ps, y_ps, ' moveto ('
      &      // trim ( string ) // ') show'
 
         end do
@@ -4094,7 +4094,7 @@ c
 
       return
       end
-      subroutine triangulation_order3_print ( node_num, triangle_num, 
+      subroutine triangulation_order3_print ( node_num, triangle_num,
      &  node_xy, triangle_node, triangle_neighbor )
 
 c*********************************************************************72
@@ -4130,13 +4130,13 @@ c    Input, integer TRIANGLE_NUM, the number of triangles.
 c
 c    Input, double precision NODE_XY(2,NODE_NUM), the coordinates of the nodes.
 c
-c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the nodes 
+c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the nodes
 c    that make up the triangles.
 c
-c    Input, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the 
-c    triangle neighbors on each side.  If there is no triangle neighbor on 
-c    a particular side, the value of TRIANGLE_NEIGHBOR should be negative.  
-c    If the triangulation data was created by R8TRIS22, then there is more 
+c    Input, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the
+c    triangle neighbors on each side.  If there is no triangle neighbor on
+c    a particular side, the value of TRIANGLE_NEIGHBOR should be negative.
+c    If the triangulation data was created by R8TRIS22, then there is more
 c    information encoded in the negative values.
 c
       implicit none
@@ -4166,42 +4166,42 @@ c
 
       write ( *, '(a)' ) ' '
       write ( *, '(a)' ) 'TRIANGULATION_ORDER3_PRINT'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  Information defining an order3 triangulation.'
       write ( *, '(a)' ) ' '
       write ( *, '(a,i8)' ) '  The number of nodes is ', node_num
 
-      call r8mat_transpose_print ( dim_num, node_num, node_xy, 
+      call r8mat_transpose_print ( dim_num, node_num, node_xy,
      &  '  Node coordinates' )
 
       write ( *, '(a)' ) ' '
-      write ( *, '(a,i8)' ) 
+      write ( *, '(a,i8)' )
      &  '  The number of triangles is ', triangle_num
       write ( *, '(a)' ) ' '
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  Sets of three nodes are used as vertices of'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  the triangles.  For each triangle, the nodes'
       write ( *, '(a)' ) '  are listed in counterclockwise order.'
 
-      call i4mat_transpose_print ( 3, triangle_num, triangle_node, 
+      call i4mat_transpose_print ( 3, triangle_num, triangle_node,
      &  '  Triangle nodes:' )
 
       write ( *, '(a)' ) ' '
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  On each side of a given triangle, there is either'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  another triangle, or a piece of the convex hull.'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  For each triangle, we list the indices of the three'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  neighbors, or (if negative) the codes of the'
       write ( *, '(a)' ) '  segments of the convex hull.'
 
-      call i4mat_transpose_print ( 3, triangle_num, triangle_neighbor, 
+      call i4mat_transpose_print ( 3, triangle_num, triangle_neighbor,
      &  '  Triangle neighbors' )
 c
-c  Determine the number of vertices.  
+c  Determine the number of vertices.
 c
       k = 0
       do j = 1, triangle_num
@@ -4213,7 +4213,7 @@ c
 
       call i4vec_sort_heap_a ( 3*triangle_num, vertex_list )
 
-      call i4vec_sorted_unique ( 3*triangle_num, vertex_list, 
+      call i4vec_sorted_unique ( 3*triangle_num, vertex_list,
      &  vertex_num )
 c
 c  Determine the number of boundary points.
@@ -4221,13 +4221,13 @@ c
       boundary_num = 2 * vertex_num - triangle_num - 2
 
       write ( *, '(a)' ) ' '
-      write ( *, '(a,i8)' ) 
+      write ( *, '(a,i8)' )
      &  '  The number of boundary points is ', boundary_num
-       
+
       write ( *, '(a)' ) ' '
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  The segments that make up the convex hull can be'
-      write ( *, '(a)' ) 
+      write ( *, '(a)' )
      &  '  determined from the negative entries of the triangle'
       write ( *, '(a)' ) '  neighbor list.'
       write ( *, '(a)' ) ' '
@@ -4248,9 +4248,9 @@ c
 
             if ( t .lt. 1 .or. triangle_num .lt. t ) then
               write ( *, '(a)' ) ' '
-              write ( *, '(a)' ) 
+              write ( *, '(a)' )
      &          '  Sorry, this data does not use the R8TRIS2'
-              write ( *, '(a)' ) 
+              write ( *, '(a)' )
      &          '  convention for convex hull segments.'
               skip = .true.
               exit
@@ -4260,7 +4260,7 @@ c
             k = k + 1
             n1 = triangle_node(s,t)
             n2 = triangle_node(i4_wrap(s+1,1,3),t)
-            write ( *, '(2x,i4,2x,i4,2x,i4,2x,i4,2x,i4)' ) 
+            write ( *, '(2x,i4,2x,i4,2x,i4,2x,i4,2x,i4)' )
      &        k, t, s, n1, n2
           end if
 
@@ -4274,7 +4274,7 @@ c
 
       return
       end
-      subroutine vbedg ( x, y, node_num, node_xy, triangle_num, 
+      subroutine vbedg ( x, y, node_num, node_xy, triangle_num,
      &  triangle_node, triangle_neighbor, ltri, ledg, rtri, redg )
 
 c*********************************************************************72
@@ -4318,26 +4318,26 @@ c    Input, double precision NODE_XY(2,NODE_NUM), the coordinates of the nodes.
 c
 c    Input, integer TRIANGLE_NUM, the number of triangles.
 c
-c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the triangle 
+c    Input, integer TRIANGLE_NODE(3,TRIANGLE_NUM), the triangle
 c    incidence list.
 c
-c    Input, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the 
-c    triangle neighbor list; negative values are used for links of a 
+c    Input, integer TRIANGLE_NEIGHBOR(3,TRIANGLE_NUM), the
+c    triangle neighbor list; negative values are used for links of a
 c    counter clockwise linked list of boundary edges;
 c      LINK = -(3*I + J-1) where I, J = triangle, edge index.
 c
-c    Input/output, integer LTRI, LEDG.  If LTRI /= 0 then these 
-c    values are assumed to be already computed and are not changed, else they 
-c    are updated.  On output, LTRI is the index of boundary triangle to the 
-c    left of the leftmost boundary triangle visible from (X,Y), and LEDG is 
-c    the boundary edge of triangle LTRI to the left of the leftmost boundary 
+c    Input/output, integer LTRI, LEDG.  If LTRI /= 0 then these
+c    values are assumed to be already computed and are not changed, else they
+c    are updated.  On output, LTRI is the index of boundary triangle to the
+c    left of the leftmost boundary triangle visible from (X,Y), and LEDG is
+c    the boundary edge of triangle LTRI to the left of the leftmost boundary
 c    edge visible from (X,Y).  1 <= LEDG <= 3.
 c
-c    Input/output, integer RTRI.  On input, the index of the 
-c    boundary triangle to begin the search at.  On output, the index of the 
+c    Input/output, integer RTRI.  On input, the index of the
+c    boundary triangle to begin the search at.  On output, the index of the
 c    rightmost boundary triangle visible from (X,Y).
 c
-c    Input/output, integer REDG, the edge of triangle RTRI that 
+c    Input/output, integer REDG, the edge of triangle RTRI that
 c    is visible from (X,Y).  1 <= REDG <= 3.
 c
       implicit none
@@ -4390,7 +4390,7 @@ c
           b = triangle_node(1,t)
         end if
 
-        lr = lrline ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,b), 
+        lr = lrline ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,b),
      &    node_xy(2,b), 0.0D+00 )
 
         if ( lr .le. 0 ) then
@@ -4437,7 +4437,7 @@ c
 
         a = triangle_node(e,t)
 
-        lr = lrline ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,b), 
+        lr = lrline ( x, y, node_xy(1,a), node_xy(2,a), node_xy(1,b),
      &    node_xy(2,b), 0.0D+00 )
 
         if ( lr .le. 0 ) then
