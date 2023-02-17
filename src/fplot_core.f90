@@ -421,7 +421,6 @@ module fplot_core
     !!     type(plot_2d) :: plt
     !!     type(plot_data_2d) :: dataset
     !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     type(legend), pointer :: leg
     !!     type(plot_label) :: lbl
     !!
     !!     ! Build a data set
@@ -448,10 +447,6 @@ module fplot_core
     !!
     !!     yAxis => plt%get_y_axis()
     !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     ! Hide the legend
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.false.)
     !!
     !!     ! Add the data to the plot
     !!     call plt%push(dataset)
@@ -1254,6 +1249,7 @@ module fplot_core
     !!
     !!     ! Put the legend in the upper left corner of the plot
     !!     leg => plt%get_legend()
+    !!     call leg%set_is_visible(.true.)
     !!     call leg%set_horizontal_position(LEGEND_LEFT)
     !!     call leg%set_vertical_position(LEGEND_TOP)
     !!
@@ -2147,6 +2143,7 @@ module fplot_core
         !!
         !!     ! Put the legend outside the axes, and remove it's border
         !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.true.)
         !!     call leg%set_draw_inside_axes(.false.)
         !!     call leg%set_draw_border(.false.)
         !!
@@ -2284,6 +2281,7 @@ module fplot_core
         !!
         !!     ! Put the legend in the upper left corner of the plot
         !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.true.)
         !!     call leg%set_horizontal_position(LEGEND_LEFT)
         !!     call leg%set_vertical_position(LEGEND_TOP)
         !!
@@ -5717,7 +5715,6 @@ module fplot_core
         !!     type(plot_2d) :: plt
         !!     type(plot_data_2d) :: dataset
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Build a data set
         !!     x = linspace(0.0d0, 10.0d0, npts)
@@ -5734,10 +5731,6 @@ module fplot_core
         !!
         !!     yAxis => plt%get_y_axis()
         !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Add the data to the plot
         !!     call plt%push(dataset)
@@ -5781,7 +5774,6 @@ module fplot_core
         !!     type(plot_2d) :: plt
         !!     type(plot_data_2d) :: dataset
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Build a data set
         !!     x = linspace(0.0d0, 10.0d0, npts)
@@ -5798,10 +5790,6 @@ module fplot_core
         !!
         !!     yAxis => plt%get_y_axis()
         !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Add the data to the plot
         !!     call plt%push(dataset)
@@ -6273,12 +6261,9 @@ module fplot_core
         !!     type(plot_3d) :: plt
         !!     type(plot_data_3d) :: d1
         !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Initialize the plot object
         !!     call plt%initialize()
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Define titles
         !!     call plt%set_title("Example Plot")
@@ -7070,6 +7055,7 @@ module fplot_core
     !!
     !!     ! Establish legend properties
     !!     leg => plt%get_legend()
+    !!     call leg%set_is_visible(.true.)
     !!     call leg%set_draw_inside_axes(.false.)
     !!     call leg%set_horizontal_position(LEGEND_CENTER)
     !!     call leg%set_vertical_position(LEGEND_BOTTOM)
@@ -7472,12 +7458,9 @@ module fplot_core
     !!     type(plot_3d) :: plt
     !!     type(plot_data_3d) :: d1
     !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!     type(legend), pointer :: leg
     !!
     !!     ! Initialize the plot object
     !!     call plt%initialize()
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.false.)
     !!
     !!     ! Define titles
     !!     call plt%set_title("Example Plot")
@@ -7788,12 +7771,9 @@ module fplot_core
         !!     type(plot_3d) :: plt
         !!     type(plot_data_3d) :: d1
         !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Initialize the plot object
         !!     call plt%initialize()
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Set the Z-axis to not intersect the X-Y plane
         !!     call plt%set_z_intersect_xy(.false.)
@@ -9350,7 +9330,6 @@ module fplot_core
         !!     type(plot_2d) :: plt, pplt
         !!     type(plot_data_2d) :: d1, d2, d3, d4
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     class(legend), pointer :: lgnd
         !!
         !!     ! Generate a frequency vector from 10 Hz to 1 kHz
         !!     freq = logspace(1.0d0, 3.0d0, npts)
@@ -9409,10 +9388,6 @@ module fplot_core
         !!
         !!     call pplt%push(d3)
         !!     call pplt%push(d4)
-        !!
-        !!     ! Don't use a legend on the phase plot
-        !!     lgnd => pplt%get_legend()
-        !!     call lgnd%set_is_visible(.false.)
         !!
         !!     ! Save the plot to file
         !!     call mplt%set(1, 1, plt)
