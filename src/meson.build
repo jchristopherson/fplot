@@ -40,6 +40,5 @@ sources = files(
 'tripack.f',
 'fplot_string_builder.f90',
 'fplot_string_builder_implementation.f90',
-'fplot_triangulations.f90',
 'fplot_triangulations_delaunay_2d.f90'
   )

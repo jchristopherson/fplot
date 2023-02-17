@@ -3,7 +3,6 @@
 program example
     use fplot_core
     use iso_fortran_env
-    use fplot_triangulations
     implicit none
 
     ! Parameters

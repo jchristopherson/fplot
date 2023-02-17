@@ -1,4 +1,4 @@
-submodule (fplot_triangulations) triangulations_delaunay_2d
+submodule (fplot_core) fplot_triangulations_delaunay_2d
     use fplot_errors
 contains
 ! ------------------------------------------------------------------------------

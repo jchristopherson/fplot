@@ -44,7 +44,6 @@ set(FPLOT_SOURCES
     ${dir}/tripack.f
     ${dir}/fplot_string_builder.f90
     ${dir}/fplot_string_builder_implementation.f90
-    ${dir}/fplot_triangulations.f90
     ${dir}/fplot_triangulations_delaunay_2d.f90
 )
 set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
