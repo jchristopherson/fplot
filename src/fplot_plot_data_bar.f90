@@ -53,7 +53,7 @@ pure module function pdb_get_label(this, index) result(x)
     integer(int32), intent(in) :: index
     character(len = :), allocatable :: x
     if (allocated(this%m_axisLabels)) then
-        x = this%m_axisLabels(index)%str
+        x = char(this%m_axisLabels(index))
     else
         x = ""
     end if
@@ -65,7 +65,7 @@ module subroutine pdb_set_label(this, index, txt)
     integer(int32) :: index
     character(len = *), intent(in) :: txt
     if (allocated(this%m_axisLabels)) then
-        this%m_axisLabels(index)%str = txt
+        this%m_axisLabels(index) = txt
     end if
 end subroutine
 
@@ -172,7 +172,7 @@ module function pdb_get_data_cmd(this) result(x)
     if (this%get_use_labels() .and. allocated(this%m_axisLabels) .and. &
             allocated(this%m_barData)) then
         do i = 1, nbars
-            call str%append(this%m_axisLabels(i)%str)
+            call str%append(char(this%m_axisLabels(i)))
             call str%append(delimiter)
             do j = 1, ncols
                 call str%append(to_string(this%get(i, j)))
@@ -248,7 +248,7 @@ end subroutine
 module subroutine pdb_set_data_2(this, labels, x, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
-    class(string), intent(in), dimension(:) :: labels
+    class(varying_string), intent(in), dimension(:) :: labels
     real(real64), intent(in), dimension(:) :: x
     class(errors), intent(inout), optional, target :: err
 
@@ -339,7 +339,7 @@ end subroutine
 module subroutine pdb_set_data_2_core(this, labels, x, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
-    class(string), intent(in), dimension(:) :: labels
+    class(varying_string), intent(in), dimension(:) :: labels
     real(real64), intent(in), dimension(:) :: x
     class(errors), intent(inout), optional, target :: err
 
@@ -391,7 +391,7 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
     class(errors), pointer :: errmgr
     type(errors), target :: deferr
     integer(int32) :: i, n, flag
-    type(string), allocatable, dimension(:) :: lbls
+    type(varying_string), allocatable, dimension(:) :: lbls
     
     ! Initialization
     if (present(err)) then
@@ -417,7 +417,7 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
         return
     end if
     do i = 1, n
-        lbls(i)%str = to_string(labels(i), fmt)
+        lbls(i) = to_string(labels(i), fmt)
     end do
 
     ! Store the data

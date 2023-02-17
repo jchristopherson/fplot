@@ -4,7 +4,6 @@ sources = files(
 'fplot_colors.f90',
 'fplot_core.f90',
 'fplot_core_routines.f90',
-'fplot_delaunay.f90',
 'fplot_delaunay_tri_surface.f90',
 'fplot_errors.f90',
 'fplot_filled_plot_data.f90',
@@ -39,4 +38,8 @@ sources = files(
 'fplot_wxt_terminal.f90',
 'geompack.f',
 'tripack.f',
+'fplot_string_builder.f90',
+'fplot_string_builder_implementation.f90',
+'fplot_triangulations.f90',
+'fplot_triangulations_delaunay_2d.f90'
   )

@@ -69,7 +69,7 @@ contains
 
         ! Input Check
         if (size(y) /= n) then
-            write(errmsg, '(AI0AI0A)') "The array sizes did not match.  " // &
+            write(errmsg, 100) "The array sizes did not match.  " // &
                 "The x array contained ", size(x), &
                 " items, but the y array contained ", size(y), "."
             call errmgr%report_error("simplify_polyline_2d1", trim(errmsg), &
@@ -86,6 +86,8 @@ contains
 
         ! Process
         ln = radial_distance_2d(x, y, tol, err)
+        
+100     format(A, I0, A, I0, A)
     end function
 
 
@@ -140,7 +142,7 @@ contains
 
         ! Input Check
         if (size(y) /= n .or. size(z) /= n) then
-            write(errmsg, '(AI0AI0AI0A)') "The array sizes did not match.  " // &
+            write(errmsg, 100) "The array sizes did not match.  " // &
                 "The x array contained ", size(x), &
                 " items, the y array contained ", size(y), &
                 ", and the z array contained ", size(z), "."
@@ -158,6 +160,8 @@ contains
 
         ! Process
         ln = radial_distance_3d(x, y, z, tol, errmgr)
+        
+100     format(A, I0, A, I0, A, I0, A)
     end function
 
 
@@ -203,7 +207,7 @@ contains
 
         ! Ensure there are at least 2 columns of data in XY
         if (size(xy, 2) < 2) then
-            write(errmsg, '(AI0A)') "The input matrix must have at " // &
+            write(errmsg, 100) "The input matrix must have at " // &
                 "least 2 columns; however, only ", size(xy, 2), " was found."
             call errmgr%report_error("simplify_polyline_mtx", trim(errmsg), &
                 PLOT_ARRAY_SIZE_MISMATCH_ERROR)
@@ -216,6 +220,8 @@ contains
         else
             ln = simplify_polyline_3d1(xy(:,1), xy(:,2), xy(:,3), tol, errmgr)
         end if
+        
+100     format(A, I0, A)
     end function
 
 

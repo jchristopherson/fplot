@@ -222,10 +222,11 @@ contains
             character(len = *), intent(out) :: msg
 
             ! Process
-            write(msg, '(AI0AI0AI0AI0A)') "Input " // name // &
+            write(msg, 200) "Input " // name // &
                 " is not sized correctly.  Expected a ", mexpect, "-by-", &
                 nexpect, " matrix, but found a ", mfound, "-by-", nfound, &
                 " matrix."
+200         format(A, I0, A, I0, A, I0, A, I0, A)
         end subroutine
     end subroutine
 

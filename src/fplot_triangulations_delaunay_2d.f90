@@ -1,6 +1,5 @@
-! fplot_delaunay.f90
-
-submodule (fplot_core) fplot_delaunay
+submodule (fplot_triangulations) triangulations_delaunay_2d
+    use fplot_errors
 contains
 ! ------------------------------------------------------------------------------
     module subroutine d2d_init(this, x, y, err)
@@ -27,7 +26,7 @@ contains
 
         ! Input Check
         if (size(y) /= npts) then
-            write(errmsg, '(AI0AI0A)') &
+            write(errmsg, 200) &
                 "Expected the y-coordinate array to have ", npts, &
                 " elements, but found ", size(y), " instead."
             call errmgr%report_error("d2d_init", trim(errmsg), &
@@ -77,6 +76,8 @@ contains
         call errmgr%report_error("d2d_init", "Insufficient memory available.", &
             PLOT_OUT_OF_MEMORY_ERROR)
         return
+        
+200     format(A, I0, A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------

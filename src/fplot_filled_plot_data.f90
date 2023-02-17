@@ -124,14 +124,14 @@ contains
         ! Input Checking
         n = size(x)
         if (size(y) /= n) then
-            write(errmsg, '(AI0AI0A)') "Expected the y array to have ", n, &
+            write(errmsg, 100) "Expected the y array to have ", n, &
                 " elements, but found an array with ", size(y), " elements."
             call errmgr%report_error("fpd_define_data", trim(errmsg), &
                 PLOT_ARRAY_SIZE_MISMATCH_ERROR)
             return
         end if
         if (size(yc) /= n) then
-            write(errmsg, '(AI0AI0A)') "Expected the yc array to have ", n, &
+            write(errmsg, 100) "Expected the yc array to have ", n, &
                 " elements, but found an array with ", size(yc), " elements."
             call errmgr%report_error("fpd_define_data", trim(errmsg), &
                 PLOT_ARRAY_SIZE_MISMATCH_ERROR)
@@ -154,13 +154,9 @@ contains
             this%m_data(i,2) = y(i)
             this%m_data(i,3) = yc(i)
         end do
+        
+100     format(A, I0, A, I0, A)
     end subroutine
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
-
-! ------------------------------------------------------------------------------
 
 ! ------------------------------------------------------------------------------
 end submodule
