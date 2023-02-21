@@ -5,7 +5,6 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(FPLOT_SOURCES
     ${dir}/fplot_core.f90
     ${dir}/fplot_core_routines.f90
-    ${dir}/fplot_errors.f90
     ${dir}/fplot_colors.f90
     ${dir}/fplot_terminal.f90
     ${dir}/fplot_windows_terminal.f90

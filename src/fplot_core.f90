@@ -16,11 +16,15 @@ module fplot_core
     use iso_c_binding
     use fplot_string_builder
     use collections
-    use fplot_errors
     use iso_varying_string
     use ferror, only : errors
     implicit none
     private
+    public :: PLOT_OUT_OF_MEMORY_ERROR
+    public :: PLOT_INVALID_INPUT_ERROR
+    public :: PLOT_INVALID_OPERATION_ERROR
+    public :: PLOT_ARRAY_SIZE_MISMATCH_ERROR
+    public :: PLOT_GNUPLOT_FILE_ERROR
     public :: GNUPLOT_TERMINAL_WIN32
     public :: GNUPLOT_TERMINAL_WXT
     public :: GNUPLOT_TERMINAL_QT
@@ -115,6 +119,21 @@ module fplot_core
     public :: parula_colormap
     public :: grey_colormap
     public :: earth_colormap
+
+! ******************************************************************************
+! ERROR CODES
+! ------------------------------------------------------------------------------
+    !> @brief Occurs if there is insufficient memory available for the
+    !! requested operation.
+    integer(int32), parameter :: PLOT_OUT_OF_MEMORY_ERROR = 1000
+    !> @brief Occurs if an invalid input is provided.
+    integer(int32), parameter :: PLOT_INVALID_INPUT_ERROR = 1001
+    !> @brief Occurs if an attempt is made to perform an invalid operation.
+    integer(int32), parameter :: PLOT_INVALID_OPERATION_ERROR = 1002
+    !> @brief Occurs if there is an array size mismatch error.
+    integer(int32), parameter :: PLOT_ARRAY_SIZE_MISMATCH_ERROR = 1003
+    !> @brief Occurs if there is a GNUPLOT file error.
+    integer(int32), parameter :: PLOT_GNUPLOT_FILE_ERROR = 1004
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS

@@ -5,7 +5,6 @@ sources = files(
 'fplot_core.f90',
 'fplot_core_routines.f90',
 'fplot_delaunay_tri_surface.f90',
-'fplot_errors.f90',
 'fplot_filled_plot_data.f90',
 'fplot_label.f90',
 'fplot_latex_terminal.f90',
