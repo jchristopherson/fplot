@@ -119,6 +119,7 @@ module fplot_core
     public :: parula_colormap
     public :: grey_colormap
     public :: earth_colormap
+    public :: simplify_polyline
 
 ! ******************************************************************************
 ! ERROR CODES
@@ -12129,6 +12130,115 @@ module fplot_core
             real(real64), intent(in), dimension(:) :: x, y, yc
             class(errors), intent(inout), optional, target :: err
         end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_SIMPLIFY.F90
+! ------------------------------------------------------------------------------
+    !> @brief Simplifies a 2D or 3D polyline by removing points too close to 
+    !!  discern given a specified tolerance.
+    !!
+    !! @par Overload 1
+    !! Simplifies a 2D polyline by removing points too close to discern given
+    !! a specified tolerance.
+    !!
+    !! @param[in] x An N-element array containing the x-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] y An N-element array containing the y-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, and the second column
+    !! contains the y-coordinates.
+    !!
+    !! @par Overload 2
+    !! Simplifies a 3D polyline by removing points too close to discern 
+    !! given a specified tolerance.
+    !!
+    !! @param[in] x An N-element array containing the x-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] y An N-element array containing the y-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] z An N-element array containing the z-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, the second column
+    !! contains the y-coordinates, and the third column contains the z-coordinates.
+    !!
+    !! @par Overload 3
+    !! Simplifies a 2D or 3D polyline by removing points too close to discern 
+    !! given a specified tolerance.
+    !!
+    !! @param[in] xy An N-by-2 or N-by-3 matrix containing the polyline vertex data.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, the second column
+    !! contains the y-coordinates, and if necessary, the third column contains
+    !! the z-coordinates.
+    interface simplify_polyline
+        module procedure :: simplify_polyline_2d1
+        module procedure :: simplify_polyline_3d1
+        module procedure :: simplify_polyline_mtx
+    end interface
+
+    interface
+        module function simplify_polyline_2d1(x, y, tol, err) result(ln)
+            real(real64), intent(in), dimension(:) :: x, y
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
+
+        module function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
+            real(real64), intent(in), dimension(:) :: x, y, z
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
+
+        module function simplify_polyline_mtx(xy, tol, err) result(ln)
+            real(real64), intent(in), dimension(:,:) :: xy
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
     end interface
 
 ! ------------------------------------------------------------------------------

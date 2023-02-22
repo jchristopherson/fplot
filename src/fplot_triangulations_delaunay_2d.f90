@@ -1,5 +1,4 @@
 submodule (fplot_core) fplot_triangulations_delaunay_2d
-    use fplot_errors
 contains
 ! ------------------------------------------------------------------------------
     module subroutine d2d_init(this, x, y, err)

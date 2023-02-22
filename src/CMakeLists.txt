@@ -18,6 +18,7 @@ set(FPLOT_SOURCES
     ${dir}/fplot_plot.f90
     ${dir}/fplot_colormap.f90
     ${dir}/fplot_scatter_plot_data.f90
+    ${dir}/fplot_simplify.f90
     ${dir}/fplot_plot_data_2d.f90
     ${dir}/fplot_plot_data_3d.f90
     ${dir}/fplot_surface_plot_data.f90
@@ -29,7 +30,6 @@ set(FPLOT_SOURCES
     ${dir}/fplot_multiplot.f90
     ${dir}/fplot_plot_data_error_bars.f90
     ${dir}/fplot_plot_data_colored.f90
-    ${dir}/fplot_simplify.f90
     ${dir}/fplot_plot_data_bar.f90
     ${dir}/fplot_plot_data_histogram.f90
     ${dir}/fplot_plot_bar.f90
