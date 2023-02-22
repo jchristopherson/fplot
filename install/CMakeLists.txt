@@ -13,8 +13,8 @@ install_library(
 
 # Install the documentation files
 install_documentation(
-    ${PROJECT_SOURCE_DIR}/doc/html
-    ${CMAKE_INSTALL_PREFIX}/doc
+    ${PROJECT_SOURCE_DIR}/docs/html
+    ${CMAKE_INSTALL_PREFIX}/docs
 )
 
 # Define the version file
