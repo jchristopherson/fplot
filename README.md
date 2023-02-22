@@ -1,9 +1,6 @@
 # fplot
 A Fortran library providing a convenient interface for plotting with Gnuplot.
 
-## Status
-![Build Status](https://travis-ci.org/jchristopherson/fplot.svg?branch=master)
-
 ## Gnuplot
 This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
 
@@ -344,4 +341,5 @@ Documentation can be found [here](http://htmlpreview.github.io/?https://github.c
 ## External Libraries
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
-- [FCORE](https://github.com/jchristopherson/fcore)
+- [COLLECTIONS](https://github.com/jchristopherson/collections)
+- [ISO_VARYING_STRING](https://gitlab.com/everythingfunctional/iso_varying_string)
