@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['legend_5fbottom_672',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
-  ['legend_5fcenter_673',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
-  ['legend_5fleft_674',['legend_left',['../namespacefplot__core.html#a63d667dd9f14cc6ec61c999dd5dda272',1,'fplot_core']]],
-  ['legend_5fright_675',['legend_right',['../namespacefplot__core.html#a99373c8db502d4106c9597f3303b6fa9',1,'fplot_core']]],
-  ['legend_5ftop_676',['legend_top',['../namespacefplot__core.html#aeddce321c79b9d2e69356b06ba656c88',1,'fplot_core']]],
-  ['line_5fdash_5fdot_5fdot_677',['line_dash_dot_dot',['../namespacefplot__core.html#ad6f904d0b43c5063d0f6b41d90abdbea',1,'fplot_core']]],
-  ['line_5fdash_5fdotted_678',['line_dash_dotted',['../namespacefplot__core.html#a18af0338b6f5f050d826afcf78918bc2',1,'fplot_core']]],
-  ['line_5fdashed_679',['line_dashed',['../namespacefplot__core.html#ae9305c0a47c3fb21e45154a0b9457353',1,'fplot_core']]],
-  ['line_5fdotted_680',['line_dotted',['../namespacefplot__core.html#ab81a32face043abe51b8740e56c816b2',1,'fplot_core']]],
-  ['line_5fsolid_681',['line_solid',['../namespacefplot__core.html#ac41508e74ce45d09f835bd676ea7d3d6',1,'fplot_core']]]
+  ['legend_5fbottom_0',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
+  ['legend_5fcenter_1',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
+  ['legend_5fleft_2',['legend_left',['../namespacefplot__core.html#a63d667dd9f14cc6ec61c999dd5dda272',1,'fplot_core']]],
+  ['legend_5fright_3',['legend_right',['../namespacefplot__core.html#a99373c8db502d4106c9597f3303b6fa9',1,'fplot_core']]],
+  ['legend_5ftop_4',['legend_top',['../namespacefplot__core.html#aeddce321c79b9d2e69356b06ba656c88',1,'fplot_core']]],
+  ['line_5fdash_5fdot_5fdot_5',['line_dash_dot_dot',['../namespacefplot__core.html#ad6f904d0b43c5063d0f6b41d90abdbea',1,'fplot_core']]],
+  ['line_5fdash_5fdotted_6',['line_dash_dotted',['../namespacefplot__core.html#a18af0338b6f5f050d826afcf78918bc2',1,'fplot_core']]],
+  ['line_5fdashed_7',['line_dashed',['../namespacefplot__core.html#ae9305c0a47c3fb21e45154a0b9457353',1,'fplot_core']]],
+  ['line_5fdotted_8',['line_dotted',['../namespacefplot__core.html#ab81a32face043abe51b8740e56c816b2',1,'fplot_core']]],
+  ['line_5fsolid_9',['line_solid',['../namespacefplot__core.html#ac41508e74ce45d09f835bd676ea7d3d6',1,'fplot_core']]]
 ];

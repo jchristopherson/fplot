@@ -145,7 +145,7 @@ contains
     pure module function mp_get_count(this) result(x)
         class(multiplot), intent(in) :: this
         integer(int32) :: x
-        x = this%m_plots%get_count()
+        x = this%m_plots%count()
     end function
     
 ! ------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ contains
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
-            write(errmsg, "(AI0A)") &
+            write(errmsg, 100) &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
             call errmgr%report_error("mp_draw", trim(errmsg), &
@@ -231,6 +231,8 @@ contains
         ! Clean up by deleting the file
         open(newunit = fid, file = fname)
         close(fid, status = "delete")
+        
+100     format(A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -309,7 +311,7 @@ contains
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
-            write(errmsg, "(AI0A)") &
+            write(errmsg, 100) &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
             call errmgr%report_error("mp_save", trim(errmsg), &
@@ -320,6 +322,8 @@ contains
         write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
+        
+100     format(A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------

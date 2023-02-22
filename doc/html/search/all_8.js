@@ -1,15 +1,5 @@
 var searchData=
 [
-  ['latex_5fterminal_153',['latex_terminal',['../structfplot__core_1_1latex__terminal.html',1,'fplot_core']]],
-  ['legend_154',['legend',['../structfplot__core_1_1legend.html',1,'fplot_core']]],
-  ['legend_5fbottom_155',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
-  ['legend_5fcenter_156',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
-  ['legend_5fleft_157',['legend_left',['../namespacefplot__core.html#a63d667dd9f14cc6ec61c999dd5dda272',1,'fplot_core']]],
-  ['legend_5fright_158',['legend_right',['../namespacefplot__core.html#a99373c8db502d4106c9597f3303b6fa9',1,'fplot_core']]],
-  ['legend_5ftop_159',['legend_top',['../namespacefplot__core.html#aeddce321c79b9d2e69356b06ba656c88',1,'fplot_core']]],
-  ['line_5fdash_5fdot_5fdot_160',['line_dash_dot_dot',['../namespacefplot__core.html#ad6f904d0b43c5063d0f6b41d90abdbea',1,'fplot_core']]],
-  ['line_5fdash_5fdotted_161',['line_dash_dotted',['../namespacefplot__core.html#a18af0338b6f5f050d826afcf78918bc2',1,'fplot_core']]],
-  ['line_5fdashed_162',['line_dashed',['../namespacefplot__core.html#ae9305c0a47c3fb21e45154a0b9457353',1,'fplot_core']]],
-  ['line_5fdotted_163',['line_dotted',['../namespacefplot__core.html#ab81a32face043abe51b8740e56c816b2',1,'fplot_core']]],
-  ['line_5fsolid_164',['line_solid',['../namespacefplot__core.html#ac41508e74ce45d09f835bd676ea7d3d6',1,'fplot_core']]]
+  ['initialize_0',['initialize',['../structfplot__core_1_1plot.html#a945ff02d37879c256fbc56315782011d',1,'fplot_core::plot::initialize()'],['../structfplot__core_1_1plot__2d.html#a7d4a94f41b2bb99d80a3b3f8c805e7d0',1,'fplot_core::plot_2d::initialize()'],['../structfplot__core_1_1plot__3d.html#a499a3199dc9362cf4766ee9fc883f269',1,'fplot_core::plot_3d::initialize()'],['../structfplot__core_1_1surface__plot.html#a7ee1fab08335357f2a8b0afdff373171',1,'fplot_core::surface_plot::initialize()'],['../structfplot__core_1_1multiplot.html#a098fd1411de0cf38c26c9bd7f970f7db',1,'fplot_core::multiplot::initialize()'],['../structfplot__core_1_1plot__polar.html#a63ddb37672c805cb4cd6cce966251b24',1,'fplot_core::plot_polar::initialize()'],['../structfplot__string__builder_1_1string__builder.html#a9eac15798175a4d8f0a5c7db0de9ad99',1,'fplot_string_builder::string_builder::initialize()']]],
+  ['is_5ftitle_5fdefined_1',['is_title_defined',['../structfplot__core_1_1plot__axis.html#a6692fd4f9aa180a96ae597073093d5e5',1,'fplot_core::plot_axis::is_title_defined()'],['../structfplot__core_1_1plot.html#a2edf85d4a618f260b7dd9e5bfb92af04',1,'fplot_core::plot::is_title_defined()'],['../structfplot__core_1_1multiplot.html#a4fc3681e3bf594b4b318d77e2a1bb140',1,'fplot_core::multiplot::is_title_defined()']]]
 ];

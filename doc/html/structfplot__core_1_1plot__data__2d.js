@@ -10,8 +10,6 @@ var structfplot__core_1_1plot__data__2d =
     [ "get_x_data", "structfplot__core_1_1plot__data__2d.html#a95b7d1ecbe2d3fc126c44f09fec2df11", null ],
     [ "get_y", "structfplot__core_1_1plot__data__2d.html#adebedbb7d18e11535995c4280e5a59ac", null ],
     [ "get_y_data", "structfplot__core_1_1plot__data__2d.html#aad88feb206974ae9571c6e07324008a4", null ],
-    [ "pd2d_set_data_1", "structfplot__core_1_1plot__data__2d.html#a9cd395c79424aebf9a29a69a4cf1fefd", null ],
-    [ "pd2d_set_data_2", "structfplot__core_1_1plot__data__2d.html#a300c67d82f9dccac48b7fa65626d8cc8", null ],
     [ "set_draw_against_y2", "structfplot__core_1_1plot__data__2d.html#a6c2e6bbf49fbe4f748f98a3b62086971", null ],
     [ "set_x", "structfplot__core_1_1plot__data__2d.html#a3727a22330eb4301c76ff89ff9cc520e", null ],
     [ "set_y", "structfplot__core_1_1plot__data__2d.html#aa1cd95a74492d449b02474876cf72339", null ],

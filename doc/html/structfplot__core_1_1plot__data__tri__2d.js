@@ -1,8 +1,6 @@
 var structfplot__core_1_1plot__data__tri__2d =
 [
     [ "define_data", "structfplot__core_1_1plot__data__tri__2d.html#a0e4032063b0b91964e920b7834a58cff", null ],
-    [ "get_command_string", "structfplot__core_1_1plot__data__tri__2d.html#af7970a82df917fdb68f432df834e7c16", null ],
-    [ "get_data_string", "structfplot__core_1_1plot__data__tri__2d.html#af6186a5fa279bd80a4c40eb36d0adfb7", null ],
     [ "get_line_style", "structfplot__core_1_1plot__data__tri__2d.html#af0258012ec3f473c8ad4dcf7feeb7a95", null ],
     [ "get_line_width", "structfplot__core_1_1plot__data__tri__2d.html#a10ccfa34308f40de404fd79e5709bd19", null ],
     [ "set_line_style", "structfplot__core_1_1plot__data__tri__2d.html#a5ea64f832d8efba97398936d10a194fe", null ],

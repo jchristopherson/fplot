@@ -145,7 +145,7 @@ end subroutine
 module subroutine pdh_set_data_2(this, labels, x, err)
     ! Arguments
     class(plot_data_histogram), intent(inout) :: this
-    class(string), intent(in), dimension(:) :: labels
+    class(varying_string), intent(in), dimension(:) :: labels
     real(real64), intent(in), dimension(:) :: x
     class(errors), intent(inout), optional, target :: err
 
@@ -213,7 +213,7 @@ pure module function pdh_get_num_fmt(this) result(x)
     if (allocated(this%m_numberFmt)) then
         x = this%m_numberFmt
     else
-        x = "F6.2"
+        x = "(F6.2)"
     end if
 end function
 

@@ -130,7 +130,7 @@ contains
     pure module function plt_get_count(this) result(x)
         class(plot), intent(in) :: this
         integer(int32) :: x
-        x = this%m_data%get_count()
+        x = this%m_data%count()
     end function
 
 ! ------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ contains
         end select
 
         ! Store the object
-        call this%m_data%push(x, err)
+        call this%m_data%push(x, err = err)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ contains
 
         ! Process
         call this%m_data%pop()
-        if (this%m_data%get_count() < 2) then
+        if (this%m_data%count() < 2) then
             lgnd => this%get_legend()
             call lgnd%set_is_visible(.false.)
         end if
@@ -264,7 +264,7 @@ contains
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
-            write(errmsg, "(AI0A)") &
+            write(errmsg, 100) &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
             call errmgr%report_error("plt_draw", trim(errmsg), &
@@ -286,6 +286,8 @@ contains
         ! Clean up by deleting the file
         open(newunit = fid, file = fname)
         close(fid, status = "delete")
+        
+100     format(A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -313,7 +315,7 @@ contains
         ! Open the file for writing, and write the contents to file
         open(newunit = fid, file = fname, iostat = flag)
         if (flag > 0) then
-            write(errmsg, "(AI0A)") &
+            write(errmsg, 100) &
                 "The file could not be opened/created.  Error code ", flag, &
                 " was encountered."
             call errmgr%report_error("plt_save", trim(errmsg), &
@@ -324,6 +326,8 @@ contains
         write(fid, '(A)') new_line('a')
         write(fid, '(A)') this%get_command_string()
         close(fid)
+        
+100     format(A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -400,7 +404,7 @@ contains
         class(errors), intent(inout), optional, target :: err
 
         ! Process
-        call this%m_labels%push(lbl, err)
+        call this%m_labels%push(lbl, err = err)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -441,7 +445,7 @@ contains
     pure module function plt_get_label_count(this) result(x)
         class(plot), intent(in) :: this
         integer(int32) :: x
-        x = this%m_labels%get_count()
+        x = this%m_labels%count()
     end function
 
 ! ------------------------------------------------------------------------------

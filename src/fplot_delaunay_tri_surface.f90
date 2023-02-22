@@ -32,7 +32,7 @@ contains
             return
         end if
         if (size(z) /= n) then
-            write (errmsg, '(AI0AI0A)') "The number of function values " // &
+            write (errmsg, 100) "The number of function values " // &
                 "does not match the number of x-y points.  Expected to find ", &
                 n, " function values, but found ", size(z), " instead."
             call errmgr%report_error("dts_define_fcn", trim(errmsg), &
@@ -50,6 +50,8 @@ contains
             return
         end if
         this%m_z = z
+        
+100     format(A, I0, A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------

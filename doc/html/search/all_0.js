@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blue_0',['blue',['../structfplot__core_1_1color.html#a208e32c7d0b0798118575c2234f4cc94',1,'fplot_core::color']]]
+  ['append_0',['append',['../structfplot__string__builder_1_1string__builder.html#ac2fe1b628a58d360a0cb8341b7ed6332',1,'fplot_string_builder::string_builder']]]
 ];

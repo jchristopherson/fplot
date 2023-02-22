@@ -4,47 +4,9 @@
 ! - https://www.codeproject.com/Articles/114797/Polyline-Simplification
 ! - https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
 
-module fplot_simplify
-    use iso_fortran_env
-    use ferror
-    use fplot_errors
-    implicit none
-    private
-    public :: simplify_polyline
-
-    !> @brief Simplifies a 2D or 3D polyline by removing points too close to discern given
-    !! a specified tolerance.
-    interface simplify_polyline
-        module procedure :: simplify_polyline_2d1
-        module procedure :: simplify_polyline_3d1
-        module procedure :: simplify_polyline_mtx
-    end interface
-
+submodule (fplot_core) fplot_simplify
 contains
-    !> @brief Simplifies a 2D polyline by removing points too close to discern given
-    !! a specified tolerance.
-    !!
-    !! @param[in] x An N-element array containing the x-coordinates of the vertices
-    !!  making up the polyline.
-    !! @param[in] y An N-element array containing the y-coordinates of the vertices
-    !!  making up the polyline.
-    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
-    !!  This value must be positive, and larger than machine epsilon.
-    !! @param[in,out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
-    !!      compatible.
-    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
-    !!      than machine epsilon.
-    !!
-    !! @return A matrix containing the simplified polyline vertices.  The first
-    !! column of the matrix contains the x-coordinates, and the second column
-    !! contains the y-coordinates.
-    function simplify_polyline_2d1(x, y, tol, err) result(ln)
+    module function simplify_polyline_2d1(x, y, tol, err) result(ln)
         ! Arguments
         real(real64), intent(in), dimension(:) :: x, y
         real(real64), intent(in) :: tol
@@ -69,7 +31,7 @@ contains
 
         ! Input Check
         if (size(y) /= n) then
-            write(errmsg, '(AI0AI0A)') "The array sizes did not match.  " // &
+            write(errmsg, 100) "The array sizes did not match.  " // &
                 "The x array contained ", size(x), &
                 " items, but the y array contained ", size(y), "."
             call errmgr%report_error("simplify_polyline_2d1", trim(errmsg), &
@@ -86,36 +48,12 @@ contains
 
         ! Process
         ln = radial_distance_2d(x, y, tol, err)
+        
+100     format(A, I0, A, I0, A)
     end function
 
 
-
-    !> @brief Simplifies a 3D polyline by removing points too close to discern given
-    !! a specified tolerance.
-    !!
-    !! @param[in] x An N-element array containing the x-coordinates of the vertices
-    !!  making up the polyline.
-    !! @param[in] y An N-element array containing the y-coordinates of the vertices
-    !!  making up the polyline.
-    !! @param[in] z An N-element array containing the z-coordinates of the vertices
-    !!  making up the polyline.
-    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
-    !!  This value must be positive, and larger than machine epsilon.
-    !! @param[in,out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
-    !!      compatible.
-    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
-    !!      than machine epsilon.
-    !!
-    !! @return A matrix containing the simplified polyline vertices.  The first
-    !! column of the matrix contains the x-coordinates, the second column
-    !! contains the y-coordinates, and the third column contains the z-coordinates.
-    function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
+    module function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
         ! Arguments
         real(real64), intent(in), dimension(:) :: x, y, z
         real(real64), intent(in) :: tol
@@ -140,7 +78,7 @@ contains
 
         ! Input Check
         if (size(y) /= n .or. size(z) /= n) then
-            write(errmsg, '(AI0AI0AI0A)') "The array sizes did not match.  " // &
+            write(errmsg, 100) "The array sizes did not match.  " // &
                 "The x array contained ", size(x), &
                 " items, the y array contained ", size(y), &
                 ", and the z array contained ", size(z), "."
@@ -158,31 +96,13 @@ contains
 
         ! Process
         ln = radial_distance_3d(x, y, z, tol, errmgr)
+        
+100     format(A, I0, A, I0, A, I0, A)
     end function
 
 
-    !> @brief Simplifies a 2D or 3D polyline by removing points too close to discern given
-    !! a specified tolerance.
-    !!
-    !! @param[in] xy An N-by-2 or N-by-3 matrix containing the polyline vertex data.
-    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
-    !!  This value must be positive, and larger than machine epsilon.
-    !! @param[in,out] err An optional errors-based object that if provided can be
-    !!  used to retrieve information relating to any errors encountered during
-    !!  execution.  If not provided, a default implementation of the errors
-    !!  class is used internally to provide error handling.  Possible errors and
-    !!  warning messages that may be encountered are as follows.
-    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
-    !!      compatible.
-    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
-    !!      than machine epsilon.
-    !!
-    !! @return A matrix containing the simplified polyline vertices.  The first
-    !! column of the matrix contains the x-coordinates, the second column
-    !! contains the y-coordinates, and if necessary, the third column contains
-    !! the z-coordinates.
-    function simplify_polyline_mtx(xy, tol, err) result(ln)
+    
+    module function simplify_polyline_mtx(xy, tol, err) result(ln)
         ! Arguments
         real(real64), intent(in), dimension(:,:) :: xy
         real(real64), intent(in) :: tol
@@ -203,7 +123,7 @@ contains
 
         ! Ensure there are at least 2 columns of data in XY
         if (size(xy, 2) < 2) then
-            write(errmsg, '(AI0A)') "The input matrix must have at " // &
+            write(errmsg, 100) "The input matrix must have at " // &
                 "least 2 columns; however, only ", size(xy, 2), " was found."
             call errmgr%report_error("simplify_polyline_mtx", trim(errmsg), &
                 PLOT_ARRAY_SIZE_MISMATCH_ERROR)
@@ -216,6 +136,8 @@ contains
         else
             ln = simplify_polyline_3d1(xy(:,1), xy(:,2), xy(:,3), tol, errmgr)
         end if
+        
+100     format(A, I0, A)
     end function
 
 
@@ -397,4 +319,4 @@ contains
         end if
     end function
 
-end module
+end submodule

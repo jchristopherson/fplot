@@ -14,12 +14,17 @@
 module fplot_core
     use iso_fortran_env, only : real64, real32, int32
     use iso_c_binding
-    use strings
+    use fplot_string_builder
     use collections
-    use fplot_errors
+    use iso_varying_string
     use ferror, only : errors
     implicit none
     private
+    public :: PLOT_OUT_OF_MEMORY_ERROR
+    public :: PLOT_INVALID_INPUT_ERROR
+    public :: PLOT_INVALID_OPERATION_ERROR
+    public :: PLOT_ARRAY_SIZE_MISMATCH_ERROR
+    public :: PLOT_GNUPLOT_FILE_ERROR
     public :: GNUPLOT_TERMINAL_WIN32
     public :: GNUPLOT_TERMINAL_WXT
     public :: GNUPLOT_TERMINAL_QT
@@ -104,9 +109,9 @@ module fplot_core
     public :: plot_data_bar
     public :: plot_data_histogram
     public :: plot_bar
-    public :: delaunay_tri_2d
     public :: plot_data_tri_2d
     public :: delaunay_tri_surface
+    public :: delaunay_tri_2d
     public :: tri_surface_plot_data
     public :: vector_field_plot_data
     public :: plot_polar
@@ -114,6 +119,22 @@ module fplot_core
     public :: parula_colormap
     public :: grey_colormap
     public :: earth_colormap
+    public :: simplify_polyline
+
+! ******************************************************************************
+! ERROR CODES
+! ------------------------------------------------------------------------------
+    !> @brief Occurs if there is insufficient memory available for the
+    !! requested operation.
+    integer(int32), parameter :: PLOT_OUT_OF_MEMORY_ERROR = 1000
+    !> @brief Occurs if an invalid input is provided.
+    integer(int32), parameter :: PLOT_INVALID_INPUT_ERROR = 1001
+    !> @brief Occurs if an attempt is made to perform an invalid operation.
+    integer(int32), parameter :: PLOT_INVALID_OPERATION_ERROR = 1002
+    !> @brief Occurs if there is an array size mismatch error.
+    integer(int32), parameter :: PLOT_ARRAY_SIZE_MISMATCH_ERROR = 1003
+    !> @brief Occurs if there is a GNUPLOT file error.
+    integer(int32), parameter :: PLOT_GNUPLOT_FILE_ERROR = 1004
 
 ! ******************************************************************************
 ! GNUPLOT TERMINAL CONSTANTS
@@ -420,7 +441,6 @@ module fplot_core
     !!     type(plot_2d) :: plt
     !!     type(plot_data_2d) :: dataset
     !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     type(legend), pointer :: leg
     !!     type(plot_label) :: lbl
     !!
     !!     ! Build a data set
@@ -447,10 +467,6 @@ module fplot_core
     !!
     !!     yAxis => plt%get_y_axis()
     !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     ! Hide the legend
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.false.)
     !!
     !!     ! Add the data to the plot
     !!     call plt%push(dataset)
@@ -1253,6 +1269,7 @@ module fplot_core
     !!
     !!     ! Put the legend in the upper left corner of the plot
     !!     leg => plt%get_legend()
+    !!     call leg%set_is_visible(.true.)
     !!     call leg%set_horizontal_position(LEGEND_LEFT)
     !!     call leg%set_vertical_position(LEGEND_TOP)
     !!
@@ -2146,6 +2163,7 @@ module fplot_core
         !!
         !!     ! Put the legend outside the axes, and remove it's border
         !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.true.)
         !!     call leg%set_draw_inside_axes(.false.)
         !!     call leg%set_draw_border(.false.)
         !!
@@ -2283,6 +2301,7 @@ module fplot_core
         !!
         !!     ! Put the legend in the upper left corner of the plot
         !!     leg => plt%get_legend()
+        !!     call leg%set_is_visible(.true.)
         !!     call leg%set_horizontal_position(LEGEND_LEFT)
         !!     call leg%set_vertical_position(LEGEND_TOP)
         !!
@@ -5716,7 +5735,6 @@ module fplot_core
         !!     type(plot_2d) :: plt
         !!     type(plot_data_2d) :: dataset
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Build a data set
         !!     x = linspace(0.0d0, 10.0d0, npts)
@@ -5733,10 +5751,6 @@ module fplot_core
         !!
         !!     yAxis => plt%get_y_axis()
         !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Add the data to the plot
         !!     call plt%push(dataset)
@@ -5780,7 +5794,6 @@ module fplot_core
         !!     type(plot_2d) :: plt
         !!     type(plot_data_2d) :: dataset
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Build a data set
         !!     x = linspace(0.0d0, 10.0d0, npts)
@@ -5797,10 +5810,6 @@ module fplot_core
         !!
         !!     yAxis => plt%get_y_axis()
         !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Add the data to the plot
         !!     call plt%push(dataset)
@@ -6272,12 +6281,9 @@ module fplot_core
         !!     type(plot_3d) :: plt
         !!     type(plot_data_3d) :: d1
         !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Initialize the plot object
         !!     call plt%initialize()
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Define titles
         !!     call plt%set_title("Example Plot")
@@ -7069,6 +7075,7 @@ module fplot_core
     !!
     !!     ! Establish legend properties
     !!     leg => plt%get_legend()
+    !!     call leg%set_is_visible(.true.)
     !!     call leg%set_draw_inside_axes(.false.)
     !!     call leg%set_horizontal_position(LEGEND_CENTER)
     !!     call leg%set_vertical_position(LEGEND_BOTTOM)
@@ -7471,12 +7478,9 @@ module fplot_core
     !!     type(plot_3d) :: plt
     !!     type(plot_data_3d) :: d1
     !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!     type(legend), pointer :: leg
     !!
     !!     ! Initialize the plot object
     !!     call plt%initialize()
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.false.)
     !!
     !!     ! Define titles
     !!     call plt%set_title("Example Plot")
@@ -7787,12 +7791,9 @@ module fplot_core
         !!     type(plot_3d) :: plt
         !!     type(plot_data_3d) :: d1
         !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     type(legend), pointer :: leg
         !!
         !!     ! Initialize the plot object
         !!     call plt%initialize()
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
         !!
         !!     ! Set the Z-axis to not intersect the X-Y plane
         !!     call plt%set_z_intersect_xy(.false.)
@@ -9349,7 +9350,6 @@ module fplot_core
         !!     type(plot_2d) :: plt, pplt
         !!     type(plot_data_2d) :: d1, d2, d3, d4
         !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     class(legend), pointer :: lgnd
         !!
         !!     ! Generate a frequency vector from 10 Hz to 1 kHz
         !!     freq = logspace(1.0d0, 3.0d0, npts)
@@ -9408,10 +9408,6 @@ module fplot_core
         !!
         !!     call pplt%push(d3)
         !!     call pplt%push(d4)
-        !!
-        !!     ! Don't use a legend on the phase plot
-        !!     lgnd => pplt%get_legend()
-        !!     call lgnd%set_is_visible(.false.)
         !!
         !!     ! Save the plot to file
         !!     call mplt%set(1, 1, plt)
@@ -10174,7 +10170,7 @@ module fplot_core
     !!
     !!     ! Local Variables
     !!     real(real64) :: x(5)
-    !!     type(string) :: labels(5)
+    !!     type(varying_string) :: labels(5)
     !!     type(plot_2d) :: plt
     !!     type(plot_data_bar) :: pd1
     !!
@@ -10201,7 +10197,7 @@ module fplot_core
     type, extends(plot_data_colored) :: plot_data_bar
     private
         !> @brief An array containing axis labels to associate with each bar.
-        type(string), allocatable, dimension(:) :: m_axisLabels
+        type(varying_string), allocatable, dimension(:) :: m_axisLabels
         !> @brief An array of data defining each bar - the matrix contains
         !!  multiple columns to allow multiple bars per label.
         real(real64), allocatable, dimension(:,:) :: m_barData
@@ -10339,7 +10335,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(string), intent(in), dimension(:) :: labels
+            class(varying_string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10370,7 +10366,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2_core(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(string), intent(in), dimension(:) :: labels
+            class(varying_string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10398,21 +10394,25 @@ module fplot_core
     !!     implicit none
     !!
     !!     ! Local Variables
-    !!     integer(int32), parameter :: n = 500
-    !!     integer(int32), parameter :: nbins = 10
-    !!     real(real64) :: x(n)
+    !!     integer(int32), parameter :: n = 5000
+    !!     integer(int32), parameter :: nbins = 12
+    !!     real(real64) :: x(n), u(n), v(n)
     !!     type(plot_2d) :: plt
     !!     type(plot_data_histogram) :: pd1
     !!
     !!     ! Initialization
     !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
+    !!
+    !!     ! Create some data
+    !!     call random_number(u)
+    !!     call random_number(v)
+    !!     v = v - 1.0d0
+    !!     x = u * u - v * v
     !!
     !!     ! Plot the data
-    !!     call random_number(x)
-    !!     call pd1%set_bin_count(nbins)   ! must be called before define_data
+    !!     call pd1%set_bin_count(nbins)   ! optional, but must be done prior to define_data is used
     !!     call pd1%define_data(x)
-    !!     call pd1%set_transparency(0.2)
+    !!     call pd1%set_transparency(0.2)  ! optional - for illustration purposes
     !!     call plt%push(pd1)
     !!     call plt%draw()
     !! end program
@@ -10469,7 +10469,7 @@ module fplot_core
 
         module subroutine pdh_set_data_2(this, labels, x, err)
             class(plot_data_histogram), intent(inout) :: this
-            class(string), intent(in), dimension(:) :: labels
+            class(varying_string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10526,8 +10526,9 @@ module fplot_core
         end function
     end interface
 
+
 ! ******************************************************************************
-! DELAUNAY TRIANGULATION SUPPORT (FPLOT_DELAUNAY.F90)
+! FPLOT_TRIANGULATIONS_DELAUNAY_2D.F90
 ! ------------------------------------------------------------------------------
     !> @brief Provides a container for a 2D Delaunay triangulation.
     !!
@@ -10540,6 +10541,7 @@ module fplot_core
     !! program example
     !!     use iso_fortran_env
     !!     use fplot_core
+    !!     use triangulations
     !!     implicit none
     !!
     !!     ! Parameters
@@ -10690,6 +10692,7 @@ module fplot_core
         !! program example
         !!     use fplot_core
         !!     use iso_fortran_env
+        !!     use triangulations
         !!     implicit none
         !!
         !!     ! Parameters
@@ -12127,6 +12130,115 @@ module fplot_core
             real(real64), intent(in), dimension(:) :: x, y, yc
             class(errors), intent(inout), optional, target :: err
         end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_SIMPLIFY.F90
+! ------------------------------------------------------------------------------
+    !> @brief Simplifies a 2D or 3D polyline by removing points too close to 
+    !!  discern given a specified tolerance.
+    !!
+    !! @par Overload 1
+    !! Simplifies a 2D polyline by removing points too close to discern given
+    !! a specified tolerance.
+    !!
+    !! @param[in] x An N-element array containing the x-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] y An N-element array containing the y-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, and the second column
+    !! contains the y-coordinates.
+    !!
+    !! @par Overload 2
+    !! Simplifies a 3D polyline by removing points too close to discern 
+    !! given a specified tolerance.
+    !!
+    !! @param[in] x An N-element array containing the x-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] y An N-element array containing the y-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] z An N-element array containing the z-coordinates of the vertices
+    !!  making up the polyline.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, the second column
+    !! contains the y-coordinates, and the third column contains the z-coordinates.
+    !!
+    !! @par Overload 3
+    !! Simplifies a 2D or 3D polyline by removing points too close to discern 
+    !! given a specified tolerance.
+    !!
+    !! @param[in] xy An N-by-2 or N-by-3 matrix containing the polyline vertex data.
+    !! @param[in] tol The distance tolerance to use when simplifying the polyline.
+    !!  This value must be positive, and larger than machine epsilon.
+    !! @param[in,out] err An optional errors-based object that if provided can be
+    !!  used to retrieve information relating to any errors encountered during
+    !!  execution.  If not provided, a default implementation of the errors
+    !!  class is used internally to provide error handling.  Possible errors and
+    !!  warning messages that may be encountered are as follows.
+    !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
+    !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input array sizes are not
+    !!      compatible.
+    !!  - PLOT_INVALID_INPUT_ERROR: Occurs if @p tol is not positive and greater
+    !!      than machine epsilon.
+    !!
+    !! @return A matrix containing the simplified polyline vertices.  The first
+    !! column of the matrix contains the x-coordinates, the second column
+    !! contains the y-coordinates, and if necessary, the third column contains
+    !! the z-coordinates.
+    interface simplify_polyline
+        module procedure :: simplify_polyline_2d1
+        module procedure :: simplify_polyline_3d1
+        module procedure :: simplify_polyline_mtx
+    end interface
+
+    interface
+        module function simplify_polyline_2d1(x, y, tol, err) result(ln)
+            real(real64), intent(in), dimension(:) :: x, y
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
+
+        module function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
+            real(real64), intent(in), dimension(:) :: x, y, z
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
+
+        module function simplify_polyline_mtx(xy, tol, err) result(ln)
+            real(real64), intent(in), dimension(:,:) :: xy
+            real(real64), intent(in) :: tol
+            class(errors), intent(inout), optional, target :: err
+            real(real64), allocatable, dimension(:,:) :: ln
+        end function
     end interface
 
 ! ------------------------------------------------------------------------------

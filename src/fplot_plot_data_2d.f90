@@ -1,7 +1,6 @@
 ! fplot_plot_data_2d.f90
 
 submodule (fplot_core) fplot_plot_data_2d
-    use fplot_simplify
 contains
 ! ------------------------------------------------------------------------------
     module function pd2d_get_axes_cmd(this) result(x)

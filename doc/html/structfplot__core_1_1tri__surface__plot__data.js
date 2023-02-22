@@ -1,8 +1,6 @@
 var structfplot__core_1_1tri__surface__plot__data =
 [
     [ "define_data", "structfplot__core_1_1tri__surface__plot__data.html#a82ae200636ce482d187beb7ec98d40e5", null ],
-    [ "get_command_string", "structfplot__core_1_1tri__surface__plot__data.html#aaf53433d5e95f4c6b749653987961461", null ],
-    [ "get_data_string", "structfplot__core_1_1tri__surface__plot__data.html#ab0dbd22434517ba638d7c906aba90726", null ],
     [ "get_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a29e518a58104e613b12c38390e88652f", null ],
     [ "set_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a061ce016e5c5e5bb249c37276f5b97d6", null ],
     [ "m_indices", "structfplot__core_1_1tri__surface__plot__data.html#ae2f7495459a379be5318da146fb893ae", null ],

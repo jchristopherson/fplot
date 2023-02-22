@@ -1,7 +1,6 @@
 ! fplot_plot_data_3d.f90
 
 submodule (fplot_core) fplot_plot_data_3d
-    use fplot_simplify
 contains
 ! ------------------------------------------------------------------------------
     pure module function pd3d_get_data_count(this) result(x)

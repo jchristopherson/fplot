@@ -6,7 +6,6 @@ var structfplot__core_1_1plot__polar =
     [ "get_theta_direction", "structfplot__core_1_1plot__polar.html#ae0ead3f01adca448ee3bd22583c72e8d", null ],
     [ "get_theta_start_position", "structfplot__core_1_1plot__polar.html#a5e1165c82da3a57e88b89787ecd72648", null ],
     [ "initialize", "structfplot__core_1_1plot__polar.html#a63ddb37672c805cb4cd6cce966251b24", null ],
-    [ "plr_clean_up", "structfplot__core_1_1plot__polar.html#a4db74c8c6a6ea7fb35fa67c596209d3b", null ],
     [ "set_autoscale", "structfplot__core_1_1plot__polar.html#aedb62e3a3ec3d14e1520842faf085c3d", null ],
     [ "set_radial_limits", "structfplot__core_1_1plot__polar.html#a9c520bcbf3a4d8df7c168f9b9d6dced9", null ],
     [ "set_theta_direction", "structfplot__core_1_1plot__polar.html#a3d8a27d955764b3dd29414e891a13fa6", null ],

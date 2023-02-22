@@ -117,3 +117,7 @@ target_link_libraries(fplot_fill_1 fplot)
 # Example 30
 add_executable(fplot_fill_2 fplot_fill_2.f90)
 target_link_libraries(fplot_fill_2 fplot)
+
+# Example 31
+add_executable(fplot_histogram_1 fplot_histogram_1.f90)
+target_link_libraries(fplot_histogram_1 fplot)
