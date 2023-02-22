@@ -30,7 +30,7 @@ link_library(${PROJECT_NAME} ${iso_varying_string_LIBRARY} ${iso_varying_string_
 link_library(${PROJECT_NAME} ${collections_LIBRARY} ${collections_INCLUDE_DIR})
 
 # Installation
-# add_subdirectory(install)
+add_subdirectory(install)
 
 # ------------------------------------------------------------------------------
 # EXAMPLES

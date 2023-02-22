@@ -14,7 +14,7 @@ install_library(
 # Install the documentation files
 install_documentation(
     ${PROJECT_SOURCE_DIR}/doc/html
-    ${CMAKE_INSTALL_PREFIX}/doc/Fortran
+    ${CMAKE_INSTALL_PREFIX}/doc
 )
 
 # Define the version file
