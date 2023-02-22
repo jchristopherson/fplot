@@ -4,6 +4,9 @@ A Fortran library providing a convenient interface for plotting with Gnuplot.
 ## Gnuplot
 This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
 
+## Documentation
+Documentation can be found [here](https://jchristopherson.github.io/fplot/)
+
 ## Example 1
 This example illustrates how to plot two-dimensional data.
 ```fortran
@@ -334,9 +337,6 @@ This is the plot resulting from the above program.
 
 ## Building FPLOT
 This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
-
-## Documentation
-Documentation can be found [here](http://htmlpreview.github.io/?https://github.com/jchristopherson/fplot/blob/master/doc/html/index.html)
 
 ## External Libraries
 The FPLOT library depends upon the following libraries.
