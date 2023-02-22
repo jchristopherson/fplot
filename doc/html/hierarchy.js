@@ -60,10 +60,12 @@ var hierarchy =
         [ "fplot_core::wxt_terminal", "structfplot__core_1_1wxt__terminal.html", null ]
       ] ]
     ] ],
-    [ "fplot_simplify::simplify_polyline", "interfacefplot__simplify_1_1simplify__polyline.html", null ],
+    [ "fplot_core::simplify_polyline", "interfacefplot__core_1_1simplify__polyline.html", null ],
     [ "fplot_core::spd_get_int_value", "interfacefplot__core_1_1spd__get__int__value.html", null ],
     [ "fplot_core::spd_get_string_result", "interfacefplot__core_1_1spd__get__string__result.html", null ],
     [ "fplot_core::spd_get_value", "interfacefplot__core_1_1spd__get__value.html", null ],
     [ "fplot_core::spd_set_value", "interfacefplot__core_1_1spd__set__value.html", null ],
-    [ "fplot_core::term_get_string_result", "interfacefplot__core_1_1term__get__string__result.html", null ]
+    [ "fplot_string_builder::string_builder", "structfplot__string__builder_1_1string__builder.html", null ],
+    [ "fplot_core::term_get_string_result", "interfacefplot__core_1_1term__get__string__result.html", null ],
+    [ "fplot_string_builder::to_string", "interfacefplot__string__builder_1_1to__string.html", null ]
 ];
