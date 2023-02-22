@@ -10410,7 +10410,7 @@ module fplot_core
     !!     x = u * u - v * v
     !!
     !!     ! Plot the data
-    !!     call pd1%set_bin_count(nbins)   ! optiona, but must be done prior to define_data is used
+    !!     call pd1%set_bin_count(nbins)   ! optional, but must be done prior to define_data is used
     !!     call pd1%define_data(x)
     !!     call pd1%set_transparency(0.2)  ! optional - for illustration purposes
     !!     call plt%push(pd1)
