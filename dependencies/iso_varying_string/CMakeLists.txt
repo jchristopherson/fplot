@@ -3,8 +3,7 @@ include("${PROJECT_SOURCE_DIR}/cmake/helper.cmake")
 include(FetchContent)
 
 # Fetch the proper content
-# set(INSTALL_PROJECT FALSE CACHE INTERNAL "")
-option(INSTALL_PROJECT "" FALSE)
+set(INSTALL_PROJECT FALSE CACHE INTERNAL "")
 FetchContent_Declare(
     iso_varying_string
     GIT_REPOSITORY "https://gitlab.com/everythingfunctional/iso_varying_string"
