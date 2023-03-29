@@ -101,7 +101,7 @@ contains
         call str%initialize()
 
         ! Formatting
-        if (this%get_use_default_tic_label_format()) then
+        if (.not.this%get_use_default_tic_label_format()) then
             call str%append("set format ")
             call str%append(axis)
             call str%append('"')
