@@ -1641,6 +1641,11 @@ module fplot_core
         logical :: m_zeroAxis = .false.
         !> @brief The width, in pixels, of the zero axis line.
         real(real32) :: m_axisWidth = 1.0
+        ! ADDED March 29, 2023 - JAC
+        !> @brief Use default tic label format?
+        logical :: m_defaultTicLabels = .true.
+        !> @brief The tic label format.
+        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_ticLabelFmt = "%g"
     contains
         !> @brief Gets the axis' title.
         !!
@@ -1991,12 +1996,123 @@ module fplot_core
         !!
         !!     type(x_axis) :: axis
         !!
-        !!     call axis%get_zero_axis_line_width(3.0)
+        !!     call axis%set_zero_axis_line_width(3.0)
         !! end program
         !! @endcode
         procedure, public :: set_zero_axis_line_width => pa_set_zero_axis_width
         !> @brief Gets a string identifying the axis as: x, y, z, y2, etc.
         procedure(pa_get_string_result), deferred, public :: get_id_string
+
+        !> @brief Gets a value determining if the default tic label format will
+        !! be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_default_tic_label_format(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return Returns true if the default tic label format will be used; 
+        !!  else, false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     logical :: x
+        !!
+        !!     x = axis%get_use_default_tic_label_format()
+        !! end program
+        !! @endcode
+        procedure, public :: get_use_default_tic_label_format => &
+            pa_get_use_dft_tic_lbl_fmt
+        !> @brief Sets a value determining if the default tic label format will
+        !! be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_default_tic_label_format(class(plot_axis) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x Set to true if the default tic label format will be 
+        !!  used; else, false.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_use_default_tic_label_format(.false.)
+        !! end program
+        !! @endcode
+        procedure, public :: set_use_default_tic_label_format => &
+            pa_set_use_dft_tic_lbl_fmt
+        !> @brief Gets the tic label format.  The format string can be any 
+        !! format string accepted by the C command 'printf.'
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! allocatable character(len = :) function get_tic_label_format(class(plot_axis) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_axis object.
+        !! @return The tic label format string.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!     character(len = :), allocatable :: x
+        !!
+        !!     x = axis%get_tic_label_format()
+        !! end program
+        !! @endcode
+        procedure, public :: get_tic_label_format => pa_get_tic_label_fmt
+        !> @brief Sets the tic label format.  The format string can be any 
+        !! format string accepted by the C command 'printf.'
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_tic_label_format(class(plot_axis) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_axis object.
+        !! @param[in] x The tic label format string.
+        !!
+        !! @par Example
+        !! Notice, this example uses an x_axis type.  Any type that derives from
+        !! the plot_axis type can be used.
+        !! @code{.f90}
+        !! program example
+        !!     use fplot_core
+        !!     use iso_fortran_env
+        !!     implicit none
+        !!
+        !!     type(x_axis) :: axis
+        !!
+        !!     call axis%set_tic_label_format("%g")
+        !! end program
+        !! @endcode
+        procedure, public :: set_tic_label_format => pa_set_tic_label_fmt
     end type
 
 ! ------------------------------------------------------------------------------
@@ -2069,6 +2185,26 @@ module fplot_core
         module subroutine pa_set_zero_axis_width(this, x)
             class(plot_axis), intent(inout) :: this
             real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function pa_get_use_dft_tic_lbl_fmt(this) result(rst)
+            class(plot_axis), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine pa_set_use_dft_tic_lbl_fmt(this, x)
+            class(plot_axis), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function pa_get_tic_label_fmt(this) result(rst)
+            class(plot_axis), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine pa_set_tic_label_fmt(this, x)
+            class(plot_axis), intent(inout) :: this
+            character(len = *), intent(in) :: x
         end subroutine
     end interface
 
