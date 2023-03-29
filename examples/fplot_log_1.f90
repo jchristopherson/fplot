@@ -80,6 +80,12 @@ program example
     call xAxis%set_is_log_scaled(.true.)
     call yAxis%set_is_log_scaled(.true.)
 
+    call xAxis%set_use_default_tic_label_format(.false.)
+    call xAxis%set_tic_label_format("%0.0e")
+
+    call yAxis%set_use_default_tic_label_format(.false.)
+    call yAxis%set_tic_label_format("%0.0e")
+
     call d1%set_name("X1")
     call d1%set_line_width(2.0)
     call d1%define_data(freq, abs(z1))

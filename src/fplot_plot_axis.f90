@@ -91,13 +91,24 @@ contains
 
         ! Local Variables
         type(string_builder) :: str
-        character(len = :), allocatable :: axis
+        character(len = :), allocatable :: axis, fmt
         real(real64) :: lim(2)
 
         ! Process
         axis = this%get_id_string()
+        fmt = this%get_tic_label_format()
         lim = this%get_limits()
         call str%initialize()
+
+        ! Formatting
+        if (.not.this%get_use_default_tic_label_format()) then
+            call str%append("set format ")
+            call str%append(axis)
+            call str%append('"')
+            call str%append(fmt)
+            call str%append('"')
+            call str%append(new_line('a'))
+        end if
 
         ! Axis Limits
         if (this%get_autoscale()) then
@@ -181,4 +192,34 @@ contains
         this%m_axisWidth = x
     end subroutine
 
+! ADDED March 29, 2023 - JAC
+! ------------------------------------------------------------------------------
+    pure module function pa_get_use_dft_tic_lbl_fmt(this) result(rst)
+        class(plot_axis), intent(in) :: this
+        logical :: rst
+        rst = this%m_defaultTicLabels
+    end function
+
+! --------------------
+    module subroutine pa_set_use_dft_tic_lbl_fmt(this, x)
+        class(plot_axis), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_defaultTicLabels = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function pa_get_tic_label_fmt(this) result(rst)
+        class(plot_axis), intent(in) :: this
+        character(len = :), allocatable :: rst
+        rst = trim(this%m_ticLabelFmt)
+    end function
+
+! --------------------
+    module subroutine pa_set_tic_label_fmt(this, x)
+        class(plot_axis), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        this%m_ticLabelFmt = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule
