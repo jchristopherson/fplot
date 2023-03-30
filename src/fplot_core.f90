@@ -271,7 +271,7 @@ module fplot_core
         pure module function linspace(start, finish, npts) result(x)
             real(real64), intent(in) :: start, finish
             integer(int32), intent(in) :: npts
-            real(real64), dimension(npts) :: x
+            real(real64), allocatable, dimension(:) :: x
         end function
 
         !> @brief Construcst a logarithmically spaced array.
@@ -284,7 +284,7 @@ module fplot_core
         pure module function logspace(start, finish, npts) result(x)
             real(real64), intent(in) :: start, finish
             integer(int32), intent(in) :: npts
-            real(real64), dimension(npts) :: x
+            real(real64), allocatable, dimension(:) :: x
         end function
 
         !> @brief Constructs two matrices (X and Y) from x and y data arrays.
@@ -295,7 +295,7 @@ module fplot_core
         !!  first page of the array, and the y data matrix on the second page.
         pure module function meshgrid(x, y) result(xy)
             real(real64), intent(in), dimension(:) :: x, y
-            real(real64), dimension(size(y), size(x), 2) :: xy
+            real(real64), allocatable, dimension(:,:,:) :: xy
         end function
     end interface
 

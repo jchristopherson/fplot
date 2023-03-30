@@ -7,13 +7,14 @@ contains
         ! Arguments
         real(real64), intent(in) :: start, finish
         integer(int32), intent(in) :: npts
-        real(real64), dimension(npts) :: x
+        real(real64), allocatable, dimension(:) :: x
 
         ! Local Variables
         integer(int32) :: i
         real(real64) :: dx
 
         ! Process
+        allocate(x(npts))
         dx = (finish - start) / (npts - 1.0d0)
         x(1) = start
         do i = 2, npts
@@ -26,13 +27,14 @@ contains
         ! Arguments
         real(real64), intent(in) :: start, finish
         integer(int32), intent(in) :: npts
-        real(real64), dimension(npts) :: x
+        real(real64), allocatable, dimension(:) :: x
 
         ! Local Variables
         integer(int32) :: i
         real(real64) :: dx, exponent
 
         ! Process
+        allocate(x(npts))
         dx = (finish - start) / (npts - 1.0d0)
         exponent = start
         do i = 1, npts
@@ -45,7 +47,7 @@ contains
     pure module function meshgrid(x, y) result(xy)
         ! Arguments
         real(real64), intent(in), dimension(:) :: x, y
-        real(real64), dimension(size(y), size(x), 2) :: xy
+        real(real64), allocatable, dimension(:,:,:) :: xy
 
         ! Local Variables
         integer(int32) :: i, nx, ny
@@ -53,6 +55,7 @@ contains
         ! Process
         nx = size(x)
         ny = size(y)
+        allocate(xy(ny, nx, 2))
         do i = 1, nx
             xy(:,i,1) = x
         end do
