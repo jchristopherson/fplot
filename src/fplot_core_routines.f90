@@ -56,11 +56,11 @@ contains
         nx = size(x)
         ny = size(y)
         allocate(xy(ny, nx, 2))
-        do i = 1, nx
-            xy(:,i,1) = x
-        end do
         do i = 1, ny
-            xy(i,:,2) = y
+            xy(i,:,1) = x
+        end do
+        do i = 1, nx
+            xy(:,i,2) = y
         end do
     end function
 
