@@ -175,9 +175,13 @@ contains
         ! Orientation
         call str%append(new_line('a'))
         call str%append("set view ")
-        call str%append(to_string(this%get_elevation()))
-        call str%append(",")
-        call str%append(to_string(this%get_azimuth()))
+        if (this%get_use_map_view()) then
+            call str%append("map")
+        else
+            call str%append(to_string(this%get_elevation()))
+            call str%append(",")
+            call str%append(to_string(this%get_azimuth()))
+        end if
 
         ! Define the plot function and data formatting commands
         n = this%get_count()
@@ -269,4 +273,20 @@ contains
         this%m_zIntersect = x
     end subroutine
 
+! ADDED March 29, 2023 - JAC
+! ------------------------------------------------------------------------------
+    pure module function p3d_get_use_map_view(this) result(rst)
+        class(plot_3d), intent(in) :: this
+        logical :: rst
+        rst = this%m_setMap
+    end function
+
+! --------------------
+    module subroutine p3d_set_use_map_view(this, x)
+        class(plot_3d), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_setMap = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

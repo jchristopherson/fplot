@@ -7664,6 +7664,8 @@ module fplot_core
         real(real64) :: m_azimuth = 30.0d0
         !> Z-axis intersect X-Y plane?
         logical :: m_zIntersect = .true.
+        !> Set map projection
+        logical :: m_setMap = .false.
     contains
         !> @brief Cleans up resources held by the plot_3d object.
         !!
@@ -7975,6 +7977,28 @@ module fplot_core
         !! plane).
         !! @image html example_plot_3d_1.png
         procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
+        !> @brief Gets a value determining if the view should be set to a 2D
+        !! map view.  If true, the azimuth and elevation terms are ignored.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_map_view(class(plot_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return Returns true if the map view will be used; else, false.
+        procedure, public :: get_use_map_view => p3d_get_use_map_view
+        !> @brief Sets a value determining if the view should be set to a 2D
+        !! map view.  If true, the azimuth and elevation terms are ignored.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_map_view(class(plot_3d) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_3d object.
+        !! @param[in] x Returns true if the map view will be used; else, false.
+        procedure, public :: set_use_map_view => p3d_set_use_map_view
     end type
 
 ! ------------------------------------------------------------------------------
@@ -8036,6 +8060,16 @@ module fplot_core
         end function
 
         module subroutine p3d_set_z_axis_intersect(this, x)
+            class(plot_3d), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function p3d_get_use_map_view(this) result(rst)
+            class(plot_3d), intent(in) :: this
+            logical :: rst
+        end function
+        
+        module subroutine p3d_set_use_map_view(this, x)
             class(plot_3d), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
