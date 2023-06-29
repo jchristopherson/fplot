@@ -114,13 +114,61 @@ contains
         ! Border
         call str%append(new_line('a'))
         if (this%get_draw_border()) then
-            call str%append("set key box opaque")
+            ! call str%append("set key box opaque")
+            call str%append("set key box")
         else
             call str%append("set key nobox")
+        end if
+
+        ! Layout
+        call str%append(new_line('a'))
+        call str%append("set key ")
+        call str%append(this%get_layout())
+
+        ! Opaque
+        call str%append(new_line('a'))
+        call str%append("set key ")
+        if (this%get_is_opaque()) then
+            call str%append("opaque")
+        else
+            call str%append("noopaque")
         end if
 
         ! End
         txt = str%to_string()
     end function
 
+! ------------------------------------------------------------------------------
+    pure module function leg_get_layout(this) result(rst)
+        class(legend), intent(in) :: this
+        character(len = :), allocatable :: rst
+        rst = trim(this%m_layout)
+    end function
+
+! ---------------------
+    module subroutine leg_set_layout(this, x)
+        class(legend), intent(inout) :: this
+        character(len = *), intent(in) :: x
+        if (x == LEGEND_ARRANGE_HORIZONTALLY .or. &
+            x == LEGEND_ARRANGE_VERTICALLY) &
+        then
+            this%m_layout = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function leg_get_opaque(this) result(rst)
+        class(legend), intent(in) :: this
+        logical :: rst
+        rst = this%m_opaque
+    end function
+
+! ---------------------
+    module subroutine leg_set_opaque(this, x)
+        class(legend), intent(inout) :: this
+        logical :: x
+        this%m_opaque = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

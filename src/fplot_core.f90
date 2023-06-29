@@ -70,6 +70,8 @@ module fplot_core
     public :: LEGEND_RIGHT
     public :: LEGEND_TOP
     public :: LEGEND_BOTTOM
+    public :: LEGEND_ARRANGE_VERTICALLY
+    public :: LEGEND_ARRANGE_HORIZONTALLY
     public :: POLAR_THETA_BOTTOM
     public :: POLAR_THETA_LEFT
     public :: POLAR_THETA_RIGHT
@@ -207,6 +209,12 @@ module fplot_core
     character(len = *), parameter :: LEGEND_RIGHT = "right"
     !> @brief Defines the legend should be placed at the bottom of the plot.
     character(len = *), parameter :: LEGEND_BOTTOM = "bottom"
+    !> @brief Defines the legend should be arranged such that the column count
+    !! is minimized.
+    character(len = *), parameter :: LEGEND_ARRANGE_VERTICALLY = "vertical"
+    !> @brief Defines the legend should be arranged such that the row count
+    !! is minimized.
+    character(len = *), parameter :: LEGEND_ARRANGE_HORIZONTALLY = "horizontal"
 
 ! ******************************************************************************
 ! POLAR PLOT CONSTANTS
@@ -2224,6 +2232,10 @@ module fplot_core
         character(len = 20) :: m_vertPosition = LEGEND_TOP
         !> Determines if the legend is visible.
         logical :: m_show = .false.
+        !> Determines the legend layout.
+        character(len = 20) :: m_layout = LEGEND_ARRANGE_VERTICALLY
+        !> Opaque background?
+        logical :: m_opaque = .true.
     contains
         !> @brief Gets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).
@@ -2559,6 +2571,48 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The GNUPLOT command string.
         procedure, public :: get_command_string => leg_get_command_txt
+        !> @brief Gets the layout of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) pure function get_layout(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return The layout type, either @ref LEGEND_ARRANGE_VERTICALLY 
+        !!  or @ref LEGEND_ARRANGE_HORIZONTALLY.
+        procedure, public :: get_layout => leg_get_layout
+        !> @brief Sets the layout of the legend.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_layout(class(legend) this, character(len = *) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param[in] x The layout type, either @ref LEGEND_ARRANGE_VERTICALLY 
+        !!  or @ref LEGEND_ARRANGE_HORIZONTALLY.
+        procedure, public :: set_layout => leg_set_layout
+        !> @brief Gets a value determining if the legend is to be opaque.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! logical pure function get_is_opaque(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in] this The legend object.
+        !! @return True if the legend is to be opaque; else, false.
+        procedure, public :: get_is_opaque => leg_get_opaque
+        !> @brief Sets a value determining if the legend is to be opaque.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_is_opaque(class(legend) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The legend object.
+        !! @param[in] x True if the legend is to be opaque; else, false.
+        procedure, public :: set_is_opaque => leg_set_opaque
     end type
 
 ! ------------------------------------------------------------------------------
@@ -2617,6 +2671,26 @@ module fplot_core
             class(legend), intent(in) :: this
             character(len = :), allocatable :: txt
         end function
+
+        pure module function leg_get_layout(this) result(rst)
+            class(legend), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        module subroutine leg_set_layout(this, x)
+            class(legend), intent(inout) :: this
+            character(len = *), intent(in) :: x
+        end subroutine
+
+        pure module function leg_get_opaque(this) result(rst)
+            class(legend), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine leg_set_opaque(this, x)
+            class(legend), intent(inout) :: this
+            logical :: x
+        end subroutine
     end interface
 
 
