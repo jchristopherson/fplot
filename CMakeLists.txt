@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 project(
     fplot 
     LANGUAGES Fortran
-    VERSION 1.6.2
+    VERSION 1.7.0
 )
 
 # Get helper macros and functions
@@ -42,4 +42,15 @@ if (BUILD_FPLOT_EXAMPLES)
 
     # Build the examples
     add_subdirectory(examples)
+endif()
+
+# ------------------------------------------------------------------------------
+# TESTING
+# ------------------------------------------------------------------------------
+option(BUILD_TESTING "Build tests")
+include(CTest)
+message(STATUS "Build tests: ${BUILD_TESTING}")
+if (BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
 endif()
