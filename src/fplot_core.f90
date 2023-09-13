@@ -17,7 +17,7 @@ module fplot_core
     use fplot_string_builder
     use collections
     use iso_varying_string
-    use ferror, only : errors
+    use ferror
     implicit none
     private
     public :: PLOT_OUT_OF_MEMORY_ERROR
