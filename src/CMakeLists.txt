@@ -39,7 +39,7 @@ set(FPLOT_SOURCES
     ${dir}/fplot_vector_field_plot_data.f90
     ${dir}/fplot_plot_polar.f90
     ${dir}/fplot_filled_plot_data.f90
-    ${dir}/geompack.f
+    ${dir}/geompack.f90
     ${dir}/tripack.f
     ${dir}/fplot_string_builder.f90
     ${dir}/fplot_string_builder_implementation.f90
