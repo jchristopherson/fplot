@@ -16,3 +16,8 @@ set(iso_varying_string_INCLUDE_DIR ${iso_varying_string_INCLUDE_DIR} PARENT_SCOP
 add_subdirectory(collections)
 set(collections_LIBRARY ${collections_LIBRARY} PARENT_SCOPE)
 set(collections_INCLUDE_DIR ${collections_INCLUDE_DIR} PARENT_SCOPE)
+
+# Get GEOMPACK
+add_subdirectory(geompack)
+set(geompack_LIBRARY ${geompack_LIBRARY} PARENT_SCOPE)
+set(geompack_INCLUDE_DIR ${geompack_INCLUDE_DIR} PARENT_SCOPE)
