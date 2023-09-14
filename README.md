@@ -357,3 +357,4 @@ The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
 - [COLLECTIONS](https://github.com/jchristopherson/collections)
 - [ISO_VARYING_STRING](https://gitlab.com/everythingfunctional/iso_varying_string)
+- [GEOMPACK](https://github.com/jchristopherson/geompack)
