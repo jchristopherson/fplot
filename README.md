@@ -15,6 +15,8 @@ Documentation can be found [here](https://jchristopherson.github.io/fplot/)
 ## Example 1
 This example illustrates how to plot two-dimensional data.
 ```fortran
+! fplot_2d_1.f90
+
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -22,21 +24,20 @@ program example
 
     ! Parameters
     integer(int32), parameter :: n = 1000
-    real(real64), parameter :: dx = 1.0d-2
 
     ! Local Variables
-    integer(int32) :: i
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
-    class(legend), pointer :: lgnd
+    type(legend), pointer :: leg
     
     ! Initialize the plot object
     call plt%initialize()
 
     ! Define titles
-    call plt%set_title("2D Example Plot 1")
+    call plt%set_title("Example Plot")
+    call plt%set_font_size(14)
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
@@ -44,14 +45,16 @@ program example
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
 
-    lgnd => plt%get_legend()
-    call lgnd%set_is_visible(.true.)
+    ! Establish legend properties
+    leg => plt%get_legend()
+    call leg%set_is_visible(.true.)
+    call leg%set_draw_inside_axes(.false.)
+    call leg%set_horizontal_position(LEGEND_CENTER)
+    call leg%set_vertical_position(LEGEND_BOTTOM)
+    call leg%set_draw_border(.false.)
 
     ! Define the data, and then add it to the plot
-    x(1) = 0.0d0
-    do i = 2, n
-        x(i) = x(i-1) + dx
-    end do
+    x = linspace(0.0d0, 10.0d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
@@ -60,16 +63,12 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_use_auto_color(.false.)
-    call d1%set_line_color(CLR_BLUE)
     call d1%set_draw_markers(.true.)
     call d1%set_marker_frequency(10)
     call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
     call d1%set_marker_scaling(2.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_use_auto_color(.false.)
-    call d2%set_line_color(CLR_GREEN)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)
 
@@ -87,6 +86,8 @@ This is the plot resulting from the above program.
 ## Example 2
 Another example of a similar two-dimensional plot to the plot in example 1 is given below.  This plot shifts the x-axis to the zero point along the y-axis.
 ```fortran
+! fplot_2d_2.f90
+
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -94,10 +95,8 @@ program example
 
     ! Parameters
     integer(int32), parameter :: n = 1000
-    real(real64), parameter :: dx = 1.0d-2
 
     ! Local Variables
-    integer(int32) :: i
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
@@ -128,10 +127,7 @@ program example
     call yAxis%set_title("Y Axis")
 
     ! Define the data, and then add it to the plot
-    x(1) = 0.0d0
-    do i = 2, n
-        x(i) = x(i-1) + dx
-    end do
+    x = linspace(0.0d0, 10.d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
@@ -140,11 +136,9 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_use_auto_color(.false.)
     call d1%set_line_width(1.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_use_auto_color(.false.)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)
 
@@ -162,6 +156,8 @@ This is the plot resulting from the above program.
 ## Example 3
 The following example illustrates how to create a three-dimensional surface plot.
 ```fortran
+! fplot_surf_3.f90
+
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -176,35 +172,35 @@ program example
     real(real64), parameter :: yMin = -5.0d0
 
     ! Local Variables
-    real(real64), dimension(m, n) :: x, y, z
-    real(real64) :: dx, dy
-    integer(int32) :: i, j
+    real(real64), dimension(n) :: xdata
+    real(real64), dimension(m) :: ydata
+    real(real64), dimension(:,:), pointer :: x, y
+    real(real64), dimension(m, n, 2), target :: xy
+    real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
     type(rainbow_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
-    dx = (xMax - xMin) / (n - 1.0d0)
-    x(:,1) = xMin
-    do j = 2, n
-        x(:,j) = x(:,j-1) + dx
-    end do
+    xdata = linspace(xMin, xMax, n)
+    ydata = linspace(yMin, yMax, m)
+    xy = meshgrid(xdata, ydata)
+    x => xy(:,:,1)
+    y => xy(:,:,2)
 
-    dy = (yMax - yMin) / (m - 1.0d0)
-    y(1,:) = yMax
-    do i = 2, m
-        y(i,:) = y(i-1,:) - dy
-    end do
-
+    ! Define the function to plot
     z = sin(sqrt(x**2 + y**2))
+
+    ! Define colormap settings
+    call map%set_show_tics(.false.)
 
     ! Create the plot
     call plt%initialize()
     call plt%set_colormap(map)
 
     ! Define titles
-    call plt%set_title("Surface Example Plot 1")
+    call plt%set_title("Example Plot")
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
@@ -217,7 +213,6 @@ program example
 
     ! Define the data set
     call d1%define_data(x, y, z)
-    call d1%set_name("sin(sqrt(x**2 + y**2))")
     call plt%push(d1)
 
     ! Let GNUPLOT draw the plot

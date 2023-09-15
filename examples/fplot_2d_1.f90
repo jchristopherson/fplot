@@ -30,6 +30,7 @@ program example
 
     ! Establish legend properties
     leg => plt%get_legend()
+    call leg%set_is_visible(.true.)
     call leg%set_draw_inside_axes(.false.)
     call leg%set_horizontal_position(LEGEND_CENTER)
     call leg%set_vertical_position(LEGEND_BOTTOM)
