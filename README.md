@@ -343,7 +343,7 @@ This is the plot resulting from the above program.
 fpm build
 ```
 The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
-```txt
+```toml
 [dependencies]
 fplot = { git = "https://github.com/jchristopherson/fplot" }
 ```
