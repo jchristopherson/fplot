@@ -1,6 +1,11 @@
 # fplot
 A Fortran library providing a convenient interface for plotting with Gnuplot.
 
+
+## Status
+![Build Status](https://github.com/jchristopherson/fplot/actions/workflows/cmake.yml/badge.svg)
+[![Actions Status](https://github.com/jchristopherson/fplot/workflows/fpm/badge.svg)](https://github.com/jchristopherson/fplot/actions)
+
 ## Gnuplot
 This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
 
@@ -336,10 +341,20 @@ This is the plot resulting from the above program.
 ![](images/polar_example_1.png?raw=true)
 
 ## Building FPLOT
-This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+
+[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
+```txt
+fpm build
+```
+The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
+```
+[dependencies]
+fplot = { git = "https://github.com/jchristopherson/fplot" }
 
 ## External Libraries
 The FPLOT library depends upon the following libraries.
 - [FERROR](https://github.com/jchristopherson/ferror)
 - [COLLECTIONS](https://github.com/jchristopherson/collections)
 - [ISO_VARYING_STRING](https://gitlab.com/everythingfunctional/iso_varying_string)
+- [GEOMPACK](https://github.com/jchristopherson/geompack)

@@ -28,6 +28,7 @@ add_fortran_library(
 link_library(${PROJECT_NAME} ${ferror_LIBRARY} ${ferror_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${iso_varying_string_LIBRARY} ${iso_varying_string_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${collections_LIBRARY} ${collections_INCLUDE_DIR})
+link_library(${PROJECT_NAME} ${geompack_LIBRARY} ${geompack_INCLUDE_DIR})
 
 # Installation
 # add_subdirectory(install)
@@ -42,4 +43,15 @@ if (BUILD_FPLOT_EXAMPLES)
 
     # Build the examples
     add_subdirectory(examples)
+endif()
+
+# ------------------------------------------------------------------------------
+# TESTING
+# ------------------------------------------------------------------------------
+option(BUILD_TESTING "Build tests")
+include(CTest)
+message(STATUS "Build tests: ${BUILD_TESTING}")
+if (BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
 endif()

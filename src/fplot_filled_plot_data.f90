@@ -112,7 +112,7 @@ contains
         type(errors), target :: deferr
         class(errors), pointer :: errmgr
         character(len = 256) :: errmsg
-        integer(int32) :: n, flag
+        integer(int32) :: i, n, flag
 
         ! Set up error handling
         if (present(err)) then
