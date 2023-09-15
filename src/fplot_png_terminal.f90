@@ -10,6 +10,7 @@ contains
     module function png_get_term_string(this) result(x)
         class(png_terminal), intent(in) :: this
         character(len = :), allocatable :: x
+        integer(int32) :: n
         n = len_trim(this%m_id)
         allocate(character(len = n) :: x)
         x = this%m_id
