@@ -183,6 +183,15 @@ contains
             call str%append(to_string(this%get_azimuth()))
         end if
 
+        ! Coordinate system
+        if (this%get_coordinate_system() == COORDINATES_CYLINDRICAL) then
+            call str%append(new_line('a'))
+            call str%append("set mapping cylindrical")
+        else if (this%get_coordinate_system() == COORDINATES_SPHERICAL) then
+            call str%append(new_line('a'))
+            call str%append("set mapping spherical")
+        end if
+
         ! Define the plot function and data formatting commands
         n = this%get_count()
         call str%append(new_line('a'))
@@ -286,6 +295,29 @@ contains
         class(plot_3d), intent(inout) :: this
         logical, intent(in) :: x
         this%m_setMap = x
+    end subroutine
+
+! ADDED Sept. 15, 2023 - JAC
+! ------------------------------------------------------------------------------
+    pure module function p3d_get_csys(this) result(rst)
+        class(plot_3d), intent(in) :: this
+        integer(int32) :: rst
+        rst = this%m_csys
+    end function
+
+! --------------------
+    module subroutine p3d_set_csys(this, x)
+        class(plot_3d), intent(inout) :: this
+        integer(int32), intent(in) :: x
+        if (x /= COORDINATES_CARTESIAN .and. &
+            x /= COORDINATES_CYLINDRICAL .and. &
+            x /= COORDINATES_SPHERICAL) &
+        then
+            ! Set to default as the input is nonsensical
+            this%m_csys = COORDINATES_CARTESIAN
+        else
+            this%m_csys = x
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------

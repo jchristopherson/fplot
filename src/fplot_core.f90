@@ -79,6 +79,9 @@ module fplot_core
     public :: POLAR_THETA_CCW
     public :: POLAR_THETA_CW
     public :: PLOTDATA_MAX_NAME_LENGTH
+    public :: COORDINATES_CARTESIAN
+    public :: COORDINATES_SPHERICAL
+    public :: COORDINATES_CYLINDRICAL
     public :: linspace
     public :: logspace
     public :: meshgrid
@@ -231,6 +234,16 @@ module fplot_core
     character(len = *), parameter :: POLAR_THETA_CCW = "ccw"
     !> @brief States that theta should proceed in a clockwise direction.
     character(len = *), parameter :: POLAR_THETA_CW = "cw"
+
+! ******************************************************************************
+! COORDINATE SYSTEM CONSTANTS
+! ------------------------------------------------------------------------------
+    !> @brief Defines a Cartesian coordinate system.
+    integer(int32), parameter :: COORDINATES_CARTESIAN = 100
+    !> @brief Defines a spherical coordinate system.
+    integer(int32), parameter :: COORDINATES_SPHERICAL = 101
+    !> @brief Defines a cylindrical coordinate system.
+    integer(int32), parameter :: COORDINATES_CYLINDRICAL = 102
 
 ! ******************************************************************************
 ! PLOT DATA CONSTANTS
@@ -7740,6 +7753,8 @@ module fplot_core
         logical :: m_zIntersect = .true.
         !> Set map projection
         logical :: m_setMap = .false.
+        !> Plot coordinate system.
+        integer(int32) :: m_csys = COORDINATES_CARTESIAN
     contains
         !> @brief Cleans up resources held by the plot_3d object.
         !!
@@ -8073,6 +8088,33 @@ module fplot_core
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x Returns true if the map view will be used; else, false.
         procedure, public :: set_use_map_view => p3d_set_use_map_view
+        !> @brief Gets a value determining the coordinate system.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_coordinate_system(class(plot_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_3d object.
+        !! @return The coordinate system ID, which must be one of the following.
+        !! - COORDINATES_CARTESIAN
+        !! - COORDINATES_CYLINDRICAL
+        !! - COORDINATES_SPHERICAL
+        procedure, public :: get_coordinate_system => p3d_get_csys
+        !> @brief Sets a value determining the coordinate system.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_coordinate_system(class(plot_3d) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The plot_3d object.
+        !! @param[in] x The coordinate system ID, which must be one of the 
+        !!  following.
+        !! - COORDINATES_CARTESIAN
+        !! - COORDINATES_CYLINDRICAL
+        !! - COORDINATES_SPHERICAL
+        procedure, public :: set_coordinate_system => p3d_set_csys
     end type
 
 ! ------------------------------------------------------------------------------
@@ -8146,6 +8188,16 @@ module fplot_core
         module subroutine p3d_set_use_map_view(this, x)
             class(plot_3d), intent(inout) :: this
             logical, intent(in) :: x
+        end subroutine
+
+        pure module function p3d_get_csys(this) result(rst)
+            class(plot_3d), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine p3d_set_csys(this, x)
+            class(plot_3d), intent(inout) :: this
+            integer(int32), intent(in) :: x
         end subroutine
     end interface
 
