@@ -82,6 +82,14 @@ module fplot_core
     public :: COORDINATES_CARTESIAN
     public :: COORDINATES_SPHERICAL
     public :: COORDINATES_CYLINDRICAL
+    public :: ARROW_NO_HEAD
+    public :: ARROW_HEAD
+    public :: ARROW_BACKHEAD
+    public :: ARROW_HEADS
+    public :: ARROW_FILLED
+    public :: ARROW_EMPTY
+    public :: ARROW_NO_FILL
+    public :: ARROW_NO_BORDER
     public :: linspace
     public :: logspace
     public :: meshgrid
@@ -125,6 +133,7 @@ module fplot_core
     public :: grey_colormap
     public :: earth_colormap
     public :: simplify_polyline
+    public :: plot_arrow
 
 ! ******************************************************************************
 ! ERROR CODES
@@ -765,6 +774,429 @@ module fplot_core
         module subroutine lbl_set_txt(this, x)
             class(plot_label), intent(inout) :: this
             character(len = *), intent(in) :: x
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_ARROW.F90
+! ------------------------------------------------------------------------------
+    integer(int32), parameter :: ARROW_NO_HEAD = 0
+    integer(int32), parameter :: ARROW_HEAD = 1
+    integer(int32), parameter :: ARROW_BACKHEAD = 2
+    integer(int32), parameter :: ARROW_HEADS = 3
+    integer(int32), parameter :: ARROW_FILLED = 100
+    integer(int32), parameter :: ARROW_EMPTY = 101
+    integer(int32), parameter :: ARROW_NO_FILL = 102
+    integer(int32), parameter :: ARROW_NO_BORDER = 103
+
+! ------------------------------------------------------------------------------
+    type, extends(plot_object) :: plot_arrow
+        ! Determines if the arrow is visible.
+        logical, private :: m_visible = .true.
+        ! The x, y, z coordinates of the tail
+        real(real32), dimension(3) :: m_tail = [0.0, 0.0, 0.0]
+        ! The x, y, z coordinates of the head
+        real(real32), dimension(3) :: m_head = [0.0, 0.0, 0.0]
+        ! The arrow color.
+        type(color) :: m_color = CLR_BLACK
+        ! The line style
+        integer(int32) :: m_linestyle = LINE_SOLID
+        ! The line width
+        real(real32) :: m_linewidth = 1.0
+        ! The head configuration
+        integer(int32) :: m_head_type = ARROW_HEAD
+        ! Arrow filling
+        integer(int32) :: m_filling = ARROW_FILLED
+        ! Move to front?
+        logical :: m_front = .true.
+    contains
+        !> @brief Gets a value determining if the arrow is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_is_visible(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the arrow is visible; else, false.
+        procedure, public :: get_is_visible => par_get_is_visible
+        !> @brief Sets a value determining if the arrow is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_is_visible(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the arrow is visible; else, false.
+        procedure, public :: set_is_visible => par_set_is_visible
+        !> @brief Gets the coordinates of the arrow's tail.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32)(3) function get_tail_location(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return A 3-element array containing the x, y, and z coordinates of
+        !!  the arrow's tail.
+        procedure, public :: get_tail_location => par_get_tail
+        !> @brief Sets the location of the arrow's tail.
+        !!
+        !! @par Syntax 1
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x(3))
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x A 3-element array containing the x, y, and z coordiantes
+        !!  of the arrow's tail.
+        !!
+        !! @par Syntax 2
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x, real(real32) y)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's tail.
+        !! @param[in] y The y-coordinate of the arrow's tail.
+        !!
+        !! @par Syntax 3
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x, real(real32) y, real(real32) z)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's tail.
+        !! @param[in] y The y-coordinate of the arrow's tail.
+        !! @param[in] z The z-coordinate of the arrow's tail.
+        generic, public :: set_tail_location => par_set_tail_1, &
+            par_set_tail_2, par_set_tail_3
+        procedure, private :: par_set_tail_1
+        procedure, private :: par_set_tail_2
+        procedure, private :: par_set_tail_3
+        !> @brief Gets the coordinates of the arrow's head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32)(3) function get_head_location(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return A 3-element array containing the x, y, and z coordinates of
+        !!  the arrow's head.
+        procedure, public :: get_head_location => par_get_head
+        !> @brief Sets the location of the arrow's head.
+        !!
+        !! @par Syntax 1
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x(3))
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x A 3-element array containing the x, y, and z coordiantes
+        !!  of the arrow's head.
+        !!
+        !! @par Syntax 2
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x, real(real32) y)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's head.
+        !! @param[in] y The y-coordinate of the arrow's head.
+        !!
+        !! @par Syntax 3
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x, real(real32) y, real(real32) z)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's head.
+        !! @param[in] y The y-coordinate of the arrow's head.
+        !! @param[in] z The z-coordinate of the arrow's head.
+        generic, public :: set_head_location => par_set_head_1, &
+            par_set_head_2, par_set_head_3
+        procedure, private :: par_set_head_1
+        procedure, private :: par_set_head_2
+        procedure, private :: par_set_head_3
+        !> @brief Gets the color of the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure type(color) function get_color(class(arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The color.
+        procedure, public :: get_color => par_get_color
+        !> @brief Sets the color of the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_color(class(arrow) this, type(color) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The color.
+        procedure, public :: set_color => par_set_color
+        !> @brief Gets the line style used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_line_style(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The line style.
+        procedure, public :: get_line_style => par_get_line_style
+        !> @brief Sets the line style used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_style(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param The line style.  The value must be one of the following.
+        !!  - LINE_SOLID
+        !!  - LINE_DASHED
+        !!  - LINE_DASH_DOTTED
+        !!  - LINE_DASH_DOT_DOT
+        !!  - LINE_DOTTED
+        !! If the value is not one of the above, the command is ignored.
+        procedure, public :: set_line_style => par_set_line_style
+        !> @brief Gets the width of the lines used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_line_width(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The width of the line.
+        procedure, public :: get_line_width => par_get_line_width
+        !> @brief Sets the width of the lines used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_width(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The width of the line.
+        procedure, public :: set_line_width => par_set_line_width
+        !> @brief Gets the type of arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_head_type(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The arrow head type.  It is one of the following constants.
+        !! - ARROW_HEAD
+        !! - ARROW_BACKHEAD
+        !! - ARROW_HEADS
+        !! - ARROW_NO_HEAD
+        procedure, public :: get_head_type => par_get_head_type
+        !> @brief Sets the type of arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_type(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The arrow head type.  It must be one of the following 
+        !!  constants.
+        !! - ARROW_HEAD
+        !! - ARROW_BACKHEAD
+        !! - ARROW_HEADS
+        !! - ARROW_NO_HEAD
+        procedure, public :: set_head_type => par_set_head_type
+        !> @brief Gets a flag denoting the head fill type.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_head_fill(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The flag denoting head fill.  It will be one of the 
+        !!  following constants.
+        !! - ARROW_FILLED
+        !! - ARROW_EMPTY
+        !! - ARROW_NO_BORDER
+        !! - ARROW_NO_FILL
+        procedure, public :: get_head_fill => par_get_fill
+        !> @brief Sets a flag denoting the head fill type.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_fill(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The flag denoting head fill.  It must be one of the 
+        !!  following constants.
+        !! - ARROW_FILLED
+        !! - ARROW_EMPTY
+        !! - ARROW_NO_BORDER
+        !! - ARROW_NO_FILL
+        procedure, public :: set_head_fill => par_set_fill
+        !> @brief Gets a value determining if the arrow should be moved to the
+        !! front.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_move_to_front(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the arrow should be moved to the front; else, false.
+        procedure, public :: get_move_to_front => par_get_move_to_front
+        !> @brief Sets a value determining if the arrow should be moved to the
+        !! front.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_move_to_front(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the arrow should be moved to the front; else, 
+        !!  false.
+        procedure, public :: set_move_to_front => par_set_move_to_front
+        !> @brief Returns the appropriate GNUPLOT command string to establish
+        !! appropriate parameters.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_arrow object.
+        !! @return The GNUPLOT command string.
+        procedure, public :: get_command_string => par_get_cmd
+    end type
+
+! ------------------------------------------------------------------------------
+    ! fplot_arrow.f90
+    interface
+        pure module function par_get_is_visible(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_is_visible(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function par_get_tail(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32), dimension(3) :: rst
+        end function
+
+        module subroutine par_set_tail_1(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x(3)
+        end subroutine
+
+        module subroutine par_set_tail_2(this, x, y)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y
+        end subroutine
+
+        module subroutine par_set_tail_3(this, x, y, z)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y, z
+        end subroutine
+
+        pure module function par_get_head(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32), dimension(3) :: rst
+        end function
+
+        module subroutine par_set_head_1(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x(3)
+        end subroutine
+
+        module subroutine par_set_head_2(this, x, y)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y
+        end subroutine
+
+        module subroutine par_set_head_3(this, x, y, z)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y, z
+        end subroutine
+
+        pure module function par_get_color(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            type(color) :: rst
+        end function
+
+        module subroutine par_set_color(this, x)
+            class(plot_arrow), intent(inout) :: this
+            type(color), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_line_style(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_line_style(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_line_width(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_line_width(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_type(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_head_type(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        module function par_get_cmd(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        pure module function par_get_fill(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_fill(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_move_to_front(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_move_to_front(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
         end subroutine
     end interface
 
@@ -3685,16 +4117,18 @@ module fplot_core
         logical :: m_ticsIn = .true.
         !> Draw the border?
         logical :: m_drawBorder = .true.
-        !> A collection of plot_label items to draw
+        !> A collection of plot_label items to draw.
         type(list) :: m_labels ! Added 6/22/2018, JAC
         !> The color index to use for automatic line coloring for scatter plots.
         integer(int32) :: m_colorIndex = 1
-        !> Determines if the axes should be scaled proportionally
+        !> Determines if the axes should be scaled proportionally.
         logical :: m_axisEqual = .false.
         !> The colormap.
         class(colormap), pointer :: m_colormap
         !> Show the colorbar?
         logical :: m_showColorbar = .true.
+        !> A collection of plot_arrow items to draw.
+        type(list) :: m_arrows ! Added 1/3/2024, JAC
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
@@ -4329,8 +4763,10 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !! @param[in] lbl
-        !! @param[in] err
+        !! @param[in] lbl The plot label.
+        !! @param[in,out] err An optional errors-based object for managing 
+        !!  errors.  The default implementation of the errors type is used if
+        !!  nothing is supplied.
         !!
         !! @par Example
         !! The following example illustrates how to add a label to a plot.  A 2D
@@ -4639,7 +5075,7 @@ module fplot_core
         !! end program
         !! @endcode
         procedure, public :: set_show_colorbar => plt_set_show_colorbar
-        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !> @brief Gets the GNUPLOT command string to represent this plot
         !! object.
         !!
         !! @par Syntax
@@ -4650,6 +5086,72 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return The command string.
         procedure, public :: get_command_string => plt_get_cmd
+        !> @brief Pushes a new @ref plot_arrow object onto the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine push_arrow(class(plot) this, class(plot_arrow) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        !! @param[in] x The @ref plot_arrow object.  This instance is copied, 
+        !!  and the copy is stored and managed by the @ref plot object.
+        !! @param[in,out] err An optional errors-based object for managing 
+        !!  errors.  The default implementation of the errors type is used if
+        !!  nothing is supplied.
+        procedure, public :: push_arrow => plt_push_arrow
+        !> @brief Pops a @ref plot_arrow object from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine pop_arrow(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        procedure, public :: pop_arrow => plt_pop_arrow
+        !> @brief Gets a pointer to the requested @ref plot_arrow object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_arrow), pointer function get_arrow(class(plot) this, integer(int32) i)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot object.
+        !! @param[in] i The index of the @ref plot_arrow to retrieve.
+        procedure, public :: get_arrow => plt_get_arrow
+        !> @brief Sets a @ref plot_arrow into the @ref plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_arrow(class(plot) this, integer(int32) i, class(plot_arrow) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        !! @param[in] i The index of the @ref plot_arrow to retrieve.
+        !! @param[in] x The @ref plot_arrow to set.  This instance is copied, 
+        !!  and the copy is stored and managed by the @ref plot object.
+        procedure, public :: set_arrow => plt_set_arrow
+        !> @brief Gets the number of @ref plot_arrow objects held by the
+        !! @ref plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_arrow_count(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot object.
+        !! @return The number of @ref plot_arrow objects held by the @ref plot
+        !!  object.
+        procedure, public :: get_arrow_count => plt_get_arrow_count
+        !> @brief Clears all @ref plot_arrow objects from the @ref plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine clear_arrows(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        procedure, public :: clear_arrows => plt_clear_arrows
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4849,6 +5351,37 @@ module fplot_core
             class(plot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        module subroutine plt_push_arrow(this, x, err)
+            class(plot), intent(inout) :: this
+            class(plot_arrow), intent(in) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine plt_pop_arrow(this)
+            class(plot), intent(inout) :: this
+        end subroutine
+
+        module function plt_get_arrow(this, i) result(rst)
+            class(plot), intent(in) :: this
+            integer(int32), intent(in) :: i
+            class(plot_arrow), pointer :: rst
+        end function
+
+        module subroutine plt_set_arrow(this, i, x)
+            class(plot), intent(inout) :: this
+            integer(int32), intent(in) :: i
+            class(plot_arrow), intent(in) :: x
+        end subroutine
+
+        pure module function plt_get_arrow_count(this) result(rst)
+            class(plot), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine plt_clear_arrows(this)
+            class(plot), intent(inout) :: this
+        end subroutine
     end interface
 
 ! ******************************************************************************
