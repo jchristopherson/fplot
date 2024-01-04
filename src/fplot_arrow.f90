@@ -175,6 +175,62 @@ module subroutine par_set_move_to_front(this, x)
 end subroutine
 
 ! ------------------------------------------------------------------------------
+pure module function par_get_head_size(this) result(rst)
+    class(plot_arrow), intent(in) :: this
+    real(real32) :: rst
+    rst = this%m_size
+end function
+
+! --------------------
+module subroutine par_set_head_size(this, x)
+    class(plot_arrow), intent(inout) :: this
+    real(real32), intent(in) :: x
+    this%m_size = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure module function par_get_head_angle(this) result(rst)
+    class(plot_arrow), intent(in) :: this
+    real(real32) :: rst
+    rst = this%m_angle
+end function
+
+! --------------------
+module subroutine par_set_head_angle(this, x)
+    class(plot_arrow), intent(inout) :: this
+    real(real32), intent(in) :: x
+    this%m_angle = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure module function par_get_head_back_angle(this) result(rst)
+    class(plot_arrow), intent(in) :: this
+    real(real32) :: rst
+    rst = this%m_backangle
+end function
+
+! --------------------
+module subroutine par_set_head_back_angle(this, x)
+    class(plot_arrow), intent(inout) :: this
+    real(real32), intent(in) :: x
+    this%m_backangle = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure module function par_get_use_default_size(this) result(rst)
+    class(plot_arrow), intent(in) :: this
+    logical :: rst
+    rst = this%m_use_default_size
+end function
+
+! --------------------
+module subroutine par_set_use_default_size(this, x)
+    class(plot_arrow), intent(inout) :: this
+    logical, intent(in) :: x
+    this%m_use_default_size = x
+end subroutine
+
+! ------------------------------------------------------------------------------
 module function par_get_cmd(this) result(rst)
     ! Arguments
     class(plot_arrow), intent(in) :: this
@@ -235,6 +291,16 @@ module function par_get_cmd(this) result(rst)
         case (ARROW_NO_FILL)
             call str%append(" nofilled")
         end select
+
+        ! Size
+        if (.not.this%get_use_default_size()) then
+            call str%append(" size ")
+            call str%append(to_string(this%get_head_size()))
+            call str%append(",")
+            call str%append(to_string(this%get_head_angle()))
+            call str%append(",")
+            call str%append(to_string(this%get_head_back_angle()))
+        end if
     end if
 
     ! Front/Back

@@ -809,6 +809,14 @@ module fplot_core
         integer(int32) :: m_filling = ARROW_FILLED
         ! Move to front?
         logical :: m_front = .true.
+        ! Arrow head size
+        real(real32) :: m_size = 0.375
+        ! Arrow head angle
+        real(real32) :: m_angle = 10.0
+        ! Arrow head back angle
+        real(real32) :: m_backangle = 90.0
+        ! Use default head size
+        logical :: m_use_default_size = .true.
     contains
         !> @brief Gets a value determining if the arrow is visible.
         !!
@@ -1068,6 +1076,88 @@ module fplot_core
         !! @param[in] x True if the arrow should be moved to the front; else, 
         !!  false.
         procedure, public :: set_move_to_front => par_set_move_to_front
+        !> @brief Gets the size of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_size(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The head size.
+        procedure, public :: get_head_size => par_get_head_size
+        !> @brief Sets the size of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_size(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The head size.
+        procedure, public :: set_head_size => par_set_head_size
+        !> @brief Gets the angle of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_angle(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The angle, in degrees.
+        procedure, public :: get_head_angle => par_get_head_angle
+        !> @brief Sets the angle of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_angle(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The angle, in degrees.
+        procedure, public :: set_head_angle => par_set_head_angle
+        !> @brief Gets the angle of the back of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_back_angle(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The angle, in degrees.
+        procedure, public :: get_head_back_angle => par_get_head_back_angle
+        !> @brief Sets the angle of the back of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_back_angle(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The angle, in degrees.
+        procedure, public :: set_head_back_angle => par_set_head_back_angle
+        !> @brief Gets a value determining if arrow head sizing defaults 
+        !! should be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_default_size(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the defaults should be used; else, false.
+        procedure, public :: get_use_default_size => par_get_use_default_size
+        !> @brief Sets a value determining if arrow head sizing defaults 
+        !! should be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_default_size(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the defaults should be used; else, false.
+        procedure, public :: set_use_default_size => par_set_use_default_size
         !> @brief Returns the appropriate GNUPLOT command string to establish
         !! appropriate parameters.
         !!
@@ -1197,6 +1287,46 @@ module fplot_core
         module subroutine par_set_move_to_front(this, x)
             class(plot_arrow), intent(inout) :: this
             logical, intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_size(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_head_size(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_angle(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_head_angle(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_back_angle(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        pure module function par_get_use_default_size(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_use_default_size(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module subroutine par_set_head_back_angle(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
         end subroutine
     end interface
 
