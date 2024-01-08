@@ -129,3 +129,8 @@ target_link_libraries(fplot_legend_1 fplot)
 # Example 33 - Arrows (2D)
 add_executable(fplot_2d_arrow fplot_2d_arrow.f90)
 target_link_libraries(fplot_2d_arrow fplot)
+
+# Example 34 - Custom Colormap
+add_executable(fplot_custom_colormap fplot_custom_colormap.f90)
+target_link_libraries(fplot_custom_colormap fplot)
+target_link_libraries(fplot_custom_colormap forcolormap)
