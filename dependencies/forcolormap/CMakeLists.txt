@@ -4,7 +4,7 @@ include(FetchContent)
 # Fetch the proper content
 FetchContent_Declare(
     forcolormap
-    GIT_REPOSITORY "https://github.com/jchristopherson/forcolormap"
+    GIT_REPOSITORY "https://github.com/vmagnin/forcolormap"
     GIT_TAG main
 )
 
