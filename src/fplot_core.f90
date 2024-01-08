@@ -18,6 +18,7 @@ module fplot_core
     use collections
     use iso_varying_string
     use ferror
+    use forcolormap, cmap => Colormap ! avoid conflict with the internally defined colormap type
     implicit none
     private
     public :: PLOT_OUT_OF_MEMORY_ERROR
