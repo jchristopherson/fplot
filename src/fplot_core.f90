@@ -3505,6 +3505,7 @@ module fplot_core
     type, extends(colormap) :: custom_colormap
         class(cmap), private, pointer :: m_map => null()
     contains
+        final :: custom_final
         !> @brief Gets the GNUPLOT string defining the color distribution.
         !!
         !! @par Syntax
@@ -3654,6 +3655,9 @@ module fplot_core
         end function
 
         ! --------------------
+        module subroutine custom_final(this)
+            type(custom_colormap), intent(inout) :: this
+        end subroutine
 
         ! --------------------
     end interface
