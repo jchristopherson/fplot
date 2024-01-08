@@ -15,6 +15,7 @@ ferror = { git = "https://github.com/jchristopherson/ferror" }
 collections = { git = "https://github.com/jchristopherson/collections" }
 iso_varying_string = { git = "https://gitlab.com/everythingfunctional/iso_varying_string" }
 geompack = { git = "https://github.com/jchristopherson/geompack" }
+forcolormap = { git = "https://github.com/vmagnin/forcolormap" }
 
 [install]
 library = true

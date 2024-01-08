@@ -21,3 +21,8 @@ set(collections_INCLUDE_DIR ${collections_INCLUDE_DIR} PARENT_SCOPE)
 add_subdirectory(geompack)
 set(geompack_LIBRARY ${geompack_LIBRARY} PARENT_SCOPE)
 set(geompack_INCLUDE_DIR ${geompack_INCLUDE_DIR} PARENT_SCOPE)
+
+# Get FORCOLORMAP
+add_subdirectory(forcolormap)
+set(forcolormap_LIBRARY ${forcolormap_LIBRARY} PARENT_SCOPE)
+set(forcolormap_INCLUDE_DIR ${forcolormap_INCLUDE_DIR} PARENT_SCOPE)

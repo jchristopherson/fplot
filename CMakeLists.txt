@@ -29,6 +29,7 @@ link_library(${PROJECT_NAME} ${ferror_LIBRARY} ${ferror_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${iso_varying_string_LIBRARY} ${iso_varying_string_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${collections_LIBRARY} ${collections_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${geompack_LIBRARY} ${geompack_INCLUDE_DIR})
+link_library(${PROJECT_NAME} ${forcolormap_LIBRARY} ${forcolormap_INCLUDE_DIR})
 
 # Installation
 # add_subdirectory(install)
