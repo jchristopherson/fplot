@@ -9,7 +9,7 @@ program example
     type(plot_2d) :: plt
     type(vector_field_plot_data) :: ds1
     class(plot_axis), pointer :: xAxis, yAxis
-    type(rainbow_colormap) :: cmap
+    type(rainbow_colormap) :: map
     real(real64), allocatable, dimension(:,:,:) :: pts
     real(real64), allocatable, dimension(:,:) :: dx, dy
     real(real64) :: dxdt(2)
@@ -52,7 +52,7 @@ program example
     call plt%set_show_gridlines(.false.)
 
     ! Define the colormap
-    call plt%set_colormap(cmap)
+    call plt%set_colormap(map)
 
     ! Add the data to the plot - color by the magnitude of gradient
     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))

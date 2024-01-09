@@ -136,6 +136,7 @@ module fplot_core
     public :: simplify_polyline
     public :: plot_arrow
     public :: custom_colormap
+    public :: cmap
     public :: assignment(=)
     public :: operator(==)
     public :: operator(/=)
