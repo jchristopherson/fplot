@@ -17,6 +17,9 @@ iso_varying_string = { git = "https://gitlab.com/everythingfunctional/iso_varyin
 geompack = { git = "https://github.com/jchristopherson/geompack" }
 forcolormap = { git = "https://github.com/vmagnin/forcolormap" }
 
+[dev-dependencies]
+fortran_test_helper = { git = "https://github.com/jchristopherson/fortran_test_helper" }
+
 [install]
 library = true
 
