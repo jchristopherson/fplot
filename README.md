@@ -157,7 +157,6 @@ The following example illustrates how to create a three-dimensional surface plot
 program example
     use fplot_core
     use iso_fortran_env
-    use forcolormap, cmap => Colormap
     use forcolormap, only : colormaps_list
     implicit none
 
