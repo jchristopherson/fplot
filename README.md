@@ -6,8 +6,8 @@ A Fortran library providing a convenient interface for plotting with Gnuplot.
 ![Build Status](https://github.com/jchristopherson/fplot/actions/workflows/cmake.yml/badge.svg)
 [![Actions Status](https://github.com/jchristopherson/fplot/workflows/fpm/badge.svg)](https://github.com/jchristopherson/fplot/actions)
 
-## Gnuplot
-This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
+## GNUPLOT
+This library is tailored to write script files for GNUPLOT.  As such, GNUPLOT is required to make use of the output of this library.  GNUPLOT can be found [here](http://www.gnuplot.info/).
 
 ## Documentation
 Documentation can be found [here](https://jchristopherson.github.io/fplot/)
