@@ -333,4 +333,23 @@ module function par_get_cmd(this) result(rst)
 end function
 
 ! ------------------------------------------------------------------------------
+pure module subroutine par_assign(x, y)
+    type(plot_arrow), intent(out) :: x
+    class(plot_arrow), intent(in) :: y
+    x%m_visible = y%m_visible
+    x%m_tail = y%m_tail
+    x%m_head = y%m_head
+    x%m_color = y%m_color
+    x%m_linestyle = y%m_linestyle
+    x%m_linewidth = y%m_linewidth
+    x%m_head_type = y%m_head_type
+    x%m_filling = y%m_filling
+    x%m_front = y%m_front
+    x%m_size = y%m_size
+    x%m_angle = y%m_angle
+    x%m_backangle = y%m_backangle
+    x%m_use_default_size = y%m_use_default_size
+end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

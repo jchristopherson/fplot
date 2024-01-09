@@ -95,5 +95,17 @@ contains
         this%m_text(1:n) = x(1:n)
     end subroutine
 
+! ******************************************************************************
+! ADDED: JAN. 09, 2024 - JAC
+! ------------------------------------------------------------------------------
+    pure module subroutine lbl_assign(x, y)
+        type(plot_label), intent(out) :: x
+        class(plot_label), intent(in) :: y
+        x%m_visible = y%m_visible
+        x%m_position = y%m_position
+        x%m_angle = y%m_angle
+        x%m_text = y%m_text
+    end subroutine
+
 ! ------------------------------------------------------------------------------
 end submodule

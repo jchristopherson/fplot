@@ -136,6 +136,9 @@ module fplot_core
     public :: simplify_polyline
     public :: plot_arrow
     public :: custom_colormap
+    public :: assignment(=)
+    public :: operator(==)
+    public :: operator(/=)
 
 ! ******************************************************************************
 ! ERROR CODES
@@ -279,6 +282,23 @@ module fplot_core
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
 ! ******************************************************************************
+! OPERATORS
+! ------------------------------------------------------------------------------
+    interface assignment(=)
+        module procedure :: clr_assign
+        module procedure :: lbl_assign
+        module procedure :: par_assign
+    end interface
+
+    interface operator(==)
+        module procedure :: clr_equals
+    end interface
+
+    interface operator(/=)
+        module procedure :: clr_not_equals
+    end interface
+
+! ******************************************************************************
 ! BASE TYPES
 ! ------------------------------------------------------------------------------
     !> @brief The base type for a GNUPLOT object.
@@ -372,10 +392,25 @@ module fplot_core
             character(6) :: txt
         end function
 
-        module subroutine clr_copy_from(this, clr)
+        pure module subroutine clr_copy_from(this, clr)
             class(color), intent(inout) :: this
             class(color), intent(in) :: clr
         end subroutine
+
+        pure module subroutine clr_assign(x, y)
+            type(color), intent(out) :: x
+            class(color), intent(in) :: y
+        end subroutine
+
+        pure module function clr_equals(x, y) result(rst)
+            type(color), intent(in) :: x, y
+            logical :: rst
+        end function
+
+        pure module function clr_not_equals(x, y) result(rst)
+            type(color), intent(in) :: x, y
+            logical :: rst
+        end function
     end interface
 
 ! ------------------------------------------------------------------------------
@@ -581,21 +616,35 @@ module fplot_core
             class(plot_label), intent(inout) :: this
             character(len = *), intent(in) :: x
         end subroutine
+
+        pure module subroutine lbl_assign(x, y)
+            type(plot_label), intent(out) :: x
+            class(plot_label), intent(in) :: y
+        end subroutine
     end interface
 
 ! ******************************************************************************
 ! FPLOT_ARROW.F90
 ! ------------------------------------------------------------------------------
+    !> @brief Defines an arrow with no head.
     integer(int32), parameter :: ARROW_NO_HEAD = 0
+    !> @brief Defines an arrow with a traditional head.
     integer(int32), parameter :: ARROW_HEAD = 1
+    !> @brief Defines an arrow with it's head at it's back end (tail).
     integer(int32), parameter :: ARROW_BACKHEAD = 2
+    !> @brief Defines an arrow with a head on both ends.
     integer(int32), parameter :: ARROW_HEADS = 3
+    !> @brief Defines a filled arrow head.
     integer(int32), parameter :: ARROW_FILLED = 100
+    !> @brief Defines an empty arrow head.
     integer(int32), parameter :: ARROW_EMPTY = 101
+    !> @brief Defines an arrow head without fill.
     integer(int32), parameter :: ARROW_NO_FILL = 102
+    !> @brief Defines an arrow head with no border.
     integer(int32), parameter :: ARROW_NO_BORDER = 103
 
 ! ------------------------------------------------------------------------------
+    !> @brief Defines an arrow to be used on by a @ref plot object.
     type, extends(plot_object) :: plot_arrow
         ! Determines if the arrow is visible.
         logical, private :: m_visible = .true.
@@ -1133,6 +1182,11 @@ module fplot_core
         module subroutine par_set_head_back_angle(this, x)
             class(plot_arrow), intent(inout) :: this
             real(real32), intent(in) :: x
+        end subroutine
+
+        pure module subroutine par_assign(x, y)
+            type(plot_arrow), intent(out) :: x
+            class(plot_arrow), intent(in) :: y
         end subroutine
     end interface
 
