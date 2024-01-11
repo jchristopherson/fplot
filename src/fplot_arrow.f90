@@ -329,7 +329,7 @@ module function par_get_cmd(this) result(rst)
     end if
 
     ! End
-    rst = str%to_string()
+    rst = char(str%to_string())
 end function
 
 ! ------------------------------------------------------------------------------

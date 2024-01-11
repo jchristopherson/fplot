@@ -61,7 +61,7 @@ contains
         end if
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ contains
         call str%append("6 '#E0F3DB',")
         call str%append("7 '#F7FCF0'")
 
-        x = str%to_string()
+        x = char(str%to_string())
         ! x = '0 "blue", 1 "turquoise", 2 "light-green"'
     end function
 
@@ -188,7 +188,7 @@ contains
         call str%append("7 '#fcce2e',")
         call str%append("8 '#f9fb0e'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ******************************************************************************
@@ -209,7 +209,7 @@ contains
         call str%append("6 '#525252',")
         call str%append("7 '#252525'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ******************************************************************************
@@ -230,7 +230,7 @@ contains
         call str%append("6 '#5AAE61',")
         call str%append("7 '#1B7837'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
@@ -268,7 +268,7 @@ contains
             end if
         end do
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

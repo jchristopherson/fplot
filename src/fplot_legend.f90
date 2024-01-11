@@ -135,7 +135,7 @@ contains
         end if
 
         ! End
-        txt = str%to_string()
+        txt = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

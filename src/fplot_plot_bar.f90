@@ -44,7 +44,7 @@ module function pb_get_cmd(this) result(x)
     call str%append(this%plot_2d%get_command_string())
 
     ! End
-    x = str%to_string()
+    x = char(str%to_string())
 end function
 
 ! ------------------------------------------------------------------------------

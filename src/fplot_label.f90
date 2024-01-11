@@ -32,7 +32,7 @@ contains
             call str%append(" rotate by ")
             call str%append(to_string(this%get_angle()))
 
-            x = str%to_string()
+            x = char(str%to_string())
         end if
     end function
 

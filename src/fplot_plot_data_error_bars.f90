@@ -46,7 +46,7 @@ contains
         end if
 
         ! Output
-        cmd = str%to_string()
+        cmd = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ contains
         ! end if
 
         ! End
-        cmd = str%to_string()
+        cmd = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

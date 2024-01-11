@@ -161,7 +161,7 @@ contains
         end if
 
         ! Output
-        txt = str%to_string()
+        txt = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

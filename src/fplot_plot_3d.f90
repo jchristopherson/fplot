@@ -216,7 +216,7 @@ contains
         end do
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

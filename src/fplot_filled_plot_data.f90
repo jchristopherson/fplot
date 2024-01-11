@@ -68,7 +68,7 @@ contains
         call str%append(this%get_axes_string())
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ contains
         end do
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

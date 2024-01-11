@@ -147,7 +147,7 @@ module function pdb_get_cmd(this) result(x)
     call str%append(this%get_axes_string())
 
     ! End
-    x = str%to_string()
+    x = char(str%to_string())
 end function
 
 ! ------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ module function pdb_get_data_cmd(this) result(x)
     end if
 
     ! End
-    x = str%to_string()
+    x = char(str%to_string())
 end function
 
 ! ------------------------------------------------------------------------------
