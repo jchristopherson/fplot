@@ -248,7 +248,7 @@ end subroutine
 module subroutine pdb_set_data_2(this, labels, x, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
-    class(varying_string), intent(in), dimension(:) :: labels
+    class(string), intent(in), dimension(:) :: labels
     real(real64), intent(in), dimension(:) :: x
     class(errors), intent(inout), optional, target :: err
 
@@ -339,7 +339,7 @@ end subroutine
 module subroutine pdb_set_data_2_core(this, labels, x, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
-    class(varying_string), intent(in), dimension(:) :: labels
+    class(string), intent(in), dimension(:) :: labels
     real(real64), intent(in), dimension(:) :: x
     class(errors), intent(inout), optional, target :: err
 
@@ -391,7 +391,7 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
     class(errors), pointer :: errmgr
     type(errors), target :: deferr
     integer(int32) :: i, n, flag
-    type(varying_string), allocatable, dimension(:) :: lbls
+    type(string), allocatable, dimension(:) :: lbls
     
     ! Initialization
     if (present(err)) then

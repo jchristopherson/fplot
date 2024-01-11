@@ -14,9 +14,8 @@
 module fplot_core
     use iso_fortran_env, only : real64, real32, int32
     use iso_c_binding
-    use fplot_string_builder
     use collections
-    use iso_varying_string
+    use strings
     use ferror
     use forcolormap, cmap => Colormap ! avoid conflict with the internally defined colormap type
     implicit none
@@ -6392,7 +6391,7 @@ module fplot_core
     type, extends(plot_data_colored) :: plot_data_bar
     private
         !> @brief An array containing axis labels to associate with each bar.
-        type(varying_string), allocatable, dimension(:) :: m_axisLabels
+        type(string), allocatable, dimension(:) :: m_axisLabels
         !> @brief An array of data defining each bar - the matrix contains
         !!  multiple columns to allow multiple bars per label.
         real(real64), allocatable, dimension(:,:) :: m_barData
@@ -6530,7 +6529,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -6561,7 +6560,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2_core(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -6629,7 +6628,7 @@ module fplot_core
 
         module subroutine pdh_set_data_2(this, labels, x, err)
             class(plot_data_histogram), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine

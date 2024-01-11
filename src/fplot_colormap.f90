@@ -295,7 +295,7 @@ contains
         allocate(this%m_map, source = map, stat = flag)
         if (flag /= 0) then
             call errmgr%report_error("custom_init", &
-                "Memory allocation error code " // to_string(flag) // ".", &
+                "Memory allocation error code " // char(to_string(flag)) // ".", &
                 PLOT_OUT_OF_MEMORY_ERROR)
             return
         end if
