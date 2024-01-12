@@ -3570,6 +3570,8 @@ module fplot_core
         logical :: m_dataDependentColors = .false.
         !> Fill the curve?
         logical :: m_filledCurve = .false.
+        !> Use variable size data points?
+        logical :: m_useVariableSizePoints = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -3869,6 +3871,31 @@ module fplot_core
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] Set to true if the curve should be filled; else, false.
         procedure, public :: set_fill_curve => spd_set_filled
+        !> @brief Gets a logical value determining if variable sized data points
+        !! should be used.  The default is false, such that points will be of
+        !! a constant size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_variable_size_points(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return True if variable size points should be used; else, false.
+        procedure, public :: get_use_variable_size_points => spd_get_use_var_point_size
+        !> @brief Sets a logical value determining if variable sized data points
+        !! should be used.  The default is false, such that points will be of
+        !! a constant size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_variable_size_points(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @param[in] x True if variable size points should be used; 
+        !! else, false.
+        procedure, public :: set_use_variable_size_points => spd_set_use_var_point_size
     end type
 
 ! ------------------------------------------------------------------------------
@@ -3984,6 +4011,16 @@ module fplot_core
         end function
 
         module subroutine spd_set_filled(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function spd_get_use_var_point_size(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_use_var_point_size(this, x)
             class(scatter_plot_data), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
@@ -4142,7 +4179,7 @@ module fplot_core
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), real(real64) c(:), optional class(errors) err)
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), optional real(real64) c(:), optional real(real64) ps(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
@@ -4150,6 +4187,7 @@ module fplot_core
         !! @param[in] y An N-element array containing the y coordinate data.
         !! @param[in] c An N-element array defining how color should vary with
         !!  the current colormap for each value.
+        !! @param[in] ps An N-element array defining the size of each data point.
         !! @param[out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -4192,6 +4230,16 @@ module fplot_core
         !! @param[in] this The plot_data_2d object.
         !! @return A copy of the stored data array.
         procedure, public :: get_color_data => pd2d_get_c_array
+        !> @brief Gets the stored point size data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_point_size_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        procedure, public :: get_point_size_data => pd2d_get_ps_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4235,10 +4283,10 @@ module fplot_core
             real(real64), intent(in) :: x
         end subroutine
 
-        module subroutine pd2d_set_data_1(this, x, y, c, err)
+        module subroutine pd2d_set_data_1(this, x, y, c, ps, err)
             class(plot_data_2d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y
-            real(real64), intent(in), dimension(:), optional :: c
+            real(real64), intent(in), dimension(:), optional :: c, ps
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -4269,6 +4317,11 @@ module fplot_core
         end function
 
         module function pd2d_get_c_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd2d_get_ps_array(this) result(x)
             class(plot_data_2d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
@@ -4441,6 +4494,16 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @return A copy of the stored data array.
         procedure, public :: get_color_data => pd3d_get_c_array
+        !> @brief Gets the stored point scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_point_size_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        procedure, public :: get_point_size_data => pd3d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4496,10 +4559,10 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine pd3d_set_data_1(this, x, y, z, c, err)
+        module subroutine pd3d_set_data_1(this, x, y, z, c, ps, err)
             class(plot_data_3d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y, z
-            real(real64), intent(in), dimension(:), optional :: c
+            real(real64), intent(in), dimension(:), optional :: c, ps
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -4519,6 +4582,11 @@ module fplot_core
         end function
 
         module function pd3d_get_c_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_ps_array(this) result(x)
             class(plot_data_3d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function

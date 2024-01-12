@@ -69,7 +69,11 @@ contains
             call str%append(" pt ")
             call str%append(to_string(this%get_marker_style()))
             call str%append(" ps ")
-            call str%append(to_string(this%get_marker_scaling()))
+            if (this%get_use_variable_size_points()) then
+                call str%append("variable")
+            else
+                call str%append(to_string(this%get_marker_scaling()))
+            end if
         end if
 
         ! Define the axes structure
@@ -257,6 +261,22 @@ contains
         class(scatter_plot_data), intent(inout) :: this
         logical, intent(in) :: x
         this%m_filledCurve = x
+    end subroutine
+
+! ******************************************************************************
+! ADDED: JAN 12, 2024 - JAC
+! ------------------------------------------------------------------------------
+    pure module function spd_get_use_var_point_size(this) result(rst)
+        class(scatter_plot_data), intent(in) :: this
+        logical :: rst
+        rst = this%m_useVariableSizePoints
+    end function
+
+! --------------------
+    module subroutine spd_set_use_var_point_size(this, x)
+        class(scatter_plot_data), intent(inout) :: this
+        logical, intent(in) :: x
+        this%m_useVariableSizePoints = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
