@@ -39,8 +39,6 @@ set(FPLOT_SOURCES
     ${dir}/fplot_vector_field_plot_data.f90
     ${dir}/fplot_plot_polar.f90
     ${dir}/fplot_filled_plot_data.f90
-    # ${dir}/fplot_string_builder.f90
-    # ${dir}/fplot_string_builder_implementation.f90
     ${dir}/fplot_triangulations_delaunay_2d.f90
     ${dir}/fplot_arrow.f90
 )
