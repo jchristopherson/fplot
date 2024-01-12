@@ -12,6 +12,27 @@ This library is tailored to write script files for GNUPLOT.  As such, GNUPLOT is
 ## Documentation
 Documentation can be found [here](https://jchristopherson.github.io/fplot/)
 
+## Building FPLOT
+[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+
+[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
+```txt
+fpm build
+```
+The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
+```toml
+[dependencies]
+fplot = { git = "https://github.com/jchristopherson/fplot" }
+```
+
+## External Libraries
+The FPLOT library depends upon the following libraries.
+- [FERROR](https://github.com/jchristopherson/ferror)
+- [COLLECTIONS](https://github.com/jchristopherson/collections)
+- [FSTRING](https://github.com/jchristopherson/fstring)
+- [GEOMPACK](https://github.com/jchristopherson/geompack)
+- [FORCOLORMAP](https://github.com/vmagnin/forcolormap)
+
 ## Example 1
 This example illustrates how to plot two-dimensional data.
 ```fortran
@@ -331,23 +352,3 @@ end program
 This is the plot resulting from the above program.
 ![](images/polar_example_1.png?raw=true)
 
-## Building FPLOT
-[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
-
-[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
-```txt
-fpm build
-```
-The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
-```toml
-[dependencies]
-fplot = { git = "https://github.com/jchristopherson/fplot" }
-```
-
-## External Libraries
-The FPLOT library depends upon the following libraries.
-- [FERROR](https://github.com/jchristopherson/ferror)
-- [COLLECTIONS](https://github.com/jchristopherson/collections)
-- [ISO_VARYING_STRING](https://gitlab.com/everythingfunctional/iso_varying_string)
-- [GEOMPACK](https://github.com/jchristopherson/geompack)
-- [FORCOLORMAP](https://github.com/vmagnin/forcolormap)
