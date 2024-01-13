@@ -138,3 +138,7 @@ target_link_libraries(fplot_custom_colormap forcolormap)
 # Example 35 - Variable Point Size
 add_executable(fplot_variable_point_size fplot_variable_point_size.f90)
 target_link_libraries(fplot_variable_point_size fplot)
+
+# Example 36 - 3D Variable Point Size
+add_executable(fplot_3d_variable_point_size fplot_3d_variable_point_size.f90)
+target_link_libraries(fplot_3d_variable_point_size fplot)
