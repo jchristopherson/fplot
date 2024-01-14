@@ -1,8 +1,10 @@
 var structfplot__core_1_1tri__surface__plot__data =
 [
-    [ "define_data", "structfplot__core_1_1tri__surface__plot__data.html#a82ae200636ce482d187beb7ec98d40e5", null ],
-    [ "get_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a29e518a58104e613b12c38390e88652f", null ],
-    [ "set_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a061ce016e5c5e5bb249c37276f5b97d6", null ],
+    [ "define_data", "structfplot__core_1_1tri__surface__plot__data.html#ad2fa70d7577676babf477c89d3562060", null ],
+    [ "get_command_string", "structfplot__core_1_1tri__surface__plot__data.html#a469efa44e12737b0ec95737f5cd3aabb", null ],
+    [ "get_data_string", "structfplot__core_1_1tri__surface__plot__data.html#abf08b1c7f2c4980d238a2a8c649af522", null ],
+    [ "get_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a3fc771c7f1bdb8104ae08fabf6c665dd", null ],
+    [ "set_use_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#a920b578a7bd5dda514379761daad8d87", null ],
     [ "m_indices", "structfplot__core_1_1tri__surface__plot__data.html#ae2f7495459a379be5318da146fb893ae", null ],
     [ "m_wireframe", "structfplot__core_1_1tri__surface__plot__data.html#ab488110fbd8508f9c34b62430577dfaf", null ],
     [ "m_x", "structfplot__core_1_1tri__surface__plot__data.html#a0d748864ab5f589fdcac1bfa61ac06e1", null ],

@@ -1,13 +1,15 @@
 var searchData=
 [
-  ['legend_5fbottom_0',['legend_bottom',['../namespacefplot__core.html#afaa74509b5150505854f6f411109dfdb',1,'fplot_core']]],
-  ['legend_5fcenter_1',['legend_center',['../namespacefplot__core.html#a0ec74b411859c62e7bf0c1df535d39a5',1,'fplot_core']]],
-  ['legend_5fleft_2',['legend_left',['../namespacefplot__core.html#a63d667dd9f14cc6ec61c999dd5dda272',1,'fplot_core']]],
-  ['legend_5fright_3',['legend_right',['../namespacefplot__core.html#a99373c8db502d4106c9597f3303b6fa9',1,'fplot_core']]],
-  ['legend_5ftop_4',['legend_top',['../namespacefplot__core.html#aeddce321c79b9d2e69356b06ba656c88',1,'fplot_core']]],
-  ['line_5fdash_5fdot_5fdot_5',['line_dash_dot_dot',['../namespacefplot__core.html#ad6f904d0b43c5063d0f6b41d90abdbea',1,'fplot_core']]],
-  ['line_5fdash_5fdotted_6',['line_dash_dotted',['../namespacefplot__core.html#a18af0338b6f5f050d826afcf78918bc2',1,'fplot_core']]],
-  ['line_5fdashed_7',['line_dashed',['../namespacefplot__core.html#ae9305c0a47c3fb21e45154a0b9457353',1,'fplot_core']]],
-  ['line_5fdotted_8',['line_dotted',['../namespacefplot__core.html#ab81a32face043abe51b8740e56c816b2',1,'fplot_core']]],
-  ['line_5fsolid_9',['line_solid',['../namespacefplot__core.html#ac41508e74ce45d09f835bd676ea7d3d6',1,'fplot_core']]]
+  ['gnuplot_5fdefault_5ffont_5fsize_0',['gnuplot_default_font_size',['../namespacefplot__core.html#af51438c2c528d43662a1456d4f9fbb33',1,'fplot_core']]],
+  ['gnuplot_5fdefault_5ffontname_1',['gnuplot_default_fontname',['../namespacefplot__core.html#a41bb6a9ffc3ebb502d54af9a7ce540e7',1,'fplot_core']]],
+  ['gnuplot_5fdefault_5fwindow_5fheight_2',['gnuplot_default_window_height',['../namespacefplot__core.html#a6210b9335ccb79ff288de84dd741f0e0',1,'fplot_core']]],
+  ['gnuplot_5fdefault_5fwindow_5fwidth_3',['gnuplot_default_window_width',['../namespacefplot__core.html#a45b6c532e70244ebf23ff21eb596223b',1,'fplot_core']]],
+  ['gnuplot_5fmax_5flabel_5flength_4',['gnuplot_max_label_length',['../namespacefplot__core.html#a7e9ac1526f3f84a70eb10c98aff73610',1,'fplot_core']]],
+  ['gnuplot_5fmax_5fpath_5flength_5',['gnuplot_max_path_length',['../namespacefplot__core.html#a40ff0463a668b977d2fab03d3d8a6dde',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5flatex_6',['gnuplot_terminal_latex',['../namespacefplot__core.html#adadfa5448d65da7362e445ee1fe61b10',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5fpng_7',['gnuplot_terminal_png',['../namespacefplot__core.html#af1ace6143d83970cbfe69d7289c427d9',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5fqt_8',['gnuplot_terminal_qt',['../namespacefplot__core.html#a512870ac9b979c4b0ea2804fbbb02a7d',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5fwin32_9',['gnuplot_terminal_win32',['../namespacefplot__core.html#acf7693c9998a266f3cf50510b2cc06e9',1,'fplot_core']]],
+  ['gnuplot_5fterminal_5fwxt_10',['gnuplot_terminal_wxt',['../namespacefplot__core.html#a127138d0cab0e51e9c5f3fdcfdf033ac',1,'fplot_core']]],
+  ['green_11',['green',['../structfplot__core_1_1color.html#aa710db5291759d15263ecfb69a8d693c',1,'fplot_core::color']]]
 ];

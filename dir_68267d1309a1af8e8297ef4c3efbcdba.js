@@ -1,5 +1,6 @@
 var dir_68267d1309a1af8e8297ef4c3efbcdba =
 [
+    [ "fplot_arrow.f90", "fplot__arrow_8f90_source.html", null ],
     [ "fplot_axis.f90", "fplot__axis_8f90_source.html", null ],
     [ "fplot_colormap.f90", "fplot__colormap_8f90_source.html", null ],
     [ "fplot_colors.f90", "fplot__colors_8f90_source.html", null ],
@@ -29,8 +30,6 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_qt_terminal.f90", "fplot__qt__terminal_8f90_source.html", null ],
     [ "fplot_scatter_plot_data.f90", "fplot__scatter__plot__data_8f90_source.html", null ],
     [ "fplot_simplify.f90", "fplot__simplify_8f90_source.html", null ],
-    [ "fplot_string_builder.f90", "fplot__string__builder_8f90_source.html", null ],
-    [ "fplot_string_builder_implementation.f90", "fplot__string__builder__implementation_8f90_source.html", null ],
     [ "fplot_surface_plot.f90", "fplot__surface__plot_8f90_source.html", null ],
     [ "fplot_surface_plot_data.f90", "fplot__surface__plot__data_8f90_source.html", null ],
     [ "fplot_terminal.f90", "fplot__terminal_8f90_source.html", null ],
@@ -38,7 +37,5 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "fplot_triangulations_delaunay_2d.f90", "fplot__triangulations__delaunay__2d_8f90_source.html", null ],
     [ "fplot_vector_field_plot_data.f90", "fplot__vector__field__plot__data_8f90_source.html", null ],
     [ "fplot_windows_terminal.f90", "fplot__windows__terminal_8f90_source.html", null ],
-    [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ],
-    [ "geompack.f", "geompack_8f_source.html", null ],
-    [ "tripack.f", "tripack_8f_source.html", null ]
+    [ "fplot_wxt_terminal.f90", "fplot__wxt__terminal_8f90_source.html", null ]
 ];
