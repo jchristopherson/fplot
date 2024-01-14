@@ -32,7 +32,7 @@ link_library(${PROJECT_NAME} ${geompack_LIBRARY} ${geompack_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${forcolormap_LIBRARY} ${forcolormap_INCLUDE_DIR})
 
 # Installation
-# add_subdirectory(install)
+add_subdirectory(install)
 
 # ------------------------------------------------------------------------------
 # EXAMPLES
