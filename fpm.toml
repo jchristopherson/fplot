@@ -1,9 +1,9 @@
 name = "fplot"
-version = "1.6.2"
+version = "1.7.0"
 license = "GPL-3.0"
 author = "Jason Christopherson"
 maintainer = "Jason Christopherson"
-copyright = "Copyright 2017-2023, Jason Christopherson"
+copyright = "Copyright 2017-2024, Jason Christopherson"
 description = "A Fortran library providing a convenient interface for plotting with Gnuplot."
 homepage = "https://github.com/jchristopherson/fplot"
 
@@ -13,8 +13,12 @@ source-dir = "src"
 [dependencies]
 ferror = { git = "https://github.com/jchristopherson/ferror" }
 collections = { git = "https://github.com/jchristopherson/collections" }
-iso_varying_string = { git = "https://gitlab.com/everythingfunctional/iso_varying_string" }
+fstring = { git = "https://github.com/jchristopherson/fstring" }
 geompack = { git = "https://github.com/jchristopherson/geompack" }
+forcolormap = { git = "https://github.com/vmagnin/forcolormap" }
+
+[dev-dependencies]
+fortran_test_helper = { git = "https://github.com/jchristopherson/fortran_test_helper" }
 
 [install]
 library = true

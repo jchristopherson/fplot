@@ -99,20 +99,38 @@ contains
         type(string_builder) :: str
         integer(int32) :: i
         character :: delimiter, nl
-        real(real64), allocatable, dimension(:) :: xv, yv, zv, cv
+        real(real64), allocatable, dimension(:) :: xv, yv, zv, cv, ps
         real(real64), allocatable, dimension(:,:) :: pts
         real(real64) :: tol, maxz, minz, eps
+        logical :: usecolors, usevarpoints
 
         ! Initialization
         call str%initialize()
         delimiter = achar(9) ! tab delimiter
         nl = new_line(nl)
+        usecolors = this%get_use_data_dependent_colors()
+        usevarpoints = this%get_use_variable_size_points()
 
         ! Process
         xv = this%get_x_data()
         yv = this%get_y_data()
         zv = this%get_z_data()
-        if (this%get_use_data_dependent_colors()) then
+        if (usecolors .and. usevarpoints) then
+            cv = this%get_color_data()
+            ps = this%get_point_size_data()
+            do i = 1, size(xv)
+                call str%append(to_string(xv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(yv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(zv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(ps(i)))
+                call str%append(delimiter)
+                call str%append(to_string(cv(i)))
+                call str%append(nl)
+            end do
+        else if (usecolors .and. .not.usevarpoints) then
             cv = this%get_color_data()
             do i = 1, size(xv)
                 call str%append(to_string(xv(i)))
@@ -122,6 +140,18 @@ contains
                 call str%append(to_string(zv(i)))
                 call str%append(delimiter)
                 call str%append(to_string(cv(i)))
+                call str%append(nl)
+            end do
+        else if (.not.usecolors .and. usevarpoints) then
+            ps = this%get_point_size_data()
+            do i = 1, size(xv)
+                call str%append(to_string(xv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(yv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(zv(i)))
+                call str%append(delimiter)
+                call str%append(to_string(ps(i)))
                 call str%append(nl)
             end do
         else
@@ -153,15 +183,15 @@ contains
         end if
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine pd3d_set_data_1(this, x, y, z, c, err)
+    module subroutine pd3d_set_data_1(this, x, y, z, c, ps, err)
         ! Arguments
         class(plot_data_3d), intent(inout) :: this
         real(real64), intent(in), dimension(:) :: x, y, z
-        real(real64), intent(in), dimension(:), optional :: c
+        real(real64), intent(in), dimension(:), optional :: c, ps
         class(errors), intent(inout), optional, target :: err
 
         ! Local Variables
@@ -172,7 +202,8 @@ contains
         ! Initialization
         n = size(x)
         ncols = 3
-        if (present(c)) ncols = 4
+        if (present(c)) ncols = ncols + 1
+        if (present(ps)) ncols = ncols + 1
         if (present(err)) then
             errmgr => err
         else
@@ -203,16 +234,37 @@ contains
                 "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
             return
         end if
-        if (present(c)) then
+        if (present(c) .and. present(ps)) then
             call this%set_use_data_dependent_colors(.true.)
+            call this%set_use_variable_size_points(.true.)
+            do concurrent (i = 1:n)
+                this%m_data(i, 1) = x(i)
+                this%m_data(i, 2) = y(i)
+                this%m_data(i, 3) = z(i)
+                this%m_data(i, 4) = ps(i)
+                this%m_data(i, 5) = c(i)
+            end do
+        else if (present(c) .and. .not.present(ps)) then
+            call this%set_use_data_dependent_colors(.true.)
+            call this%set_use_variable_size_points(.false.)
             do concurrent (i = 1:n)
                 this%m_data(i, 1) = x(i)
                 this%m_data(i, 2) = y(i)
                 this%m_data(i, 3) = z(i)
                 this%m_data(i, 4) = c(i)
             end do
+        else if (.not.present(c) .and. present(ps)) then
+            call this%set_use_data_dependent_colors(.false.)
+            call this%set_use_variable_size_points(.true.)
+            do concurrent (i = 1:n)
+                this%m_data(i, 1) = x(i)
+                this%m_data(i, 2) = y(i)
+                this%m_data(i, 3) = z(i)
+                this%m_data(i, 4) = ps(i)
+            end do
         else
             call this%set_use_data_dependent_colors(.false.)
+            call this%set_use_variable_size_points(.false.)
             do concurrent (i = 1:n)
                 this%m_data(i, 1) = x(i)
                 this%m_data(i, 2) = y(i)
@@ -267,7 +319,27 @@ contains
 
         ! Process
         if (allocated(this%m_data)) then
-            if (size(this%m_data, 2) > 3) x = this%m_data(:,4)
+            if (size(this%m_data, 2) == 4) then
+                x = this%m_data(:,4)
+            else if (size(this%m_data, 2) == 5) then
+                x = this%m_data(:,5)
+            end if
+        end if
+    end function
+
+! ******************************************************************************
+! ADDED: JAN. 12, 2020 - JAC
+! ------------------------------------------------------------------------------
+    module function pd3d_get_ps_array(this) result(x)
+        ! Arguments
+        class(plot_data_3d), intent(in) :: this
+        real(real64), allocatable, dimension(:) :: x
+
+        ! Process
+        if (allocated(this%m_data)) then
+            if (size(this%m_data, 2) > 3) then
+                x = this%m_data(:,4)
+            end if
         end if
     end function
 

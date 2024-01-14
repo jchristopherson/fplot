@@ -14,10 +14,10 @@
 module fplot_core
     use iso_fortran_env, only : real64, real32, int32
     use iso_c_binding
-    use fplot_string_builder
     use collections
-    use iso_varying_string
+    use strings
     use ferror
+    use forcolormap, cmap => Colormap ! avoid conflict with the internally defined colormap type
     implicit none
     private
     public :: PLOT_OUT_OF_MEMORY_ERROR
@@ -82,6 +82,14 @@ module fplot_core
     public :: COORDINATES_CARTESIAN
     public :: COORDINATES_SPHERICAL
     public :: COORDINATES_CYLINDRICAL
+    public :: ARROW_NO_HEAD
+    public :: ARROW_HEAD
+    public :: ARROW_BACKHEAD
+    public :: ARROW_HEADS
+    public :: ARROW_FILLED
+    public :: ARROW_EMPTY
+    public :: ARROW_NO_FILL
+    public :: ARROW_NO_BORDER
     public :: linspace
     public :: logspace
     public :: meshgrid
@@ -125,6 +133,12 @@ module fplot_core
     public :: grey_colormap
     public :: earth_colormap
     public :: simplify_polyline
+    public :: plot_arrow
+    public :: custom_colormap
+    public :: cmap
+    public :: assignment(=)
+    public :: operator(==)
+    public :: operator(/=)
 
 ! ******************************************************************************
 ! ERROR CODES
@@ -268,6 +282,23 @@ module fplot_core
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
 
 ! ******************************************************************************
+! OPERATORS
+! ------------------------------------------------------------------------------
+    interface assignment(=)
+        module procedure :: clr_assign
+        module procedure :: lbl_assign
+        module procedure :: par_assign
+    end interface
+
+    interface operator(==)
+        module procedure :: clr_equals
+    end interface
+
+    interface operator(/=)
+        module procedure :: clr_not_equals
+    end interface
+
+! ******************************************************************************
 ! BASE TYPES
 ! ------------------------------------------------------------------------------
     !> @brief The base type for a GNUPLOT object.
@@ -341,20 +372,6 @@ module fplot_core
         !!
         !! @param[in] this The color object.
         !! @return A string containing the hexadecimal equivalent.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(color) :: clr
-        !!     character(6) :: hex_str
-        !!
-        !!     ! Return the hexadecimal form of the color
-        !!     hex_str = clr%to_hex_string()
-        !! end program
-        !! @endcode
         procedure, public, pass :: to_hex_string => clr_to_hex_string
         !> @brief Copies another color to this color.
         !!
@@ -365,19 +382,6 @@ module fplot_core
         !!
         !! @param[in,out] this The color object.
         !! @param[in] clr The color to copy.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(color) :: clr1, clr2
-        !!
-        !!     ! Copy clr1 to clr2
-        !!     call clr2%copy_from(clr1)
-        !! end program
-        !! @endcode
         procedure, public, pass :: copy_from => clr_copy_from
     end type
 
@@ -388,10 +392,25 @@ module fplot_core
             character(6) :: txt
         end function
 
-        module subroutine clr_copy_from(this, clr)
+        pure module subroutine clr_copy_from(this, clr)
             class(color), intent(inout) :: this
             class(color), intent(in) :: clr
         end subroutine
+
+        pure module subroutine clr_assign(x, y)
+            type(color), intent(out) :: x
+            class(color), intent(in) :: y
+        end subroutine
+
+        pure module function clr_equals(x, y) result(rst)
+            type(color), intent(in) :: x, y
+            logical :: rst
+        end function
+
+        pure module function clr_not_equals(x, y) result(rst)
+            type(color), intent(in) :: x, y
+            logical :: rst
+        end function
     end interface
 
 ! ------------------------------------------------------------------------------
@@ -447,56 +466,6 @@ module fplot_core
 ! FPLOT_LABEL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a label object for a plot.
-    !!
-    !! @par Example
-    !! The following example illustrates how to add a simple label to a plot.
-    !! @code{.f90}
-    !! program example
-    !!     use fplot_core
-    !!     use iso_fortran_env
-    !!     implicit none
-    !!
-    !!     ! Local Variables
-    !!     integer(int32), parameter :: npts = 1000
-    !!     real(real64), dimension(npts) :: x, y
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_2d) :: dataset
-    !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     type(plot_label) :: lbl
-    !!
-    !!     ! Build a data set
-    !!     x = linspace(0.0d0, 10.0d0, npts)
-    !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
-    !!
-    !!     call dataset%define_data(y)
-    !!
-    !!     ! Define the label
-    !!     call lbl%set_text("Test Label 1")
-    !!     call lbl%set_position([600.0, 0.6, 0.0])
-    !!
-    !!     ! Set up the plot
-    !!     call plt%initialize()
-    !!     call plt%set_title("Example Plot")
-    !!     call plt%set_font_size(14)
-    !!     call plt%set_show_gridlines(.false.)
-    !!
-    !!     ! Add the label to the plot
-    !!     call plt%push_label(lbl)
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     ! Add the data to the plot
-    !!     call plt%push(dataset)
-    !!
-    !!     ! Draw
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_plot_with_label_1.png
     type, extends(plot_object) :: plot_label
     private
         !> Determines if the label is visible
@@ -517,19 +486,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_label object.
         !! @return The command string.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!  
-        !!     type(plot_label) :: lbl
-        !!     character(len = :), allocatable :: txt
-        !!
-        !!     txt = lbl%get_command_string()
-        !! end program
-        !! @endcode
         procedure, public :: get_command_string => lbl_get_cmd
         !> @brief Gets a value determining if the label is to be drawn.
         !!
@@ -540,19 +496,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_label object.
         !! @return Returns true if the label is to be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!  
-        !!     type(plot_label) :: lbl
-        !!     logical :: x
-        !!
-        !!     x = lbl%get_is_visible()
-        !! end program
-        !! @endcode
         procedure, public :: get_is_visible => lbl_get_is_visible
         !> @brief Sets a value determining if the label is to be drawn.
         !!
@@ -563,19 +506,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_label object.
         !! @param[in] x Set to true to draw the label; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!  
-        !!     type(plot_label) :: lbl
-        !!
-        !!     ! Show the label
-        !!     call lbl%set_is_visible(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_is_visible => lbl_set_is_visible
         !> @brief Gets the position of the label in terms of plot coordinates.
         !!
@@ -586,20 +516,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_label object.
         !! @return A 3-element array containing the X, Y, and Z position of the label.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!     real(real32) :: pos(3)
-        !!
-        !!     pos = lbl%get_position()
-        !! end program
-        !! @endcode
         procedure, public :: get_position => lbl_get_position
         !> @brief Sets the position of the label in terms of plot coordinates.
         !!
@@ -611,20 +527,6 @@ module fplot_core
         !! @param[in,out] this The plot_label object.
         !! @param[in] x A 3-element array containing the X, Y, and Z position of the
         !!  label.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!     real(real32) :: pos(3)
-        !!
-        !!     call lbl%set_position(pos)
-        !! end program
-        !! @endcode
         procedure, public :: set_position => lbl_set_position
         !> @brief Gets the angle of the label text, in degrees.
         !!
@@ -635,20 +537,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_label object.
         !! @return The angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!     real(real32) :: angle
-        !!
-        !!     angle = lbl%get_angle()
-        !! end program
-        !! @endcode
         procedure, public :: get_angle => lbl_get_angle
         !> @brief Sets the angle of the label text, in degrees.
         !!
@@ -659,18 +547,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_label object.
         !! @param[in] x The angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!
-        !!     call lbl%set_angle(45.0)
-        !! end program
-        !! @endcode
         procedure, public :: set_angle => lbl_set_angle
         !> @brief Gets the text displayed by the label.
         !!
@@ -681,19 +557,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_label object.
         !! @return The string of text to display.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!     character(len = :), allocatable :: x
-        !!
-        !!     x = lbl%get_text()
-        !! end program
-        !! @endcode
         procedure, public :: get_text => lbl_get_txt
         !> @brief Sets the text displayed by the label.
         !!
@@ -704,19 +567,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_label object.
         !! @param[in] x The text string to display.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_label) :: lbl
-        !!     character(len = :), allocatable :: x
-        !!
-        !!     call lbl%set_text("Example Label Text")
-        !! end program
-        !! @endcode
         procedure, public :: set_text => lbl_set_txt
     end type
 
@@ -766,6 +616,578 @@ module fplot_core
             class(plot_label), intent(inout) :: this
             character(len = *), intent(in) :: x
         end subroutine
+
+        pure module subroutine lbl_assign(x, y)
+            type(plot_label), intent(out) :: x
+            class(plot_label), intent(in) :: y
+        end subroutine
+    end interface
+
+! ******************************************************************************
+! FPLOT_ARROW.F90
+! ------------------------------------------------------------------------------
+    !> @brief Defines an arrow with no head.
+    integer(int32), parameter :: ARROW_NO_HEAD = 0
+    !> @brief Defines an arrow with a traditional head.
+    integer(int32), parameter :: ARROW_HEAD = 1
+    !> @brief Defines an arrow with it's head at it's back end (tail).
+    integer(int32), parameter :: ARROW_BACKHEAD = 2
+    !> @brief Defines an arrow with a head on both ends.
+    integer(int32), parameter :: ARROW_HEADS = 3
+    !> @brief Defines a filled arrow head.
+    integer(int32), parameter :: ARROW_FILLED = 100
+    !> @brief Defines an empty arrow head.
+    integer(int32), parameter :: ARROW_EMPTY = 101
+    !> @brief Defines an arrow head without fill.
+    integer(int32), parameter :: ARROW_NO_FILL = 102
+    !> @brief Defines an arrow head with no border.
+    integer(int32), parameter :: ARROW_NO_BORDER = 103
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines an arrow to be used on by a @ref plot object.
+    type, extends(plot_object) :: plot_arrow
+        ! Determines if the arrow is visible.
+        logical, private :: m_visible = .true.
+        ! The x, y, z coordinates of the tail
+        real(real32), dimension(3) :: m_tail = [0.0, 0.0, 0.0]
+        ! The x, y, z coordinates of the head
+        real(real32), dimension(3) :: m_head = [0.0, 0.0, 0.0]
+        ! The arrow color.
+        type(color) :: m_color = CLR_BLACK
+        ! The line style
+        integer(int32) :: m_linestyle = LINE_SOLID
+        ! The line width
+        real(real32) :: m_linewidth = 1.0
+        ! The head configuration
+        integer(int32) :: m_head_type = ARROW_HEAD
+        ! Arrow filling
+        integer(int32) :: m_filling = ARROW_FILLED
+        ! Move to front?
+        logical :: m_front = .true.
+        ! Arrow head size
+        real(real32) :: m_size = 0.375
+        ! Arrow head angle
+        real(real32) :: m_angle = 10.0
+        ! Arrow head back angle
+        real(real32) :: m_backangle = 90.0
+        ! Use default head size
+        logical :: m_use_default_size = .true.
+    contains
+        !> @brief Gets a value determining if the arrow is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_is_visible(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the arrow is visible; else, false.
+        procedure, public :: get_is_visible => par_get_is_visible
+        !> @brief Sets a value determining if the arrow is visible.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_is_visible(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the arrow is visible; else, false.
+        procedure, public :: set_is_visible => par_set_is_visible
+        !> @brief Gets the coordinates of the arrow's tail.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32)(3) function get_tail_location(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return A 3-element array containing the x, y, and z coordinates of
+        !!  the arrow's tail.
+        procedure, public :: get_tail_location => par_get_tail
+        !> @brief Sets the location of the arrow's tail.
+        !!
+        !! @par Syntax 1
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x(3))
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x A 3-element array containing the x, y, and z coordiantes
+        !!  of the arrow's tail.
+        !!
+        !! @par Syntax 2
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x, real(real32) y)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's tail.
+        !! @param[in] y The y-coordinate of the arrow's tail.
+        !!
+        !! @par Syntax 3
+        !! @code{.f90}
+        !! subroutine set_tail_location(class(plot_arrow) this, real(real32) x, real(real32) y, real(real32) z)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's tail.
+        !! @param[in] y The y-coordinate of the arrow's tail.
+        !! @param[in] z The z-coordinate of the arrow's tail.
+        generic, public :: set_tail_location => par_set_tail_1, &
+            par_set_tail_2, par_set_tail_3
+        procedure, private :: par_set_tail_1
+        procedure, private :: par_set_tail_2
+        procedure, private :: par_set_tail_3
+        !> @brief Gets the coordinates of the arrow's head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32)(3) function get_head_location(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return A 3-element array containing the x, y, and z coordinates of
+        !!  the arrow's head.
+        procedure, public :: get_head_location => par_get_head
+        !> @brief Sets the location of the arrow's head.
+        !!
+        !! @par Syntax 1
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x(3))
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x A 3-element array containing the x, y, and z coordiantes
+        !!  of the arrow's head.
+        !!
+        !! @par Syntax 2
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x, real(real32) y)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's head.
+        !! @param[in] y The y-coordinate of the arrow's head.
+        !!
+        !! @par Syntax 3
+        !! @code{.f90}
+        !! subroutine set_head_location(class(plot_arrow) this, real(real32) x, real(real32) y, real(real32) z)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The x-coordinate of the arrow's head.
+        !! @param[in] y The y-coordinate of the arrow's head.
+        !! @param[in] z The z-coordinate of the arrow's head.
+        generic, public :: set_head_location => par_set_head_1, &
+            par_set_head_2, par_set_head_3
+        procedure, private :: par_set_head_1
+        procedure, private :: par_set_head_2
+        procedure, private :: par_set_head_3
+        !> @brief Gets the color of the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure type(color) function get_color(class(arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The color.
+        procedure, public :: get_color => par_get_color
+        !> @brief Sets the color of the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_color(class(arrow) this, type(color) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The color.
+        procedure, public :: set_color => par_set_color
+        !> @brief Gets the line style used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_line_style(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The line style.
+        procedure, public :: get_line_style => par_get_line_style
+        !> @brief Sets the line style used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_style(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param The line style.  The value must be one of the following.
+        !!  - LINE_SOLID
+        !!  - LINE_DASHED
+        !!  - LINE_DASH_DOTTED
+        !!  - LINE_DASH_DOT_DOT
+        !!  - LINE_DOTTED
+        !! If the value is not one of the above, the command is ignored.
+        procedure, public :: set_line_style => par_set_line_style
+        !> @brief Gets the width of the lines used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_line_width(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The width of the line.
+        procedure, public :: get_line_width => par_get_line_width
+        !> @brief Sets the width of the lines used to draw the arrow.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_line_width(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The width of the line.
+        procedure, public :: set_line_width => par_set_line_width
+        !> @brief Gets the type of arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_head_type(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The arrow head type.  It is one of the following constants.
+        !! - ARROW_HEAD
+        !! - ARROW_BACKHEAD
+        !! - ARROW_HEADS
+        !! - ARROW_NO_HEAD
+        procedure, public :: get_head_type => par_get_head_type
+        !> @brief Sets the type of arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_type(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The arrow head type.  It must be one of the following 
+        !!  constants.
+        !! - ARROW_HEAD
+        !! - ARROW_BACKHEAD
+        !! - ARROW_HEADS
+        !! - ARROW_NO_HEAD
+        procedure, public :: set_head_type => par_set_head_type
+        !> @brief Gets a flag denoting the head fill type.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_head_fill(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The flag denoting head fill.  It will be one of the 
+        !!  following constants.
+        !! - ARROW_FILLED
+        !! - ARROW_EMPTY
+        !! - ARROW_NO_BORDER
+        !! - ARROW_NO_FILL
+        procedure, public :: get_head_fill => par_get_fill
+        !> @brief Sets a flag denoting the head fill type.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_fill(class(plot_arrow) this, integer(int32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The flag denoting head fill.  It must be one of the 
+        !!  following constants.
+        !! - ARROW_FILLED
+        !! - ARROW_EMPTY
+        !! - ARROW_NO_BORDER
+        !! - ARROW_NO_FILL
+        procedure, public :: set_head_fill => par_set_fill
+        !> @brief Gets a value determining if the arrow should be moved to the
+        !! front.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_move_to_front(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the arrow should be moved to the front; else, false.
+        procedure, public :: get_move_to_front => par_get_move_to_front
+        !> @brief Sets a value determining if the arrow should be moved to the
+        !! front.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_move_to_front(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the arrow should be moved to the front; else, 
+        !!  false.
+        procedure, public :: set_move_to_front => par_set_move_to_front
+        !> @brief Gets the size of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_size(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The head size.
+        procedure, public :: get_head_size => par_get_head_size
+        !> @brief Sets the size of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_size(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The head size.
+        procedure, public :: set_head_size => par_set_head_size
+        !> @brief Gets the angle of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_angle(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The angle, in degrees.
+        procedure, public :: get_head_angle => par_get_head_angle
+        !> @brief Sets the angle of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_angle(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The angle, in degrees.
+        procedure, public :: set_head_angle => par_set_head_angle
+        !> @brief Gets the angle of the back of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure real(real32) function get_head_back_angle(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return The angle, in degrees.
+        procedure, public :: get_head_back_angle => par_get_head_back_angle
+        !> @brief Sets the angle of the back of the arrow head.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_head_back_angle(class(plot_arrow) this, real(real32) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x The angle, in degrees.
+        procedure, public :: set_head_back_angle => par_set_head_back_angle
+        !> @brief Gets a value determining if arrow head sizing defaults 
+        !! should be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_default_size(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot_arrow object.
+        !! @return True if the defaults should be used; else, false.
+        procedure, public :: get_use_default_size => par_get_use_default_size
+        !> @brief Sets a value determining if arrow head sizing defaults 
+        !! should be used.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_default_size(class(plot_arrow) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot_arrow object.
+        !! @param[in] x True if the defaults should be used; else, false.
+        procedure, public :: set_use_default_size => par_set_use_default_size
+        !> @brief Returns the appropriate GNUPLOT command string to establish
+        !! appropriate parameters.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_command_string(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_arrow object.
+        !! @return The GNUPLOT command string.
+        procedure, public :: get_command_string => par_get_cmd
+    end type
+
+! ------------------------------------------------------------------------------
+    ! fplot_arrow.f90
+    interface
+        pure module function par_get_is_visible(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_is_visible(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function par_get_tail(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32), dimension(3) :: rst
+        end function
+
+        module subroutine par_set_tail_1(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x(3)
+        end subroutine
+
+        module subroutine par_set_tail_2(this, x, y)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y
+        end subroutine
+
+        module subroutine par_set_tail_3(this, x, y, z)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y, z
+        end subroutine
+
+        pure module function par_get_head(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32), dimension(3) :: rst
+        end function
+
+        module subroutine par_set_head_1(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x(3)
+        end subroutine
+
+        module subroutine par_set_head_2(this, x, y)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y
+        end subroutine
+
+        module subroutine par_set_head_3(this, x, y, z)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x, y, z
+        end subroutine
+
+        pure module function par_get_color(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            type(color) :: rst
+        end function
+
+        module subroutine par_set_color(this, x)
+            class(plot_arrow), intent(inout) :: this
+            type(color), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_line_style(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_line_style(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_line_width(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_line_width(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_type(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_head_type(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        module function par_get_cmd(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            character(len = :), allocatable :: rst
+        end function
+
+        pure module function par_get_fill(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine par_set_fill(this, x)
+            class(plot_arrow), intent(inout) :: this
+            integer(int32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_move_to_front(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_move_to_front(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_size(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_head_size(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_angle(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        module subroutine par_set_head_angle(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module function par_get_head_back_angle(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            real(real32) :: rst
+        end function
+
+        pure module function par_get_use_default_size(this) result(rst)
+            class(plot_arrow), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine par_set_use_default_size(this, x)
+            class(plot_arrow), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
+
+        module subroutine par_set_head_back_angle(this, x)
+            class(plot_arrow), intent(inout) :: this
+            real(real32), intent(in) :: x
+        end subroutine
+
+        pure module subroutine par_assign(x, y)
+            type(plot_arrow), intent(out) :: x
+            class(plot_arrow), intent(in) :: y
+        end subroutine
     end interface
 
 ! ******************************************************************************
@@ -799,22 +1221,6 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The width of the plot window.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!     integer(int32) :: width
-        !!
-        !!     ! Get the width of the plot window
-        !!     width = term%get_window_width()
-        !! end program
-        !! @endcode
         procedure, public :: get_window_width => term_get_window_width
         !> @brief Sets the width of the plot window.
         !!
@@ -828,21 +1234,6 @@ module fplot_core
         !! provided, the window width is reset to its default value; or, if a
         !! negative value is provided, the absolute value of the supplied value
         !! is utilized.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!
-        !!     ! Set the width of the plot window to 400 pixels.
-        !!     call term%set_window_width(400)
-        !! end program
-        !! @endcode
         procedure, public :: set_window_width => term_set_window_width
         !> @brief Gets the height of the plot window.
         !!
@@ -853,22 +1244,6 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The height of the plot window.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!     integer(int32) :: height
-        !!
-        !!     ! Get the height of the plot window
-        !!     height = term%get_window_height()
-        !! end program
-        !! @endcode
         procedure, public :: get_window_height => term_get_window_height
         !> @brief Sets the height of the plot window.
         !!
@@ -882,21 +1257,6 @@ module fplot_core
         !! provided, the window height is reset to its default value; or, if a
         !! negative value is provided, the absolute value of the supplied value is
         !! utilized.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!
-        !!     ! Set the height of the plot window to 400 pixels.
-        !!     call term%set_window_height(400)
-        !! end program
-        !! @endcode
         procedure, public :: set_window_height => term_set_window_height
         !> @brief Returns the appropriate GNUPLOT command string to establish
         !! appropriate parameters.
@@ -940,22 +1300,6 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The title.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!     character(len = :), allocatable :: title
-        !!
-        !!     ! Get the plot window title.
-        !!     title = term%get_title()
-        !! end program
-        !! @endcode
         procedure, public :: get_title => term_get_title
         !> @brief Sets the plot window's title.
         !!
@@ -966,21 +1310,6 @@ module fplot_core
         !!
         !! @param[in,out] this The terminal object.
         !! @param[in] txt The title.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!
-        !!     ! Set the plot window title.
-        !!     call term%set_title("New Window Title")
-        !! end program
-        !! @endcode
         procedure, public :: set_title => term_set_title
         !> @brief Gets the name of the font used for text displayed by the
         !! graph.
@@ -992,22 +1321,6 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The font name.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!     character(len = :), allocatable :: font
-        !!
-        !!     ! Get the name of the font.
-        !!     font = term%get_font_name()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_name => term_get_font_name
         !> @brief Sets the name of the font used for text displayed by the
         !! graph.
@@ -1020,21 +1333,6 @@ module fplot_core
         !! @param[in,out] this The terminal object.
         !! @param[in] name The name of the font.  If no name is supplied, the
         !!  name is reset back to its default setting.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!
-        !!     ! Get the name of the font.
-        !!     call term%set_font_name("Arial")
-        !! end program
-        !! @endcode
         procedure, public :: set_font_name => term_set_font_name
         !> @brief Gets the size of the font used by the graph.
         !!
@@ -1045,22 +1343,6 @@ module fplot_core
         !!
         !! @param[in] this The terminal object.
         !! @return The font size, in points.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!     integer(int32) :: sz
-        !!
-        !!     ! Get the font size.
-        !!     sz = term%get_font_size()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_size => term_get_font_size
         !> @brief Sets the size of the font used by the graph.
         !!
@@ -1073,21 +1355,6 @@ module fplot_core
         !! @param[in] sz The font size, in points.  If a value of zero is provided,
         !! the font size is reset to its default value; or, if a negative value
         !! is provided, the absolute value of the supplied value is utilized.
-        !!
-        !! @par Example
-        !! Notice, this example uses a wxt_terminal.  Any type that derives from
-        !! the terminal type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(wxt_terminal) :: term
-        !!
-        !!     ! Set the size of the font.
-        !!     call term%set_font_size(12)
-        !! end program
-        !! @endcode
         procedure, public :: set_font_size => term_set_font_size
         !> @brief Gets the GNUPLOT terminal identification string.
         procedure(term_get_string_result), deferred, public :: get_id_string
@@ -1252,64 +1519,6 @@ module fplot_core
 ! FPLOT_PNG_TERMINAL.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a GNUPLOT PNG terminal object.
-    !!
-    !! @par Example
-    !! The following example draws a simple plot, and illustrates the use of a
-    !! png_terminal to draw directly to a PNG file.
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Local Variables & Parameters
-    !!     integer(int32), parameter :: npts = 1000
-    !!     real(real64), dimension(npts) :: x, y1, y2
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_2d) :: d1, d2
-    !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     type(legend), pointer :: leg
-    !!
-    !!     ! Build a data set to plot
-    !!     x = linspace(0.0d0, 10.0d0, npts)
-    !!     y1 = sin(x) * cos(x)
-    !!     y2 = sqrt(x) * sin(x)
-    !!
-    !!     call d1%define_data(x, y1)
-    !!     call d2%define_data(x, y2)
-    !!
-    !!     ! Set up the plot
-    !!     call plt%initialize(GNUPLOT_TERMINAL_PNG, "example_plot.png") ! Save to file directly
-    !!     call plt%set_title("Example Plot")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     ! Put the legend in the upper left corner of the plot
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.true.)
-    !!     call leg%set_horizontal_position(LEGEND_LEFT)
-    !!     call leg%set_vertical_position(LEGEND_TOP)
-    !!
-    !!     ! Set up line color and style properties to better distinguish each data set
-    !!     call d1%set_name("Data Set 1")
-    !!     call d1%set_line_color(CLR_BLUE)
-    !!
-    !!     call d2%set_name("Data Set 2")
-    !!     call d2%set_line_color(CLR_GREEN)
-    !!
-    !!     ! Add the data to the plot
-    !!     call plt%push(d1)
-    !!     call plt%push(d2)
-    !!
-    !!     ! Draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_plot.png
     type, extends(terminal) :: png_terminal
     private
         !> The terminal ID string
@@ -1326,19 +1535,6 @@ module fplot_core
         !!
         !! @param[in] this The png_terminal object.
         !! @return The filename, including the file extension (.png).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(png_terminal) :: term
-        !!     character(len = :), allocatable :: fname
-        !!
-        !!     ! Get the filename
-        !!     fname = term%get_filename()
-        !! end program
         procedure, public :: get_filename => png_get_filename
         !> @brief Sets the filename for the output PNG file.
         !!
@@ -1349,18 +1545,6 @@ module fplot_core
         !!
         !! @param[in,out] this The png_terminal object.
         !! @param[in] txt The filename, including the file extension (.png).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(png_terminal) :: term
-        !!
-        !!     ! Set the filename
-        !!     call term%set_filename("Example PNG File.png")
-        !! end program
         procedure, public :: set_filename => png_set_filename
         !> @brief Retrieves a GNUPLOT terminal identifier string.
         !!
@@ -1428,19 +1612,6 @@ module fplot_core
         !!
         !! @param[in] this The latex_terminal object.
         !! @return The filename, including the file extension (.tex).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(latex_terminal) :: term
-        !!     character(len = :), allocatable :: fname
-        !!
-        !!     ! Get the filename
-        !!     fname = term%get_filename()
-        !! end program
         procedure, public :: get_filename => tex_get_filename
         !> @brief Sets the filename for the output LATEX file.
         !!
@@ -1451,18 +1622,6 @@ module fplot_core
         !!
         !! @param[in,out] this The latex_terminal object.
         !! @param[in] txt The filename, including the file extension (.tex).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(latex_terminal) :: term
-        !!
-        !!     ! Set the filename
-        !!     call term%set_filename("Example LATEX File.tex")
-        !! end program
         procedure, public :: set_filename => tex_set_filename
         !> @brief Retrieves a GNUPLOT terminal identifier string.
         !!
@@ -1528,19 +1687,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data object.
         !! @return The name.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data) :: pd
-        !!     character(len = :), allocatable :: name
-        !!
-        !!     ! Get the name
-        !!     name = pd%get_name()
-        !! end program
         procedure, public :: get_name => pd_get_name
         !> @brief Sets the name to associate with this data set.
         !!
@@ -1551,18 +1697,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_data object.
         !! @param[in] txt The name.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data) :: pd
-        !!
-        !!     ! Set the name
-        !!     call pd%set_name("Example Data Set")
-        !! end program
         procedure, public :: set_name => pd_set_name
         !> @brief Gets the GNUPLOT command string containing the actual data
         !! to plot.
@@ -1677,21 +1811,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_axis object.
         !! @return The title.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     character(len = :), allocatable :: txt
-        !!
-        !!     txt = axis%get_title()
-        !! end program
-        !! @endcode
         procedure, public :: get_title => pa_get_title
         !> @brief Sets the axis' title.
         !!
@@ -1704,20 +1823,6 @@ module fplot_core
         !! @param[in] txt The axis title.  The number of characters must be less
         !!  than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
         !!  truncated.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_title("X Axis")
-        !! end program
-        !! @endcode
         procedure, public :: set_title => pa_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot_axis object.
@@ -1730,21 +1835,6 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return Returns true if a title has been defined for this axis; else,
         !!  returns false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     logical :: check
-        !!
-        !!     check = axis%is_title_defined()
-        !! end program
-        !! @endcode
         procedure, public :: is_title_defined => pa_has_title
         !> @brief Gets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
@@ -1757,21 +1847,6 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return Returns true if the axis should be automatically scaled; else,
         !! false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     logical :: check
-        !!
-        !!     check = axis%get_autoscale()
-        !! end program
-        !! @endcode
         procedure, public :: get_autoscale => pa_get_autoscale
         !> @brief Sets a logical value determining if the axis should be
         !! automatically scaled to fit the data.
@@ -1784,20 +1859,6 @@ module fplot_core
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true if the axis should be automatically scaled; else,
         !! false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_autoscale(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_autoscale => pa_set_autoscale
         !> @brief Gets the axis display limits, assuming autoscaling is not
         !! active for this axis.
@@ -1810,22 +1871,6 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return A two-element array containing the limits as follows:
         !!  [lower, upper].
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     real(real64) :: lim(2)
-        !!
-        !!     lim = axis%get_limits()
-        !! end program
-        !! @endcode
         procedure, public :: get_limits => pa_get_axis_limits
         !> @brief Sets the axis display limits, assuming autoscaling is not
         !! active for this axis.
@@ -1838,21 +1883,6 @@ module fplot_core
         !! @param[in,out] this The plot_axis object.
         !! @param[in] lower The lower display limit.
         !! @param[in] upper The upper display limit.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_limits(0.0d0, 5.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_limits => pa_set_axis_limits
         !> @brief Gets a logical value defining if the axis should be log
         !! scaled.
@@ -1864,21 +1894,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_axis object.
         !! @return Returns true if log scaling is applied to the axis; else, false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     logical :: check
-        !!
-        !!     check = axis%get_is_log_scaled()
-        !! end program
-        !! @endcode
         procedure, public :: get_is_log_scaled => pa_get_log_scale
         !> @brief Sets a logical value defining if the axis should be log
         !! scaled.
@@ -1891,20 +1906,6 @@ module fplot_core
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true if log scaling is applied to the axis; else,
         !! false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_is_log_scaled(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_is_log_scaled => pa_set_log_scale
         !> @brief Returns the appropriate GNUPLOT command string to define the
         !! plot_axis properties.
@@ -1927,21 +1928,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_axis object.
         !! @return Returns true to draw as a zero axis; else, set to false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     logical :: check
-        !!
-        !!     check = axis%get_zero_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_zero_axis => pa_get_zero_axis
         !> @brief Sets a value determining if the axis should be drawn through
         !! zero of opposing axes.
@@ -1953,20 +1939,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true to draw as a zero axis; else, set to false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%get_zero_axis(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_zero_axis => pa_set_zero_axis
         !> @brief Gets the width of the line used to represent the zero axis
         !!  line, if active.
@@ -1978,22 +1950,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_axis object.
         !! @return The width of the line, in pixels.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     real(real32) :: width
-        !!
-        !!     width = axis%get_zero_axis_line_width()
-        !! end program
-        !! @endcode
         procedure, public :: get_zero_axis_line_width => pa_get_zero_axis_width
         !> @brief Sets the width of the line used to represent the zero axis
         !!  line, if active.
@@ -2005,21 +1961,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x The width of the line, in pixels.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_zero_axis_line_width(3.0)
-        !! end program
-        !! @endcode
         procedure, public :: set_zero_axis_line_width => pa_set_zero_axis_width
         !> @brief Gets a string identifying the axis as: x, y, z, y2, etc.
         procedure(pa_get_string_result), deferred, public :: get_id_string
@@ -2035,22 +1976,6 @@ module fplot_core
         !! @param[in] this The plot_axis object.
         !! @return Returns true if the default tic label format will be used; 
         !!  else, false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     logical :: x
-        !!
-        !!     x = axis%get_use_default_tic_label_format()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_default_tic_label_format => &
             pa_get_use_dft_tic_lbl_fmt
         !> @brief Sets a value determining if the default tic label format will
@@ -2064,21 +1989,6 @@ module fplot_core
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x Set to true if the default tic label format will be 
         !!  used; else, false.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_use_default_tic_label_format(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_use_default_tic_label_format => &
             pa_set_use_dft_tic_lbl_fmt
         !> @brief Gets the tic label format.  The format string can be any 
@@ -2091,22 +2001,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_axis object.
         !! @return The tic label format string.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!     character(len = :), allocatable :: x
-        !!
-        !!     x = axis%get_tic_label_format()
-        !! end program
-        !! @endcode
         procedure, public :: get_tic_label_format => pa_get_tic_label_fmt
         !> @brief Sets the tic label format.  The format string can be any 
         !! format string accepted by the C command 'printf.'
@@ -2118,21 +2012,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_axis object.
         !! @param[in] x The tic label format string.
-        !!
-        !! @par Example
-        !! Notice, this example uses an x_axis type.  Any type that derives from
-        !! the plot_axis type can be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(x_axis) :: axis
-        !!
-        !!     call axis%set_tic_label_format("%g")
-        !! end program
-        !! @endcode
         procedure, public :: set_tic_label_format => pa_set_tic_label_fmt
     end type
 
@@ -2260,19 +2139,6 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!     logical :: check
-        !!
-        !!     check = leg%get_draw_inside_axes()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_inside_axes => leg_get_inside
         !> @brief Sets a value determining if the legend should be drawn inside
         !! the axes border (true), or outside the axes border (false).
@@ -2284,73 +2150,6 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
-        !!
-        !! @par Example
-        !! The following example draws a simple plot, adjusts the position
-        !! of the legend to be located outside the plot axes, and removes the
-        !! border around the legend.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables & Parameters
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y1, y2
-        !!     type(plot_2d) :: plt
-        !!     class(terminal), pointer :: term
-        !!     type(plot_data_2d) :: d1, d2
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
-        !!
-        !!     ! Build a data set to plot
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y1 = sin(x) * cos(x)
-        !!     y2 = sqrt(x) * sin(x)
-        !!
-        !!     call d1%define_data(x, y1)
-        !!     call d2%define_data(x, y2)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Put the legend outside the axes, and remove it's border
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.true.)
-        !!     call leg%set_draw_inside_axes(.false.)
-        !!     call leg%set_draw_border(.false.)
-        !!
-        !!     ! Set up line color and style properties to better distinguish each data set
-        !!     call d1%set_name("Data Set 1")
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!
-        !!     call d2%set_name("Data Set 2")
-        !!     call d2%set_line_color(CLR_GREEN)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(d1)
-        !!     call plt%push(d2)
-        !!
-        !!     ! Define the file to which the plot should be saved
-        !!     term => plt%get_terminal()
-        !!     select type (term)
-        !!     class is (png_terminal)
-        !!         call term%set_filename("example_plot.png")
-        !!     end select
-        !!
-        !!     ! Draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_legend_out.png
         procedure, public :: set_draw_inside_axes => leg_set_inside
         !> @brief Gets a value determining if the legend should have a border.
         !!
@@ -2361,19 +2160,6 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!     logical :: check
-        !!
-        !!     check = leg%get_draw_border()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_border => leg_get_box
         !> @brief Sets a value determining if the legend should have a border.
         !!
@@ -2384,9 +2170,6 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
-        !!
-        !! @par Example
-        !! For an example, see @ref set_draw_inside_axes.
         procedure, public :: set_draw_border => leg_set_box
         !> @brief Gets the horizontal position of the legend.
         !!
@@ -2398,19 +2181,6 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The horizontal position of the legend (LEGEND_LEFT,
         !!  LEGEND_CENTER, or LEGEND_RIGHT).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!     character(len = :), allocatable :: pos
-        !!
-        !!     pos = leg%get_horizontal_position()
-        !! end program
-        !! @endcode
         procedure, public :: get_horizontal_position => leg_get_horz_pos
         !> @brief Sets the horizontal position of the legend.
         !!
@@ -2423,72 +2193,6 @@ module fplot_core
         !! @param x The horizontal position of the legend.  The parameter must be
         !!  set to one of the following: LEGEND_LEFT, LEGEND_CENTER, or
         !!  LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.
-        !!
-        !! @par Example
-        !! The following example draws a simple plot, and adjusts the position
-        !! of the legend.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables & Parameters
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y1, y2
-        !!     type(plot_2d) :: plt
-        !!     class(terminal), pointer :: term
-        !!     type(plot_data_2d) :: d1, d2
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
-        !!
-        !!     ! Build a data set to plot
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y1 = sin(x) * cos(x)
-        !!     y2 = sqrt(x) * sin(x)
-        !!
-        !!     call d1%define_data(x, y1)
-        !!     call d2%define_data(x, y2)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Put the legend in the upper left corner of the plot
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.true.)
-        !!     call leg%set_horizontal_position(LEGEND_LEFT)
-        !!     call leg%set_vertical_position(LEGEND_TOP)
-        !!
-        !!     ! Set up line color and style properties to better distinguish each data set
-        !!     call d1%set_name("Data Set 1")
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!
-        !!     call d2%set_name("Data Set 2")
-        !!     call d2%set_line_color(CLR_GREEN)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(d1)
-        !!     call plt%push(d2)
-        !!
-        !!     ! Define the file to which the plot should be saved
-        !!     term => plt%get_terminal()
-        !!     select type (term)
-        !!     class is (png_terminal)
-        !!         call term%set_filename("example_plot.png")
-        !!     end select
-        !!
-        !!     ! Draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot.png
         procedure, public :: set_horizontal_position => leg_set_horz_pos
         !> @brief Gets the vertical position of the legend.
         !!
@@ -2500,19 +2204,6 @@ module fplot_core
         !! @param[in] this The legend object.
         !! @return The vertical position of the legend (LEGEND_TOP,
         !!  LEGEND_CENTER, or LEGEND_BOTTOM).
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!     character(len = :), allocatable :: pos
-        !!
-        !!     pos = leg%get_vertical_position()
-        !! end program
-        !! @endcode
         procedure, public :: get_vertical_position => leg_get_vert_pos
         !> @brief Gets the vertical position of the legend.
         !!
@@ -2525,9 +2216,6 @@ module fplot_core
         !! @param x The vertical position of the legend.  The parameter must be
         !!  set to one of the following: LEGEND_TOP, LEGEND_CENTER, or
         !!  LEGEND_BOTTOM.  If not, the default LEGEND_TOP will be used.
-        !!
-        !! @par Example
-        !! For an example, see @ref set_horizontal_position.
         procedure, public :: set_vertical_position => leg_set_vert_pos
         !> @brief Gets a value determining if the legend is visible.
         !!
@@ -2538,19 +2226,6 @@ module fplot_core
         !!
         !! @param[in] this The legend object.
         !! @return The logical value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!     logical :: check
-        !!
-        !!     check = leg%get_is_visible()
-        !! end program
-        !! @endcode
         procedure, public :: get_is_visible => leg_get_visible
         !> @brief Sets a value determining if the legend is visible.
         !!
@@ -2561,18 +2236,6 @@ module fplot_core
         !!
         !! @param[in,out] this The legend object.
         !! @param[in] x The logical value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(legend) :: leg
-        !!
-        !!     call leg%set_is_visible(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_is_visible => leg_set_visible
         !> @brief Gets the command string defining the legend properties.
         !!
@@ -2757,74 +2420,6 @@ module fplot_core
         !!
         !! @param[in,out] this The colormap object.
         !! @param[in] x The label.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(rainbow_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Label the colorbar
-        !!     call map%set_label("Example")
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!     call plt%set_colormap(map)
-        !!     call plt%set_show_contours(.true.)
-        !!     call plt%set_z_intersect_xy(.false.)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html surface_example_w_cb_label.png
         procedure, public :: set_label => cm_set_label
         !> @brief Gets a logical value determining if the colormap should be
         !! drawn horizontally and below the plot.
@@ -2849,71 +2444,6 @@ module fplot_core
         !! @param[in,out] this The colormap object.
         !! @param[in] x Set to true if the colormap should be drawn 
         !!  horizontally; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(cool_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Define colormap settings
-        !!     call map%set_horizontal(.true.)
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_horizontal.png
         procedure, public :: set_horizontal => cm_set_horizontal
         !> @brief Gets a logical value determining if the border should be
         !! drawn.
@@ -2936,71 +2466,6 @@ module fplot_core
         !!
         !! @param[in,out] this The colormap object.
         !! @param[in] x Set to true if the border should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(cool_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Define colormap settings - turn off the border
-        !!     call map%set_draw_border(.false.)
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_no_border.png
         procedure, public :: set_draw_border => cm_set_draw_border
         !> @brief Gets a logical value determining if the tic marks should be
         !! drawn.
@@ -3034,139 +2499,11 @@ module fplot_core
         !!
         !! @param[in,out] this The colormap object.
         !! @param[in] x Set to true if the border should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(cool_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Define colormap settings - turn off the tic marks
-        !!     call map%set_show_tics(.false.)
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_no_tics.png
         procedure, public :: set_show_tics => cm_set_show_tics
     end type
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a rainbow colormap.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(rainbow_colormap) :: map ! Using a rainbow colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot.png
     type, extends(colormap) :: rainbow_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3183,69 +2520,6 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a colormap consisting of "hot" colors.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(hot_colormap) :: map ! Using a hot colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_hot.png
     type, extends(colormap) :: hot_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3262,69 +2536,6 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a colormap consisting of "cool" colors.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(cool_colormap) :: map ! Using a cool colormap
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_cool.png
     type, extends(colormap) :: cool_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3341,68 +2552,6 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a colormap equivalent to the MATLAB parula colormap.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(parula_colormap) :: map
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Example Plot")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_parula.png
     type, extends(colormap) :: parula_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3419,68 +2568,6 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines a grey-scaled colormap.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(grey_colormap) :: map
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Example Plot")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_grey.png
     type, extends(colormap) :: grey_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3497,68 +2584,6 @@ module fplot_core
 
 ! ------------------------------------------------------------------------------
     !> @brief Defines an earthy-colored colormap.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     type(earth_colormap) :: map
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_colormap(map)
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Example Plot")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_earth.png
     type, extends(colormap) :: earth_colormap
     contains
         !> @brief Gets the GNUPLOT string defining the color distribution.
@@ -3571,6 +2596,57 @@ module fplot_core
         !! @param[in] this The earth_colormap object.
         !! @return The command string.
         procedure, public :: get_color_string => ecm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    !> @brief Defines a custom colormap that utilizes the FORCOLORMAP library
+    !! to provide the map.
+    type, extends(colormap) :: custom_colormap
+        class(cmap), private, pointer :: m_map => null()
+    contains
+        final :: custom_final
+        !> @brief Gets the GNUPLOT string defining the color distribution.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! character(len = :) function, allocatable get_color_string(class(custom_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref custom_colormap object.
+        !! @return The command string.
+        procedure, public :: get_color_string => custom_get_clr
+        !> @brief Sets the FORCOLORMAP colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_colormap(class(custom_colormap) this, class(cmap) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref custom_colormap object.
+        !! @param[in] x The FORCOLORMAP colormap object.  The @ref 
+        !!  custom_colormap object stores a copy of this object; 
+        !!  therefore, any changes made to @p x after calls to
+        !!  this routine will not impact the behavior of the
+        !!  @ref custom_colormap object.
+        !! @param[in,out] err An optional errors-based object that if provided 
+        !!  can be used to retrieve information relating to any errors 
+        !!  encountered during execution.  If not provided, a default 
+        !!  implementation of the errors class is used internally to provide 
+        !!  error handling.  Possible errors and warning messages that may be 
+        !!  encountered are as follows.
+        !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if a memory allocation error
+        !!      occurs.
+        procedure, public :: set_colormap => custom_set
+        !> @brief Gets a pointer to the FORCOLORMAP colormap object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(cmap), pointer function get_colormap(class(custom_colormap) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref custom_colormap object.
+        !! @return A pointer to the FORCOLORMAP colormap object.
+        procedure, public :: get_colormap => custom_get
     end type
 
 ! ------------------------------------------------------------------------------
@@ -3661,6 +2737,32 @@ module fplot_core
             class(earth_colormap), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        ! --------------------
+        module function custom_get_clr(this) result(x)
+            class(custom_colormap), intent(in) :: this
+            character(len = :), allocatable :: x
+        end function
+
+        ! --------------------
+        module subroutine custom_set(this, map, err)
+            class(custom_colormap), intent(inout) :: this
+            class(cmap), intent(in) :: map
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        ! --------------------
+        module function custom_get(this) result(rst)
+            class(custom_colormap), intent(in) :: this
+            class(cmap), pointer :: rst
+        end function
+
+        ! --------------------
+        module subroutine custom_final(this)
+            type(custom_colormap), intent(inout) :: this
+        end subroutine
+
+        ! --------------------
     end interface
 
 ! ******************************************************************************
@@ -3685,16 +2787,18 @@ module fplot_core
         logical :: m_ticsIn = .true.
         !> Draw the border?
         logical :: m_drawBorder = .true.
-        !> A collection of plot_label items to draw
+        !> A collection of plot_label items to draw.
         type(list) :: m_labels ! Added 6/22/2018, JAC
         !> The color index to use for automatic line coloring for scatter plots.
         integer(int32) :: m_colorIndex = 1
-        !> Determines if the axes should be scaled proportionally
+        !> Determines if the axes should be scaled proportionally.
         logical :: m_axisEqual = .false.
         !> The colormap.
         class(colormap), pointer :: m_colormap
         !> Show the colorbar?
         logical :: m_showColorbar = .true.
+        !> A collection of plot_arrow items to draw.
+        type(list) :: m_arrows ! Added 1/3/2024, JAC
     contains
         !> @brief Cleans up resources held by the plot object.  Inheriting
         !! classes are expected to call this routine to free internally held
@@ -3730,9 +2834,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: initialize => plt_init
         !> @brief Gets the plot's title.
         !!
@@ -3743,21 +2844,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The plot's title.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     character(len = :), allocatable :: txt
-        !!
-        !!     txt = plt%get_title()
-        !! end program
-        !! @endcode
         procedure, public :: get_title => plt_get_title
         !> @brief Sets the plot's title.
         !!
@@ -3770,9 +2856,6 @@ module fplot_core
         !! @param[in] txt The plot's title.  The number of characters must be less
         !! than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
         !! truncated.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: set_title => plt_set_title
         !> @brief Gets a value determining if a title has been defined for the
         !!  plot object.
@@ -3785,21 +2868,6 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return Returns true if a title has been defined for this plot; else,
         !!  returns false.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     logical :: check
-        !!
-        !!     check = plt%is_title_defined()
-        !! end program
-        !! @endcode
         procedure, public :: is_title_defined => plt_has_title
         !> @brief Gets the plot's legend object.
         !!
@@ -3810,12 +2878,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return A pointer to the legend object.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: get_legend => plt_get_legend
         !> @brief Gets the number of stored plot_data objects.
         !!
@@ -3826,22 +2888,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The number of plot_data objects.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     integer(int32) :: n
-        !!
-        !!     n = plt%get_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_count => plt_get_count
         !> @brief Pushes a plot_data object onto the stack.
         !!
@@ -3858,9 +2904,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: push => plt_push_data
         !> @brief Pops the last plot_data object from the stack.
         !!
@@ -3870,20 +2913,6 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     call plt%pop()
-        !! end program
-        !! @endcode
         procedure, public :: pop => plt_pop_data
         !> @brief Removes all plot_data objects from the plot.
         !!
@@ -3893,21 +2922,6 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     call plt%clear_all()
-        !! end program
-        !! @endcode
         procedure, public :: clear_all => plt_clear_all
         !> @brief Gets a pointer to the requested plot_data object.
         !!
@@ -3919,24 +2933,6 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @param[in] i The index of the plot_data object.
         !! @return A pointer to the requested plot_data object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     class(plot_data), pointer :: ptr
-        !!
-        !!     ! Add some data ... (not shown)
-        !!
-        !!     ! Retrieve the second data set added
-        !!     ptr => plt%get(2)
-        !! end program
-        !! @endcode
         procedure, public :: get => plt_get
         !> @brief Sets the requested plot_data object into the plot.
         !!
@@ -3948,24 +2944,6 @@ module fplot_core
         !! @param[in,out] this The plot object.
         !! @param[in] i The index of the plot_data object.
         !! @param[in] x The plot_data object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: dataset
-        !!
-        !!     ! Add some data to the plot ... (not shown)
-        !!
-        !!     ! Add dataset to the second spot in the collection
-        !!     call plt%set(2, dataset)
-        !! end program
-        !! @endcode
         procedure, public :: set => plt_set
         !> @brief Gets the GNUPLOT terminal object.
         !!
@@ -3976,9 +2954,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return A pointer to the GNUPLOT terminal object.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: get_terminal => plt_get_term
         !> @brief Gets a flag determining if the grid lines should be shown.
         !!
@@ -3989,21 +2964,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return Returns true if the grid lines should be shown; else, false.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     logical :: check
-        !!
-        !!     check = plt%get_show_gridlines()
-        !! end program
-        !! @endcode
         procedure, public :: get_show_gridlines => plt_get_show_grid
         !> @brief Sets a flag determining if the grid lines should be shown.
         !!
@@ -4014,21 +2974,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the grid lines should be shown; else, false.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     ! Turn off the gridlines
-        !!     call plt%set_show_gridlines(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_show_gridlines => plt_set_show_grid
         !> @brief Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
@@ -4048,9 +2993,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
-        !!
-        !! @par Example
-        !! See @p png_terminal for an example.
         procedure, public :: draw => plt_draw
         !> @brief Saves a GNUPLOT command file.
         !!
@@ -4067,52 +3009,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables & Parameters
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: dataset
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
-        !!
-        !!     ! Build a data set to plot
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y = exp(-0.5d0 * x) * sin(10.0d0 * x - 0.5d0)
-        !!
-        !!     call dataset%define_data(x, y)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(dataset)
-        !!
-        !!     ! Save the plot to a file that can be opened by GNUPLOT at a later time
-        !!     call plt%save_file("example_gnuplot_file.plt")
-        !! end program
-        !! @endcode
-        !! Then, from gnuplot, simply issue the command: load
-        !! "example_gnuplot_file.plt" to obtain the plot.
-        !! @image html example_plot_from_file.png
         procedure, public :: save_file => plt_save
         !> @brief Gets the name of the font used for plot text.
         !!
@@ -4123,21 +3019,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The font name.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     character(len = :), allocatable :: name
-        !!
-        !!     name = plt%get_font_name()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_name => plt_get_font
         !> @brief Sets the name of the font used for plot text.
         !!
@@ -4148,21 +3029,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x The font name.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     ! Establish the font used by the plot as Arial.
-        !!     call plt%set_title("Arial")
-        !! end program
-        !! @endcode
         procedure, public :: set_font_name => plt_set_font
         !> @brief Gets the size of the font used by the plot.
         !!
@@ -4173,22 +3039,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The size of the font, in points.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     integer(int32) :: sz
-        !!
-        !!     sz = plt%get_font_size()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_size => plt_get_font_size
         !> @brief Sets the size of the font used by the plot.
         !!
@@ -4201,21 +3051,6 @@ module fplot_core
         !! @param[in] x The font size, in points.  If a value of zero is provided,
         !! the font size is reset to its default value; or, if a negative value
         !! is provided, the absolute value of the supplied value is utilized.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     ! Set the font to be 14 point in size
-        !!     call plt%set_font_size(14)
-        !! end program
-        !! @endcode
         procedure, public :: set_font_size => plt_set_font_size
         !> @brief Gets a value determining if the axis tic marks should point
         !! inwards.
@@ -4228,21 +3063,6 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return Returns true if the tic marks should point inwards; else, false
         !!  if the tic marks should point outwards.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     logical :: check
-        !!
-        !!     check = plt%get_tics_inward()
-        !! end program
-        !! @endcode
         procedure, public :: get_tics_inward => plt_get_tics_in
         !> @brief Sets a value determining if the axis tic marks should point
         !! inwards.
@@ -4255,21 +3075,6 @@ module fplot_core
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the tic marks should point inwards; else,
         !!  false if the tic marks should point outwards.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     ! Point the axes tic marks outward
-        !!     call plt%set_tics_inward(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_tics_inward => plt_set_tics_in
         !> @brief Gets a value determining if the border should be drawn.
         !!
@@ -4280,21 +3085,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return Returns true if the border should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     logical :: check
-        !!
-        !!     check = plt%get_draw_border()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_border => plt_get_draw_border
         !> @brief Sets a value determining if the border should be drawn.
         !!
@@ -4305,21 +3095,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the border should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     ! Shut off the axes border
-        !!     call plt%set_draw_border(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_draw_border => plt_set_draw_border
         !> @brief Adds a label to the plot.
         !!
@@ -4329,64 +3104,10 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !! @param[in] lbl
-        !! @param[in] err
-        !!
-        !! @par Example
-        !! The following example illustrates how to add a label to a plot.  A 2D
-        !! plot is utilized, but any plot-based type could be used.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: dataset
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(legend), pointer :: leg
-        !!     type(plot_label) :: lbl
-        !!
-        !!     ! Build a data set
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
-        !!
-        !!     call dataset%define_data(y)
-        !!
-        !!     ! Define the label
-        !!     call lbl%set_text("Test Label 1")
-        !!     call lbl%set_position([600.0, 0.6, 0.0])
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!     call plt%set_font_size(14)
-        !!     call plt%set_show_gridlines(.false.)
-        !!
-        !!     ! Add the label to the plot
-        !!     call plt%push_label(lbl)
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Hide the legend
-        !!     leg => plt%get_legend()
-        !!     call leg%set_is_visible(.false.)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(dataset)
-        !!
-        !!     ! Draw
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_label_plot.png
+        !! @param[in] lbl The plot label.
+        !! @param[in,out] err An optional errors-based object for managing 
+        !!  errors.  The default implementation of the errors type is used if
+        !!  nothing is supplied.
         procedure, public :: push_label => plt_push_label
         !> @brief Removes the last label from the plot.
         !!
@@ -4396,20 +3117,6 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     call plt%pop_label()
-        !! end program
-        !! @endcode
         procedure, public :: pop_label => plt_pop_label
         !> @brief Gets the requested plot_label from the plot.
         !!
@@ -4421,21 +3128,6 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @param[in] i The index of the plot_label object to retrieve.
         !! @return A pointer to the requested plot_label object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     class(plot_label), pointer :: lbl
-        !!
-        !!     lbl => plt%get_label(1)
-        !! end program
-        !! @endcode
         procedure, public :: get_label => plt_get_label
         !> @brief Sets the specified plot_label object.
         !!
@@ -4447,21 +3139,6 @@ module fplot_core
         !! @param[in,out] this The plot object.
         !! @param[in] i The index of the plot_label to replace.
         !! @param[in] x The new plot_label object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     type(plot_label) :: lbl
-        !!
-        !!     call plt%set_label(1, lbl)
-        !! end program
-        !! @endcode
         procedure, public :: set_label => plt_set_label
         !> @brief Gets the number of plot_label objects belonging to the plot.
         !!
@@ -4472,22 +3149,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return The number of plot_label objects.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     integer(int32) :: n
-        !!
-        !!     n = plt%get_label_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_label_count => plt_get_label_count
         !> @brief Clears all plot_label objects from the plot.
         !!
@@ -4497,20 +3158,6 @@ module fplot_core
         !! @endcode
         !!
         !! @param[in,out] this The plot object.
-        !!
-        !! @par Example
-        !! This example uses a plot_2d type, but this example is valid for any
-        !! type that derives from the plot type.
-        !! @code{.f90}
-        !! program
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!
-        !!     call plt%clear_all_labels()
-        !! end program
-        !! @endcode
         procedure, public :: clear_all_labels => plt_clear_labels
         !> @brief Gets a flag determining if the axes should be equally scaled.
         !!
@@ -4544,20 +3191,6 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return A pointer to the colormap object.  If no colormap is defined, a
         !!  null pointer is returned.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     class(colormap), pointer :: map
-        !!
-        !!     ! Get a pointer to the current colormap
-        !!     map => plt%get_colormap()
-        !! end program
-        !! @endcode
         procedure, public :: get_colormap => plt_get_colormap
         !> @brief Sets the colormap object.
         !!
@@ -4576,20 +3209,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     type(rainbow_colormap) :: map
-        !!
-        !!     ! Set the colormap to a rainbow colormap
-        !!     call plt%set_colormap(map)
-        !! end program
-        !! @endcode
         procedure, public :: set_colormap => plt_set_colormap
         !> @brief Gets a value determining if the colorbar should be shown.
         !!
@@ -4600,20 +3219,6 @@ module fplot_core
         !!
         !! @param[in] this The plot object.
         !! @return Returns true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if the colorbar is shown
-        !!     check = plt%get_show_colorbar()
-        !! end program
-        !! @endcode
         procedure, public :: get_show_colorbar => plt_get_show_colorbar
         !> @brief Sets a value determining if the colorbar should be shown.
         !!
@@ -4624,22 +3229,8 @@ module fplot_core
         !!
         !! @param[in,out] this The plot object.
         !! @param[in] x Set to true if the colorbar should be drawn; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Hide the colorbar
-        !!     call plt%set_show_colorbar(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_show_colorbar => plt_set_show_colorbar
-        !> @brief Gets the GNUPLOT command string to represent this plot_3d
+        !> @brief Gets the GNUPLOT command string to represent this plot
         !! object.
         !!
         !! @par Syntax
@@ -4650,6 +3241,72 @@ module fplot_core
         !! @param[in] this The plot object.
         !! @return The command string.
         procedure, public :: get_command_string => plt_get_cmd
+        !> @brief Pushes a new @ref plot_arrow object onto the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine push_arrow(class(plot) this, class(plot_arrow) x, optional class(errors) err)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        !! @param[in] x The @ref plot_arrow object.  This instance is copied, 
+        !!  and the copy is stored and managed by the @ref plot object.
+        !! @param[in,out] err An optional errors-based object for managing 
+        !!  errors.  The default implementation of the errors type is used if
+        !!  nothing is supplied.
+        procedure, public :: push_arrow => plt_push_arrow
+        !> @brief Pops a @ref plot_arrow object from the plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine pop_arrow(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        procedure, public :: pop_arrow => plt_pop_arrow
+        !> @brief Gets a pointer to the requested @ref plot_arrow object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! class(plot_arrow), pointer function get_arrow(class(plot) this, integer(int32) i)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot object.
+        !! @param[in] i The index of the @ref plot_arrow to retrieve.
+        procedure, public :: get_arrow => plt_get_arrow
+        !> @brief Sets a @ref plot_arrow into the @ref plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_arrow(class(plot) this, integer(int32) i, class(plot_arrow) x)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        !! @param[in] i The index of the @ref plot_arrow to retrieve.
+        !! @param[in] x The @ref plot_arrow to set.  This instance is copied, 
+        !!  and the copy is stored and managed by the @ref plot object.
+        procedure, public :: set_arrow => plt_set_arrow
+        !> @brief Gets the number of @ref plot_arrow objects held by the
+        !! @ref plot object.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure integer(int32) function get_arrow_count(class(plot_arrow) this)
+        !! @endcode
+        !!
+        !! @param[in] this The @ref plot object.
+        !! @return The number of @ref plot_arrow objects held by the @ref plot
+        !!  object.
+        procedure, public :: get_arrow_count => plt_get_arrow_count
+        !> @brief Clears all @ref plot_arrow objects from the @ref plot.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine clear_arrows(class(plot) this)
+        !! @endcode
+        !!
+        !! @param[in,out] this The @ref plot object.
+        procedure, public :: clear_arrows => plt_clear_arrows
     end type
 
 ! ------------------------------------------------------------------------------
@@ -4849,6 +3506,37 @@ module fplot_core
             class(plot), intent(in) :: this
             character(len = :), allocatable :: x
         end function
+
+        module subroutine plt_push_arrow(this, x, err)
+            class(plot), intent(inout) :: this
+            class(plot_arrow), intent(in) :: x
+            class(errors), intent(inout), optional, target :: err
+        end subroutine
+
+        module subroutine plt_pop_arrow(this)
+            class(plot), intent(inout) :: this
+        end subroutine
+
+        module function plt_get_arrow(this, i) result(rst)
+            class(plot), intent(in) :: this
+            integer(int32), intent(in) :: i
+            class(plot_arrow), pointer :: rst
+        end function
+
+        module subroutine plt_set_arrow(this, i, x)
+            class(plot), intent(inout) :: this
+            integer(int32), intent(in) :: i
+            class(plot_arrow), intent(in) :: x
+        end subroutine
+
+        pure module function plt_get_arrow_count(this) result(rst)
+            class(plot), intent(in) :: this
+            integer(int32) :: rst
+        end function
+
+        module subroutine plt_clear_arrows(this)
+            class(plot), intent(inout) :: this
+        end subroutine
     end interface
 
 ! ******************************************************************************
@@ -4882,6 +3570,8 @@ module fplot_core
         logical :: m_dataDependentColors = .false.
         !> Fill the curve?
         logical :: m_filledCurve = .false.
+        !> Use variable size data points?
+        logical :: m_useVariableSizePoints = .false.
     contains
         !> @brief Gets the GNUPLOT command string to represent this
         !! scatter_plot_data object.
@@ -4903,23 +3593,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The line width.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real32) :: width
-        !!
-        !!     ! Get the line width
-        !!     width = pd%get_line_width()
-        !! end program
-        !! @endcode
         procedure, public :: get_line_width => spd_get_line_width
         !> @brief Sets the width of the line, in pixels.
         !!
@@ -4930,22 +3603,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The line width.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the line width
-        !!     call pd%set_line_width(2.0)
-        !! end program
-        !! @endcode
         procedure, public :: set_line_width => spd_set_line_width
         !> @brief Gets the line style.
         !!
@@ -4961,23 +3618,6 @@ module fplot_core
         !!  - LINE_DASH_DOT_DOT
         !!  - LINE_DOTTED
         !!  - LINE_SOLID
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     integer(int32) :: style
-        !!
-        !!     ! Get the line style
-        !!     style = pd%get_line_style()
-        !! end program
-        !! @endcode
         procedure, public :: get_line_style => spd_get_line_style
         !> @brief Sets the line style.
         !!
@@ -4994,22 +3634,6 @@ module fplot_core
         !!  - LINE_DASH_DOT_DOT
         !!  - LINE_DOTTED
         !!  - LINE_SOLID
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the line style
-        !!     call pd%get_line_style(LINE_DASHED)
-        !! end program
-        !! @endcode
         procedure, public :: set_line_style => spd_set_line_style
         !> @brief Gets a value determining if a line should be drawn.
         !!
@@ -5020,23 +3644,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if the line should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     logical :: check
-        !!
-        !!     ! Check to see if a line should be drawn to connect data points
-        !!     check = pd%get_draw_line()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_line => spd_get_draw_line
         !> @brief Sets a value determining if a line should be drawn.
         !!
@@ -5047,22 +3654,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x Set to true if the line should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Force a line to be drawn between data points
-        !!     call pd%set_draw_line(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_draw_line => spd_set_draw_line
         !> @brief Gets a value determining if data point markers should be
         !! drawn.
@@ -5074,23 +3665,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if the markers should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     logical :: check
-        !!
-        !!     ! Check to see if markers should be drawn at data points
-        !!     check = pd%get_draw_markers()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_markers => spd_get_draw_markers
         !> @brief Sets a value determining if data point markers should be
         !! drawn.
@@ -5102,22 +3676,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x Set to true if the markers should be drawn; else, false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Force markers to be drawn at data points
-        !!     call pd%set_draw_markers(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_draw_markers => spd_set_draw_markers
         !> @brief Gets the marker style.
         !!
@@ -5141,23 +3699,6 @@ module fplot_core
         !!  - MARKER_FILLED_TRIANGLE
         !!  - MARKER_PLUS
         !!  - MARKER_X
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     integer(int32) :: marker
-        !!
-        !!     ! Get the data point marker style
-        !!     marker = pd%get_marker_style()
-        !! end program
-        !! @endcode
         procedure, public :: get_marker_style => spd_get_marker_style
         !> @brief Sets the marker style.
         !!
@@ -5182,22 +3723,6 @@ module fplot_core
         !!  - MARKER_FILLED_TRIANGLE
         !!  - MARKER_PLUS
         !!  - MARKER_X
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the data point marker style to a plus (+) sign
-        !!     call pd%set_marker_style(MARKER_PLUS)
-        !! end program
-        !! @endcode
         procedure, public :: set_marker_style => spd_set_marker_style
         !> @brief Gets the marker scaling.
         !!
@@ -5208,23 +3733,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The scaling factor.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real32) :: scaling
-        !!
-        !!     ! Get the data point marker scaling factor
-        !!     scaling = pd%get_marker_scaling()
-        !! end program
-        !! @endcode
         procedure, public :: get_marker_scaling => spd_get_marker_scaling
         !> @brief Sets the marker scaling.
         !!
@@ -5235,23 +3743,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The scaling factor.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the data point marker scaling factor such that the marker
-        !!     ! is scaled by a factor of 2
-        !!     call pd%set_marker_scaling(2.0)
-        !! end program
-        !! @endcode
         procedure, public :: set_marker_scaling => spd_set_marker_scaling
         !> @brief Gets the marker frequency.
         !!
@@ -5262,23 +3753,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return The marker frequency.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     integer(int32) :: freq
-        !!
-        !!     ! Get the data point marker frequency
-        !!     freq = pd%get_marker_frequency()
-        !! end program
-        !! @endcode
         procedure, public :: get_marker_frequency => spd_get_marker_frequency
         !> @brief Sets the marker frequency.
         !!
@@ -5289,23 +3763,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The marker frequency.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real32) :: scaling
-        !!
-        !!     ! Set a data point marker every second data point
-        !!     call pd%set_marker_frequency(2)
-        !! end program
-        !! @endcode
         procedure, public :: set_marker_frequency => spd_set_marker_frequency
         !> @brief Gets the number of data points.
         procedure(spd_get_int_value), deferred, public :: get_count
@@ -5331,22 +3788,6 @@ module fplot_core
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if the data should be simplified prior to sending
         !!  to GNUPLOT; else, false to leave the data alone.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     logical :: x
-        !!
-        !!     x = this%get_simplify_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_simplify_data => spd_get_simplify_data
         !> @brief Sets a value determining if the stored data should be
         !! simplified (reduced) before passing to GNUPLOT.
@@ -5359,21 +3800,6 @@ module fplot_core
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x True if the data should be simplified prior to sending
         !!  to GNUPLOT; else, false to leave the data alone.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     call this%get_simplify_data(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_simplify_data => spd_set_simplify_data
         !> @brief Gets a factor used to establish the simplification tolerance.
         !!
@@ -5384,22 +3810,6 @@ module fplot_core
         !!
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns the scaling factor.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64) :: x
-        !!
-        !!     x = this%get_simplification_factor()
-        !! end program
-        !! @endcode
         procedure, public :: get_simplification_factor => spd_get_simplify_factor
         !> @brief Sets a factor used to establish the simplification tolerance.  The
         !! tolerance is established by multplying this factor by the range of the
@@ -5412,22 +3822,6 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x The scaling factor.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64) :: x
-        !!
-        !!     call this%set_simplification_factor(1.0d-3)
-        !! end program
-        !! @endcode
         procedure, public :: set_simplification_factor => spd_set_simplify_factor
         !> @brief Gets a value determing if data-dependent colors should be 
         !! used.
@@ -5440,22 +3834,6 @@ module fplot_core
         !! @param[in] this The scatter_plot_data object.
         !! @return Returns true if data-dependent colors should be used; else, 
         !! false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     logical :: x
-        !!
-        !!     x = this%get_use_data_dependent_colors()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_data_dependent_colors => &
             spd_get_data_dependent_colors
         !> @brief Sets a value determing if data dependent colors should be 
@@ -5469,21 +3847,6 @@ module fplot_core
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] x True if data-dependent colors should be used; else, 
         !!  false.
-        !!
-        !! @par Example
-        !! This example makes use of the plot_data_2d type; however, this
-        !! example is valid for any type that derives from scatter_plot_data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     call this%set_use_data_dependent_colors(.true.)
-        !! end program
-        !! @endcode
         procedure, public :: set_use_data_dependent_colors => &
             spd_set_data_dependent_colors
         !> @brief Gets a logical value determining if a filled curve should be
@@ -5507,41 +3870,32 @@ module fplot_core
         !!
         !! @param[in,out] this The scatter_plot_data object.
         !! @param[in] Set to true if the curve should be filled; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 100
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64) :: x(npts), y(npts)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Generate the curve to plot
-        !!     x = linspace(0.0d0, 1.0d0, npts)
-        !!     y = sin(4.0d0 * pi * x)
-        !!
-        !!     ! Plot the data
-        !!     call plt%initialize()
-        !!
-        !!     call pd%define_data(x, y)
-        !!     call pd%set_fill_curve(.true.)
-        !!     call plt%push(pd)
-        !!
-        !!     call pd%define_data(x, -0.25d0 * y)
-        !!     call pd%set_fill_curve(.true.)
-        !!     call plt%push(pd)
-        !!
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html filled_example_1.png
         procedure, public :: set_fill_curve => spd_set_filled
+        !> @brief Gets a logical value determining if variable sized data points
+        !! should be used.  The default is false, such that points will be of
+        !! a constant size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! pure logical function get_use_variable_size_points(class(scatter_plot_data) this)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @return True if variable size points should be used; else, false.
+        procedure, public :: get_use_variable_size_points => spd_get_use_var_point_size
+        !> @brief Sets a logical value determining if variable sized data points
+        !! should be used.  The default is false, such that points will be of
+        !! a constant size.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! subroutine set_use_variable_size_points(class(scatter_plot_data) this, logical x)
+        !! @endcode
+        !!
+        !! @param[in] this The scatter_plot_data object.
+        !! @param[in] x True if variable size points should be used; 
+        !! else, false.
+        procedure, public :: set_use_variable_size_points => spd_set_use_var_point_size
     end type
 
 ! ------------------------------------------------------------------------------
@@ -5660,6 +4014,16 @@ module fplot_core
             class(scatter_plot_data), intent(inout) :: this
             logical, intent(in) :: x
         end subroutine
+
+        pure module function spd_get_use_var_point_size(this) result(rst)
+            class(scatter_plot_data), intent(in) :: this
+            logical :: rst
+        end function
+
+        module subroutine spd_set_use_var_point_size(this, x)
+            class(scatter_plot_data), intent(inout) :: this
+            logical, intent(in) :: x
+        end subroutine
     end interface
 
 ! ******************************************************************************
@@ -5704,21 +4068,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return The number of data points.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     integer(int32) :: n
-        !!
-        !!     ! Get the number of stored data points
-        !!     n = pd%get_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_count => pd2d_get_data_count
         !> @brief Gets the requested X data point.
         !!
@@ -5730,21 +4079,6 @@ module fplot_core
         !! @param[in] this The plot_data_2d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64) :: x
-        !!
-        !!     ! Get the x data point at the 100th index
-        !!     x = pd%get_x(100)
-        !! end program
-        !! @endcode
         procedure, public :: get_x => pd2d_get_x_data
         !> @brief Sets the requested X data point.
         !!
@@ -5756,20 +4090,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the x data point at the 100th index
-        !!     call pd%set_x(100, 1.25d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_x => pd2d_set_x_data
         !> @brief Gets the requested Y data point.
         !!
@@ -5781,21 +4101,6 @@ module fplot_core
         !! @param[in] this The plot_data_2d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64) :: y
-        !!
-        !!     ! Get the y data point at the 100th index
-        !!     y = pd%get_y(100)
-        !! end program
-        !! @endcode
         procedure, public :: get_y => pd2d_get_y_data
         !> @brief Sets the requested Y data point.
         !!
@@ -5807,20 +4112,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Set the y data point at the 100th index
-        !!     call pd%set_y(100, 1.25d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_y => pd2d_set_y_data
         !> @brief Gets a value determining if the data should be plotted against
         !! the secondary y-axis.
@@ -5833,22 +4124,6 @@ module fplot_core
         !! @param[in] this The plot_data_2d object.
         !! @return Returns true if the data should be plotted against the secondary
         !!  y-axis; else, false to plot against the primary y-axis.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     logical :: check
-        !!
-        !!     ! Determine if this data set is plotted against the secondary
-        !!     ! y axis.
-        !!     check = pd%get_draw_against_y2()
-        !! end program
-        !! @endcode
         procedure, public :: get_draw_against_y2 => pd2d_get_draw_against_y2
         !> @brief Sets a value determining if the data should be plotted against
         !! the secondary y-axis.
@@ -5861,65 +4136,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_2d object.
         !! @param[in] x Set to true if the data should be plotted against the
         !!  secondary y-axis; else, false to plot against the primary y-axis.
-        !!
-        !! @par Example
-        !! This example illustrates the use of a secondary y axis.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y1, y2
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: ds1, ds2
-        !!     class(plot_axis), pointer :: xAxis, yAxis, y2Axis
-        !!
-        !!     ! Build a data set
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y1 = exp(-0.5d0 * x) * abs(sin(x))
-        !!     y2 = cos(0.5d0 * x) * sin(10.0d0 * x)
-        !!
-        !!     call ds1%define_data(x, y1)
-        !!     call ds1%set_name("f(x) = exp(-x / 2) * |sin(x)|")
-        !!
-        !!     call ds2%define_data(x, y2)
-        !!     call ds2%set_name("f(x) = cos(x / 2) * sin(10 x)")
-        !!
-        !!     ! Make the ds2 line green and dashed
-        !!     call ds2%set_line_color(CLR_GREEN)
-        !!     call ds2%set_line_style(LINE_DASHED)
-        !!
-        !!     ! Draw ds2 against the secondary y axis
-        !!     call ds2%set_draw_against_y2(.true.)
-        !!
-        !!     ! Ensure the plot knows it needs a secondary y axis
-        !!     call plt%set_use_y2_axis(.true.)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     y2Axis => plt%get_y2_axis()
-        !!     call y2Axis%set_title("Secondary Y Axis")
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(ds1)
-        !!     call plt%push(ds2)
-        !!
-        !!     ! Draw
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_draw_against_y2 => pd2d_set_draw_against_y2
         !> @brief Defines the data set.
         !!
@@ -5942,48 +4158,6 @@ module fplot_core
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
         !!      same size.
         !!
-        !! @par Example
-        !! The following example illustrates the use of the first overload.
-        !! This form of the routine simply plots the supplied y coordinate
-        !! data against the supplied x coordinate data.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: dataset
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!
-        !!     ! Build a data set
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
-        !!
-        !!     call dataset%define_data(x, y)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(dataset)
-        !!
-        !!     ! Draw
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_2d_1.png
-        !!
         !! @par Overload 2
         !!
         !! @par Syntax
@@ -6001,53 +4175,11 @@ module fplot_core
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!
-        !! @par Example
-        !! The following example illustrates the use of the second overload.
-        !! This form of the routine simply plots the data against its array
-        !! index (one-based).
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: dataset
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!
-        !!     ! Build a data set
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y = sin(10.0d0 * x) * sin(0.5d0 * x)
-        !!
-        !!     call dataset%define_data(y)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(dataset)
-        !!
-        !!     ! Draw
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_2d_2.png
-        !!
         !! @par Overload 3
         !!
         !! @par Syntax
         !! @code{.f90}
-        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), real(real64) c(:), optional class(errors) err)
+        !! subroutine define_data(class(plot_data_2d) this, real(real64) x(:), real(real64) y(:), optional real(real64) c(:), optional real(real64) ps(:), optional class(errors) err)
         !! @endcode
         !!
         !! @param[in,out] this The plot_data_2d object.
@@ -6055,6 +4187,7 @@ module fplot_core
         !! @param[in] y An N-element array containing the y coordinate data.
         !! @param[in] c An N-element array defining how color should vary with
         !!  the current colormap for each value.
+        !! @param[in] ps An N-element array defining the size of each data point.
         !! @param[out] err An optional errors-based object that if provided can be
         !!  used to retrieve information relating to any errors encountered during
         !!  execution.  If not provided, a default implementation of the errors
@@ -6063,41 +4196,6 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
         !!      same size.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of the third overload.
-        !! This form of the routine simply plots the data with a colormap
-        !! defining the colors at each value.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: npts = 1000
-        !!
-        !!     ! Local Variables
-        !!     real(real64) :: x(npts), y(npts)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: ds
-        !!     type(cool_colormap) :: cmap
-        !!
-        !!     ! Build the data set
-        !!     x = linspace(0.0d0, 1.0d1, npts)
-        !!     y = exp(-0.2 * x) * sin(10.0d0 * x) * cos(5.0d0 * x)
-        !!
-        !!     ! Plot the data set
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(cmap)
-        !!     call plt%set_font_size(14)
-        !!     call ds%define_data(x, y, y)
-        !!     call ds%set_line_width(3.0)
-        !!     call plt%push(ds)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_data_depend_color_2d.png
         generic, public :: define_data => pd2d_set_data_1, pd2d_set_data_2
         procedure :: pd2d_set_data_1
         procedure :: pd2d_set_data_2
@@ -6111,21 +4209,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: x
-        !!
-        !!     ! Get the data array
-        !!     x = pd%get_x_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_x_data => pd2d_get_x_array
         !> @brief Gets the stored Y data array.
         !!
@@ -6136,21 +4219,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: y
-        !!
-        !!     ! Get the data array
-        !!     y = pd%get_y_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_y_data => pd2d_get_y_array
         !> @brief Gets the stored color scaling data array.
         !!
@@ -6161,22 +4229,17 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_2d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: c
-        !!
-        !!     ! Get the data array
-        !!     c = pd%get_color_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_color_data => pd2d_get_c_array
+        !> @brief Gets the stored point size data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_point_size_data(class(plot_data_2d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_2d object.
+        !! @return A copy of the stored data array.
+        procedure, public :: get_point_size_data => pd2d_get_ps_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -6220,10 +4283,10 @@ module fplot_core
             real(real64), intent(in) :: x
         end subroutine
 
-        module subroutine pd2d_set_data_1(this, x, y, c, err)
+        module subroutine pd2d_set_data_1(this, x, y, c, ps, err)
             class(plot_data_2d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y
-            real(real64), intent(in), dimension(:), optional :: c
+            real(real64), intent(in), dimension(:), optional :: c, ps
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -6257,6 +4320,11 @@ module fplot_core
             class(plot_data_2d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
+
+        module function pd2d_get_ps_array(this) result(x)
+            class(plot_data_2d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
     end interface
 
 ! ******************************************************************************
@@ -6277,21 +4345,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return The number of data points.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!     integer(int32) :: n
-        !!
-        !!     ! Get the number of stored data points
-        !!     n = pd%get_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_count => pd3d_get_data_count
         !> @brief Gets the requested X data point.
         !!
@@ -6303,21 +4356,6 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!     real(real64) :: x
-        !!
-        !!     ! Get the 10th value from the x-coordinate data
-        !!     x = pd%get_x(10)
-        !! end program
-        !! @endcode
         procedure, public :: get_x => pd3d_get_x_data
         !> @brief Sets the requested X data point.
         !!
@@ -6329,20 +4367,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!
-        !!     ! Set the 10th value in the x-coordinate data
-        !!     call pd%set_x(10, 50.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_x => pd3d_set_x_data
         !> @brief Gets the requested Y data point.
         !!
@@ -6354,21 +4378,6 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!     real(real64) :: y
-        !!
-        !!     ! Get the 10th value from the y-coordinate data
-        !!     y = pd%get_y(10)
-        !! end program
-        !! @endcode
         procedure, public :: get_y => pd3d_get_y_data
         !> @brief Sets the requested Y data point.
         !!
@@ -6380,20 +4389,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!
-        !!     ! Set the 10th value in the y-coordinate data
-        !!     call pd%set_y(10, 50.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_y => pd3d_set_y_data
         !> @brief Gets the requested Z data point.
         !!
@@ -6405,21 +4400,6 @@ module fplot_core
         !! @param[in] this The plot_data_3d object.
         !! @param[in] index The index of the data point to retrieve.
         !! @return The requested data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!     real(real64) :: z
-        !!
-        !!     ! Get the 10th value from the z-coordinate data
-        !!     z = pd%get_z(10)
-        !! end program
-        !! @endcode
         procedure, public :: get_z => pd3d_get_z_data
         !> @brief Sets the requested Z data point.
         !!
@@ -6431,20 +4411,6 @@ module fplot_core
         !! @param[in,out] this The plot_data_3d object.
         !! @param[in] index The index of the data point to replace.
         !! @param[in] x The data point.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!
-        !!     ! Set the 10th value in the z-coordinate data
-        !!     call pd%set_z(10, 50.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_z => pd3d_set_z_data
         !> @brief Gets the GNUPLOT command string defining which axes the data
         !! is to be plotted against.
@@ -6487,113 +4453,6 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are
         !!      not the same size.
-        !!
-        !! @par Example 1
-        !! The following example adds data to draw a helix to a 3D plot.
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 1000
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: t, x, y, z
-        !!     type(plot_3d) :: plt
-        !!     type(plot_data_3d) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Initialize the plot object
-        !!     call plt%initialize()
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data
-        !!     t = linspace(0.0d0, 10.0d0, n)
-        !!     x = cos(5.0d0 * t)
-        !!     y = sin(5.0d0 * t)
-        !!     z = 2.0d0 * t
-        !!
-        !!     call d1%define_data(x, y, z)
-        !!
-        !!     ! Set up the data set
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!     call d1%set_line_width(2.0)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_3d_1.png
-        !!
-        !! @par Example 2
-        !! The following example illustrates the use of data-dependent colors.
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 1000
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: t, x, y, z
-        !!     type(plot_3d) :: plt
-        !!     type(plot_data_3d) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Initialize the plot object
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data
-        !!     t = linspace(0.0d0, 10.0d0, n)
-        !!     x = cos(5.0d0 * t)
-        !!     y = sin(5.0d0 * t)
-        !!     z = 2.0d0 * t
-        !!
-        !!     call d1%define_data(x, y, z, x * y)
-        !!
-        !!     ! Set up the data set
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!     call d1%set_line_width(2.0)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_data_depend_color_3d.png
         procedure, public :: define_data => pd3d_set_data_1
         !> @brief Gets the stored X data array.
         !!
@@ -6604,21 +4463,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: x
-        !!
-        !!     ! Get the data array
-        !!     x = pd%get_x_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_x_data => pd3d_get_x_array
         !> @brief Gets the stored Y data array.
         !!
@@ -6629,21 +4473,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: y
-        !!
-        !!     ! Get the data array
-        !!     y = pd%get_y_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_y_data => pd3d_get_y_array
         !> @brief Gets the stored Z data array.
         !!
@@ -6654,21 +4483,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_2d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: z
-        !!
-        !!     ! Get the data array
-        !!     z = pd%get_z_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_z_data => pd3d_get_z_array
         !> @brief Gets the stored color scaling data array.
         !!
@@ -6679,22 +4493,17 @@ module fplot_core
         !!
         !! @param[in] this The plot_data_3d object.
         !! @return A copy of the stored data array.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_data_3d) :: pd
-        !!     real(real64), allocatable, dimension(:) :: c
-        !!
-        !!     ! Get the data array
-        !!     c = pd%get_color_data()
-        !! end program
-        !! @endcode
         procedure, public :: get_color_data => pd3d_get_c_array
+        !> @brief Gets the stored point scaling data array.
+        !!
+        !! @par Syntax
+        !! @code{.f90}
+        !! real(real64)(:) function get_point_size_data(class(plot_data_3d) this)
+        !! @endcode
+        !!
+        !! @param[in] this The plot_data_3d object.
+        !! @return A copy of the stored data array.
+        procedure, public :: get_point_size_data => pd3d_get_c_array
     end type
 
 ! ------------------------------------------------------------------------------
@@ -6750,10 +4559,10 @@ module fplot_core
             character(len = :), allocatable :: x
         end function
 
-        module subroutine pd3d_set_data_1(this, x, y, z, c, err)
+        module subroutine pd3d_set_data_1(this, x, y, z, c, ps, err)
             class(plot_data_3d), intent(inout) :: this
             real(real64), intent(in), dimension(:) :: x, y, z
-            real(real64), intent(in), dimension(:), optional :: c
+            real(real64), intent(in), dimension(:), optional :: c, ps
             class(errors), intent(inout), optional, target :: err
         end subroutine
 
@@ -6773,6 +4582,11 @@ module fplot_core
         end function
 
         module function pd3d_get_c_array(this) result(x)
+            class(plot_data_3d), intent(in) :: this
+            real(real64), allocatable, dimension(:) :: x
+        end function
+
+        module function pd3d_get_ps_array(this) result(x)
             class(plot_data_3d), intent(in) :: this
             real(real64), allocatable, dimension(:) :: x
         end function
@@ -6805,24 +4619,6 @@ module fplot_core
         !! @param[in] dim The dimension of interest.  Notice, data is stored as a
         !!  2D matrix (i.e. only 1 and 2 are valid inputs).
         !! @return The size of the requested dimension.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     integer(int32) :: nrows, ncols
-        !!
-        !!     ! Get the number of rows in the data matrices
-        !!     nrows = pd%get_size(1)
-        !!
-        !!     ! Get the number of columns in the data matrices
-        !!     ncols = pd%get_size(2)
-        !! end program
-        !! @endcode
         procedure, public :: get_size => surfd_get_size
         !> @brief Gets the requested X data point.
         !!
@@ -6835,21 +4631,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Get a value from the 10th row and 15th column of the X data
-        !!     val = pd%get_x(10, 15)
-        !! end program
-        !! @endcode
         procedure, public :: get_x => surfd_get_x
         !> @brief Sets the requested X data point.
         !!
@@ -6862,21 +4643,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Set a value into the 10th row and 15th column of the X data
-        !!     call pd%set_x(10, 15, 5.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_x => surfd_set_x
         !> @brief Gets the requested Y data point.
         !!
@@ -6889,21 +4655,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Get a value from the 10th row and 15th column of the Y data
-        !!     val = pd%get_y(10, 15)
-        !! end program
-        !! @endcode
         procedure, public :: get_y => surfd_get_y
         !> @brief Sets the requested Y data point.
         !!
@@ -6916,21 +4667,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Set a value into the 10th row and 15th column of the Y data
-        !!     call pd%set_y(10, 15, 5.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_y => surfd_set_y
         !> @brief Gets the requested Z data point.
         !!
@@ -6943,21 +4679,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @return The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Get a value from the 10th row and 15th column of the Z data
-        !!     val = pd%get_z(10, 15)
-        !! end program
-        !! @endcode
         procedure, public :: get_z => surfd_get_z
         !> @brief Sets the requested Z data point.
         !!
@@ -6970,21 +4691,6 @@ module fplot_core
         !! @param[in] i The row index.
         !! @param[in] j The column index.
         !! @param[in] x The value.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     real(real64) :: val
-        !!
-        !!     ! Set a value into the 10th row and 15th column of the Z data
-        !!     call pd%set_z(10, 15, 5.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_z => surfd_set_z
         !> @brief Gets a value determining if a wireframe mesh should be
         !! displayed.
@@ -6997,21 +4703,6 @@ module fplot_core
         !! @param[in] this The surface_plot_data object.
         !! @return Returns true if a wireframe mesh should be displayed; else, false
         !!  to display a solid surface.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot_data) :: pd
-        !!     logical :: check
-        !!
-        !!     ! Check to see if the data set is to be plotted in wireframe
-        !!     check = pd%get_use_wireframe()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_wireframe => surfd_get_wireframe
         !> @brief Sets a value determining if a wireframe mesh should be
         !! displayed.
@@ -7024,69 +4715,6 @@ module fplot_core
         !! @param[in,out] this The surface_plot_data object.
         !! @param[in] x Set to true if a wireframe mesh should be displayed; else,
         !!  false to display a solid surface.
-        !!
-        !! @par Example
-        !! This example builds a wireframe surface plot.
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call d1%set_use_wireframe(.true.)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_wireframe_surface_plot.png
         procedure, public :: set_use_wireframe => surfd_set_wireframe
         !> @brief Gets the GNUPLOT command string to represent this
         !! surface_plot_data object.
@@ -7129,62 +4757,6 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x, @p y, and @p z are
         !!      not the same size.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), pointer, dimension(:,:) :: x, y
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     type(rainbow_colormap) :: map
-        !!
-        !!     ! Define the data
-        !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Initialize the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!
-        !!     ! Set the orientation of the plot
-        !!     call plt%set_elevation(20.0d0)
-        !!     call plt%set_azimuth(30.0d0)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the function to plot
-        !!     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
-        !!     call d1%define_data(x, y, z)
-        !!     call plt%push(d1)
-        !!
-        !!     ! Draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_2.png
         procedure, public :: define_data => surfd_set_data_1
     end type
 
@@ -7263,77 +4835,6 @@ module fplot_core
 ! FPLOT_PLOT_2D.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot object defining a 2D plot.
-    !!
-    !! @par Example
-    !! The following example illustrates a 2D plot, and several examples of how
-    !! to modify various plot settings.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: n = 1000
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: x, y1, y2
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_2d) :: d1, d2
-    !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     type(legend), pointer :: leg
-    !!
-    !!     ! Initialize the plot object
-    !!     call plt%initialize()
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("2D Example Plot 1")
-    !!     call plt%set_font_size(14)
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     ! Establish legend properties
-    !!     leg => plt%get_legend()
-    !!     call leg%set_is_visible(.true.)
-    !!     call leg%set_draw_inside_axes(.false.)
-    !!     call leg%set_horizontal_position(LEGEND_CENTER)
-    !!     call leg%set_vertical_position(LEGEND_BOTTOM)
-    !!     call leg%set_draw_border(.false.)
-    !!
-    !!     ! Define the data, and then add it to the plot
-    !!     x = linspace(0.0d0, 10.0d0, n)
-    !!     y1 = sin(5.0d0 * x)
-    !!     y2 = 2.0d0 * cos(2.0d0 * x)
-    !!
-    !!     call d1%define_data(x, y1)
-    !!     call d2%define_data(x, y2)
-    !!
-    !!     ! Define properties for each data set
-    !!     call d1%set_name("Data Set 1")
-    !!     call d1%set_line_color(CLR_BLUE)
-    !!     call d1%set_draw_markers(.true.)
-    !!     call d1%set_marker_frequency(10)
-    !!     call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
-    !!     call d1%set_marker_scaling(2.0)
-    !!
-    !!     call d2%set_name("Data Set 2")
-    !!     call d2%set_line_color(CLR_GREEN)
-    !!     call d2%set_line_style(LINE_DASHED)
-    !!     call d2%set_line_width(2.0)
-    !!
-    !!     ! Add the data sets to the plot
-    !!     call plt%push(d1)
-    !!     call plt%push(d2)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_plot_2d_3.png
     type, extends(plot) :: plot_2d
     private
         !> The x-axis.
@@ -7379,9 +4880,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! See png_terminal for an example.
         procedure, public :: initialize => p2d_init
         !> @brief Gets the GNUPLOT command string to represent this plot_2d
         !! object.
@@ -7404,19 +4902,6 @@ module fplot_core
         !! @param[in] this The plot_2d object.
         !! @return A pointer to the x-axis object.
         !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_x_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_x_axis => p2d_get_x_axis
         !> @brief Gets the y-axis object.
         !!
@@ -7427,20 +4912,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_2d object.
         !! @return A pointer to the y-axis object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_y_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_y_axis => p2d_get_y_axis
         !> @brief Gets the secondary y-axis object.
         !!
@@ -7451,20 +4922,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_2d object.
         !! @return A pointer to the secondary y-axis object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_y2_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_y2_axis => p2d_get_y2_axis
         !> @brief Gets a flag determining if the secondary y-axis should be
         !! displayed.
@@ -7476,20 +4933,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_2d object.
         !! @return Returns true if the axis should be displayed; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_2d) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Determine if a secondary y axis is in use
-        !!     check = plt%get_use_y2_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_y2_axis => p2d_get_use_y2
         !> @brief Sets a flag determining if the secondary y-axis should be
         !! displayed.
@@ -7501,65 +4944,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_2d object.
         !! @param[in] x Set to true if the axis should be displayed; else, false.
-        !!
-        !! @par Example
-        !! This example illustrates the use of a secondary y axis.
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), dimension(npts) :: x, y1, y2
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: ds1, ds2
-        !!     class(plot_axis), pointer :: xAxis, yAxis, y2Axis
-        !!
-        !!     ! Build a data set
-        !!     x = linspace(0.0d0, 10.0d0, npts)
-        !!     y1 = exp(-0.5d0 * x) * abs(sin(x))
-        !!     y2 = cos(0.5d0 * x) * sin(10.0d0 * x)
-        !!
-        !!     call ds1%define_data(x, y1)
-        !!     call ds1%set_name("f(x) = exp(-x / 2) * |sin(x)|")
-        !!
-        !!     call ds2%define_data(x, y2)
-        !!     call ds2%set_name("f(x) = cos(x / 2) * sin(10 x)")
-        !!
-        !!     ! Make the ds2 line green and dashed
-        !!     call ds2%set_line_color(CLR_GREEN)
-        !!     call ds2%set_line_style(LINE_DASHED)
-        !!
-        !!     ! Draw ds2 against the secondary y axis
-        !!     call ds2%set_draw_against_y2(.true.)
-        !!
-        !!     ! Ensure the plot knows it needs a secondary y axis
-        !!     call plt%set_use_y2_axis(.true.)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     y2Axis => plt%get_y2_axis()
-        !!     call y2Axis%set_title("Secondary Y Axis")
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(ds1)
-        !!     call plt%push(ds2)
-        !!
-        !!     ! Draw
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_plot_y2_axis_1.png
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
         !> @brief Gets a logical flag determining if the axes size should be
         !!  squared off.
@@ -7584,45 +4968,6 @@ module fplot_core
         !! @param[in,out] this The plot_2d object.
         !! @param[in] Set to true if the axes are to be sized to a square; else,
         !!  false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64) :: t(npts), x(npts), y(npts)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Generate the data
-        !!     t = linspace(0.0d0, 2.0d0 * pi, npts)
-        !!     x = cos(t)
-        !!     y = sin(t)
-        !!
-        !!     ! Set up the plot
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!     call plt%set_title("Default Settings")
-        !!
-        !!     call pd%define_data(x, y)
-        !!     call plt%push(pd)
-        !!
-        !!     call plt%draw()
-        !!
-        !!     ! Now show the effects of square axes
-        !!     call plt%set_axis_equal(.false.)
-        !!     call plt%set_square_axes(.true.)
-        !!     call plt%set_title("Square Axes")
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html default_2d_example.png
-        !! @image html square_2d_example.png
         procedure, public :: set_square_axes => p2d_set_square_axes
     end type
 
@@ -7684,59 +5029,6 @@ module fplot_core
 ! FPLOT_PLOT_3D.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot object defining a 3D plot.
-    !!
-    !! @par Example
-    !! The following example adds data to draw a helix to a 3D plot.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: n = 1000
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: t, x, y, z
-    !!     type(plot_3d) :: plt
-    !!     type(plot_data_3d) :: d1
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Initialize the plot object
-    !!     call plt%initialize()
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Example Plot")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data
-    !!     t = linspace(0.0d0, 10.0d0, n)
-    !!     x = cos(5.0d0 * t)
-    !!     y = sin(5.0d0 * t)
-    !!     z = 2.0d0 * t
-    !!
-    !!     call d1%define_data(x, y, z)
-    !!
-    !!     ! Set up the data set
-    !!     call d1%set_line_color(CLR_BLUE)
-    !!     call d1%set_line_width(2.0)
-    !!
-    !!     ! Add the data to the plot
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_plot_3d_1.png
     type, extends(plot) :: plot_3d
     private
         !> The x-axis.
@@ -7804,20 +5096,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the x-axis object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_x_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_x_axis => p3d_get_x_axis
         !> @brief Gets the y-axis object.
         !!
@@ -7828,20 +5106,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the y-axis object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_y_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_y_axis => p3d_get_y_axis
         !> @brief Gets the z-axis object.
         !!
@@ -7852,20 +5116,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_3d object.
         !! @return A pointer to the z-axis object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     class(plot_axis) :: axis
-        !!
-        !!     ! Get a pointer to the axis object
-        !!     axis => plt%get_z_axis()
-        !! end program
-        !! @endcode
         procedure, public :: get_z_axis => p3d_get_z_axis
         !> @brief Gets the plot elevation angle.
         !!
@@ -7876,21 +5126,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_3d object.
         !! @return The elevation angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     real(real64) :: val
-        !!
-        !!     ! Get the elevation angle of the plot
-        !!     val = plt%get_elevation()
-        !! end program
-        !! @endcode
         procedure, public :: get_elevation => p3d_get_elevation
         !> @brief Sets the plot elevation angle.
         !!
@@ -7901,20 +5136,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x The elevation angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!
-        !!     ! Set the elevation angle of the plot
-        !!     call plt%set_elevation(15.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_elevation => p3d_set_elevation
         !> @brief Gets the plot azimuth angle.
         !!
@@ -7925,21 +5146,6 @@ module fplot_core
         !!
         !! @param[in] this The plot_3d object.
         !! @return The azimuth angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     real(real64) :: val
-        !!
-        !!     ! Get the azimuth angle of the plot
-        !!     val = plt%get_azimuth()
-        !! end program
-        !! @endcode
         procedure, public :: get_azimuth => p3d_get_azimuth
         !> @brief Sets the plot azimuth angle.
         !!
@@ -7950,20 +5156,6 @@ module fplot_core
         !!
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x The azimuth angle, in degrees.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!
-        !!     ! Set the azimuth angle of the plot
-        !!     call plt%set_azimuth(15.0d0)
-        !! end program
-        !! @endcode
         procedure, public :: set_azimuth => p3d_set_azimuth
         !> @brief Gets a value determining if the z-axis should intersect the
         !! x-y plane.
@@ -7976,20 +5168,6 @@ module fplot_core
         !! @param[in] this The plot_3d object.
         !! @return Returns true if the z-axis should intersect the x-y plane; else,
         !!  false to allow the z-axis to float.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_3d) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Determine if the z axis is drawn to intersect the x-y plane
-        !!     check = plt%get_z_intersect_xy()
-        !! end program
-        !! @endcode
         procedure, public :: get_z_intersect_xy => p3d_get_z_axis_intersect
         !> @brief Sets a value determining if the z-axis should intersect the
         !! x-y plane.
@@ -8002,69 +5180,6 @@ module fplot_core
         !! @param[in,out] this The plot_3d object.
         !! @param[in] x Set to true if the z-axis should intersect the x-y plane;
         !!  else, false to allow the z-axis to float.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 1000
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: t, x, y, z
-        !!     type(plot_3d) :: plt
-        !!     type(plot_data_3d) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Initialize the plot object
-        !!     call plt%initialize()
-        !!
-        !!     ! Set the Z-axis to not intersect the X-Y plane
-        !!     call plt%set_z_intersect_xy(.false.)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data
-        !!     t = linspace(0.0d0, 10.0d0, n)
-        !!     x = cos(5.0d0 * t)
-        !!     y = sin(5.0d0 * t)
-        !!     z = 2.0d0 * t
-        !!
-        !!     call d1%define_data(x, y, z)
-        !!
-        !!     ! Set up the data set
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!     call d1%set_line_width(2.0)
-        !!
-        !!     ! Add the data to the plot
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !!
-        !! @par
-        !! The above code results in the following plot.
-        !! @image html example_plot_3d_offset_1.png
-        !!
-        !! @par
-        !! Compare to the default (allowing the z-axis to intersect the x-y
-        !! plane).
-        !! @image html example_plot_3d_1.png
         procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
         !> @brief Gets a value determining if the view should be set to a 2D
         !! map view.  If true, the azimuth and elevation terms are ignored.
@@ -8205,69 +5320,6 @@ module fplot_core
 ! FPLOT_SURFACE_PLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief A plot object defining a 3D surface plot.
-    !!
-    !! @par Example
-    !! The following example illustrates a surface plot using a rainbow
-    !! colormap.
-    !! @code{.f90}
-    !! program example
-    !!     use, intrinsic :: iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: m = 50
-    !!     integer(int32), parameter :: n = 50
-    !!     real(real64), parameter :: xMax = 5.0d0
-    !!     real(real64), parameter :: xMin = -5.0d0
-    !!     real(real64), parameter :: yMax = 5.0d0
-    !!     real(real64), parameter :: yMin = -5.0d0
-    !!
-    !!     ! Local Variables
-    !!     real(real64), dimension(n) :: xdata
-    !!     real(real64), dimension(m) :: ydata
-    !!     real(real64), dimension(:,:), pointer :: x, y
-    !!     real(real64), dimension(m, n, 2), target :: xy
-    !!     real(real64), dimension(m, n) :: z
-    !!     type(surface_plot) :: plt
-    !!     type(surface_plot_data) :: d1
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!
-    !!     ! Define the data
-    !!     xdata = linspace(xMin, xMax, n)
-    !!     ydata = linspace(yMin, yMax, m)
-    !!     xy = meshgrid(xdata, ydata)
-    !!     x => xy(:,:,1)
-    !!     y => xy(:,:,2)
-    !!
-    !!     ! Define the function to plot
-    !!     z = sin(sqrt(x**2 + y**2))
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!
-    !!     ! Define titles
-    !!     call plt%set_title("Surface Example Plot 1")
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     call xAxis%set_title("X Axis")
-    !!
-    !!     yAxis => plt%get_y_axis()
-    !!     call yAxis%set_title("Y Axis")
-    !!
-    !!     zAxis => plt%get_z_axis()
-    !!     call zAxis%set_title("Z Axis")
-    !!
-    !!     ! Define the data set
-    !!     call d1%define_data(x, y, z)
-    !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-    !!     call plt%push(d1)
-    !!
-    !!     ! Let GNUPLOT draw the plot
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_surface_plot_default.png
     type, extends(plot_3d) :: surface_plot
     private
         !> Show hidden lines
@@ -8326,20 +5378,6 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if hidden lines should be shown; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if hidden lines are to be shown
-        !!     check = plt%get_show_hidden()
-        !! end program
-        !! @endcode
         procedure, public :: get_show_hidden => surf_get_show_hidden
         !> @brief Sets a value indicating if hidden lines should be shown.
         !!
@@ -8350,76 +5388,6 @@ module fplot_core
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if hidden lines should be shown; else, false.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of hidden lines.  The
-        !! default wireframe behavior is to hide hidden lines.
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_show_hidden(.true.)
-        !!     call d1%set_use_wireframe(.true.)
-        !!
-        !!     ! Set up lighting
-        !!     call plt%set_use_lighting(.true.)
-        !!     call plt%set_light_intensity(0.7)
-        !!     call plt%set_specular_intensity(0.7)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html surface_plot_hidden_lines_1.png
         procedure, public :: set_show_hidden => surf_set_show_hidden
         !> @brief Gets the GNUPLOT command string to represent this plot_3d
         !! object.
@@ -8442,20 +5410,6 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the surface should be smoothed; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if the surfaces should be smoothed by interpolation.
-        !!     check = plt%get_allow_smoothing()
-        !! end program
-        !! @endcode
         procedure, public :: get_allow_smoothing => surf_get_smooth
         !> @brief Sets a value determining if the plotted surfaces should be
         !! smoothed.
@@ -8467,19 +5421,6 @@ module fplot_core
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the surface should be smoothed; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!
-        !!     ! Turn off smoothing (the default is on)
-        !!     call plt%set_allow_smoothing(.false.)
-        !! end program
-        !! @endcode
         procedure, public :: set_allow_smoothing => surf_set_smooth
         !> @brief Gets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
@@ -8492,20 +5433,6 @@ module fplot_core
         !! @param[in] this The surface_plot object.
         !! @return Returns true if the contour plot should be drawn; else, false to
         !!  only draw the surface.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Check to see if contour lines are to be drawn
-        !!     check = plt%get_show_countours()
-        !! end program
-        !! @endcode
         procedure, public :: get_show_contours => surf_get_show_contours
         !> @brief Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
@@ -8518,74 +5445,6 @@ module fplot_core
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x Set to true if the contour plot should be drawn; else, false
         !!  to only draw the surface.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of a contour and surface
-        !! plot together.  Additionally, the z axis is allowed to shift away
-        !! from the X-Y plane in order to better show the counter plot.
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(rainbow_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!     call plt%set_show_contours(.true.)
-        !!     call plt%set_z_intersect_xy(.false.)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_with_contour_1.png
         procedure, public :: set_show_contours => surf_set_show_contours
         !> @brief Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
@@ -8597,20 +5456,6 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return True if lighting should be used; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     logical :: check
-        !!
-        !!     ! Determine if lighting is to be used
-        !!     check = plt%get_use_lighting()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_lighting => surf_get_use_lighting
         !> @brief Sets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
@@ -8622,74 +5467,6 @@ module fplot_core
         !!
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x True if lighting should be used; else, false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use, intrinsic :: iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: m = 50
-        !!     integer(int32), parameter :: n = 50
-        !!     real(real64), parameter :: xMax = 5.0d0
-        !!     real(real64), parameter :: xMin = -5.0d0
-        !!     real(real64), parameter :: yMax = 5.0d0
-        !!     real(real64), parameter :: yMin = -5.0d0
-        !!
-        !!     ! Local Variables
-        !!     real(real64), dimension(n) :: xdata
-        !!     real(real64), dimension(m) :: ydata
-        !!     real(real64), dimension(:,:), pointer :: x, y
-        !!     real(real64), dimension(m, n, 2), target :: xy
-        !!     real(real64), dimension(m, n) :: z
-        !!     type(surface_plot) :: plt
-        !!     type(surface_plot_data) :: d1
-        !!     type(rainbow_colormap) :: map
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!
-        !!     ! Define the data
-        !!     xdata = linspace(xMin, xMax, n)
-        !!     ydata = linspace(yMin, yMax, m)
-        !!     xy = meshgrid(xdata, ydata)
-        !!     x => xy(:,:,1)
-        !!     y => xy(:,:,2)
-        !!
-        !!     ! Define the function to plot
-        !!     z = sin(sqrt(x**2 + y**2))
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_colormap(map)
-        !!
-        !!     ! Set up lighting
-        !!     call plt%set_use_lighting(.true.)
-        !!     call plt%set_light_intensity(0.7)
-        !!     call plt%set_specular_intensity(0.7)
-        !!
-        !!     ! Define titles
-        !!     call plt%set_title("Example Plot")
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     call xAxis%set_title("X Axis")
-        !!
-        !!     yAxis => plt%get_y_axis()
-        !!     call yAxis%set_title("Y Axis")
-        !!
-        !!     zAxis => plt%get_z_axis()
-        !!     call zAxis%set_title("Z Axis")
-        !!
-        !!     ! Define the data set
-        !!     call d1%define_data(x, y, z)
-        !!     call d1%set_name("sin(sqrt(x**2 + y**2))")
-        !!     call plt%push(d1)
-        !!
-        !!     ! Let GNUPLOT draw the plot
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_surface_plot_lighting_1.png
         procedure, public :: set_use_lighting => surf_set_use_lighting
         !> @brief Gets the ratio of the strength of the light source relative
         !! to the ambient light.
@@ -8701,21 +5478,6 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return The light intensity ratio.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     real(real32) :: val
-        !!
-        !!     ! Get the lighting intensity
-        !!     val = plt%get_light_intensity()
-        !! end program
-        !! @endcode
         procedure, public :: get_light_intensity => surf_get_light_intensity
         !> @brief Sets the ratio of the strength of the light source relative
         !! to the ambient light.
@@ -8728,9 +5490,6 @@ module fplot_core
         !! @param[in,out] this The surface_plot object.
         !! @param[in] x The light intensity ratio.  The value must exist in the
         !!  set [0, 1]; else, it will be clipped to lie within the range.
-        !!
-        !! @par Example
-        !! See set_use_lighting for example useage.
         procedure, public :: set_light_intensity => surf_set_light_intensity
         !> @brief Gets the ratio of the strength of the specular light source
         !! relative to the ambient light.
@@ -8742,21 +5501,6 @@ module fplot_core
         !!
         !! @param[in] this The surface_plot object.
         !! @return The specular light intensity ratio.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(surface_plot) :: plt
-        !!     real(real32) :: val
-        !!
-        !!     ! Get the lighting intensity
-        !!     val = plt%get_specular_intensity()
-        !! end program
-        !! @endcode
         procedure, public :: get_specular_intensity => surf_get_specular_intensity
         !> @brief Sets the ratio of the strength of the specular light source
         !! relative to the ambient light.
@@ -8770,9 +5514,6 @@ module fplot_core
         !! @param[in] x The specular light intensity ratio.  The value must
         !!  exist in the set [0, 1]; else, it will be clipped to lie within the
         !!  range.
-        !!
-        !! @par Example
-        !! See set_use_lighting for example useage.
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
         !> @brief Gets a factor defining the transparency of plotted surfaces.
         !!
@@ -9113,67 +5854,6 @@ module fplot_core
 ! FPLOT_MULTIPLOT.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a multi-plot layout.
-    !!
-    !! @par Example
-    !! The following example builds a multiplot consisiting of 2 rows of 2 
-    !! plots.
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core 
-    !!     implicit none
-    !!
-    !!     ! Variables
-    !!     integer(int32), parameter :: n = 1000
-    !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2, x3, y3, x4, y4
-    !!     type(multiplot) :: mplt
-    !!     type(plot_2d) :: plt1, plt2, plt3, plt4
-    !!     type(plot_data_2d) :: d1, d2, d3, d4
-    !!        
-    !!     ! Build the data sets
-    !!     x1 = linspace(0.0d0, 1.0d0, n)
-    !!     x2 = linspace(0.0d0, 2.0d0, n)
-    !!     x3 = linspace(0.0d0, 3.0d0, n)
-    !!     x4 = linspace(0.0d0, 4.0d0, n)
-    !!     y1 = sin(20.0d0 * x1)
-    !!     y2 = sin(20.0d0 * x2) * cos(50.0d0 * x2)
-    !!     y3 = sqrt(x3) * sin(10.0d0 * x3)
-    !!     y4 = exp(-0.1d0 * x4) * sin(15.0d0 * x4)
-    !!
-    !!     ! Define the plots
-    !!     call mplt%initialize(2, 2)
-    !!     call plt1%initialize()
-    !!     call plt2%initialize()
-    !!     call plt3%initialize()
-    !!     call plt4%initialize()
-    !!
-    !!     ! Add the data to the plots
-    !!     call d1%define_data(x1, y1)
-    !!     call d2%define_data(x2, y2)
-    !!     call d3%define_data(x3, y3)
-    !!     call d4%define_data(x4, y4)
-    !!
-    !!     call plt1%push(d1)
-    !!     call plt1%set_title("Plot 1 (1, 1)")
-    !!
-    !!     call plt2%push(d2)
-    !!     call plt2%set_title("Plot 2 (2, 1)")
-    !!
-    !!     call plt3%push(d3)
-    !!     call plt3%set_title("Plot 3 (1, 2)")
-    !!
-    !!     call plt4%push(d4)
-    !!     call plt4%set_title("Plot 4 (2, 2)")
-    !!
-    !!     ! Locate the plots within the multiplot, and then draw
-    !!     call mplt%set(1, 1, plt1)
-    !!     call mplt%set(2, 1, plt2)
-    !!     call mplt%set(1, 2, plt3)
-    !!     call mplt%set(2, 2, plt4)
-    !!     call mplt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_multiplot_2.png
     type, extends(plot_object) :: multiplot
         !> The collection of plot objects.
         type(list) :: m_plots
@@ -9211,67 +5891,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !! - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
-        !!
-        !! @par Example
-        !! The following example illustrates a multiplot using 2 plots in a 
-        !! single column.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Variables
-        !!     integer(int32), parameter :: n = 1000
-        !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2
-        !!     type(multiplot) :: mplt
-        !!     type(plot_2d) :: plt1, plt2
-        !!     type(plot_data_2d) :: d1, d2
-        !!     class(plot_axis), pointer :: x1Axis, x2Axis, y1Axis, y2Axis
-        !!
-        !!     ! Build the data sets
-        !!     x1 = linspace(0.0d0, 5.0d0, n)
-        !!     x2 = linspace(0.0d0, 10.0d0, n)
-        !!     y1 = exp(-0.1d0 * x1) * sin(20.0d0 * x1)
-        !!     y2 = exp(-0.2d0 * x2) * sin(15.0d0 * x2) + 0.1d0 * sin(75.0d0 * x2)
-        !!
-        !!     ! Define the plots
-        !!     call mplt%initialize(2, 1)
-        !!     call mplt%set_font_size(14)
-        !!     call plt1%initialize()
-        !!     call plt2%initialize()
-        !!
-        !!     x1Axis => plt1%get_x_axis()
-        !!     y1Axis => plt1%get_y_axis()
-        !!
-        !!     x2Axis => plt2%get_x_axis()
-        !!     y2Axis => plt2%get_y_axis()
-        !!
-        !!     call x1Axis%set_title("X1")
-        !!     call y1Axis%set_title("Y1")
-        !!
-        !!     call x2Axis%set_title("X2")
-        !!     call y2Axis%set_title("Y2")
-        !!
-        !!     call d1%set_name("Data Set 1")
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!     call d1%set_line_width(2.0)
-        !!     call d1%define_data(x1, y1)
-        !!
-        !!     call d2%set_name("Data Set 2")
-        !!     call d2%set_line_color(CLR_GREEN)
-        !!     call d2%set_line_width(2.0)
-        !!     call d2%define_data(x2, y2)
-        !!
-        !!     call plt1%push(d1)
-        !!     call plt2%push(d2)
-        !!
-        !!     call mplt%set(1, 1, plt1)
-        !!     call mplt%set(2, 1, plt2)
-        !!     call mplt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_multiplot_1.png
         procedure, public :: initialize => mp_init
         !> @brief Gets the number of rows of plots.
         !!
@@ -9282,20 +5901,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The number of rows.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     integer(int32) :: n
-        !!
-        !!     n = plt%get_row_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_row_count => mp_get_rows
         !> @brief Gets the number of columns of plots.
         !!
@@ -9306,20 +5911,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The number of columns.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     integer(int32) :: n
-        !!
-        !!     n = plt%get_column_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_column_count => mp_get_cols
         !> @brief Gets the number of plots.
         !!
@@ -9330,20 +5921,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The number of plots.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     integer(int32) :: n
-        !!
-        !!     n = plt%get_plot_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_plot_count => mp_get_count
         !> @brief Gets the multiplot's title.
         !!
@@ -9354,19 +5931,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The multiplot's title.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     character(len = :), allocatable :: txt
-        !!
-        !!     txt = plt%get_title()
-        !! end program
-        !! @endcode
         procedure, public :: get_title => mp_get_title
         !> @brief Sets the multiplot's title.
         !!
@@ -9379,18 +5943,6 @@ module fplot_core
         !! @param[in] txt The multiplot's title.  The number of characters must be less
         !! than or equal to PLOTDATA_MAX_NAME_LENGTH; else, the text string is
         !! truncated.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!
-        !!     call plt%set_title("Title")
-        !! end program
-        !! @endcode
         procedure, public :: set_title => mp_set_title
         !> @brief Launches GNUPLOT and draws the multiplot per the current state of
         !! the command list.
@@ -9410,67 +5962,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
-        !!
-        !! @par Example
-        !! The following example illustrates a multiplot using 2 plots in a 
-        !! single column.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Variables
-        !!     integer(int32), parameter :: n = 1000
-        !!     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2
-        !!     type(multiplot) :: mplt
-        !!     type(plot_2d) :: plt1, plt2
-        !!     type(plot_data_2d) :: d1, d2
-        !!     class(plot_axis), pointer :: x1Axis, x2Axis, y1Axis, y2Axis
-        !!
-        !!     ! Build the data sets
-        !!     x1 = linspace(0.0d0, 5.0d0, n)
-        !!     x2 = linspace(0.0d0, 10.0d0, n)
-        !!     y1 = exp(-0.1d0 * x1) * sin(20.0d0 * x1)
-        !!     y2 = exp(-0.2d0 * x2) * sin(15.0d0 * x2) + 0.1d0 * sin(75.0d0 * x2)
-        !!
-        !!     ! Define the plots
-        !!     call mplt%initialize(2, 1)
-        !!     call mplt%set_font_size(14)
-        !!     call plt1%initialize()
-        !!     call plt2%initialize()
-        !!
-        !!     x1Axis => plt1%get_x_axis()
-        !!     y1Axis => plt1%get_y_axis()
-        !!
-        !!     x2Axis => plt2%get_x_axis()
-        !!     y2Axis => plt2%get_y_axis()
-        !!
-        !!     call x1Axis%set_title("X1")
-        !!     call y1Axis%set_title("Y1")
-        !!
-        !!     call x2Axis%set_title("X2")
-        !!     call y2Axis%set_title("Y2")
-        !!
-        !!     call d1%set_name("Data Set 1")
-        !!     call d1%set_line_color(CLR_BLUE)
-        !!     call d1%set_line_width(2.0)
-        !!     call d1%define_data(x1, y1)
-        !!
-        !!     call d2%set_name("Data Set 2")
-        !!     call d2%set_line_color(CLR_GREEN)
-        !!     call d2%set_line_width(2.0)
-        !!     call d2%define_data(x2, y2)
-        !!
-        !!     call plt1%push(d1)
-        !!     call plt2%push(d2)
-        !!
-        !!     call mplt%set(1, 1, plt1)
-        !!     call mplt%set(2, 1, plt2)
-        !!     call mplt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_multiplot_1.png
         procedure, public :: draw => mp_draw
         !> @brief Gets the requested plot object.
         !!
@@ -9483,19 +5974,6 @@ module fplot_core
         !! @param[in] i The row index of the plot to retrieve.
         !! @param[in] j The column index of the plot to retrieve.
         !! @return A pointer to the requested plot object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     class(plot), pointer :: obj
-        !!
-        !!     obj => plt%get(1, 1)
-        !! end program
-        !! @endcode
         procedure, public :: get => mp_get
         !> @brief Sets the requested plot object.
         !!
@@ -9508,23 +5986,6 @@ module fplot_core
         !! @param[in] i The row index of the plot to retrieve.
         !! @param[in] j The column index of the plot to retrieve.
         !! @param[in] x A pointer to the requested plot object.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     type(plot) :: obj
-        !!
-        !!     ! Be sure to initialze the plot and multiplot objects
-        !!     ! ...
-        !!
-        !!     ! Store the plot object
-        !!     call plt%set(1, 1, obj)
-        !! end program
-        !! @endcode
         procedure, public :: set => mp_set
         !> @brief Gets a value determining if a title has been defined for the
         !!  multiplot object.
@@ -9537,19 +5998,6 @@ module fplot_core
         !! @param[in] this The multiplot object.
         !! @return Returns true if a title has been defined for this multiplot; else,
         !!  returns false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     logical :: check
-        !!
-        !!     check = plt%is_title_defined()
-        !! end program
-        !! @endcode
         procedure, public :: is_title_defined => mp_has_title
         !> @brief Gets the GNUPLOT terminal object.
         !!
@@ -9560,17 +6008,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return A pointer to the GNUPLOT terminal object.
-        !!
-        !! @par Example
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     class(terminal), pointer :: term
-        !!
-        !!     term => plt%get_terminal()
-        !! end program
         procedure, public :: get_terminal => mp_get_term
         !> @brief Saves a GNUPLOT command file.
         !!
@@ -9587,133 +6024,6 @@ module fplot_core
         !!  class is used internally to provide error handling.  Possible errors and
         !!  warning messages that may be encountered are as follows.
         !!  - PLOT_GNUPLOT_FILE_ERROR: Occurs if the command file cannot be written.
-        !! @par Example
-        !! @code{.f90}
-        !! ! This example illustrates the frequency response of the following mechanical
-        !! ! system.
-        !! !
-        !! ! -> y       |-> x1       |-> x2
-        !! ! |                                  |/
-        !! ! |-/\/\/\-| m |-/\/\/\-| m |-/\/\/\-|/
-        !! ! |   k, b         k, b        k, b  |/
-        !! !
-        !! ! The equations of motion for this system are as follows.
-        !! ! M x" + B x' + K x = F1 y' + F2 y
-        !! !
-        !! ! Where:
-        !! !     | m   0 |
-        !! ! M = |       |
-        !! !     | 0   m |
-        !! !
-        !! !     | 2b     -b |
-        !! ! B = |           |
-        !! !     | -b     2b |
-        !! !
-        !! !     | 2k     -k |
-        !! ! K = |           |
-        !! !     | -k     2k |
-        !! !
-        !! !      | b |
-        !! ! F1 = |   |
-        !! !      | 0 |
-        !! !
-        !! !      | k |
-        !! ! F2 = |   |
-        !! !      | 0 |
-        !! !
-        !! ! The solution may be computed by applying the Laplace transform such that:
-        !! ! (M s**2 + B s + K) X = (F1 s + F2) Y
-        !! !
-        !! ! And then solving for X / Y such that:
-        !! ! Z = X / Y = inv(M s**2 + B s + K) * (F1 s + F2)
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     real(real64), parameter :: m = 2.0d0
-        !!     real(real64), parameter :: k = 450.0d3
-        !!     real(real64), parameter :: b = 3.0d0
-        !!     real(real64), parameter :: pi = 3.1415926535897932384626433832795d0
-        !!     integer(int32), parameter :: npts = 1000
-        !!     complex(real64), parameter :: j = (0.0d0, -1.0d0)
-        !!
-        !!     ! Local Variables
-        !!     complex(real64), dimension(npts) :: s, z1, z2
-        !!     real(real64), dimension(npts) :: freq, omega
-        !!     type(multiplot) :: mplt
-        !!     type(plot_2d) :: plt, pplt
-        !!     type(plot_data_2d) :: d1, d2, d3, d4
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!
-        !!     ! Generate a frequency vector from 10 Hz to 1 kHz
-        !!     freq = logspace(1.0d0, 3.0d0, npts)
-        !!     omega = 2.0d0 * pi * freq
-        !!     s = j * omega
-        !!
-        !!     ! Compute the frequency response functions for each mass
-        !!     z1 = (b * s + k) * (m * s**2 + 2.0d0 * b * s + 2.0d0 * k) / &
-        !!         ((m * s**2 + 2.0d0 * b * s + 2.0d0 * k)**2 + (-b * s - k) * (b * s + k))
-        !!     z2 = (b * s + k)**2 / &
-        !!         ((m * s**2 + 2.0d0 * b * s + 2.0d0 * k)**2 + (-b * s - k) * (b * s + k))
-        !!
-        !!     ! Create the plots
-        !!     call mplt%initialize(2, 1)
-        !!     call mplt%set_font_size(14)
-        !!     call plt%initialize()
-        !!     xAxis => plt%get_x_axis()
-        !!     yAxis => plt%get_y_axis()
-        !!
-        !!     call xAxis%set_title("Frequency [Hz]")
-        !!     call yAxis%set_title("Amplitude (X / Y)")
-        !!
-        !!     call xAxis%set_is_log_scaled(.true.)
-        !!     call yAxis%set_is_log_scaled(.true.)
-        !!
-        !!     call d1%set_name("X1")
-        !!     call d1%set_line_width(2.0)
-        !!     call d1%define_data(freq, abs(z1))
-        !!
-        !!     call d2%set_name("X2")
-        !!     call d2%set_line_width(2.0)
-        !!     call d2%set_line_style(LINE_DASHED)
-        !!     call d2%define_data(freq, abs(z2))
-        !!
-        !!     call plt%push(d1)
-        !!     call plt%push(d2)
-        !!
-        !!     ! Set up the phase plot
-        !!     call pplt%initialize()
-        !!     xAxis => pplt%get_x_axis()
-        !!     yAxis => pplt%get_y_axis()
-        !!
-        !!     call xAxis%set_title("Frequency [Hz]")
-        !!     call yAxis%set_title("Phase [deg]")
-        !!
-        !!     call xAxis%set_is_log_scaled(.true.)
-        !!
-        !!     call d3%set_name("X1")
-        !!     call d3%set_line_width(2.0)
-        !!     call d3%define_data(freq, 180.0d0 * atan2(aimag(z1), real(z1)) / pi)
-        !!
-        !!     call d4%set_name("X2")
-        !!     call d4%set_line_width(2.0)
-        !!     call d4%set_line_style(LINE_DASHED)
-        !!     call d4%define_data(freq, 180.0d0 * atan2(aimag(z2), real(z2)) / pi)
-        !!
-        !!     call pplt%push(d3)
-        !!     call pplt%push(d4)
-        !!
-        !!     ! Save the plot to file
-        !!     call mplt%set(1, 1, plt)
-        !!     call mplt%set(2, 1, pplt)
-        !!     call mplt%save_file("example_multiplot_file.plt")
-        !! end program
-        !! @endcode
-        !! Then, from gnuplot, simply issue the command: load
-        !! "example_multiplot_file.plt" to obtain the plot.
-        !! @image html example_multiplot_log_scaled.png
         procedure, public :: save_file => mp_save
         !> @brief Gets the name of the font used for plot text.
         !!
@@ -9724,19 +6034,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The font name.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     character(len = :), allocatable :: name
-        !!
-        !!     name = plt%get_font_name()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_name => mp_get_font
         !> @brief Sets the name of the font used for plot text.
         !!
@@ -9747,19 +6044,6 @@ module fplot_core
         !!
         !! @param[in,out] this The multiplot object.
         !! @param[in] x The font name.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!
-        !!     ! Establish the font used by the plot as Arial.
-        !!     call plt%set_title("Arial")
-        !! end program
-        !! @endcode
         procedure, public :: set_font_name => mp_set_font
         !> @brief Gets the size of the font used by the plot.
         !!
@@ -9770,20 +6054,6 @@ module fplot_core
         !!
         !! @param[in] this The multiplot object.
         !! @return The size of the font, in points.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!     integer(int32) :: sz
-        !!
-        !!     sz = plt%get_font_size()
-        !! end program
-        !! @endcode
         procedure, public :: get_font_size => mp_get_font_size
         !> @brief Sets the size of the font used by the plot.
         !!
@@ -9796,19 +6066,6 @@ module fplot_core
         !! @param[in] x The font size, in points.  If a value of zero is provided,
         !! the font size is reset to its default value; or, if a negative value
         !! is provided, the absolute value of the supplied value is utilized.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(multiplot) :: plt
-        !!
-        !!     ! Set the font to be 14 point in size
-        !!     call plt%set_font_size(14)
-        !! end program
-        !! @endcode
         procedure, public :: set_font_size => mp_set_font_size
     end type
 
@@ -9914,45 +6171,6 @@ module fplot_core
 ! FPLOT_PLOT_DATA_ERRORS.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a 2D error bar based data set.
-    !!
-    !! @par Example
-    !! The following example illustrates the use of y error bars.
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: n = 50
-    !!
-    !!     ! Local Variables
-    !!     real(real64) :: x(n), y(n), yerr(n)
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_2d) :: d1
-    !!     type(plot_data_error_bars) :: e1
-    !!
-    !!     ! Initialization
-    !!     x = linspace(0.0d0, 1.0d1, n)
-    !!     y = sin(x)
-    !!     call random_number(yerr)
-    !!     yerr = 3.0d-1 * (yerr - 0.5d0)
-    !!
-    !!     ! Create the plot
-    !!     call plt% initialize()
-    !!
-    !!     call d1%define_data(x, y)
-    !!     call d1%set_name("Raw")
-    !!
-    !!     call e1%define_y_error_data(x, y, yerr)
-    !!     call e1%set_name("Errors")
-    !!
-    !!     call plt%push(d1)
-    !!     call plt%push(e1)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html example_y_errorbars_1.png
     type, extends(plot_data_colored) :: plot_data_error_bars
         !> Display x error bars?
         logical :: m_xBars = .false.
@@ -10000,45 +6218,6 @@ module fplot_core
         !!      the same size.
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
         !!      available.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of x error bars.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 50
-        !!
-        !!     ! Local Variables
-        !!     real(real64) :: x(n), y(n), xerr(n)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: d1
-        !!     type(plot_data_error_bars) :: e1
-        !!
-        !!     ! Initialization
-        !!     x = linspace(0.0d0, 1.0d1, n)
-        !!     y = sin(x)
-        !!     call random_number(xerr)
-        !!     xerr = (xerr - 0.5d0)
-        !!
-        !!     ! Create the plot
-        !!     call plt% initialize()
-        !!
-        !!     call d1%define_data(x, y)
-        !!     call d1%set_name("Raw")
-        !!
-        !!     call e1%define_x_error_data(x, y, xerr)
-        !!     call e1%set_name("Errors")
-        !!
-        !!     call plt%push(d1)
-        !!     call plt%push(e1)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_x_errorbars_1.png
         generic, public :: define_x_error_data => pde_define_x_err, &
             pde_define_x_err_lim
         !> @brief Defines the y error data.
@@ -10072,45 +6251,6 @@ module fplot_core
         !!      the same size.
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
         !!      available.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of y error bars.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 50
-        !!
-        !!     ! Local Variables
-        !!     real(real64) :: x(n), y(n), yerr(n)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: d1
-        !!     type(plot_data_error_bars) :: e1
-        !!
-        !!     ! Initialization
-        !!     x = linspace(0.0d0, 1.0d1, n)
-        !!     y = sin(x)
-        !!     call random_number(yerr)
-        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
-        !!
-        !!     ! Create the plot
-        !!     call plt% initialize()
-        !!
-        !!     call d1%define_data(x, y)
-        !!     call d1%set_name("Raw")
-        !!
-        !!     call e1%define_y_error_data(x, y, yerr)
-        !!     call e1%set_name("Errors")
-        !!
-        !!     call plt%push(d1)
-        !!     call plt%push(e1)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_y_errorbars_1.png
         generic, public :: define_y_error_data => pde_define_y_err, &
             pde_define_y_err_lim
         !> @brief Defines the x and y error data.
@@ -10150,47 +6290,6 @@ module fplot_core
         !!      the same size.
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if there is insufficient memory
         !!      available.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of x and y error bars.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 50
-        !!
-        !!     ! Local Variables
-        !!     real(real64) :: x(n), y(n), xerr(n), yerr(n)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: d1
-        !!     type(plot_data_error_bars) :: e1
-        !!
-        !!     ! Initialization
-        !!     x = linspace(0.0d0, 1.0d1, n)
-        !!     y = sin(x)
-        !!     call random_number(xerr)
-        !!     xerr = (xerr - 0.5d0)
-        !!     call random_number(yerr)
-        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
-        !!
-        !!     ! Create the plot
-        !!     call plt% initialize()
-        !!
-        !!     call d1%define_data(x, y)
-        !!     call d1%set_name("Raw")
-        !!
-        !!     call e1%define_xy_error_data(x, y, xerr, yerr)
-        !!     call e1%set_name("Errors")
-        !!
-        !!     call plt%push(d1)
-        !!     call plt%push(e1)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_xy_errorbars_1.png
         generic, public :: define_xy_error_data => pde_define_xy_err, &
             pde_define_xy_err_lim
         !> @brief Tests to see if the x error bar data has been defined, and as
@@ -10204,19 +6303,6 @@ module fplot_core
         !! @param[in] this The plot_data_error_bars object.
         !! @return Returns true if the x error bars are to be plotted; else,
         !!  false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data_error_bars) :: obj
-        !!     logical :: check
-        !!
-        !!     check = obj%get_plot_x_error_bars()
-        !! end program
-        !! @endcode
         procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
         !> @brief Tests to see if the y error bar data has been defined, and as
         !!  a result, if the y error data is to be plotted.
@@ -10229,38 +6315,11 @@ module fplot_core
         !! @param[in] this The plot_data_error_bars object.
         !! @return Returns true if the y error bars are to be plotted; else,
         !!  false.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data_error_bars) :: obj
-        !!     logical :: check
-        !!
-        !!     check = obj%get_plot_y_error_bars()
-        !! end program
-        !! @endcode
         procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
         !> @brief Gets the number of stored data points.
         !!
         !! @param[in] this The plot_data_error_bars object.
         !! @return The number of data points.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data_error_bars) :: obj
-        !!     integer(int32) :: n
-        !!
-        !!     n = obj%get_count()
-        !! end program
-        !! @endcode
         procedure, public :: get_count => pde_get_count
         !> @brief Tests to see if the x and y error boxes should be utilized.
         !!
@@ -10276,19 +6335,6 @@ module fplot_core
         !! @par Remarks
         !! Notice, the error boxes are only utilized if there is both x and y
         !! error data defined, regardless of the value of this property.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     type(plot_data_error_bars) :: obj
-        !!     logical :: check
-        !!
-        !!     check = obj%get_use_error_box()
-        !! end program
-        !! @endcode
         procedure, public :: get_use_error_box => pde_get_box
         !> @brief Deterimines if the x and y error boxes should be utilized.
         !!
@@ -10304,49 +6350,6 @@ module fplot_core
         !! @par Remarks
         !! Notice, the error boxes are only utilized if there is both x and y
         !! error data defined, regardless of the value of this property.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of error boxes instead of
-        !! error bars.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: n = 50
-        !!
-        !!     ! Local Variables
-        !!     real(real64) :: x(n), y(n), xerr(n), yerr(n)
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_2d) :: d1
-        !!     type(plot_data_error_bars) :: e1
-        !!
-        !!     ! Initialization
-        !!     x = linspace(0.0d0, 1.0d1, n)
-        !!     y = sin(x)
-        !!     call random_number(xerr)
-        !!     xerr = (xerr - 0.5d0)
-        !!     call random_number(yerr)
-        !!     yerr = 3.0d-1 * (yerr - 0.5d0)
-        !!
-        !!     ! Create the plot
-        !!     call plt% initialize()
-        !!
-        !!     call d1%define_data(x, y)
-        !!     call d1%set_name("Raw")
-        !!
-        !!     call e1%define_xy_error_data(x, y, xerr, yerr)
-        !!     call e1%set_name("Errors")
-        !!     call e1%set_use_error_box(.true.)
-        !!
-        !!     call plt%push(d1)
-        !!     call plt%push(e1)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_xy_errorbox_1.png
         procedure, public :: set_use_error_box => pde_set_box
         !> @brief Gets a value determining if a defined range is being used
         !! to define the error bar extremes.
@@ -10453,47 +6456,10 @@ module fplot_core
 ! FPLOT_PLOT_DATA_BAR.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a data set tailored to bar charts.
-    !!
-    !! @par Example
-    !! The following example illustrates the plotting of a simple bar chart.
-    !!
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     use strings
-    !!     implicit none
-    !!
-    !!     ! Local Variables
-    !!     real(real64) :: x(5)
-    !!     type(varying_string) :: labels(5)
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_bar) :: pd1
-    !!
-    !!     ! Initialization
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!
-    !!     labels(1)%str = '"Label 1"'
-    !!     labels(2)%str = '"Label 2"'
-    !!     labels(3)%str = '"Label 3"'
-    !!     labels(4)%str = '"Label 4"'
-    !!     labels(5)%str = '"Label 5"'
-    !!
-    !!     ! Plot the data
-    !!     call random_number(x)
-    !!     call pd1%define_data(labels, x)
-    !!     call pd1%set_transparency(0.2)
-    !!     call plt%push(pd1)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! The above program produces the following output.
-    !! @image html box_plot_example_1.png
     type, extends(plot_data_colored) :: plot_data_bar
     private
         !> @brief An array containing axis labels to associate with each bar.
-        type(varying_string), allocatable, dimension(:) :: m_axisLabels
+        type(string), allocatable, dimension(:) :: m_axisLabels
         !> @brief An array of data defining each bar - the matrix contains
         !!  multiple columns to allow multiple bars per label.
         real(real64), allocatable, dimension(:,:) :: m_barData
@@ -10631,7 +6597,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10662,7 +6628,7 @@ module fplot_core
 
         module subroutine pdb_set_data_2_core(this, labels, x, err)
             class(plot_data_bar), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10680,41 +6646,6 @@ module fplot_core
 ! FPLOT_PLOT_DATA_HISTOGRAM.F90
 ! ------------------------------------------------------------------------------
     !> @brief A container for plotting data in the form of a histogram.
-    !!
-    !! @par Example
-    !! The following example illustrates the construction of a simple histogram.
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Local Variables
-    !!     integer(int32), parameter :: n = 5000
-    !!     integer(int32), parameter :: nbins = 12
-    !!     real(real64) :: x(n), u(n), v(n)
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_histogram) :: pd1
-    !!
-    !!     ! Initialization
-    !!     call plt%initialize()
-    !!
-    !!     ! Create some data
-    !!     call random_number(u)
-    !!     call random_number(v)
-    !!     v = v - 1.0d0
-    !!     x = u * u - v * v
-    !!
-    !!     ! Plot the data
-    !!     call pd1%set_bin_count(nbins)   ! optional, but must be done prior to define_data is used
-    !!     call pd1%define_data(x)
-    !!     call pd1%set_transparency(0.2)  ! optional - for illustration purposes
-    !!     call plt%push(pd1)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! The above program produces the following output.
-    !! @image html histogram_example_1.png
     type, extends(plot_data_bar) :: plot_data_histogram
     private
         !> @brief The number of bins.
@@ -10765,7 +6696,7 @@ module fplot_core
 
         module subroutine pdh_set_data_2(this, labels, x, err)
             class(plot_data_histogram), intent(inout) :: this
-            class(varying_string), intent(in), dimension(:) :: labels
+            class(string), intent(in), dimension(:) :: labels
             real(real64), intent(in), dimension(:) :: x
             class(errors), intent(inout), optional, target :: err
         end subroutine
@@ -10831,58 +6762,6 @@ module fplot_core
     !! @par Remarks
     !! This type utilizes the GEOMPACK triangulation code available at 
     !! https://people.sc.fsu.edu/~jburkardt/f77_src/geompack/geompack.html.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     use triangulations
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: npts = 1000
-    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-    !!
-    !!     ! Local Variables
-    !!     type(delaunay_tri_2d) :: tri
-    !!     real(real64) :: x(npts), y(npts), theta(npts), radius(npts)
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_tri_2d) :: ds
-    !!
-    !!     ! Initialization
-    !!     call random_number(theta)
-    !!     theta = 2.0d0 * pi * theta
-    !!
-    !!     call random_number(radius)
-    !!     radius = radius + 0.5d0
-    !!
-    !!     x = radius * cos(theta)
-    !!     y = radius * sin(theta)
-    !!
-    !!     ! Create a 2D triangulation from the data
-    !!     call tri%create(x, y)
-    !!
-    !!     ! Display the number of points and elements
-    !!     print '(AI0AI0A)', "The triangulation consists of ", &
-    !!         tri%get_point_count(), " points, and ", tri%get_triangle_count(), &
-    !!         " triangles."
-    !!
-    !!     ! Plot the triangulation
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!
-    !!     call ds%define_data(tri)
-    !!     call plt%push(ds)
-    !!
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! The above program produces the following output.
-    !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1970 triangles.
-    !! @endcode
-    !! @image html example_delaunay_2d_1.png
     type delaunay_tri_2d
     private
         !> @brief An array of the x-coordinates of each point.
@@ -10982,86 +6861,6 @@ module fplot_core
         !! @return Returns the index of the triangle containing the specified
         !!  point.  If no triangle contains the specified point, a value of
         !!  -1 is returned.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use fplot_core
-        !!     use iso_fortran_env
-        !!     use triangulations
-        !!     implicit none
-        !!
-        !!     ! Parameters
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64), parameter :: xpt = 0.75d0
-        !!     real(real64), parameter :: ypt = 0.75d0
-        !!
-        !!     ! Local Variables
-        !!     type(delaunay_tri_2d) :: tri
-        !!     real(real64) :: x(npts), y(npts), theta(npts), radius(npts), &
-        !!         xtri(3), ytri(3)
-        !!     integer(int32) :: ind, n1, n2, n3
-        !!     integer(int32), allocatable, dimension(:,:) :: indices
-        !!     type(plot_2d) :: plt
-        !!     type(plot_data_tri_2d) :: ds
-        !!     type(plot_data_2d) :: dtri, dpt
-        !!
-        !!     ! Initialization
-        !!     call random_number(theta)
-        !!     theta = 2.0d0 * pi * theta
-        !!
-        !!     call random_number(radius)
-        !!     radius = radius + 0.5d0
-        !!
-        !!     x = radius * cos(theta)
-        !!     y = radius * sin(theta)
-        !!
-        !!     ! Create a 2D triangulation from the data
-        !!     call tri%create(x, y)
-        !!
-        !!     ! Find the index of the triangle containing (xpt, ypt)
-        !!     ind = tri%find_triangle(xpt, ypt)
-        !!     if (ind == -1) then
-        !!         print '(A)', "No triangle was found that included the specified point."
-        !!     end if
-        !!
-        !!     ! Get the vertices of this triangle
-        !!     indices = tri%get_indices()
-        !!     n1 = indices(ind, 1)
-        !!     n2 = indices(ind, 2)
-        !!     n3 = indices(ind, 3)
-        !!     xtri = [x(n1), x(n2), x(n3)]
-        !!     ytri = [y(n1), y(n2), y(n3)]
-        !!
-        !!     ! Plot the triangulation, the point of interest, and highlight the triangle
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!
-        !!     call ds%define_data(tri)
-        !!     call plt%push(ds)
-        !!
-        !!     call dtri%define_data(xtri, ytri)
-        !!     call dtri%set_draw_line(.false.)
-        !!     call dtri%set_draw_markers(.true.)
-        !!     call dtri%set_marker_style(MARKER_FILLED_CIRCLE)
-        !!     call dtri%set_marker_scaling(1.2)
-        !!     call dtri%set_line_color(CLR_LIME)
-        !!     call plt%push(dtri)
-        !!
-        !!     call dpt%define_data([xpt], [ypt])
-        !!     call dpt%set_draw_line(.false.)
-        !!     call dpt%set_draw_markers(.true.)
-        !!     call dpt%set_marker_style(MARKER_X)
-        !!     call dpt%set_marker_scaling(3.0)
-        !!     call dpt%set_line_width(2.0)
-        !!     call plt%push(dpt)
-        !!
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html example_delaunay_2d_2a.png
-        !! @image html example_delaunay_2d_2b.png
         procedure, public :: find_triangle => d2d_get_tri_with_pt
     end type
 
@@ -11109,57 +6908,6 @@ module fplot_core
 ! FPLOT_PLOT_DATA_TRI_2D.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a 2D triangulated data set.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Parameters
-    !!     integer(int32), parameter :: npts = 1000
-    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-    !!
-    !!     ! Local Variables
-    !!     type(delaunay_tri_2d) :: tri
-    !!     real(real64) :: x(npts), y(npts), theta(npts), radius(npts)
-    !!     type(plot_2d) :: plt
-    !!     type(plot_data_tri_2d) :: ds
-    !!
-    !!     ! Initialization
-    !!     call random_number(theta)
-    !!     theta = 2.0d0 * pi * theta
-    !!
-    !!     call random_number(radius)
-    !!     radius = radius + 0.5d0
-    !!
-    !!     x = radius * cos(theta)
-    !!     y = radius * sin(theta)
-    !!
-    !!     ! Create a 2D triangulation from the data
-    !!     call tri%create(x, y)
-    !!
-    !!     ! Display the number of points and elements
-    !!     print '(AI0AI0A)', "The triangulation consists of ", &
-    !!         tri%get_point_count(), " points, and ", tri%get_triangle_count(), &
-    !!         " triangles."
-    !!
-    !!     ! Plot the triangulation
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!
-    !!     call ds%define_data(tri)
-    !!     call plt%push(ds)
-    !!
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! The above program produces the following output.
-    !! @code{.txt}
-    !! The triangulation consists of 1000 points, and 1970 triangles.
-    !! @endcode
-    !! @image html example_delaunay_2d_1.png
     type, extends(plot_data_colored) :: plot_data_tri_2d
     private
         !> @brief An array of the x-coordinates of each point.
@@ -11335,86 +7083,6 @@ module fplot_core
         !!
         !! @return The function value.  If the point (@p x, @p y) does not lie
         !!  within the range of defined values, then a value of NaN is returned.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Variables
-        !!     integer(int32), parameter :: npts = 15
-        !!     real(real64), allocatable :: xc(:,:), yc(:,:), x(:), y(:), z(:), xy(:,:,:)
-        !!     real(real64) :: xi, yi, zi
-        !!     type(delaunay_tri_surface) :: tri
-        !!     type(tri_surface_plot_data) :: ds
-        !!     type(plot_data_3d) :: di
-        !!     type(surface_plot) :: plt
-        !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-        !!     integer(int32) :: i
-        !!
-        !!     ! Initialization
-        !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, npts), linspace(-5.0d0, 5.0d0, npts))
-        !!     xc = xy(:,:,1)
-        !!     yc = xy(:,:,2)
-        !!     x = reshape(xc, [npts * npts])
-        !!     y = reshape(yc, [npts * npts])
-        !!     z = sin(x) + sin(y)
-        !!
-        !!     ! Generate the triangulation
-        !!     call tri%create(x, y)
-        !!     call tri%define_function_values(z)
-        !!
-        !!     ! Interpolate using the triangulation
-        !!     xi = 2.0d0
-        !!     yi = 2.0d0
-        !!     zi = tri%evaluate(xi, yi)
-        !!
-        !!     ! Print the interpolated values
-        !!     print '(A)', "Interpolated Value:"
-        !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), zi
-        !!
-        !!     print '(A)', "Actual Values:"
-        !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), &
-        !!         sin(xi) + sin(yi)
-        !!
-        !!     ! Generate the plot
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!
-        !!     xAxis => plt%get_x_axis()
-        !!     yAxis => plt%get_y_axis()
-        !!     zAxis => plt%get_z_axis()
-        !!
-        !!     call xAxis%set_title("x")
-        !!     call yAxis%set_title("y")
-        !!     call zAxis%set_title("f(x,y)")
-        !!
-        !!     call ds%define_data(tri)
-        !!     call ds%set_use_wireframe(.true.)
-        !!
-        !!     call di%define_data([xi], [yi], [zi])
-        !!     call di%set_draw_line(.false.)
-        !!     call di%set_line_width(2.0)
-        !!     call di%set_draw_markers(.true.)
-        !!     call di%set_marker_style(MARKER_FILLED_CIRCLE)
-        !!     call di%set_marker_scaling(3.0)
-        !!     call di%set_line_color(CLR_RED)
-        !!
-        !!     call plt%push(ds)
-        !!     call plt%push(di)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! The above program produced the following output.
-        !! @code{.txt}
-        !! Interpolated Value:
-        !!         2.000   2.000   1.741
-        !! Actual Values:
-        !!         2.000   2.000   1.819
-        !! @endcode
-        !! @image html example_tri_surf_1.png
         generic, public :: evaluate => dts_interp_1, dts_interp_2
 
         procedure :: dts_interp_1
@@ -11452,85 +7120,6 @@ module fplot_core
 ! ------------------------------------------------------------------------------
     !> @brief Provides a three-dimensional surface plot data set constructed of
     !! triangulated points.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Variables
-    !!     integer(int32), parameter :: npts = 15
-    !!     real(real64), allocatable :: xc(:,:), yc(:,:), x(:), y(:), z(:), xy(:,:,:)
-    !!     real(real64) :: xi, yi, zi
-    !!     type(delaunay_tri_surface) :: tri
-    !!     type(tri_surface_plot_data) :: ds
-    !!     type(plot_data_3d) :: di
-    !!     type(surface_plot) :: plt
-    !!     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    !!     integer(int32) :: i
-    !!
-    !!     ! Initialization
-    !!     xy = meshgrid(linspace(-5.0d0, 5.0d0, npts), linspace(-5.0d0, 5.0d0, npts))
-    !!     xc = xy(:,:,1)
-    !!     yc = xy(:,:,2)
-    !!     x = reshape(xc, [npts * npts])
-    !!     y = reshape(yc, [npts * npts])
-    !!     z = sin(x) + sin(y)
-    !!
-    !!     ! Generate the triangulation
-    !!     call tri%create(x, y)
-    !!     call tri%define_function_values(z)
-    !!
-    !!     ! Interpolate using the triangulation
-    !!     xi = 2.0d0
-    !!     yi = 2.0d0
-    !!     zi = tri%evaluate(xi, yi)
-    !!
-    !!     ! Print the interpolated values
-    !!     print '(A)', "Interpolated Value:"
-    !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), zi
-    !!
-    !!     print '(A)', "Actual Values:"
-    !!     print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), &
-    !!         sin(xi) + sin(yi)
-    !!
-    !!     ! Generate the plot
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!
-    !!     xAxis => plt%get_x_axis()
-    !!     yAxis => plt%get_y_axis()
-    !!     zAxis => plt%get_z_axis()
-    !!
-    !!     call xAxis%set_title("x")
-    !!     call yAxis%set_title("y")
-    !!     call zAxis%set_title("f(x,y)")
-    !!
-    !!     call ds%define_data(tri)
-    !!
-    !!     call di%define_data([xi], [yi], [zi])
-    !!     call di%set_draw_line(.false.)
-    !!     call di%set_line_width(2.0)
-    !!     call di%set_draw_markers(.true.)
-    !!     call di%set_marker_style(MARKER_FILLED_CIRCLE)
-    !!     call di%set_marker_scaling(3.0)
-    !!     call di%set_line_color(CLR_RED)
-    !!
-    !!     call plt%push(ds)
-    !!     call plt%push(di)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! The above program produced the following output.
-    !! @code{.txt}
-    !! Interpolated Value:
-    !!         2.000   2.000   1.741
-    !! Actual Values:
-    !!         2.000   2.000   1.819
-    !! @endcode
-    !! @image html example_tri_surf_1.png
     type, extends(plot_data) :: tri_surface_plot_data
     private
         !> @brief An array of the x-coordinates of each point.
@@ -11620,79 +7209,6 @@ module fplot_core
     ! http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf (pg 79)
 
     !> @brief Defines a two-dimensional vector-field plot data set.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Local Variables
-    !!     type(plot_2d) :: plt
-    !!     type(vector_field_plot_data) :: ds1
-    !!     class(plot_axis), pointer :: xAxis, yAxis
-    !!     real(real64), allocatable, dimension(:,:,:) :: pts
-    !!     real(real64), allocatable, dimension(:,:) :: dx, dy
-    !!     real(real64) :: dxdt(2)
-    !!     integer(int32) :: i, j
-    !!
-    !!     ! Create a grid of points defining the vector locations
-    !!     pts = meshgrid( &
-    !!         linspace(-2.0d0, 2.0d0, 20), &
-    !!         linspace(-5.0d0, 5.0d0, 20))
-    !!
-    !!     ! Compute the values of each derivative
-    !!     allocate(dx(size(pts, 1), size(pts, 2)))
-    !!     allocate(dy(size(pts, 1), size(pts, 2)))
-    !!     do j = 1, size(pts, 2)
-    !!         do i = 1, size(pts, 1)
-    !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
-    !!             dx(i,j) = dxdt(1)
-    !!             dy(i,j) = dxdt(2)
-    !!         end do
-    !!     end do
-    !!
-    !!     ! Define arrow properties
-    !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
-    !!     call ds1%set_fill_arrow(.true.) ! .false. by default
-    !!
-    !!     ! Create the plot
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!     xAxis => plt%get_x_axis()
-    !!     yAxis => plt%get_y_axis()
-    !!
-    !!     ! Define axis labels
-    !!     call xAxis%set_title("x(t)")
-    !!     call yAxis%set_title("dx/dt")
-    !!
-    !!     ! Set plot style information
-    !!     call xAxis%set_zero_axis(.true.)
-    !!     call yAxis%set_zero_axis(.true.)
-    !!     call plt%set_draw_border(.false.)
-    !!     call plt%set_show_gridlines(.false.)
-    !!
-    !!     ! Add the data to the plot
-    !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy)
-    !!     call plt%push(ds1)
-    !!
-    !!     call plt%draw()
-    !! contains
-    !!     ! Van der Pol Equation
-    !!     ! x" - mu * (1 - x^2) * x' + x = 0
-    !!     subroutine eqn(x, dxdt)
-    !!         real(real64), intent(in) :: x(2)
-    !!         real(real64), intent(out) :: dxdt(2)
-    !!
-    !!         real(real64), parameter :: mu = 2.0d0
-    !!
-    !!         dxdt(1) = x(2)
-    !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
-    !!     end subroutine
-    !! end program
-    !! @endcode
-    !! @image html vector_plot_1.png
     type, extends(plot_data_colored) :: vector_field_plot_data
     private
         !> @brief An M-by-N-by-4 array containing the x, y, dx, and dy plot
@@ -11748,85 +7264,6 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if the input matrices are
         !!      not the same size.
-        !!
-        !! @par Example
-        !! The following example illustrates the use of data-dependent coloring
-        !! of the Van der Pol equation phase portrait.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     type(plot_2d) :: plt
-        !!     type(vector_field_plot_data) :: ds1
-        !!     class(plot_axis), pointer :: xAxis, yAxis
-        !!     type(rainbow_colormap) :: cmap
-        !!     real(real64), allocatable, dimension(:,:,:) :: pts
-        !!     real(real64), allocatable, dimension(:,:) :: dx, dy
-        !!     real(real64) :: dxdt(2)
-        !!     integer(int32) :: i, j
-        !!
-        !!     ! Create a grid of points defining the vector locations
-        !!     pts = meshgrid( &
-        !!         linspace(-2.0d0, 2.0d0, 20), &
-        !!         linspace(-5.0d0, 5.0d0, 20))
-        !!
-        !!     ! Compute the values of each derivative
-        !!     allocate(dx(size(pts, 1), size(pts, 2)))
-        !!     allocate(dy(size(pts, 1), size(pts, 2)))
-        !!     do j = 1, size(pts, 2)
-        !!         do i = 1, size(pts, 1)
-        !!             call eqn([pts(i,j,1), pts(i,j,2)], dxdt)
-        !!             dx(i,j) = dxdt(1)
-        !!             dy(i,j) = dxdt(2)
-        !!         end do
-        !!     end do
-        !!
-        !!     ! Define arrow properties
-        !!     call ds1%set_arrow_size(0.1d0)  ! 1.0 by default
-        !!     call ds1%set_fill_arrow(.true.) ! .false. by default
-        !!
-        !!     ! Create the plot
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!     xAxis => plt%get_x_axis()
-        !!     yAxis => plt%get_y_axis()
-        !!
-        !!     ! Define axis labels
-        !!     call xAxis%set_title("x(t)")
-        !!     call yAxis%set_title("dx/dt")
-        !!
-        !!     ! Set plot style information
-        !!     call xAxis%set_zero_axis(.true.)
-        !!     call yAxis%set_zero_axis(.true.)
-        !!     call plt%set_draw_border(.false.)
-        !!     call plt%set_show_gridlines(.false.)
-        !!
-        !!     ! Define the colormap
-        !!     call plt%set_colormap(cmap)
-        !!
-        !!     ! Add the data to the plot - color by the magnitude of gradient
-        !!     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))
-        !!     call plt%push(ds1)
-        !!
-        !!     call plt%draw()
-        !! contains
-        !!     ! Van der Pol Equation
-        !!     ! x" - mu * (1 - x^2) * x' + x = 0
-        !!     subroutine eqn(x, dxdt)
-        !!         real(real64), intent(in) :: x(2)
-        !!         real(real64), intent(out) :: dxdt(2)
-        !!
-        !!         real(real64), parameter :: mu = 2.0d0
-        !!
-        !!         dxdt(1) = x(2)
-        !!         dxdt(2) = mu * (1.0d0 - x(1)**2) * x(2) - x(1)
-        !!     end subroutine
-        !! end program
-        !! @endcode
-        !! @image html vector_plot_2.png
         procedure, public :: define_data => vfpd_define_data
         !> @brief Gets the scaling factor used to determine the arrow size.
         !!
@@ -11933,38 +7370,6 @@ module fplot_core
 ! FPLOT_PLOT_POLAR.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a 2D polar plot.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!
-    !!     ! Local Variables
-    !!     integer(int32), parameter :: npts = 1000
-    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-    !!     real(real64) :: t(npts), x(npts)
-    !!     type(plot_polar) :: plt
-    !!     type(plot_data_2d) :: pd
-    !!
-    !!     ! Create a function to plot
-    !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
-    !!     x = t * sin(t)
-    !!
-    !!     ! Plot the function
-    !!     call plt%initialize()
-    !!     call plt%set_font_size(14)
-    !!     call plt%set_title("Polar Plot Example")
-    !!     call plt%set_autoscale(.false.)
-    !!     call plt%set_radial_limits([0.0d0, 6.0d0])
-    !!
-    !!     call pd%define_data(t, x)
-    !!     call pd%set_line_width(2.0)
-    !!     call plt%push(pd)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html polar_example_1.png
     type, extends(plot) :: plot_polar
     private
         !> @brief Allow the plot to autoscale?
@@ -12088,42 +7493,6 @@ module fplot_core
         !!  - POLAR_THETA_TOP
         !!  - POLAR_THETA_RIGHT
         !!  - POLAR_THETA_LEFT
-        !!
-        !! @par Example
-        !! The following example illustrates resetting the starting position and
-        !! orientation of theta.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64) :: t(npts), x(npts)
-        !!     type(plot_polar) :: plt
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Create a function to plot
-        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
-        !!     x = t * sin(t)
-        !!
-        !!     ! Plot the function
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!     call plt%set_title("Polar Plot Example")
-        !!     call plt%set_autoscale(.false.)
-        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
-        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
-        !!     call plt%set_theta_direction(POLAR_THETA_CW)
-        !!
-        !!     call pd%define_data(t, x)
-        !!     call pd%set_line_width(2.0)
-        !!     call plt%push(pd)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html polar_example_2.png
         procedure, public :: set_theta_start_position => plr_set_theta_start
         !> @brief Gets the theta direction.
         !!
@@ -12148,42 +7517,6 @@ module fplot_core
         !! @param[in] x The direction.  It must be one of the following flags.
         !!  - POLAR_THETA_CCW
         !!  - POLAR_THETA_CW
-        !!
-        !! @par Example
-        !! The following example illustrates resetting the starting position and
-        !! orientation of theta.
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 1000
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64) :: t(npts), x(npts)
-        !!     type(plot_polar) :: plt
-        !!     type(plot_data_2d) :: pd
-        !!
-        !!     ! Create a function to plot
-        !!     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
-        !!     x = t * sin(t)
-        !!
-        !!     ! Plot the function
-        !!     call plt%initialize()
-        !!     call plt%set_font_size(14)
-        !!     call plt%set_title("Polar Plot Example")
-        !!     call plt%set_autoscale(.false.)
-        !!     call plt%set_radial_limits([0.0d0, 6.0d0])
-        !!     call plt%set_theta_start_position(POLAR_THETA_TOP)
-        !!     call plt%set_theta_direction(POLAR_THETA_CW)
-        !!
-        !!     call pd%define_data(t, x)
-        !!     call pd%set_line_width(2.0)
-        !!     call plt%push(pd)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html polar_example_2.png
         procedure, public :: set_theta_direction => plr_set_theta_direction
     end type
 
@@ -12250,35 +7583,6 @@ module fplot_core
 ! FPLOT_FILLED_PLOT_DATA.F90
 ! ------------------------------------------------------------------------------
     !> @brief Defines a two-dimensional filled plot data set.
-    !!
-    !! @par Example
-    !! @code{.f90}
-    !! program example
-    !!     use iso_fortran_env
-    !!     use fplot_core
-    !!     implicit none
-    !!
-    !!     ! Local Variables
-    !!     integer(int32), parameter :: npts = 100
-    !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-    !!     real(real64) :: x(npts), y(npts)
-    !!     type(plot_2d) :: plt
-    !!     type(filled_plot_data) :: pd
-    !!
-    !!     ! Generate the curve to plot
-    !!     x = linspace(0.0d0, 1.0d0, npts)
-    !!     y = sin(4.0d0 * pi * x)
-    !!
-    !!     ! Plot the data
-    !!     call plt%initialize()
-    !!
-    !!     call pd%define_data(x, y, 0.25d0 * y)
-    !!
-    !!     call plt%push(pd)
-    !!     call plt%draw()
-    !! end program
-    !! @endcode
-    !! @image html filled_example_2.png
     type, extends(plot_data_colored) :: filled_plot_data
     private
         !> Plot against the secondary y-axis
@@ -12362,35 +7666,6 @@ module fplot_core
         !!  - PLOT_OUT_OF_MEMORY_ERROR: Occurs if insufficient memory is available.
         !!  - PLOT_ARRAY_SIZE_MISMATCH_ERROR: Occurs if @p x and @p y are not the
         !!      same size.
-        !!
-        !! @par Example
-        !! @code{.f90}
-        !! program example
-        !!     use iso_fortran_env
-        !!     use fplot_core
-        !!     implicit none
-        !!
-        !!     ! Local Variables
-        !!     integer(int32), parameter :: npts = 100
-        !!     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
-        !!     real(real64) :: x(npts), y(npts)
-        !!     type(plot_2d) :: plt
-        !!     type(filled_plot_data) :: pd
-        !!
-        !!     ! Generate the curve to plot
-        !!     x = linspace(0.0d0, 1.0d0, npts)
-        !!     y = sin(4.0d0 * pi * x)
-        !!
-        !!     ! Plot the data
-        !!     call plt%initialize()
-        !!
-        !!     call pd%define_data(x, y, 0.25d0 * y)
-        !!
-        !!     call plt%push(pd)
-        !!     call plt%draw()
-        !! end program
-        !! @endcode
-        !! @image html filled_example_2.png
         procedure, public :: define_data => fpd_define_data
     end type
 

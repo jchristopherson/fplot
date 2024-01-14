@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['initialize_0',['initialize',['../structfplot__core_1_1plot.html#a945ff02d37879c256fbc56315782011d',1,'fplot_core::plot::initialize()'],['../structfplot__core_1_1plot__2d.html#a7d4a94f41b2bb99d80a3b3f8c805e7d0',1,'fplot_core::plot_2d::initialize()'],['../structfplot__core_1_1plot__3d.html#a499a3199dc9362cf4766ee9fc883f269',1,'fplot_core::plot_3d::initialize()'],['../structfplot__core_1_1surface__plot.html#a7ee1fab08335357f2a8b0afdff373171',1,'fplot_core::surface_plot::initialize()'],['../structfplot__core_1_1multiplot.html#a098fd1411de0cf38c26c9bd7f970f7db',1,'fplot_core::multiplot::initialize()'],['../structfplot__core_1_1plot__polar.html#a63ddb37672c805cb4cd6cce966251b24',1,'fplot_core::plot_polar::initialize()'],['../structfplot__string__builder_1_1string__builder.html#a9eac15798175a4d8f0a5c7db0de9ad99',1,'fplot_string_builder::string_builder::initialize()']]],
-  ['is_5ftitle_5fdefined_1',['is_title_defined',['../structfplot__core_1_1plot__axis.html#a6692fd4f9aa180a96ae597073093d5e5',1,'fplot_core::plot_axis::is_title_defined()'],['../structfplot__core_1_1plot.html#a2edf85d4a618f260b7dd9e5bfb92af04',1,'fplot_core::plot::is_title_defined()'],['../structfplot__core_1_1multiplot.html#a4fc3681e3bf594b4b318d77e2a1bb140',1,'fplot_core::multiplot::is_title_defined()']]]
+  ['p2d_5fclean_5fup_0',['p2d_clean_up',['../structfplot__core_1_1plot__2d.html#aeb55d7671f449779041c822189e86048',1,'fplot_core::plot_2d']]],
+  ['p3d_5fclean_5fup_1',['p3d_clean_up',['../structfplot__core_1_1plot__3d.html#ab0e3abb763cf80ecc9af2d75e5c1035d',1,'fplot_core::plot_3d']]],
+  ['pop_2',['pop',['../structfplot__core_1_1plot.html#ad33c34e40f57938ecd001e808bf23faa',1,'fplot_core::plot']]],
+  ['pop_5farrow_3',['pop_arrow',['../structfplot__core_1_1plot.html#acbc277a0af6af597663ea0121ecfbdfa',1,'fplot_core::plot']]],
+  ['pop_5flabel_4',['pop_label',['../structfplot__core_1_1plot.html#a3b8d7885c017cdea67018693824d2a28',1,'fplot_core::plot']]],
+  ['push_5',['push',['../structfplot__core_1_1plot.html#a4d990dba35771bb91c4b369e749359b1',1,'fplot_core::plot']]],
+  ['push_5farrow_6',['push_arrow',['../structfplot__core_1_1plot.html#ac9e18069b5f30cdf389bd2d875e9160a',1,'fplot_core::plot']]],
+  ['push_5flabel_7',['push_label',['../structfplot__core_1_1plot.html#a52aebc916dcd0daee352bd121f44571b',1,'fplot_core::plot']]]
 ];

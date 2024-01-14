@@ -1,5 +1,6 @@
 program main
     use fplot_3d_test
+    use fplot_arrow_test
     implicit none
 
     ! Local Variables
@@ -9,4 +10,7 @@ program main
     ! TO DO: Add tests as this project evolves.
     check = test_3d_coordinate_system()
     if (.not.check) stop 1
+
+    check = test_arrow()
+    if (.not.check) stop 2
 end program

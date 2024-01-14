@@ -63,7 +63,7 @@ contains
         call str%append('"')
         call str%append(this%get_filename())
         call str%append('"')
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 end submodule

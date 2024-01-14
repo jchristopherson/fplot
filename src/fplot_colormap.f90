@@ -61,7 +61,7 @@ contains
         end if
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ contains
         call str%append("6 '#E0F3DB',")
         call str%append("7 '#F7FCF0'")
 
-        x = str%to_string()
+        x = char(str%to_string())
         ! x = '0 "blue", 1 "turquoise", 2 "light-green"'
     end function
 
@@ -188,7 +188,7 @@ contains
         call str%append("7 '#fcce2e',")
         call str%append("8 '#f9fb0e'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ******************************************************************************
@@ -209,7 +209,7 @@ contains
         call str%append("6 '#525252',")
         call str%append("7 '#252525'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ******************************************************************************
@@ -230,10 +230,92 @@ contains
         call str%append("6 '#5AAE61',")
         call str%append("7 '#1B7837'")
 
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------
 ! Additional Color Maps:
 ! https://github.com/Gnuplotting/gnuplot-palettes
+
+! ******************************************************************************
+! ADDED: Jan. 08, 2024 - JAC
+! ------------------------------------------------------------------------------
+    module function custom_get_clr(this) result(x)
+        class(custom_colormap), intent(in) :: this
+        character(len = :), allocatable :: x
+
+        type(string_builder) :: str
+        integer(int32) :: i, n, r, g, b
+        type(color) :: clr
+
+        if (.not.associated(this%m_map)) then
+            allocate(character(len = 0) :: x)
+            return
+        end if
+
+        n = this%m_map%get_levels()
+        do i = 0, n - 1
+            ! Get the RGB triple
+            call this%m_map%get_RGB(i, clr%red, clr%green, clr%blue)
+
+            ! Append the color information
+            call str%append(to_string(i))
+            call str%append(" '#")
+            call str%append(clr%to_hex_string())
+            call str%append("'")
+            if (i /= n - 1) then
+                call str%append(",")
+            end if
+        end do
+
+        x = char(str%to_string())
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine custom_set(this, map, err)
+        ! Arguments
+        class(custom_colormap), intent(inout) :: this
+        class(cmap), intent(in) :: map
+        class(errors), intent(inout), optional, target :: err
+
+        ! Local Variables
+        integer(int32) :: flag
+        class(errors), pointer :: errmgr
+        type(errors), target :: deferr
+        
+        ! Initialization
+        if (present(err)) then
+            errmgr => err
+        else
+            errmgr => deferr
+        end if
+
+        ! Process
+        if (associated(this%m_map)) deallocate(this%m_map)
+        allocate(this%m_map, source = map, stat = flag)
+        if (flag /= 0) then
+            call errmgr%report_error("custom_init", &
+                "Memory allocation error code " // char(to_string(flag)) // ".", &
+                PLOT_OUT_OF_MEMORY_ERROR)
+            return
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function custom_get(this) result(rst)
+        class(custom_colormap), intent(in) :: this
+        class(cmap), pointer :: rst
+        rst => this%m_map
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine custom_final(this)
+        type(custom_colormap), intent(inout) :: this
+        if (associated(this%m_map)) then
+            deallocate(this%m_map)
+            nullify(this%m_map)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
 end submodule

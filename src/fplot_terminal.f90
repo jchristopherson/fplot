@@ -149,7 +149,7 @@ contains
             call str%append(this%get_title())
             call str%append('"')
         end if
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

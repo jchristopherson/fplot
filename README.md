@@ -6,17 +6,36 @@ A Fortran library providing a convenient interface for plotting with Gnuplot.
 ![Build Status](https://github.com/jchristopherson/fplot/actions/workflows/cmake.yml/badge.svg)
 [![Actions Status](https://github.com/jchristopherson/fplot/workflows/fpm/badge.svg)](https://github.com/jchristopherson/fplot/actions)
 
-## Gnuplot
-This library is tailored to write script files for Gnuplot.  As such, Gnuplot is required to make use of the output of this library.  Gnuplot can be found [here](http://www.gnuplot.info/).
+## GNUPLOT
+This library is tailored to write script files for GNUPLOT.  As such, GNUPLOT is required to make use of the output of this library.  GNUPLOT can be found [here](http://www.gnuplot.info/).
 
 ## Documentation
 Documentation can be found [here](https://jchristopherson.github.io/fplot/)
 
+## Building FPLOT
+[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+
+[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
+```txt
+fpm build
+```
+The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
+```toml
+[dependencies]
+fplot = { git = "https://github.com/jchristopherson/fplot" }
+```
+
+## External Libraries
+The FPLOT library depends upon the following libraries.
+- [FERROR](https://github.com/jchristopherson/ferror)
+- [COLLECTIONS](https://github.com/jchristopherson/collections)
+- [FSTRING](https://github.com/jchristopherson/fstring)
+- [GEOMPACK](https://github.com/jchristopherson/geompack)
+- [FORCOLORMAP](https://github.com/vmagnin/forcolormap)
+
 ## Example 1
 This example illustrates how to plot two-dimensional data.
 ```fortran
-! fplot_2d_1.f90
-
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -154,54 +173,51 @@ This is the plot resulting from the above program.
 ![](images/example_2d_plot_2.png?raw=true)
 
 ## Example 3
-The following example illustrates how to create a three-dimensional surface plot.
+The following example illustrates how to create a three-dimensional surface plot.  The plot also leverages the [FORCOLORMAP](https://github.com/vmagnin/forcolormap) library to provide the colormap.
 ```fortran
-! fplot_surf_3.f90
-
 program example
-    use, intrinsic :: iso_fortran_env
     use fplot_core
+    use iso_fortran_env
+    use forcolormap, only : colormaps_list
     implicit none
 
     ! Parameters
     integer(int32), parameter :: m = 50
     integer(int32), parameter :: n = 50
-    real(real64), parameter :: xMax = 5.0d0
-    real(real64), parameter :: xMin = -5.0d0
-    real(real64), parameter :: yMax = 5.0d0
-    real(real64), parameter :: yMin = -5.0d0
 
     ! Local Variables
-    real(real64), dimension(n) :: xdata
-    real(real64), dimension(m) :: ydata
-    real(real64), dimension(:,:), pointer :: x, y
     real(real64), dimension(m, n, 2), target :: xy
+    real(real64), pointer, dimension(:,:) :: x, y
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
-    type(rainbow_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
+    type(custom_colormap) :: map
+    type(cmap) :: colors
+
+    ! Set up the colormap
+    call colors%set("glasgow", -8.0d0, 8.0d0)
+    call map%set_colormap(colors)
 
     ! Define the data
-    xdata = linspace(xMin, xMax, n)
-    ydata = linspace(yMin, yMax, m)
-    xy = meshgrid(xdata, ydata)
+    xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))
     x => xy(:,:,1)
     y => xy(:,:,2)
 
-    ! Define the function to plot
-    z = sin(sqrt(x**2 + y**2))
-
-    ! Define colormap settings
-    call map%set_show_tics(.false.)
-
-    ! Create the plot
+    ! Initialize the plot
     call plt%initialize()
     call plt%set_colormap(map)
 
+    ! Establish lighting
+    call plt%set_use_lighting(.true.)
+
+    ! Set the orientation of the plot
+    call plt%set_elevation(20.0d0)
+    call plt%set_azimuth(30.0d0)
+    
     ! Define titles
     call plt%set_title("Example Plot")
-
+    
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
 
@@ -211,19 +227,20 @@ program example
     zAxis => plt%get_z_axis()
     call zAxis%set_title("Z Axis")
 
-    ! Define the data set
+    ! Define the function to plot
+    z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
     call d1%define_data(x, y, z)
     call plt%push(d1)
 
-    ! Let GNUPLOT draw the plot
+    ! Draw the plot
     call plt%draw()
 end program
 ```
 This is the plot resulting from the above program.
-![](images/example_surf_plot_1.png?raw=true)
+![](images/custom_colormap.png?raw=true)
 
 ## Example 4
-The following example illustrates how to create a vector-field plot.
+The following example illustrates how to create a vector-field plot.  This example illustrates using one of the built-in colormaps to to help illustrate vector magnitude.
 ```fortran
 program example
     use iso_fortran_env
@@ -335,22 +352,3 @@ end program
 This is the plot resulting from the above program.
 ![](images/polar_example_1.png?raw=true)
 
-## Building FPLOT
-[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
-
-[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
-```txt
-fpm build
-```
-The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
-```toml
-[dependencies]
-fplot = { git = "https://github.com/jchristopherson/fplot" }
-```
-
-## External Libraries
-The FPLOT library depends upon the following libraries.
-- [FERROR](https://github.com/jchristopherson/ferror)
-- [COLLECTIONS](https://github.com/jchristopherson/collections)
-- [ISO_VARYING_STRING](https://gitlab.com/everythingfunctional/iso_varying_string)
-- [GEOMPACK](https://github.com/jchristopherson/geompack)

@@ -44,7 +44,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine clr_copy_from(this, clr)
+    pure module subroutine clr_copy_from(this, clr)
         class(color), intent(inout) :: this
         class(color), intent(in) :: clr
         this%red = clr%red
@@ -52,4 +52,34 @@ contains
         this%blue = clr%blue
     end subroutine
 
+! ******************************************************************************
+! ADDED: JAN. 09, 2024 - JAC
+! ------------------------------------------------------------------------------
+    pure module subroutine clr_assign(x, y)
+        type(color), intent(out) :: x
+        class(color), intent(in) :: y
+        call x%copy_from(y)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function clr_equals(x, y) result(rst)
+        type(color), intent(in) :: x, y
+        logical :: rst
+        rst = .true.
+        if (x%red /= y%red .or. &
+            x%green /= y%green .or. &
+            x%blue /= y%blue &
+        ) then
+            rst = .false.
+        end if
+    end function
+
+! ------------------------------------------------------------------------------
+    pure module function clr_not_equals(x, y) result(rst)
+        type(color), intent(in) :: x, y
+        logical :: rst
+        rst = .not.clr_equals(x, y)
+    end function
+
+! ------------------------------------------------------------------------------
 end submodule

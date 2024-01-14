@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['cm_5fget_5fstring_5fresult_0',['cm_get_string_result',['../interfacefplot__core_1_1cm__get__string__result.html',1,'fplot_core']]],
-  ['color_1',['color',['../structfplot__core_1_1color.html',1,'fplot_core']]],
-  ['colormap_2',['colormap',['../structfplot__core_1_1colormap.html',1,'fplot_core']]],
-  ['cool_5fcolormap_3',['cool_colormap',['../structfplot__core_1_1cool__colormap.html',1,'fplot_core']]]
+  ['assignment_28_3d_29_0',['assignment(=)',['../interfacefplot__core_1_1assignment_07_0a_08.html',1,'fplot_core']]]
 ];

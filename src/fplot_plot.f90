@@ -529,8 +529,11 @@ contains
         character(len = :), allocatable :: x
 
         ! Local Variables
+        integer(int32) :: i
         type(string_builder) :: str
         class(colormap), pointer :: clr
+        class(plot_arrow), pointer :: arrow
+        class(plot_label), pointer :: lbl
 
         ! Initialization
         call str%initialize()
@@ -548,9 +551,78 @@ contains
             call str%append("unset colorbox")
         end if
 
+        ! Arrows
+        do i = 1, this%get_arrow_count()
+            arrow => this%get_arrow(i)
+            if (.not.associated(arrow)) cycle
+            call str%append(new_line('a'))
+            call str%append(arrow%get_command_string())
+        end do
+
+        ! Labels
+        do i = 1, this%get_label_count()
+            lbl => this%get_label(i)
+            if (.not.associated(lbl)) cycle
+            call str%append(new_line('a'))
+            call str%append(lbl%get_command_string())
+        end do
+
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
+
+! ******************************************************************************
+! ADDED: 1/3/2024 - JAC
+! ------------------------------------------------------------------------------
+    module subroutine plt_push_arrow(this, x, err)
+        class(plot), intent(inout) :: this
+        class(plot_arrow), intent(in) :: x
+        class(errors), intent(inout), optional, target :: err
+        call this%m_arrows%push(x, manage = .true., err = err)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_pop_arrow(this)
+        class(plot), intent(inout) :: this
+        call this%m_arrows%pop()
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module function plt_get_arrow(this, i) result(rst)
+        class(plot), intent(in) :: this
+        integer(int32), intent(in) :: i
+        class(plot_arrow), pointer :: rst
+        
+        class(*), pointer :: ptr
+        ptr => this%m_arrows%get(i)
+        select type (ptr)
+        class is (plot_arrow)
+            rst => ptr
+        class default
+            nullify(rst)
+        end select
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_set_arrow(this, i, x)
+        class(plot), intent(inout) :: this
+        integer(int32), intent(in) :: i
+        class(plot_arrow), intent(in) :: x
+        call this%m_arrows%set(i, x)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure module function plt_get_arrow_count(this) result(rst)
+        class(plot), intent(in) :: this
+        integer(int32) :: rst
+        rst = this%m_arrows%count()
+    end function
+
+! ------------------------------------------------------------------------------
+    module subroutine plt_clear_arrows(this)
+        class(plot), intent(inout) :: this
+        call this%m_arrows%clear()
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 end submodule

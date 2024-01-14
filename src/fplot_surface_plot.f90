@@ -120,7 +120,7 @@ contains
         call str%append(this%plot_3d%get_command_string())
 
         ! Output
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

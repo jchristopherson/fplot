@@ -76,7 +76,7 @@ contains
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: xAxis, yAxis, zAxis
         type(legend), pointer :: leg
-        class(plot_label), pointer :: lbl
+        ! class(plot_label), pointer :: lbl
 
         ! Initialization
         call str%initialize()
@@ -164,13 +164,13 @@ contains
         leg => this%get_legend()
         if (associated(leg)) call str%append(leg%get_command_string())
 
-        ! Labels
-        do i = 1, this%get_label_count()
-            lbl => this%get_label(i)
-            if (.not.associated(lbl)) cycle
-            call str%append(new_line('a'))
-            call str%append(lbl%get_command_string())
-        end do
+        ! ! Labels
+        ! do i = 1, this%get_label_count()
+        !     lbl => this%get_label(i)
+        !     if (.not.associated(lbl)) cycle
+        !     call str%append(new_line('a'))
+        !     call str%append(lbl%get_command_string())
+        ! end do
 
         ! Orientation
         call str%append(new_line('a'))
@@ -216,7 +216,7 @@ contains
         end do
 
         ! End
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

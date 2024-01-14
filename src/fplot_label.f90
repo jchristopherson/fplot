@@ -32,7 +32,7 @@ contains
             call str%append(" rotate by ")
             call str%append(to_string(this%get_angle()))
 
-            x = str%to_string()
+            x = char(str%to_string())
         end if
     end function
 
@@ -93,6 +93,18 @@ contains
         n = min(len(x), PLOTDATA_MAX_NAME_LENGTH)
         this%m_text = ""
         this%m_text(1:n) = x(1:n)
+    end subroutine
+
+! ******************************************************************************
+! ADDED: JAN. 09, 2024 - JAC
+! ------------------------------------------------------------------------------
+    pure module subroutine lbl_assign(x, y)
+        type(plot_label), intent(out) :: x
+        class(plot_label), intent(in) :: y
+        x%m_visible = y%m_visible
+        x%m_position = y%m_position
+        x%m_angle = y%m_angle
+        x%m_text = y%m_text
     end subroutine
 
 ! ------------------------------------------------------------------------------

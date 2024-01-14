@@ -46,7 +46,7 @@ contains
         call str%append("unset multiplot")
 
         ! Get the string
-        x = str%to_string()
+        x = char(str%to_string())
     end function
 
 ! ------------------------------------------------------------------------------

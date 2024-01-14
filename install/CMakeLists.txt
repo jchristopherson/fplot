@@ -11,12 +11,6 @@ install_library(
     ${CMAKE_INSTALL_PREFIX}
 )
 
-# Install the documentation files
-install_documentation(
-    ${PROJECT_SOURCE_DIR}/docs/html
-    ${CMAKE_INSTALL_PREFIX}/docs
-)
-
 # Define the version file
 write_basic_package_version_file(
     ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
