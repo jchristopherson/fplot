@@ -32,9 +32,9 @@ var NAVTREE =
         [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
-    [ "Data Types List", "annotated.html", [
+    [ "Data Types", "annotated.html", [
       [ "Data Types List", "annotated.html", "annotated_dup" ],
-      [ "Data Types", "classes.html", null ],
+      [ "Data Type Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
@@ -51,10 +51,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structfplot__core_1_1filled__plot__data.html#a110c056b7b56517a682cc720acab7db7",
-"structfplot__core_1_1plot__2d.html#ad20a8dadc5f0eda240f12632d08beffa",
-"structfplot__core_1_1plot__data__tri__2d.html#afe3e3bbe14b41a52103b5d059936cf07",
-"structfplot__core_1_1surface__plot__data.html#ad1ca167f3c7f31cc06c2a7e662fd8056"
+"structfplot__core_1_1delaunay__tri__2d.html#ae0e68fb12ac6ce70da9bf03a4f77778d",
+"structfplot__core_1_1plot.html#abf9538a6514fb1ed53d5715aacd58e2a",
+"structfplot__core_1_1plot__data__2d.html#a1f46fa50e4d2a1eaff9d881b614f3122",
+"structfplot__core_1_1rainbow__colormap.html",
+"structfplot__core_1_1vector__field__plot__data.html#aa1c31e27261ed54d1728c6d17a2c0db0"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

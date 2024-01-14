@@ -1,10 +1,12 @@
 var annotated_dup =
 [
     [ "fplot_core", "namespacefplot__core.html", [
+      [ "assignment(=)", "interfacefplot__core_1_1assignment_07_0a_08.html", null ],
       [ "cm_get_string_result", "interfacefplot__core_1_1cm__get__string__result.html", null ],
       [ "color", "structfplot__core_1_1color.html", "structfplot__core_1_1color" ],
       [ "colormap", "structfplot__core_1_1colormap.html", "structfplot__core_1_1colormap" ],
       [ "cool_colormap", "structfplot__core_1_1cool__colormap.html", "structfplot__core_1_1cool__colormap" ],
+      [ "custom_colormap", "structfplot__core_1_1custom__colormap.html", "structfplot__core_1_1custom__colormap" ],
       [ "delaunay_tri_2d", "structfplot__core_1_1delaunay__tri__2d.html", "structfplot__core_1_1delaunay__tri__2d" ],
       [ "delaunay_tri_surface", "structfplot__core_1_1delaunay__tri__surface.html", "structfplot__core_1_1delaunay__tri__surface" ],
       [ "earth_colormap", "structfplot__core_1_1earth__colormap.html", "structfplot__core_1_1earth__colormap" ],
@@ -15,12 +17,15 @@ var annotated_dup =
       [ "latex_terminal", "structfplot__core_1_1latex__terminal.html", "structfplot__core_1_1latex__terminal" ],
       [ "legend", "structfplot__core_1_1legend.html", "structfplot__core_1_1legend" ],
       [ "multiplot", "structfplot__core_1_1multiplot.html", "structfplot__core_1_1multiplot" ],
+      [ "operator(/=)", "interfacefplot__core_1_1operator_07_2_0a_08.html", null ],
+      [ "operator(==)", "interfacefplot__core_1_1operator_07_0a_0a_08.html", null ],
       [ "pa_get_string_result", "interfacefplot__core_1_1pa__get__string__result.html", null ],
       [ "parula_colormap", "structfplot__core_1_1parula__colormap.html", "structfplot__core_1_1parula__colormap" ],
       [ "pd_get_string_result", "interfacefplot__core_1_1pd__get__string__result.html", null ],
       [ "plot", "structfplot__core_1_1plot.html", "structfplot__core_1_1plot" ],
       [ "plot_2d", "structfplot__core_1_1plot__2d.html", "structfplot__core_1_1plot__2d" ],
       [ "plot_3d", "structfplot__core_1_1plot__3d.html", "structfplot__core_1_1plot__3d" ],
+      [ "plot_arrow", "structfplot__core_1_1plot__arrow.html", "structfplot__core_1_1plot__arrow" ],
       [ "plot_axis", "structfplot__core_1_1plot__axis.html", "structfplot__core_1_1plot__axis" ],
       [ "plot_bar", "structfplot__core_1_1plot__bar.html", "structfplot__core_1_1plot__bar" ],
       [ "plot_data", "structfplot__core_1_1plot__data.html", "structfplot__core_1_1plot__data" ],
@@ -55,9 +60,5 @@ var annotated_dup =
       [ "y2_axis", "structfplot__core_1_1y2__axis.html", "structfplot__core_1_1y2__axis" ],
       [ "y_axis", "structfplot__core_1_1y__axis.html", "structfplot__core_1_1y__axis" ],
       [ "z_axis", "structfplot__core_1_1z__axis.html", "structfplot__core_1_1z__axis" ]
-    ] ],
-    [ "fplot_string_builder", "namespacefplot__string__builder.html", [
-      [ "string_builder", "structfplot__string__builder_1_1string__builder.html", "structfplot__string__builder_1_1string__builder" ],
-      [ "to_string", "interfacefplot__string__builder_1_1to__string.html", null ]
     ] ]
 ];
