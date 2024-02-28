@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 project(
     fplot 
     LANGUAGES Fortran
-    VERSION 1.7.0
+    VERSION 1.7.1
 )
 
 # Get helper macros and functions
@@ -30,9 +30,6 @@ link_library(${PROJECT_NAME} ${fstring_LIBRARY} ${fstring_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${collections_LIBRARY} ${collections_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${geompack_LIBRARY} ${geompack_INCLUDE_DIR})
 link_library(${PROJECT_NAME} ${forcolormap_LIBRARY} ${forcolormap_INCLUDE_DIR})
-
-# Installation
-add_subdirectory(install)
 
 # ------------------------------------------------------------------------------
 # EXAMPLES
