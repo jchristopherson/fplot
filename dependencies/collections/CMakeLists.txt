@@ -10,17 +10,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(collections)
 
-if (WIN32)
-    if (BUILD_SHARED_LIBS)
-        add_custom_command(
-            TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:collections>
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>
-        )
-    endif()
-endif()
-
 set(collections_INCLUDE_DIR ${collections_BINARY_DIR}/include)
 set(collections_INCLUDE_DIR ${collections_INCLUDE_DIR} PARENT_SCOPE)
 
