@@ -24,7 +24,7 @@ jobs:
             toolchain: {compiler: intel, version: '2023.2'}
 
     steps:
-      - uses: awvwgk/setup-fortran@v1
+      - uses: awvwgk/setup-fortran@v1.6.1
         id: setup-fortran
         with:
           compiler: ${{ matrix.toolchain.compiler }}
