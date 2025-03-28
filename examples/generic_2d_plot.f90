@@ -1,5 +1,3 @@
-! fplot_2d_2.f90
-
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -13,33 +11,31 @@ program example
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
-    type(legend), pointer :: lgnd
+    type(legend), pointer :: leg
     
     ! Initialize the plot object
     call plt%initialize()
-    
-    ! Set plot properties
-    call plt%set_draw_border(.false.)
-    call plt%set_show_gridlines(.false.)
-
-    ! Define the legend location
-    lgnd => plt%get_legend()
-    call lgnd%set_is_visible(.true.)
-    call lgnd%set_draw_inside_axes(.false.)
 
     ! Define titles
-    call plt%set_title("2D Example Plot 2")
+    call plt%set_title("Example Plot")
+    call plt%set_font_size(14)
 
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
-    call xAxis%set_zero_axis(.true.)
-    call xAxis%set_zero_axis_line_width(1.0)
 
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
 
+    ! Establish legend properties
+    leg => plt%get_legend()
+    call leg%set_is_visible(.true.)
+    call leg%set_draw_inside_axes(.false.)
+    call leg%set_horizontal_position(LEGEND_CENTER)
+    call leg%set_vertical_position(LEGEND_BOTTOM)
+    call leg%set_draw_border(.false.)
+
     ! Define the data, and then add it to the plot
-    x = linspace(0.0d0, 10.d0, n)
+    x = linspace(0.0d0, 10.0d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
@@ -48,7 +44,10 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_line_width(1.0)
+    call d1%set_draw_markers(.true.)
+    call d1%set_marker_frequency(10)
+    call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
+    call d1%set_marker_scaling(2.0)
 
     call d2%set_name("Data Set 2")
     call d2%set_line_style(LINE_DASHED)

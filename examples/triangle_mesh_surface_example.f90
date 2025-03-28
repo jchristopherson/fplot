@@ -1,5 +1,3 @@
-! fplot_tri_surf_1.f90
-
 program example
     use iso_fortran_env
     use fplot_core

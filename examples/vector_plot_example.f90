@@ -1,5 +1,3 @@
-! fplot_vector_2.f90
-
 program example
     use iso_fortran_env
     use fplot_core
@@ -9,7 +7,6 @@ program example
     type(plot_2d) :: plt
     type(vector_field_plot_data) :: ds1
     class(plot_axis), pointer :: xAxis, yAxis
-    type(rainbow_colormap) :: map
     real(real64), allocatable, dimension(:,:,:) :: pts
     real(real64), allocatable, dimension(:,:) :: dx, dy
     real(real64) :: dxdt(2)
@@ -51,11 +48,8 @@ program example
     call plt%set_draw_border(.false.)
     call plt%set_show_gridlines(.false.)
 
-    ! Define the colormap
-    call plt%set_colormap(map)
-
-    ! Add the data to the plot - color by the magnitude of gradient
-    call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))
+    ! Add the data to the plot
+    call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy)
     call plt%push(ds1)
 
     call plt%draw()

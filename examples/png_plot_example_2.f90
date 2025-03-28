@@ -1,5 +1,3 @@
-! fplot_2d_4.f90
-
 program example
     use iso_fortran_env
     use fplot_core
@@ -23,7 +21,7 @@ program example
     call d2%define_data(x, y2)
 
     ! Set up the plot
-    call plt%initialize(GNUPLOT_TERMINAL_LATEX) ! Save to file directly
+    call plt%initialize(GNUPLOT_TERMINAL_PNG) ! Save to file directly
     call plt%set_title("Example Plot")
     
     xAxis => plt%get_x_axis()
@@ -32,10 +30,11 @@ program example
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
 
-    ! Put the legend in the upper left corner of the plot
+    ! Put the legend outside the axes, and remove it's border
     leg => plt%get_legend()
-    call leg%set_horizontal_position(LEGEND_LEFT)
-    call leg%set_vertical_position(LEGEND_TOP)
+    call leg%set_is_visible(.true.)
+    call leg%set_draw_inside_axes(.false.)
+    call leg%set_draw_border(.false.)
 
     ! Set up line color and style properties to better distinguish each data set
     call d1%set_name("Data Set 1")
@@ -51,9 +50,8 @@ program example
     ! Define the file to which the plot should be saved
     term => plt%get_terminal()
     select type (term)
-    class is (latex_terminal)
-        print '(A)', "LATEX TERMINAL"
-        call term%set_filename("example_latex_plot.tex")
+    class is (png_terminal)
+        call term%set_filename("example_plot_legend_out.png")
     end select
 
     ! Draw the plot

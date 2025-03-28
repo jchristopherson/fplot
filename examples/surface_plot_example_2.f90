@@ -1,48 +1,47 @@
-! fplot_surf_2.f90
-
 program example
+    use, intrinsic :: iso_fortran_env
     use fplot_core
-    use iso_fortran_env
-    use forcolormap, only : colormaps_list
     implicit none
 
     ! Parameters
     integer(int32), parameter :: m = 50
     integer(int32), parameter :: n = 50
+    real(real64), parameter :: xMax = 5.0d0
+    real(real64), parameter :: xMin = -5.0d0
+    real(real64), parameter :: yMax = 5.0d0
+    real(real64), parameter :: yMin = -5.0d0
 
     ! Local Variables
+    real(real64), dimension(n) :: xdata
+    real(real64), dimension(m) :: ydata
+    real(real64), dimension(:,:), pointer :: x, y
     real(real64), dimension(m, n, 2), target :: xy
-    real(real64), pointer, dimension(:,:) :: x, y
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
+    type(rainbow_colormap) :: map
     class(plot_axis), pointer :: xAxis, yAxis, zAxis
-    type(custom_colormap) :: map
-    type(cmap) :: colors
-
-    ! Set up the colormap
-    call colors%set("glasgow", -8.0d0, 8.0d0)
-    call map%set_colormap(colors)
 
     ! Define the data
-    xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))
+    xdata = linspace(xMin, xMax, n)
+    ydata = linspace(yMin, yMax, m)
+    xy = meshgrid(xdata, ydata)
     x => xy(:,:,1)
     y => xy(:,:,2)
 
-    ! Initialize the plot
+    ! Define the function to plot
+    z = sin(sqrt(x**2 + y**2))
+
+    ! Define colormap settings
+    call map%set_show_tics(.false.)
+
+    ! Create the plot
     call plt%initialize()
     call plt%set_colormap(map)
 
-    ! Establish lighting
-    call plt%set_use_lighting(.true.)
-
-    ! Set the orientation of the plot
-    call plt%set_elevation(20.0d0)
-    call plt%set_azimuth(30.0d0)
-    
     ! Define titles
     call plt%set_title("Example Plot")
-    
+
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
 
@@ -52,11 +51,10 @@ program example
     zAxis => plt%get_z_axis()
     call zAxis%set_title("Z Axis")
 
-    ! Define the function to plot
-    z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
+    ! Define the data set
     call d1%define_data(x, y, z)
     call plt%push(d1)
 
-    ! Draw the plot
+    ! Let GNUPLOT draw the plot
     call plt%draw()
 end program

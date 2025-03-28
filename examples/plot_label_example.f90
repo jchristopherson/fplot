@@ -1,5 +1,3 @@
-! fplot_2d_7.f90
-
 program example
     use fplot_core
     use iso_fortran_env
@@ -11,7 +9,6 @@ program example
     type(plot_2d) :: plt
     type(plot_data_2d) :: dataset
     class(plot_axis), pointer :: xAxis, yAxis
-    type(legend), pointer :: leg
     type(plot_label) :: lbl
 
     ! Build a data set
@@ -38,10 +35,6 @@ program example
 
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
-
-    ! Hide the legend
-    leg => plt%get_legend()
-    call leg%set_is_visible(.false.)
 
     ! Add the data to the plot
     call plt%push(dataset)

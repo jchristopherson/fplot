@@ -7,7 +7,7 @@ program example
     integer(int32), parameter :: n = 5000
     integer(int32), parameter :: nbins = 12
     real(real64) :: x(n), u(n), v(n)
-    type(plot_2d) :: plt
+    type(plot_bar) :: plt   ! can also be plot_2d
     type(plot_data_histogram) :: pd1
 
     ! Initialization
@@ -22,7 +22,7 @@ program example
     ! Plot the data
     call pd1%set_bin_count(nbins)   ! optiona, but must be done prior to define_data is used
     call pd1%define_data(x)
-    call pd1%set_transparency(0.2)  ! optional - for illustration purposes
+    call pd1%set_transparency(0.5)  ! optional - for illustration purposes
     call plt%push(pd1)
     call plt%draw()
 end program

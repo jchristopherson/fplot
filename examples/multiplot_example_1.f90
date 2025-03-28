@@ -1,5 +1,3 @@
-! fplot_multi_1.f90
-
 program example
     use iso_fortran_env
     use fplot_core
@@ -38,12 +36,10 @@ program example
     call y2Axis%set_title("Y2")
 
     call d1%set_name("Data Set 1")
-    call d1%set_line_color(CLR_BLUE)
     call d1%set_line_width(2.0)
     call d1%define_data(x1, y1)
 
     call d2%set_name("Data Set 2")
-    call d2%set_line_color(CLR_GREEN)
     call d2%set_line_width(2.0)
     call d2%define_data(x2, y2)
 

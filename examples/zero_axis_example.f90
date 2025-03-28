@@ -1,5 +1,3 @@
-! fplot_png_1.f90
-
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -7,10 +5,8 @@ program example
 
     ! Parameters
     integer(int32), parameter :: n = 1000
-    real(real64), parameter :: dx = 1.0d-2
 
     ! Local Variables
-    integer(int32) :: i
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
@@ -18,7 +14,7 @@ program example
     type(legend), pointer :: lgnd
     
     ! Initialize the plot object
-    call plt%initialize(GNUPLOT_TERMINAL_PNG)
+    call plt%initialize()
     
     ! Set plot properties
     call plt%set_draw_border(.false.)
@@ -26,6 +22,7 @@ program example
 
     ! Define the legend location
     lgnd => plt%get_legend()
+    call lgnd%set_is_visible(.true.)
     call lgnd%set_draw_inside_axes(.false.)
 
     ! Define titles
@@ -40,10 +37,7 @@ program example
     call yAxis%set_title("Y Axis")
 
     ! Define the data, and then add it to the plot
-    x(1) = 0.0d0
-    do i = 2, n
-        x(i) = x(i-1) + dx
-    end do
+    x = linspace(0.0d0, 10.d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
@@ -52,11 +46,9 @@ program example
 
     ! Define properties for each data set
     call d1%set_name("Data Set 1")
-    call d1%set_line_color(CLR_BLUE)
     call d1%set_line_width(1.0)
 
     call d2%set_name("Data Set 2")
-    call d2%set_line_color(CLR_GREEN)
     call d2%set_line_style(LINE_DASHED)
     call d2%set_line_width(2.0)
 

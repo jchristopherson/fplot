@@ -1,5 +1,3 @@
-! fplot_multi_3.f90
-
 ! This example illustrates the frequency response of the following mechanical
 ! system.
 !
@@ -53,9 +51,8 @@ program example
     ! Local Variables
     complex(real64), dimension(npts) :: s, z1, z2
     real(real64), dimension(npts) :: freq, omega
-    type(multiplot) :: mplt
-    type(plot_2d) :: plt, pplt
-    type(plot_data_2d) :: d1, d2, d3, d4
+    type(plot_2d) :: plt
+    type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
     class(legend), pointer :: lgnd
 
@@ -70,18 +67,27 @@ program example
     z2 = (b * s + k)**2 / &
         ((m * s**2 + 2.0d0 * b * s + 2.0d0 * k)**2 + (-b * s - k) * (b * s + k))
     
-    ! Create the plots
-    call mplt%initialize(2, 1)
-    call mplt%set_font_size(14)
+    ! Create the plot
     call plt%initialize()
+    call plt%set_font_size(14)
     xAxis => plt%get_x_axis()
     yAxis => plt%get_y_axis()
+    lgnd => plt%get_legend()
+
+    call lgnd%set_is_visible(.true.)
+    call lgnd%set_draw_border(.false.)
 
     call xAxis%set_title("Frequency [Hz]")
     call yAxis%set_title("Amplitude (X / Y)")
 
     call xAxis%set_is_log_scaled(.true.)
     call yAxis%set_is_log_scaled(.true.)
+
+    call xAxis%set_use_default_tic_label_format(.false.)
+    call xAxis%set_tic_label_format("%0.0e")
+
+    call yAxis%set_use_default_tic_label_format(.false.)
+    call yAxis%set_tic_label_format("%0.0e")
 
     call d1%set_name("X1")
     call d1%set_line_width(2.0)
@@ -94,35 +100,5 @@ program example
 
     call plt%push(d1)
     call plt%push(d2)
-    
-    ! Set up the phase plot
-    call pplt%initialize()
-    xAxis => pplt%get_x_axis()
-    yAxis => pplt%get_y_axis()
-
-    call xAxis%set_title("Frequency [Hz]")
-    call yAxis%set_title("Phase [deg]")
-
-    call xAxis%set_is_log_scaled(.true.)
-
-    call d3%set_name("X1")
-    call d3%set_line_width(2.0)
-    call d3%define_data(freq, 180.0d0 * atan2(aimag(z1), real(z1)) / pi)
-
-    call d4%set_name("X2")
-    call d4%set_line_width(2.0)
-    call d4%set_line_style(LINE_DASHED)
-    call d4%define_data(freq, 180.0d0 * atan2(aimag(z2), real(z2)) / pi)
-
-    call pplt%push(d3)
-    call pplt%push(d4)
-
-    ! Don't use a legend on the phase plot
-    lgnd => pplt%get_legend()
-    call lgnd%set_is_visible(.false.)
-
-    ! Save the plot to file
-    call mplt%set(1, 1, plt)
-    call mplt%set(2, 1, pplt)
-    call mplt%save_file("example_multiplot_file.plt")
+    call plt%draw()
 end program

@@ -39,7 +39,6 @@ program example
     call d1%define_data(x, y, z, x * y)
 
     ! Set up the data set
-    call d1%set_line_color(CLR_BLUE)
     call d1%set_line_width(2.0)
 
     ! Add the data to the plot

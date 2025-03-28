@@ -1,5 +1,3 @@
-! fplot_2d_3.f90
-
 program example
     use iso_fortran_env
     use fplot_core
@@ -9,6 +7,7 @@ program example
     integer(int32), parameter :: npts = 1000
     real(real64), dimension(npts) :: x, y1, y2
     type(plot_2d) :: plt
+    class(terminal), pointer :: term
     type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
     type(legend), pointer :: leg
@@ -22,7 +21,7 @@ program example
     call d2%define_data(x, y2)
 
     ! Set up the plot
-    call plt%initialize(GNUPLOT_TERMINAL_PNG, "example_plot.png") ! Save to file directly
+    call plt%initialize(GNUPLOT_TERMINAL_LATEX) ! Save to file directly
     call plt%set_title("Example Plot")
     
     xAxis => plt%get_x_axis()
@@ -33,6 +32,7 @@ program example
 
     ! Put the legend in the upper left corner of the plot
     leg => plt%get_legend()
+    call leg%set_is_visible(.true.)
     call leg%set_horizontal_position(LEGEND_LEFT)
     call leg%set_vertical_position(LEGEND_TOP)
 
@@ -46,6 +46,14 @@ program example
     ! Add the data to the plot
     call plt%push(d1)
     call plt%push(d2)
+
+    ! Define the file to which the plot should be saved
+    term => plt%get_terminal()
+    select type (term)
+    class is (latex_terminal)
+        print '(A)', "LATEX TERMINAL"
+        call term%set_filename("example_latex_plot.tex")
+    end select
 
     ! Draw the plot
     call plt%draw()

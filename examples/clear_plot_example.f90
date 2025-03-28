@@ -1,5 +1,3 @@
-! fplot_clear_1.f90
-
 program example
     use iso_fortran_env
     use fplot_core
@@ -31,7 +29,6 @@ program example
     ! Build the second plot
     call d2%set_name("|sin(x)|")
     call d2%define_data(x, y2)
-    call plt%push(d1)
     call plt%push(d2)
     call plt%draw()
 end program

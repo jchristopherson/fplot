@@ -1,5 +1,3 @@
-! fplot_2d_9.f90
-
 program example
     use iso_fortran_env
     use fplot_core
