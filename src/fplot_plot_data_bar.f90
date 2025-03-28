@@ -1,11 +1,70 @@
 ! fplot_plot_data_bar.f90
 
-submodule (fplot_core) fplot_plot_data_bar
+module fplot_plot_data_bar
+    use iso_fortran_env
+    use fplot_plot_data
+    use fplot_errors
+    use fplot_colors
+    use strings
+    use ferror
+    implicit none
+    private
+    public :: plot_data_bar
+
+    type, extends(plot_data_colored) :: plot_data_bar
+        !! Defines a data set tailored to bar charts.
+        type(string), private, allocatable, dimension(:) :: m_axisLabels
+            !! An array containing axis labels to associate with each bar.
+        real(real64), private, allocatable, dimension(:,:) :: m_barData
+            !! An array of data defining each bar - the matrix contains
+            !! multiple columns to allow multiple bars per label.
+        logical, private :: m_useAxisLabels = .true.
+            !! Determines if the axis labels should be used - only applicable
+            !! if there is existing data stored in m_axisLabels & m_axisLabels
+            !! is the same size as m_barData.
+        logical, private :: m_useY2 = .false.
+            !! Draw against the secondary y axis?
+        logical, private :: m_filled = .true.
+            !! Determines if each bar is filled.
+        real(real32), private :: m_alpha = 1.0
+            !! The alpha value (transparency) for each bar.
+    contains
+        procedure, public :: get_count => pdb_get_count
+        procedure, public :: get => pdb_get_data
+        procedure, public :: set => pdb_set_data
+        procedure, public :: get_data => pdb_get_data_set
+        procedure, public :: get_label => pdb_get_label
+        procedure, public :: set_label => pdb_set_label
+        procedure, public :: get_use_labels => pdb_get_use_labels
+        procedure, public :: set_use_labels => pdb_set_use_labels
+        procedure, public :: get_command_string => pdb_get_cmd
+        procedure, public :: get_data_string => pdb_get_data_cmd
+        procedure, public :: get_axes_string => pdb_get_axes_cmd
+        procedure, public :: get_bar_per_label_count => pdb_get_col_count
+        procedure, public :: get_draw_against_y2 => pdb_get_use_y2
+        procedure, public :: set_draw_against_y2 => pdb_set_use_y2
+        procedure, public :: get_is_filled => pdb_get_is_filled
+        procedure, public :: set_is_filled => pdb_set_is_filled
+        procedure, public :: get_transparency => pdb_get_alpha
+        procedure, public :: set_transparency => pdb_set_alpha
+        generic, public :: define_data => pdb_set_data_1, pdb_set_data_2, &
+            pdb_set_data_3
+        procedure, private :: pdb_set_data_1
+        procedure, private :: pdb_set_data_2
+        procedure, private :: pdb_set_data_3
+        procedure, public :: set_data_1 => pdb_set_data_1_core
+        procedure, public :: set_data_2 => pdb_set_data_2_core
+        procedure, public :: set_data_3 => pdb_set_data_3_core
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_count(this) result(x)
+pure function pdb_get_count(this) result(x)
+    !!  Gets the number of stored data points.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     integer(int32) :: x
+        !! The number of stored data points.
     if (allocated(this%m_barData)) then
         x = size(this%m_barData, 1)
     else
@@ -14,10 +73,16 @@ pure module function pdb_get_count(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_data(this, index, col) result(x)
+pure function pdb_get_data(this, index, col) result(x)
+    !! Gets the requested data point.
     class(plot_data_bar), intent(in) :: this
-    integer(int32), intent(in) :: index, col
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The data point index.
+    integer(int32), intent(in) :: col
+        !! The column index.
     real(real64) :: x
+        !! The value.
     if (allocated(this%m_barData)) then
         x = this%m_barData(index, col)
     else
@@ -26,20 +91,30 @@ pure module function pdb_get_data(this, index, col) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data(this, index, col, x)
+subroutine pdb_set_data(this, index, col, x)
+    !! Replaces the requested data point.
     class(plot_data_bar), intent(inout) :: this
-    integer(int32), intent(in) :: index, col
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The data point index.
+    integer(int32), intent(in) :: col
+        !! The column index.
     real(real64), intent(in) :: x
+        !! The new value.
     if (allocated(this%m_barData)) then
         this%m_barData(index, col) = x
     end if
 end subroutine
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_data_set(this, col) result(x)
+pure function pdb_get_data_set(this, col) result(x)
+    !! Gets the requested data set.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     integer(int32), intent(in) :: col
+        !! The column index.
     real(real64), allocatable, dimension(:) :: x
+        !! A copy of the data set.
     if (allocated(this%m_barData)) then
         x = this%m_barData(:,col)
     else
@@ -48,10 +123,14 @@ pure module function pdb_get_data_set(this, col) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_label(this, index) result(x)
+pure function pdb_get_label(this, index) result(x)
+    !! Gets the axis label associated with a specific data set.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     integer(int32), intent(in) :: index
+        !! The index of the data set.
     character(len = :), allocatable :: x
+        !! The label.
     if (allocated(this%m_axisLabels)) then
         x = char(this%m_axisLabels(index))
     else
@@ -60,34 +139,46 @@ pure module function pdb_get_label(this, index) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_label(this, index, txt)
+subroutine pdb_set_label(this, index, txt)
+    !! Sets the axis label for a specific data set.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     integer(int32) :: index
+        !! The index of the data set.
     character(len = *), intent(in) :: txt
+        !! The label.
     if (allocated(this%m_axisLabels)) then
         this%m_axisLabels(index) = txt
     end if
 end subroutine
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_use_labels(this) result(x)
+pure function pdb_get_use_labels(this) result(x)
+    !! Gets a value determining if labels are used to identify the data.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     logical :: x
+        !! Returns true if labels are used; else, false.
     x = this%m_useAxisLabels
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_use_labels(this, x)
+subroutine pdb_set_use_labels(this, x)
+    !! Sets a value determining if labels are used to identify the data.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     logical, intent(in) :: x
+        !! Set to true if labels are used; else, false.
     this%m_useAxisLabels = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module function pdb_get_cmd(this) result(x)
-    ! Arguments
+function pdb_get_cmd(this) result(x)
+    !! Gets the GNUPLOT command string for this object.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     character(len = :), allocatable :: x
+        !! The command string.
 
     ! Local Variables
     type(string_builder) :: str
@@ -151,10 +242,12 @@ module function pdb_get_cmd(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module function pdb_get_data_cmd(this) result(x)
-    ! Arguments
+function pdb_get_data_cmd(this) result(x)
+    !! Gets the GNUPLOT command string defining the data for this object.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     character(len = :), allocatable :: x
+        !! The command string.
 
     ! Local Variables
     type(string_builder) :: str
@@ -195,10 +288,12 @@ module function pdb_get_data_cmd(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module function pdb_get_axes_cmd(this) result(x)
-    ! Arguments
+function pdb_get_axes_cmd(this) result(x)
+    !! Gets the GNUPLOT command defining which axes to plot against.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     character(len = :), allocatable :: x
+        !! The command string.
 
     ! Define which axes the data is to be plotted against
     if (this%get_draw_against_y2()) then
@@ -209,9 +304,12 @@ module function pdb_get_axes_cmd(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_col_count(this) result(x)
+pure function pdb_get_col_count(this) result(x)
+    !! Gets the number of data sets (columns).
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     integer(int32) :: x
+        !! The count.
     if (allocated(this%m_barData)) then
         x = size(this%m_barData, 2)
     else
@@ -220,80 +318,112 @@ pure module function pdb_get_col_count(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_use_y2(this) result(x)
+pure function pdb_get_use_y2(this) result(x)
+    !! Gets a value determining if the data should be plotted against a
+    !! secondary y-axis.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     logical :: x
+        !! Returns true to plot against a secondary y-axis; else, false.
     x = this%m_useY2
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_use_y2(this, x)
+subroutine pdb_set_use_y2(this, x)
+    !! Sets a value determining if the data should be plotted against a
+    !! secondary y-axis.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     logical, intent(in) :: x
+        !! Set to true to plot against a secondary y-axis; else, false.
     this%m_useY2 = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_1(this, x, err)
-    ! Arguments
+subroutine pdb_set_data_1(this, x, err)
+    !! Defines a single data set.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     real(real64), intent(in), dimension(:) :: x
+        !! The data to plot.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Process
     call this%set_data_1(x, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_2(this, labels, x, err)
-    ! Arguments
+subroutine pdb_set_data_2(this, labels, x, err)
+    !! Defines data along with associated axis labels.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     class(string), intent(in), dimension(:) :: labels
+        !! The axis labels to associate with the data.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Process
     call this%set_data_2(labels, x, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_3(this, labels, x, fmt, err)
-    ! Arguments
+subroutine pdb_set_data_3(this, labels, x, fmt, err)
+    !! Defines data along with labels and formatting information.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     real(real64), intent(in), dimension(:) :: labels
+        !! The axis labels to associate with the data.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     character(len = *), intent(in), optional :: fmt
+        !! The format string for the labels (e.g. '(I0)', etc.).
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Process
     call this%set_data_3(labels, x, fmt, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_is_filled(this) result(x)
+pure function pdb_get_is_filled(this) result(x)
+    !! Gets a value determining if each bar is filled.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     logical :: x
+        !! Returns true if the bars are to be filled; else, false.
     x = this%m_filled
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_is_filled(this, x)
+subroutine pdb_set_is_filled(this, x)
+    !! Sets a value determining if each bar is filled.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     logical, intent(in) :: x
+        !! Set to true if the bars are to be filled; else, false.
     this%m_filled = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-pure module function pdb_get_alpha(this) result(x)
+pure function pdb_get_alpha(this) result(x)
+    !! Gets the alpha (transparency) for the bar color.
     class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
     real(real32) :: x
+        !! The alpha value ([0, 1]).
     x = this%m_alpha
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_alpha(this, x)
+subroutine pdb_set_alpha(this, x)
+    !! Gets the alpha (transparency) for the bar color.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     real(real32), intent(in) :: x
+        !! The alpha value ([0, 1]).
     if (x > 1.0) then
         this%m_alpha = 1.0
     else if (x < 0.0) then
@@ -304,11 +434,14 @@ module subroutine pdb_set_alpha(this, x)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_1_core(this, x, err)
-    ! Arguments
+subroutine pdb_set_data_1_core(this, x, err)
+    !! Defines the data set.
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     class(errors), pointer :: errmgr
@@ -328,20 +461,23 @@ module subroutine pdb_set_data_1_core(this, x, err)
     if (allocated(this%m_barData)) deallocate(this%m_barData)
     allocate(this%m_barData(n, 1), stat = flag)
     if (flag /= 0) then
-        call errmgr%report_error("pdb_set_data_1_core", &
-            "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "pdb_set_data_1_core", flag)
         return
     end if
     this%m_barData(:,1) = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_2_core(this, labels, x, err)
+subroutine pdb_set_data_2_core(this, labels, x, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     class(string), intent(in), dimension(:) :: labels
+        !! The axis labels.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     class(errors), pointer :: errmgr
@@ -358,9 +494,8 @@ module subroutine pdb_set_data_2_core(this, labels, x, err)
 
     ! Input Check
     if (size(labels) /= n) then
-        call errmgr%report_error("pdb_set_data_2_core", &
-            "The input arrays are not the same size.", &
-            PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        call report_array_size_mismatch_error(errmgr, "pdb_set_data_2_core", &
+            "labels", n, size(labels))
         return
     end if
 
@@ -370,8 +505,7 @@ module subroutine pdb_set_data_2_core(this, labels, x, err)
     allocate(this%m_barData(n, 1), stat = flag)
     if (flag == 0) allocate(this%m_axisLabels(n), stat = flag)
     if (flag /= 0) then
-        call errmgr%report_error("pdb_set_data_2_core", &
-            "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "pdb_set_data_2_core", flag)
         return
     end if
     this%m_barData(:,1) = x
@@ -379,13 +513,18 @@ module subroutine pdb_set_data_2_core(this, labels, x, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
+subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
     ! Arguments
     class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
     real(real64), intent(in), dimension(:) :: labels
+        !! The axis labels.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     character(len = *), intent(in), optional :: fmt
+        !! The format string for the labels (e.g. '(I0)', etc.).
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     class(errors), pointer :: errmgr
@@ -403,17 +542,15 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
 
     ! Input Check
     if (size(labels) /= n) then
-        call errmgr%report_error("pdb_set_data_3_core", &
-            "The input arrays are not the same size.", &
-            PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        call report_array_size_mismatch_error(errmgr, "pdb_set_data_3_core", &
+            "labels", n, size(labels))
         return
     end if
 
     ! Convert the numeric labels to strings
     allocate(lbls(n), stat = flag)
     if (flag /= 0) then
-        call errmgr%report_error("pdb_set_data_3_core", &
-            "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "pdb_set_data_3_core", flag)
         return
     end if
     do i = 1, n
@@ -426,8 +563,7 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
     allocate(this%m_barData(n, 1), stat = flag)
     if (flag == 0) allocate(this%m_axisLabels(n), stat = flag)
     if (flag /= 0) then
-        call errmgr%report_error("pdb_set_data_3_core", &
-            "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "pdb_set_data_3_core", flag)
         return
     end if
     this%m_barData(:,1) = x
@@ -435,4 +571,4 @@ module subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

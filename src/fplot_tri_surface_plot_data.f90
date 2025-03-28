@@ -1,14 +1,45 @@
 ! fplot_tri_surface_plot_data.f90
 
-submodule (fplot_core) fplot_tri_surface_plot_data
+module fplot_tri_surface_plot_data
+    use iso_fortran_env
+    use fplot_plot_data
+    use fplot_delaunay_tri_surface
+    use strings
+    implicit none
+    private
+    public :: tri_surface_plot_data
+
+    type, extends(plot_data) :: tri_surface_plot_data
+        !! Provides a three-dimensional surface plot data set constructed of
+        !! triangulated points.
+        real(real64), private, allocatable, dimension(:) :: m_x
+            !! An array of the x-coordinates of each point.
+        real(real64), private, allocatable, dimension(:) :: m_y
+            !! An array of the y-coordinates of each point.
+        real(real64), private, allocatable, dimension(:) :: m_z
+            !! An array of the z-coordinates of each point.
+        integer(int32), private, allocatable, dimension(:,:) :: m_indices
+            !! A 3-column matrix containing the indices of each triangle's
+            !! vertex.
+        logical, private :: m_wireframe = .true.
+            !! Determines if the surface should be drawn as a wireframe.
+    contains
+        procedure, public :: get_data_string => tspd_get_data_cmd
+        procedure, public :: get_command_string => tspd_get_cmd
+        procedure, public :: get_use_wireframe => tspd_get_wireframe
+        procedure, public :: set_use_wireframe => tspd_set_wireframe
+        procedure, public :: define_data => tspd_define_data
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    module function tspd_get_data_cmd(this) result(x)
-        ! Arguments
+    function tspd_get_data_cmd(this) result(x)
+        !! Gets the GNUPLOT command string for representing the data.
         class(tri_surface_plot_data), intent(in) :: this
+            !! The tri_surface_plot_data object.
         character(len = :), allocatable :: x
+            !! The command string.
 
-        ! Local Variables
         ! Local Variables
         type(string_builder) :: str
         integer(int32) :: i, j, n
@@ -96,10 +127,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function tspd_get_cmd(this) result(x)
-        ! Arguments
+    function tspd_get_cmd(this) result(x)
+        !! Gets the GNUPLOT command string for the object.
         class(tri_surface_plot_data), intent(in) :: this
+            !! The tri_surface_plot_data object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -130,24 +163,34 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function tspd_get_wireframe(this) result(rst)
+    pure function tspd_get_wireframe(this) result(rst)
+        !! Gets a value determining if a wireframe mesh should be displayed.
         class(tri_surface_plot_data), intent(in) :: this
+            !! The tri_surface_plot_data object.
         logical :: rst
+            !! Returns true if the plot is to be drawn as a wireframe; else,
+            !! false to draw as a surface.
         rst = this%m_wireframe
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine tspd_set_wireframe(this, x)
+    subroutine tspd_set_wireframe(this, x)
+        !! Sets a value determining if a wireframe mesh should be displayed.
         class(tri_surface_plot_data), intent(inout) :: this
+            !! The tri_surface_plot_data object.
         logical, intent(in) :: x
+            !! Set to true if the plot is to be drawn as a wireframe; else,
+            !! false to draw as a surface.
         this%m_wireframe = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine tspd_define_data(this, tri)
-        ! Arguments
+    subroutine tspd_define_data(this, tri)
+        !! Defines the data to plot.
         class(tri_surface_plot_data), intent(inout) :: this
+            !! The tri_surface_plot_data object.
         class(delaunay_tri_surface), intent(in) :: tri
+            !! The triangulation to plot.
 
         ! Process
         if (allocated(this%m_x)) deallocate(this%m_x)
@@ -162,4 +205,4 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

@@ -1,12 +1,47 @@
 ! fplot_plot_data_tri_2d.f90
 
-submodule (fplot_core) fplot_plot_data_tri_2d
+module fplot_plot_data_tri_2d
+    use iso_fortran_env
+    use fplot_plot_data
+    use fplot_constants
+    use fplot_triangulations_delaunay_2d
+    use fplot_colors
+    use strings
+    implicit none
+    private
+    public :: plot_data_tri_2d
+
+    type, extends(plot_data_colored) :: plot_data_tri_2d
+        !! Defines a 2D triangulated data set.
+        real(real64), private, allocatable, dimension(:) :: m_x
+            !! An array of the x-coordinates of each point.
+        real(real64), private, allocatable, dimension(:) :: m_y
+            !! An array of the y-coordinates of each point.
+        integer(int32), private, allocatable, dimension(:,:) :: m_indices
+            !! A 3-column matrix containing the indices of each triangle's
+            !! vertex.
+        real(real32), private :: m_lineWidth = 1.0
+            !! The line width.
+        integer(int32), private :: m_lineStyle = LINE_SOLID
+            !! The line style
+    contains
+        procedure, public :: get_data_string => pdt2d_get_data_cmd
+        procedure, public :: get_command_string => pdt2d_get_cmd
+        procedure, public :: define_data => pdt2d_define_data
+        procedure, public :: get_line_width => pdt2d_get_line_width
+        procedure, public :: set_line_width => pdt2d_set_line_width
+        procedure, public :: get_line_style => pdt2d_get_line_style
+        procedure, public :: set_line_style => pdt2d_set_line_style
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
     module function pdt2d_get_data_cmd(this) result(x)
-        ! Arguments
+        !! Gets the GNUPLOT command string describing the data to plot.
         class(plot_data_tri_2d), intent(in) :: this
+            !! The plot_data_tri_2d object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -97,9 +132,11 @@ contains
 
 ! ------------------------------------------------------------------------------
     module function pdt2d_get_cmd(this) result(x)
-        ! Arguments
+        !! Gets the GNUPLOT command string for the object.
         class(plot_data_tri_2d), intent(in) :: this
+            !! The plot_data_tri_2d object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -146,9 +183,11 @@ contains
 
 ! ------------------------------------------------------------------------------
     module subroutine pdt2d_define_data(this, tri)
-        ! Arguments
+        !! Defines the data to plot.
         class(plot_data_tri_2d), intent(inout) :: this
+            !! The plot_data_tri_2d object.
         class(delaunay_tri_2d), intent(in) :: tri
+            !! The triangulation data to plot.
 
         ! Process
         if (allocated(this%m_x)) deallocate(this%m_x)
@@ -162,15 +201,21 @@ contains
     
 ! ------------------------------------------------------------------------------
     pure module function pdt2d_get_line_width(this) result(rst)
+        !! Gets the width of the lines used to draw the triangulation.
         class(plot_data_tri_2d), intent(in) :: this
+            !! The plot_data_tri_2d object.
         real(real32) :: rst
+            !! The line width.
         rst = this%m_lineWidth
     end function
 
 ! --------------------
     module subroutine pdt2d_set_line_width(this, x)
+        !! Sets the width of the lines used to draw the triangulation.
         class(plot_data_tri_2d), intent(inout) :: this
+            !! The plot_data_tri_2d object.
         real(real32), intent(in) :: x
+            !! The line width.
         if (x <= 0.0d0) then
             this%m_lineWidth = 1.0d0
         else
@@ -179,15 +224,43 @@ contains
     end subroutine
 ! ------------------------------------------------------------------------------
     pure module function pdt2d_get_line_style(this) result(rst)
+        !! Gets the line style.
         class(plot_data_tri_2d), intent(in) :: this
+            !! The plot_data_tri_2d object.
         integer(int32) :: rst
+            !! The line style.  The line style must be one of the following
+            !! constants.
+            !!
+            !! - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
         rst = this%m_lineStyle
     end function
 
 ! --------------------
     module subroutine pdt2d_set_line_style(this, x)
+        !! Sets the line style.
         class(plot_data_tri_2d), intent(inout) :: this
+            !! The plot_data_tri_2d object.
         integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following
+            !! constants.
+            !!
+            !! - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
         if (x == LINE_DASHED .or. &
             x == LINE_DASH_DOTTED .or. &
             x == LINE_DASH_DOT_DOT .or. &
@@ -199,4 +272,4 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

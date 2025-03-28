@@ -1,20 +1,46 @@
 ! fplot_delaunay_tri_surface.f90
 
-submodule (fplot_core) fplot_delaunay_tri_surface
+module fplot_delaunay_tri_surface
+    use iso_fortran_env
     use ieee_arithmetic
+    use fplot_triangulations_delaunay_2d
+    use fplot_errors
+    use ferror
+    implicit none
+    private
+    public :: delaunay_tri_surface
+
+    type, extends(delaunay_tri_2d) :: delaunay_tri_surface
+        !! Provides a type describing a triangulated surface.
+        real(real64), private, allocatable, dimension(:) :: m_z
+            !! An array of the z-coordinates of each point.
+    contains
+        procedure, public :: define_function_values => dts_define_fcn
+        procedure, public :: get_points_z => dts_get_z
+        generic, public :: evaluate => dts_interp_1, dts_interp_2
+
+        procedure, private :: dts_interp_1
+        procedure, private :: dts_interp_2
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    module subroutine dts_define_fcn(this, z, err)
-        ! Arguments
+    subroutine dts_define_fcn(this, z, err)
+        !! Defines the function values that correspond to the x and y
+        !! data points.
         class(delaunay_tri_surface), intent(inout) :: this
+            !! The delaunay_tri_surface object.
         real(real64), intent(in), dimension(:) :: z
+            !! An N-element array containing the function values for
+            !! each x and y coordinate.  Notice, the x and y coordinates must 
+            !! already be defined prior to calling this routine.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: n, flag
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         
         ! Initialization
         if (present(err)) then
@@ -32,11 +58,8 @@ contains
             return
         end if
         if (size(z) /= n) then
-            write (errmsg, 100) "The number of function values " // &
-                "does not match the number of x-y points.  Expected to find ", &
-                n, " function values, but found ", size(z), " instead."
-            call errmgr%report_error("dts_define_fcn", trim(errmsg), &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            call report_array_size_mismatch_error(errmgr, "dts_define_fcn", &
+                "z", n, size(z))
             return
         end if
 
@@ -44,20 +67,19 @@ contains
         if (allocated(this%m_z)) deallocate(this%m_z)
         allocate(this%m_z(n), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("dts_define_fcn", &
-                "Insufficient memory available.", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "dts_define_fcn", flag)
             return
         end if
         this%m_z = z
-        
-100     format(A, I0, A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function dts_get_z(this) result(rst)
+    pure function dts_get_z(this) result(rst)
+        !! Gets the z-coordinates of each point.
         class(delaunay_tri_surface), intent(in) :: this
+            !! The delaunay_tri_surface object.
         real(real64), allocatable, dimension(:) :: rst
+            !! An array of the z-coordinates of each point.
         if (allocated(this%m_z)) then
             rst = this%m_z
         else
@@ -69,11 +91,18 @@ contains
     ! Interpolation Routine - Barycentric Coordinate Approach
     ! https://www.iue.tuwien.ac.at/phd/nentchev/node25.html
     ! https://academic.csuohio.edu/duffy_s/CVE_512_11.pdf
-    pure module function dts_interp_1(this, x, y) result(z)
-        ! Arguments
+    pure function dts_interp_1(this, x, y) result(z)
+        !! Evaluates the function at the requested point by means of 
+        !! linear interpolation.
         class(delaunay_tri_surface), intent(in) :: this
-        real(real64), intent(in) :: x, y
+            !! The delaunay_tri_surface object.
+        real(real64), intent(in) :: x
+            !! The x-coordinate at which to evaluate the function.
+        real(real64), intent(in) :: y
+            !! The y-coordinate at which to evaluate the function.
         real(real64) :: z
+            !! The function value.  If the point (x, y) does not lie within the 
+            !! range of defined values, then a value of NaN is returned.
 
         ! Local Variables
         integer(int32) :: i, n1, n2, n3
@@ -120,11 +149,19 @@ contains
     end function
 
 ! --------------------
-    pure module function dts_interp_2(this, x, y) result(z)
-        ! Arguments
+    pure function dts_interp_2(this, x, y) result(z)
+        !! Evaluates the function at the requested point by means of 
+        !! linear interpolation.
         class(delaunay_tri_surface), intent(in) :: this
-        real(real64), intent(in), dimension(:) :: x, y
+            !! The delaunay_tri_surface object.
+        real(real64), intent(in), dimension(:) :: x
+            !! The x data coordinates.
+        real(real64), intent(in), dimension(:) :: y
+            !! The x data coordinates.
         real(real64), allocatable, dimension(:) :: z
+            !! The interpolated z coordinate points.  If the point (x, y) does 
+            !! not lie within the range of defined values, then a value of NaN 
+            !! is returned.
 
         ! Local Variables
         integer(int32) :: i, j, n1, n2, n3, nxy
@@ -195,4 +232,4 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

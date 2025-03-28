@@ -1,14 +1,125 @@
 ! fplot_colormap.f90
 
-submodule (fplot_core) fplot_colormap
+module fplot_colormap
+    use iso_fortran_env
+    use fplot_plot_object
+    use strings
+    use ferror
+    use fplot_errors
+    use fplot_colors
+    use forcolormap, cmap => Colormap ! avoid conflict with the internally defined colormap type
+    implicit none
+    private
+    public :: cmap
+    public :: colormap
+    public :: cm_get_string_result
+    public :: rainbow_colormap
+    public :: hot_colormap
+    public :: cool_colormap
+    public :: parula_colormap
+    public :: grey_colormap
+    public :: earth_colormap
+    public :: custom_colormap
+
+    type, abstract, extends(plot_object) :: colormap
+        !! A colormap object for a surface plot.
+        character(len = :), private, allocatable :: m_label
+            !! The label to associate with the colormap.
+        logical, private :: m_horizontal = .false.
+            !! The colormap should be drawn horizontally.
+        logical, private :: m_drawBorder = .true.
+            !! Draw the colormap border.
+        logical, private :: m_showTics = .true.
+            !! Show the tic marks.
+    contains
+        procedure, public :: get_command_string => cm_get_cmd
+        procedure(cm_get_string_result), deferred, public :: get_color_string
+        procedure, public :: get_label => cm_get_label
+        procedure, public :: set_label => cm_set_label
+        procedure, public :: get_horizontal => cm_get_horizontal
+        procedure, public :: set_horizontal => cm_set_horizontal
+        procedure, public :: get_draw_border => cm_get_draw_border
+        procedure, public :: set_draw_border => cm_set_draw_border
+        procedure, public :: get_show_tics => cm_get_show_tics
+        procedure, public :: set_show_tics => cm_set_show_tics
+    end type
+
+    interface
+        function cm_get_string_result(this) result(x)
+            !! Retrieves a string result from a colormap object.
+            import colormap
+            class(colormap), intent(in) :: this
+                !! The colormap object.
+            character(len = :), allocatable :: x
+                !! The string.
+        end function
+    end interface
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: rainbow_colormap
+        !! Defines a rainbow colormap.
+    contains
+        procedure, public :: get_color_string => rcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: hot_colormap
+        !! Defines a colormap consisting of "hot" colors.
+    contains
+        procedure, public :: get_color_string => hcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: cool_colormap
+        !! Defines a colormap consisting of "cool" colors.
+    contains
+        procedure, public :: get_color_string => ccm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: parula_colormap
+        !! Defines a colormap equivalent to the MATLAB parula colormap.
+    contains
+        procedure, public :: get_color_string => pcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: grey_colormap
+        !! Defines a grey-scaled colormap.
+    contains
+        procedure, public :: get_color_string => gcm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: earth_colormap
+        !! Defines an earthy-colored colormap.
+    contains
+        procedure, public :: get_color_string => ecm_get_clr
+    end type
+
+! ------------------------------------------------------------------------------
+    type, extends(colormap) :: custom_colormap
+        !! Defines a custom colormap that utilizes the FORCOLORMAP library
+        !! to provide the map.
+        class(cmap), private, pointer :: m_map => null()
+            !! The FORCOLORMAP object.
+    contains
+        final :: custom_final
+        procedure, public :: get_color_string => custom_get_clr
+        procedure, public :: set_colormap => custom_set
+        procedure, public :: get_colormap => custom_get
+    end type
+
+! ------------------------------------------------------------------------------
 contains
 ! ******************************************************************************
 ! COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function cm_get_cmd(this) result(x)
-        ! Arguments
+    function cm_get_cmd(this) result(x)
+        !! Gets the GNUPLOT command string to represent this colormap object.
         class(colormap), intent(in) :: this
+            !! The colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -65,9 +176,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function cm_get_label(this) result(rst)
+    pure function cm_get_label(this) result(rst)
+        !! Gets the label to associate with the colorbar.
         class(colormap), intent(in) :: this
+            !! The colormap object.
         character(len = :), allocatable :: rst
+            !! The label.
         if (allocated(this%m_label)) then
             rst = this%m_label
         else
@@ -76,51 +190,76 @@ contains
     end function
 
 ! --------------------
-    module subroutine cm_set_label(this, x)
+    subroutine cm_set_label(this, x)
+        !! Sets the label to associate with the colorbar.
         class(colormap), intent(inout) :: this
+            !! The colormap object.
         character(len = *), intent(in) :: x
+            !! The label.
         this%m_label = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function cm_get_horizontal(this) result(rst)
+    pure function cm_get_horizontal(this) result(rst)
+        !! Gets a logical value determining if the colormap should be
+        !! drawn horizontally and below the plot.
         class(colormap), intent(in) :: this
+            !! The colormap object.
         logical :: rst
+            !! Returns true if the colormap should be drawn horizontally;
+            !! else, false.
         rst = this%m_horizontal
     end function
 
 ! --------------------
-    module subroutine cm_set_horizontal(this, x)
+    subroutine cm_set_horizontal(this, x)
+        !! Sets a logical value determining if the colormap should be
+        !! drawn horizontally and below the plot.
         class(colormap), intent(inout) :: this
+            !! The colormap object.
         logical, intent(in) :: x
+            !! Set to true if the colormap should be drawn horizontally;
+            !! else, false.
         this%m_horizontal = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function cm_get_draw_border(this) result(rst)
+    pure function cm_get_draw_border(this) result(rst)
+        !! Gets a logical value determining if the border should be drawn.
         class(colormap), intent(in) :: this
+            !! The colormap object.
         logical :: rst
+            !! Returns true if the border should be drawn; else, false.
         rst = this%m_drawBorder
     end function
 
 ! --------------------
-    module subroutine cm_set_draw_border(this, x)
+    subroutine cm_set_draw_border(this, x)
+        !! Sets a logical value determining if the border should be drawn.
         class(colormap), intent(inout) :: this
+            !! The colormap object.
         logical, intent(in) :: x
+            !! Set to true if the border should be drawn; else, false.
         this%m_drawBorder = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function cm_get_show_tics(this) result(rst)
+    pure function cm_get_show_tics(this) result(rst)
+        !! Gets a logical value determining if the tic marks should be drawn.
         class(colormap), intent(in) :: this
+            !! The colormap object.
         logical :: rst
+            !! Returns true if the tic marks should be drawn; else, false.
         rst = this%m_showTics
     end function
 
 ! --------------------
-    module subroutine cm_set_show_tics(this, x)
+    subroutine cm_set_show_tics(this, x)
+        !! Sets a logical value determining if the tic marks should be drawn.
         class(colormap), intent(inout) :: this
+            !! The colormap object.
         logical, intent(in) :: x
+            !! Set to true if the tic marks should be drawn; else, false.
         this%m_showTics = x
     end subroutine
 
@@ -131,9 +270,12 @@ contains
 ! ******************************************************************************
 ! RAINBOW_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function rcm_get_clr(this) result(x)
+    function rcm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(rainbow_colormap), intent(in) :: this
+            !! The rainbow_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
         x = '0 "dark-blue", 1 "blue", 2 "cyan", 3 "green", 4 "yellow", ' // &
             '5 "orange", 6 "red", 7 "dark-red"'
     end function
@@ -141,18 +283,24 @@ contains
 ! ******************************************************************************
 ! HOT_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function hcm_get_clr(this) result(x)
+    function hcm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(hot_colormap), intent(in) :: this
+            !! The hot_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
         x = '0 "black", 1 "red", 2 "orange", 3 "yellow", 4 "white"'
     end function
 
 ! ******************************************************************************
 ! COOL_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function ccm_get_clr(this) result(x)
+    function ccm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(cool_colormap), intent(in) :: this
+            !! The cool_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         type(string_builder) :: str
 
@@ -172,9 +320,12 @@ contains
 ! ******************************************************************************
 ! PARULA_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function pcm_get_clr(this) result(x)
+    function pcm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(parula_colormap), intent(in) :: this
+            !! The parula_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
         
         type(string_builder) :: str
 
@@ -194,9 +345,12 @@ contains
 ! ******************************************************************************
 ! GREY_COLORMAP MEMBERS
 ! ------------------------------------------------------------------------------
-    module function gcm_get_clr(this) result(x)
+    function gcm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(grey_colormap), intent(in) :: this
+            !! The grey_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         type(string_builder) :: str
 
@@ -215,9 +369,12 @@ contains
 ! ******************************************************************************
 ! EARTH_COLORMAP
 ! ------------------------------------------------------------------------------
-    module function ecm_get_clr(this) result(x)
+    function ecm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(earth_colormap), intent(in) :: this
+            !! The earth_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         type(string_builder) :: str
 
@@ -239,10 +396,14 @@ contains
 
 ! ******************************************************************************
 ! ADDED: Jan. 08, 2024 - JAC
+! CUSTOM_COLORMAP
 ! ------------------------------------------------------------------------------
-    module function custom_get_clr(this) result(x)
+    function custom_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
         class(custom_colormap), intent(in) :: this
+            !! The custom_colormap object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         type(string_builder) :: str
         integer(int32) :: i, n, r, g, b
@@ -272,11 +433,17 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine custom_set(this, map, err)
-        ! Arguments
+    subroutine custom_set(this, map, err)
+        !! Sets the FORCOLORMAP colormap object.
         class(custom_colormap), intent(inout) :: this
+            !! The custom_colormap object.
         class(cmap), intent(in) :: map
+            !! The FORCOLORMAP colormap object.  The custom_colormap object 
+            !! stores a copy of this object; therefore, any changes made to 
+            !! x after calls to this routine will not impact the behavior of 
+            !! the custom_colormap object.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: flag
@@ -294,23 +461,25 @@ contains
         if (associated(this%m_map)) deallocate(this%m_map)
         allocate(this%m_map, source = map, stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("custom_init", &
-                "Memory allocation error code " // char(to_string(flag)) // ".", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "custom_set", flag)
             return
         end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module function custom_get(this) result(rst)
+    function custom_get(this) result(rst)
+        !! Gets a pointer to the FORCOLORMAP colormap object.
         class(custom_colormap), intent(in) :: this
+            !! The custom_colormap object.
         class(cmap), pointer :: rst
+            !! A pointer to the FORCOLORMAP colormap object.
         rst => this%m_map
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine custom_final(this)
+    subroutine custom_final(this)
         type(custom_colormap), intent(inout) :: this
+            !! The custom_colormap object.
         if (associated(this%m_map)) then
             deallocate(this%m_map)
             nullify(this%m_map)
@@ -318,4 +487,4 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

@@ -17,19 +17,13 @@ set(FPLOT_SOURCES
     ${dir}/fplot_legend.f90
     ${dir}/fplot_plot.f90
     ${dir}/fplot_colormap.f90
-    ${dir}/fplot_scatter_plot_data.f90
     ${dir}/fplot_simplify.f90
-    ${dir}/fplot_plot_data_2d.f90
-    ${dir}/fplot_plot_data_3d.f90
-    ${dir}/fplot_surface_plot_data.f90
     ${dir}/fplot_plot_2d.f90
     ${dir}/fplot_plot_3d.f90
     ${dir}/fplot_surface_plot.f90
-    ${dir}/fplot_axis.f90
     ${dir}/fplot_label.f90
     ${dir}/fplot_multiplot.f90
     ${dir}/fplot_plot_data_error_bars.f90
-    ${dir}/fplot_plot_data_colored.f90
     ${dir}/fplot_plot_data_bar.f90
     ${dir}/fplot_plot_data_histogram.f90
     ${dir}/fplot_plot_bar.f90
@@ -41,5 +35,11 @@ set(FPLOT_SOURCES
     ${dir}/fplot_filled_plot_data.f90
     ${dir}/fplot_triangulations_delaunay_2d.f90
     ${dir}/fplot_arrow.f90
+    ${dir}/fplot_errors.f90
+    ${dir}/fplot_constants.f90
+    ${dir}/fplot_plot_object.f90
+    ${dir}/fplot_plot_data_2d.f90
+    ${dir}/fplot_plot_data_3d.f90
+    ${dir}/fplot_surface_plot_data.f90
 )
 set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)

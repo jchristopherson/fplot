@@ -1,10 +1,62 @@
 ! fplot_plot_3d.f90
 
-submodule (fplot_core) fplot_plot_3d
+module fplot_plot_3d
+    use iso_fortran_env
+    use fplot_plot
+    use fplot_errors
+    use fplot_plot_axis
+    use fplot_constants
+    use fplot_plot_data
+    use fplot_legend
+    use ferror
+    use strings
+    implicit none
+    private
+    public :: plot_3d
+
+    type, extends(plot) :: plot_3d
+        !! A plot object defining a 3D plot.
+        type(x_axis), private, pointer :: m_xAxis => null()
+            !! The x-axis.
+        type(y_axis), private, pointer :: m_yAxis => null()
+            !! The y-axis.
+        type(z_axis), private, pointer :: m_zAxis => null()
+            !! The z-axis.
+        real(real64), private :: m_elevation = 60.0d0
+            !! The elevation angle.
+        real(real64), private :: m_azimuth = 30.0d0
+            !! The azimuth.
+        logical, private :: m_zIntersect = .true.
+            !! Z-axis intersect X-Y plane?
+        logical, private :: m_setMap = .false.
+            !! Set map projection.
+        integer(int32), private :: m_csys = COORDINATES_CARTESIAN
+            !! Plot coordinate system.
+    contains
+        final :: p3d_clean_up
+        procedure, public :: initialize => p3d_init
+        procedure, public :: get_command_string => p3d_get_cmd
+        procedure, public :: get_x_axis => p3d_get_x_axis
+        procedure, public :: get_y_axis => p3d_get_y_axis
+        procedure, public :: get_z_axis => p3d_get_z_axis
+        procedure, public :: get_elevation => p3d_get_elevation
+        procedure, public :: set_elevation => p3d_set_elevation
+        procedure, public :: get_azimuth => p3d_get_azimuth
+        procedure, public :: set_azimuth => p3d_set_azimuth
+        procedure, public :: get_z_intersect_xy => p3d_get_z_axis_intersect
+        procedure, public :: set_z_intersect_xy => p3d_set_z_axis_intersect
+        procedure, public :: get_use_map_view => p3d_get_use_map_view
+        procedure, public :: set_use_map_view => p3d_set_use_map_view
+        procedure, public :: get_coordinate_system => p3d_get_csys
+        procedure, public :: set_coordinate_system => p3d_set_csys
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    module subroutine p3d_clean_up(this)
+    subroutine p3d_clean_up(this)
+        !! Cleans up resources held by the plot_3d object.
         type(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         call this%free_resources()
         if (associated(this%m_xAxis)) then
             deallocate(this%m_xAxis)
@@ -21,12 +73,29 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine p3d_init(this, term, fname, err)
-        ! Arguments
+    subroutine p3d_init(this, term, fname, err)
+        !! Initializes the plot_3d object.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         integer(int32), intent(in), optional :: term
+            !! An optional input that is used to define the terminal.
+            !!  The default terminal is a WXT terminal.  The acceptable inputs 
+            !! are:
+            !!
+            !!  - GNUPLOT_TERMINAL_PNG
+            !!
+            !!  - GNUPLOT_TERMINAL_QT
+            !!
+            !!  - GNUPLOT_TERMINAL_WIN32
+            !!
+            !!  - GNUPLOT_TERMINAL_WXT
+            !!
+            !!  - GNUPLOT_TERMINAL_LATEX
         character(len = *), intent(in), optional :: fname
+            !! A filename to pass to the terminal in the event the
+            !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: flag
@@ -41,7 +110,8 @@ contains
         end if
 
         ! Initialize the base class
-        call plt_init(this, term, fname, errmgr)
+        ! call plt_init(this, term, fname, errmgr)
+        call this%plot%initialize(term, fname, errmgr)
         if (errmgr%has_error_occurred()) return
 
         ! Process
@@ -58,17 +128,18 @@ contains
 
         ! Error Checking
         if (flag /= 0) then
-            call errmgr%report_error("p3d_init", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "p3d_init", flag)
             return
         end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module function p3d_get_cmd(this) result(x)
-        ! Arguments
+    function p3d_get_cmd(this) result(x)
+        !! Gets the GNUPLOT command string to represent this plot_3d object.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         character(len = :), allocatable :: x
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -220,95 +291,152 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function p3d_get_x_axis(this) result(ptr)
+    function p3d_get_x_axis(this) result(ptr)
+        !! Gets the x-axis object.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         class(plot_axis), pointer :: ptr
+            !! A pointer to the x-axis object.
         ptr => this%m_xAxis
     end function
 
 ! ------------------------------------------------------------------------------
-    module function p3d_get_y_axis(this) result(ptr)
+    function p3d_get_y_axis(this) result(ptr)
+        !! Gets the y-axis object.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         class(plot_axis), pointer :: ptr
+            !! A pointer to the y-axis object.
         ptr => this%m_yAxis
     end function
 
 ! ------------------------------------------------------------------------------
-    module function p3d_get_z_axis(this) result(ptr)
+    function p3d_get_z_axis(this) result(ptr)
+        !! Gets the z-axis object.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         class(plot_axis), pointer :: ptr
+            !! A pointer to the z-axis object.
         ptr => this%m_zAxis
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function p3d_get_elevation(this) result(x)
+    pure function p3d_get_elevation(this) result(x)
+        !! Gets the plot elevation angle.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         real(real64) :: x
+            !! The elevation angle, in degrees.
         x = this%m_elevation
     end function
 
 ! --------------------
-    module subroutine p3d_set_elevation(this, x)
+    subroutine p3d_set_elevation(this, x)
+        !! Sets the plot elevation angle.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         real(real64), intent(in) :: x
+            !! The elevation angle, in degrees.
         this%m_elevation = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function p3d_get_azimuth(this) result(x)
+    pure function p3d_get_azimuth(this) result(x)
+        !! Gets the plot azimuth angle.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         real(real64) :: x
+            !! The azimuth angle, in degrees.
         x = this%m_azimuth
     end function
 
 ! --------------------
-    module subroutine p3d_set_azimuth(this, x)
+    subroutine p3d_set_azimuth(this, x)
+        !! Sets the plot azimuth angle.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         real(real64), intent(in) :: x
+            !! The azimuth angle, in degrees.
         this%m_azimuth = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function p3d_get_z_axis_intersect(this) result(x)
+    pure function p3d_get_z_axis_intersect(this) result(x)
+        !! Gets a value determining if the z-axis should intersect the
+        !! x-y plane.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         logical :: x
+            !! Returns true if the z-axis should intersect the x-y plane; else,
+            !! false to allow the z-axis to float.
         x = this%m_zIntersect
     end function
 
 ! --------------------
-    module subroutine p3d_set_z_axis_intersect(this, x)
+    subroutine p3d_set_z_axis_intersect(this, x)
+        !! Sets a value determining if the z-axis should intersect the
+        !! x-y plane.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         logical, intent(in) :: x
+            !! Set to true if the z-axis should intersect the x-y plane; else,
+            !! false to allow the z-axis to float.
         this%m_zIntersect = x
     end subroutine
 
 ! ADDED March 29, 2023 - JAC
 ! ------------------------------------------------------------------------------
-    pure module function p3d_get_use_map_view(this) result(rst)
+    pure function p3d_get_use_map_view(this) result(rst)
+        !! Gets a value determining if the view should be set to a 2D
+        !! map view.  If true, the azimuth and elevation terms are ignored.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         logical :: rst
+            !! Returns true if the map view will be used; else, false.
         rst = this%m_setMap
     end function
 
 ! --------------------
-    module subroutine p3d_set_use_map_view(this, x)
+    subroutine p3d_set_use_map_view(this, x)
+        !! Sets a value determining if the view should be set to a 2D
+        !! map view.  If true, the azimuth and elevation terms are ignored.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         logical, intent(in) :: x
+            !! Seturns true if the map view will be used; else, false.
         this%m_setMap = x
     end subroutine
 
 ! ADDED Sept. 15, 2023 - JAC
 ! ------------------------------------------------------------------------------
-    pure module function p3d_get_csys(this) result(rst)
+    pure function p3d_get_csys(this) result(rst)
+        !! Gets a value determining the coordinate system.
         class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
         integer(int32) :: rst
+            !! The coordinate system ID, which must be one of the following.
+            !!
+            !! - COORDINATES_CARTESIAN
+            !!
+            !! - COORDINATES_CYLINDRICAL
+            !!
+            !! - COORDINATES_SPHERICAL
         rst = this%m_csys
     end function
 
 ! --------------------
-    module subroutine p3d_set_csys(this, x)
+    subroutine p3d_set_csys(this, x)
+        !! Sets a value determining the coordinate system.
         class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
         integer(int32), intent(in) :: x
+            !! The coordinate system ID, which must be one of the following.
+            !!
+            !! - COORDINATES_CARTESIAN
+            !!
+            !! - COORDINATES_CYLINDRICAL
+            !!
+            !! - COORDINATES_SPHERICAL
         if (x /= COORDINATES_CARTESIAN .and. &
             x /= COORDINATES_CYLINDRICAL .and. &
             x /= COORDINATES_SPHERICAL) &
@@ -321,4 +449,4 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

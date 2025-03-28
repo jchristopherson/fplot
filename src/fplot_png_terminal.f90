@@ -1,15 +1,35 @@
 ! fplot_png_terminal.f90
 
-submodule (fplot_core) fplot_png_terminal
+module fplot_png_terminal
+    use iso_fortran_env
+    use strings
+    use fplot_terminal
+    use fplot_constants
+    implicit none
+    private
+    public :: png_terminal
+
+    type, extends(terminal) :: png_terminal
+        !! Defines a terminal used for producing PNG outputs.
+        character(len = 3), private :: m_id = "png"
+            !! The terminal ID string
+        character(len = GNUPLOT_MAX_PATH_LENGTH), private :: m_fname = "default.png"
+            !! The filename of the PNG file to write.
+    contains
+        procedure, public :: get_filename => png_get_filename
+        procedure, public :: set_filename => png_set_filename
+        procedure, public :: get_id_string => png_get_term_string
+        procedure, public :: get_command_string => png_get_command_string
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    !> @brief Retrieves a GNUPLOT terminal identifier string.
-    !!
-    !! @param[in] this The png_terminal object.
-    !! @return The string.
-    module function png_get_term_string(this) result(x)
+    function png_get_term_string(this) result(x)
+        !! Retrieves a GNUPLOT terminal identifier string.
         class(png_terminal), intent(in) :: this
+            !! The png_terminal object.
         character(len = :), allocatable :: x
+            !! The string.
         integer(int32) :: n
         n = len_trim(this%m_id)
         allocate(character(len = n) :: x)
@@ -17,13 +37,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    !> @brief Gets the filename for the output PNG file.
-    !!
-    !! @param[in] this The png_terminal object.
-    !! @return The filename, including the file extension (.png).
-    module function png_get_filename(this) result(txt)
+    function png_get_filename(this) result(txt)
+        !! Gets the filename for the output PNG file.
         class(png_terminal), intent(in) :: this
+            !! The png_terminal object.
         character(len = :), allocatable :: txt
+            !! The filename, including the file extension (.png).
         integer(int32) :: n
         n = len_trim(this%m_fname)
         allocate(character(len = n) :: txt)
@@ -31,13 +50,12 @@ contains
     end function
 
 ! --------------------
-    !> @brief Sets the filename for the output PNG file.
-    !!
-    !! @param[in,out] this The png_terminal object.
-    !! @param[in] The filename, including the file extension (.png).
-    module subroutine png_set_filename(this, txt)
+    subroutine png_set_filename(this, txt)
+        !!Sets the filename for the output PNG file.
         class(png_terminal), intent(inout) :: this
+            !! The png_terminal object.
         character(len = *), intent(in) :: txt
+            !! The filename, including the file extension (.png).
         integer(int32) :: n
         n = min(len_trim(txt), GNUPLOT_MAX_PATH_LENGTH)
         this%m_fname = ""
@@ -49,15 +67,13 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    !> @brief Returns the appropriate GNUPLOT command string to establish
-    !! appropriate parameters.
-    !!
-    !! @param[in] this The terminal object.
-    !! @return The GNUPLOT command string.
-    module function png_get_command_string(this) result(x)
-        ! Arguments
+    function png_get_command_string(this) result(x)
+        !! Returns the appropriate GNUPLOT command string to establish
+        !! appropriate parameters.
         class(png_terminal), intent(in) :: this
+            !! The png_terminal object.
         character(len = :), allocatable :: x
+            !! The GNUPLOT command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -83,4 +99,4 @@ contains
         x = char(str%to_string())
     end function
 
-end submodule
+end module

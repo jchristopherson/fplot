@@ -1,12 +1,63 @@
 ! fplot_plot_data_error_bars.f90
 
-submodule (fplot_core) fplot_plot_data_error_bars
+module fplot_plot_data_error_bars
+    use iso_fortran_env
+    use fplot_plot_data
+    use fplot_errors
+    use fplot_colors
+    use ferror
+    use strings
+    implicit none
+    private
+    public :: plot_data_error_bars
+
+    type, extends(plot_data_colored) :: plot_data_error_bars
+        !! Defines a 2D error-bar based data set.
+        logical, private :: m_xBars = .false.
+            !! Display x error bars?
+        logical, private :: m_yBars = .false.
+            !! Display y error bars?
+        real(real64), private, allocatable, dimension(:,:) :: m_data
+            !! A matrix containing the raw and error data.  Column 1 is for the
+            !! x coordinate, column 2 for the y coordinate, and the remaining 
+            !! columns are for the error data (x, then y if applicable).
+        logical, private :: m_box = .false.
+            !! Display an error box for the case where x and y errors are
+            !! defined.
+        logical, private :: m_range = .false.
+            !! Plot error bars using a defined range vs. a +/- value.
+    contains
+        procedure, public :: get_command_string => pde_get_cmd
+        procedure, public :: get_data_string => pde_get_data_cmd
+        generic, public :: define_x_error_data => pde_define_x_err, &
+            pde_define_x_err_lim
+        generic, public :: define_y_error_data => pde_define_y_err, &
+            pde_define_y_err_lim
+        generic, public :: define_xy_error_data => pde_define_xy_err, &
+            pde_define_xy_err_lim
+        procedure, public :: get_plot_x_error_bars => pde_get_plot_x_err
+        procedure, public :: get_plot_y_error_bars => pde_get_plot_y_err
+        procedure, public :: get_count => pde_get_count
+        procedure, public :: get_use_error_box => pde_get_box
+        procedure, public :: set_use_error_box => pde_set_box
+        procedure, public :: get_use_range => pde_get_use_range
+
+        procedure :: pde_define_x_err
+        procedure :: pde_define_y_err
+        procedure :: pde_define_xy_err
+        procedure :: pde_define_x_err_lim
+        procedure :: pde_define_y_err_lim
+        procedure :: pde_define_xy_err_lim
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    module function pde_get_cmd(this) result(cmd)
-        ! Arguments
+    function pde_get_cmd(this) result(cmd)
+        !! Gets the appropriate GNUPLOT command string for the object.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         character(len = :), allocatable :: cmd
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -50,10 +101,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function pde_get_data_cmd(this) result(cmd)
-        ! Arguments
+    function pde_get_data_cmd(this) result(cmd)
+        !! Gets the appropriate GNUPLOT commands to plot the data itself.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         character(len = :), allocatable :: cmd
+            !! The command string.
 
         ! Local Variables
         type(string_builder) :: str
@@ -146,11 +199,18 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_x_err(this, x, y, xerr, err)
-        ! Arguments
+    subroutine pde_define_x_err(this, x, y, xerr, err)
+        !! Defines the x error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, xerr
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: xerr
+            !! An N-element array containing the x errors at each data point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -166,10 +226,15 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(xerr) /= n) then
-            call errmgr%report_error("pde_define_x_err", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_x_err", &
+                "y", n, size(y))
+            return
+        end if
+
+        if (size(xerr) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_x_err", &
+                "xerr", n, size(xerr))
             return
         end if
 
@@ -180,8 +245,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 3), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_x_err", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_x_err", flag)
             return
         end if
         do i = 1, n
@@ -194,11 +258,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_y_err(this, x, y, yerr, err)
-        ! Arguments
+    subroutine pde_define_y_err(this, x, y, yerr, err)
+        !! Defines the y error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, yerr
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: yerr
+            !! An N-element array containing the y errors at each data point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -214,10 +285,14 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(yerr) /= n) then
-            call errmgr%report_error("pde_define_y_err", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_y_err", &
+                "y", n, size(y))
+            return
+        end if
+        if (size(yerr) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_y_err", &
+                "yerr", n, size(yerr))
             return
         end if
 
@@ -228,8 +303,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 3), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_y_err", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_y_err", flag)
             return
         end if
         do i = 1, n
@@ -242,11 +316,20 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_xy_err(this, x, y, xerr, yerr, err)
-        ! Arguments
+    subroutine pde_define_xy_err(this, x, y, xerr, yerr, err)
+        !! Defines x and y error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, xerr, yerr
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: xerr
+            !! An N-element array containing the x errors at each data point.
+        real(real64), intent(in), dimension(:) :: yerr
+            !! An N-element array containing the y errors at each data point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -262,10 +345,21 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(xerr) /= n .or. size(yerr) /= n) then
-            call errmgr%report_error("pde_define_xy_err", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_xy_err", &
+                "y", n, size(y))
+            return
+        end if
+
+        if (size(xerr) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_xy_err", &
+                "xerr", n, size(xerr))
+            return
+        end if
+
+        if (size(yerr) /= n) then
+            call report_array_size_mismatch_error(errmgr, "pde_define_xy_err", &
+                "yerr", n, size(yerr))
             return
         end if
 
@@ -276,8 +370,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 4), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_xy_err", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_xy_err", flag)
             return
         end if
         do i = 1, n
@@ -292,22 +385,33 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_plot_x_err(this) result(x)
+    pure function pde_get_plot_x_err(this) result(x)
+        !! Checks to see if the x error bar data has been defined, and as
+        !! a result, if the x error data is to be plotted.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         logical :: x
+            !! Returns true if the x error bars are to be plotted; else, false.
         x = this%m_xBars
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_plot_y_err(this) result(x)
+    pure function pde_get_plot_y_err(this) result(x)
+        !! Checks to see if the y error bar data has been defined, and as
+        !! a result, if the x error data is to be plotted.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         logical :: x
+            !! Returns true if the y error bars are to be plotted; else, false.
         x = this%m_yBars
     end function
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_count(this) result(x)
+    pure function pde_get_count(this) result(x)
+        !! Gets the number of stored data points.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         integer(int32) :: x
+            !! The number of data points.
         if (allocated(this%m_data)) then
             x = size(this%m_data, 1)
         else
@@ -316,32 +420,59 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_box(this) result(x)
+    pure function pde_get_box(this) result(x)
+        !! Checks to see if the x and y error boxes should be utilized.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         logical :: x
+            !! Returns true if the error boxes are to be plotted; else,
+            !! false.  Notice, the error boxes are only utilized if there is 
+            !! both x and y error data defined, regardless of the value of this 
+            !! property.
         x = this%m_box
     end function
 
 ! --------------------
-    module subroutine pde_set_box(this, x)
+    subroutine pde_set_box(this, x)
+        !! Deterimines if the x and y error boxes should be utilized.
         class(plot_data_error_bars), intent(inout) :: this
+            !! The plot_data_error_bars object.
         logical, intent(in) :: x
+            !! Set to true if the error boxes are to be plotted; else,
+            !! false.  Notice, the error boxes are only utilized if there is 
+            !! both x and y error data defined, regardless of the value of this 
+            !! property.
         this%m_box = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function pde_get_use_range(this) result(x)
+    pure function pde_get_use_range(this) result(x)
+        !! Gets a value determining if a defined range is being used
+        !! to define the error bar extremes.
         class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
         logical :: x
+            !! True if a defined range is being used; else, false.
         x = this%m_range
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_x_err_lim(this, x, y, xmin, xmax, err)
-        ! Arguments
+    subroutine pde_define_x_err_lim(this, x, y, xmin, xmax, err)
+        !! Defines the x error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, xmin, xmax
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: xmin
+            !! An N-element array containing the minimum x values at each data 
+            !! point.
+        real(real64), intent(in), dimension(:) :: xmax
+            !! An N-element array containing the maximum x values at each data 
+            !! point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -357,10 +488,21 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(xmin) /= n .or. size(xmax) /= n) then
-            call errmgr%report_error("pde_define_x_err_lim", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_x_err_lim", "y", n, size(y))
+            return
+        end if
+
+        if (size(xmin) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_x_err_lim", "xmin", n, size(xmin))
+            return
+        end if
+
+        if (size(xmax) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_x_err_lim", "xmax", n, size(xmax))
             return
         end if
 
@@ -371,8 +513,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 4), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_x_err_lim", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_x_err_lim", flag)
             return
         end if
         do i = 1, n
@@ -386,11 +527,22 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_y_err_lim(this, x, y, ymin, ymax, err)
-        ! Arguments
+    subroutine pde_define_y_err_lim(this, x, y, ymin, ymax, err)
+        !! Defines the y error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, ymin, ymax
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: ymin
+            !! An N-element array containing the minimum y values at each data 
+            !! point.
+        real(real64), intent(in), dimension(:) :: ymax
+            !! An N-element array containing the maximum y values at each data 
+            !! point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -406,10 +558,21 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(ymin) /= n .or. size(ymax) /= n) then
-            call errmgr%report_error("pde_define_y_err_lim", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_y_err_lim", "y", n, size(y))
+            return
+        end if
+
+        if (size(ymin) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_y_err_lim", "ymin", n, size(ymin))
+            return
+        end if
+
+        if (size(ymax) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_y_err_lim", "ymax", n, size(ymax))
             return
         end if
 
@@ -420,8 +583,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 4), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_y_err_lim", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_y_err_lim", flag)
             return
         end if
         do i = 1, n
@@ -434,12 +596,29 @@ contains
         this%m_range = .true.
     end subroutine
 ! ------------------------------------------------------------------------------
-    module subroutine pde_define_xy_err_lim(this, x, y, xmin, xmax, ymin, ymax, err)
-        ! Arguments
+    subroutine pde_define_xy_err_lim(this, x, y, xmin, xmax, ymin, &
+        ymax, err)
+        !! Defines the x and y error data.
         class(plot_data_error_bars), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y, xmin, xmax, &
-            ymin, ymax
+            !! The plot_data_error_bars object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x coordinates of the data.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y coordinates of the data.
+        real(real64), intent(in), dimension(:) :: xmin
+            !! An N-element array containing the minimum x values at each data 
+            !! point.
+        real(real64), intent(in), dimension(:) :: xmax
+            !! An N-element array containing the maximum x values at each data 
+            !! point.
+        real(real64), intent(in), dimension(:) :: ymin
+            !! An N-element array containing the minimum y values at each data 
+            !! point.
+        real(real64), intent(in), dimension(:) :: ymax
+            !! An N-element array containing the maximum x values at each data 
+            !! point.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
 
         ! Local Variables
         integer(int32) :: i, n, flag
@@ -455,10 +634,33 @@ contains
         end if
 
         ! Input Checking
-        if (size(y) /= n .or. size(ymin) /= n .or. size(ymax) /= n) then
-            call errmgr%report_error("pde_define_xy_err_lim", &
-                "Input arrays must be the same size.", &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_xy_err_lim", "y", n, size(y))
+            return
+        end if
+
+        if (size(xmin) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_xy_err_lim", "xmin", n, size(xmin))
+            return
+        end if
+
+        if (size(xmax) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_xy_err_lim", "xmax", n, size(xmax))
+            return
+        end if
+
+        if (size(ymin) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_xy_err_lim", "ymin", n, size(ymin))
+            return
+        end if
+
+        if (size(ymax) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "pde_define_xy_err_lim", "ymax", n, size(ymax))
             return
         end if
 
@@ -469,8 +671,7 @@ contains
         if (allocated(this%m_data)) deallocate(this%m_data)
         allocate(this%m_data(n, 6), stat = flag)
         if (flag /= 0) then
-            call errmgr%report_error("pde_define_xy_err_lim", &
-                "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(errmgr, "pde_define_xy_err_lim", flag)
             return
         end if
         do i = 1, n
@@ -487,4 +688,4 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

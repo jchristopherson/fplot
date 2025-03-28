@@ -1,17 +1,50 @@
-submodule (fplot_core) fplot_triangulations_delaunay_2d
+module fplot_triangulations_delaunay_2d
+    use iso_fortran_env
     use geompack
+    use ferror
+    use fplot_errors
+    implicit none
+    private
+    public :: delaunay_tri_2d
+
+    type delaunay_tri_2d
+        !! Provides a container for a 2D Delaunay triangulation.
+        real(real64), private, allocatable, dimension(:) :: m_x
+            !! An array of the x-coordinates of each point.
+        real(real64), private, allocatable, dimension(:) :: m_y
+            !! An array of the y-coordinates of each point.
+        integer(int32), private, allocatable, dimension(:,:) :: m_indices
+            !! A 3-column matrix containing the indices of each triangle's
+            !! vertex.
+    contains
+        procedure, public :: create => d2d_init
+        procedure, public :: get_point_count => d2d_get_pt_count
+        procedure, public :: get_triangle_count => d2d_get_tri_count
+        procedure, public :: get_points_x => d2d_get_x_pts
+        procedure, public :: get_points_y => d2d_get_y_pts
+        procedure, public :: get_indices => d2d_get_tris
+        procedure, public :: find_triangle => d2d_get_tri_with_pt
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-    module subroutine d2d_init(this, x, y, err)
-        ! Arguments
+    subroutine d2d_init(this, x, y, err)
+        !! Creates an unconstrained 2D Delaunay triangulation given a 
+        !! set of x-y points.
         class(delaunay_tri_2d), intent(inout) :: this
-        real(real64), intent(in), dimension(:) :: x, y
+            !! The delaunay_tri_2d object.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x-coordinates of each
+            !! data point.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y-coordinates of each
+            !! data point.
         class(errors), intent(inout), target, optional :: err
+            !! An error handling object.
 
         ! Local Variables
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         integer(int32) :: i, npts, ntri, flag
         real(real64), allocatable, dimension(:,:) :: nodexy
         integer(int32), allocatable, dimension(:,:) :: trinode, trinbr
@@ -26,11 +59,8 @@ contains
 
         ! Input Check
         if (size(y) /= npts) then
-            write(errmsg, 200) &
-                "Expected the y-coordinate array to have ", npts, &
-                " elements, but found ", size(y), " instead."
-            call errmgr%report_error("d2d_init", trim(errmsg), &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            call report_array_size_mismatch_error(errmgr, "d2d_init", "y", &
+                npts, size(y))
             return
         end if
 
@@ -73,17 +103,17 @@ contains
 
         ! Memory Error Handler
     100 continue
-        call errmgr%report_error("d2d_init", "Insufficient memory available.", &
-            PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "d2d_init", flag)
         return
-        
-200     format(A, I0, A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_pt_count(this) result(rst)
+    pure function d2d_get_pt_count(this) result(rst)
+        !! Gets the number of points in the triangulation.
         class(delaunay_tri_2d), intent(in) :: this
+            !! The delaunay_tri_2d object.
         integer(int32) :: rst
+            !! The number of points in the triangulation.
         if (allocated(this%m_x)) then
             rst = size(this%m_x)
         else
@@ -92,9 +122,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_tri_count(this) result(rst)
+    pure function d2d_get_tri_count(this) result(rst)
+        !! Gets the number of triangles in the triangulation.
         class(delaunay_tri_2d), intent(in) :: this
+            !! The delaunay_tri_2d object.
         integer(int32) :: rst
+            !! The number of triangles in the triangulation.
         if (allocated(this%m_indices)) then
             rst = size(this%m_indices, 1)
         else
@@ -103,9 +136,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_x_pts(this) result(rst)
+    pure function d2d_get_x_pts(this) result(rst)
+        !! Gets the x-coordinates of each point.
         class(delaunay_tri_2d), intent(in) :: this
+            !! The delaunay_tri_2d object.
         real(real64), allocatable, dimension(:) :: rst
+            !! An array of the x-coordinates of each point.
         if (allocated(this%m_x)) then
             rst = this%m_x
         else
@@ -114,9 +150,12 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_y_pts(this) result(rst)
+    pure function d2d_get_y_pts(this) result(rst)
+        !! Gets the y-coordinates of each point.
         class(delaunay_tri_2d), intent(in) :: this
+            !! The delaunay_tri_2d object.
         real(real64), allocatable, dimension(:) :: rst
+            !! An array of the y-coordinates of each point.
         if (allocated(this%m_y)) then
             rst = this%m_y
         else
@@ -125,9 +164,13 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_tris(this) result(rst)
+    pure function d2d_get_tris(this) result(rst)
+        !! Gets a list of the indices of each triangle vertex.
         class(delaunay_tri_2d), intent(in) :: this
+            !! The delaunay_tri_2d object.
         integer(int32), allocatable, dimension(:,:) :: rst
+            !! An N-by-3 matrix with each column containing the index of the
+            !! vertex of each triangle where N is the number of triangles.
         if (allocated(this%m_indices)) then
             rst = this%m_indices
         else
@@ -136,11 +179,18 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    pure module function d2d_get_tri_with_pt(this, x, y) result(rst)
-        ! Arguments
+    pure function d2d_get_tri_with_pt(this, x, y) result(rst)
+        !! Finds the triangle that contains the specified point.
         class(delaunay_tri_2d), intent(in) :: this
-        real(real64), intent(in) :: x, y
+            !! The delaunay_tri_2d object.
+        real(real64), intent(in) :: x
+            !! The x-coordinate of the point.
+        real(real64), intent(in) :: y
+            !! The y-coordinate of the point.
         integer(int32) :: rst
+            !! Returns the index of the triangle containing the specified
+            !! point.  If no triangle contains the specified point, a value of
+            !! -1 is returned.
 
         ! Local Variables
         integer(int32) :: i, j
@@ -199,4 +249,4 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module

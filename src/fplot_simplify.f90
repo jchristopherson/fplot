@@ -4,19 +4,43 @@
 ! - https://www.codeproject.com/Articles/114797/Polyline-Simplification
 ! - https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
 
-submodule (fplot_core) fplot_simplify
+module fplot_simplify
+    use iso_fortran_env
+    use ferror
+    use fplot_errors
+    implicit none
+    private
+    public :: simplify_polyline
+
+    interface simplify_polyline
+        module procedure :: simplify_polyline_2d1
+        module procedure :: simplify_polyline_3d1
+        module procedure :: simplify_polyline_mtx
+    end interface
+
 contains
-    module function simplify_polyline_2d1(x, y, tol, err) result(ln)
-        ! Arguments
-        real(real64), intent(in), dimension(:) :: x, y
+    function simplify_polyline_2d1(x, y, tol, err) result(ln)
+        !! Simplifies a 2D polyline by removing points too close to 
+        !! discern given a specified tolerance.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x-coordinates of the vertices
+            !! making up the polyline.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y-coordinates of the vertices
+            !! making up the polyline.
         real(real64), intent(in) :: tol
+            !! The distance tolerance to use when simplifying the polyline.
+            !! This value must be positive, and larger than machine epsilon.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
         real(real64), allocatable, dimension(:,:) :: ln
+            !! A matrix containing the simplified polyline vertices.  The first
+            !! column of the matrix contains the x-coordinates, and the second 
+            !! column contains the y-coordinates.
 
         ! Local Variables
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         integer(int32) :: n
         real(real64) :: eps
         
@@ -31,11 +55,8 @@ contains
 
         ! Input Check
         if (size(y) /= n) then
-            write(errmsg, 100) "The array sizes did not match.  " // &
-                "The x array contained ", size(x), &
-                " items, but the y array contained ", size(y), "."
-            call errmgr%report_error("simplify_polyline_2d1", trim(errmsg), &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            call report_array_size_mismatch_error(errmgr, &
+                "simplify_polyline_2d1", "y", n, size(y))
             return
         end if
 
@@ -48,22 +69,35 @@ contains
 
         ! Process
         ln = radial_distance_2d(x, y, tol, err)
-        
-100     format(A, I0, A, I0, A)
     end function
 
 
-    module function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
-        ! Arguments
-        real(real64), intent(in), dimension(:) :: x, y, z
+    function simplify_polyline_3d1(x, y, z, tol, err) result(ln)
+        !! Simplifies a 3D polyline by removing points too close to 
+        !! discern given a specified tolerance.
+        real(real64), intent(in), dimension(:) :: x
+            !! An N-element array containing the x-coordinates of the vertices
+            !! making up the polyline.
+        real(real64), intent(in), dimension(:) :: y
+            !! An N-element array containing the y-coordinates of the vertices
+            !! making up the polyline.
+        real(real64), intent(in), dimension(:) :: z
+            !! An N-element array containing the z-coordinates of the vertices
+            !! making up the polyline.
         real(real64), intent(in) :: tol
+            !! The distance tolerance to use when simplifying the polyline.
+            !! This value must be positive, and larger than machine epsilon.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
         real(real64), allocatable, dimension(:,:) :: ln
+            !! A matrix containing the simplified polyline vertices.  The first
+            !! column of the matrix contains the x-coordinates, the second 
+            !! column contains the y-coordinates, and the third column contains 
+            !! the z-coordinates.
 
         ! Local Variables
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         integer(int32) :: n
         real(real64) :: eps
         
@@ -77,13 +111,15 @@ contains
         end if
 
         ! Input Check
-        if (size(y) /= n .or. size(z) /= n) then
-            write(errmsg, 100) "The array sizes did not match.  " // &
-                "The x array contained ", size(x), &
-                " items, the y array contained ", size(y), &
-                ", and the z array contained ", size(z), "."
-            call errmgr%report_error("simplify_polyline_3d1", trim(errmsg), &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        if (size(y) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "simplify_polyline_3d1", "y", n, size(y))
+            return
+        end if
+
+        if (size(z) /= n) then
+            call report_array_size_mismatch_error(errmgr, &
+                "simplify_polyline_3d1", "z", n, size(z))
             return
         end if
 
@@ -96,23 +132,29 @@ contains
 
         ! Process
         ln = radial_distance_3d(x, y, z, tol, errmgr)
-        
-100     format(A, I0, A, I0, A, I0, A)
     end function
 
 
     
-    module function simplify_polyline_mtx(xy, tol, err) result(ln)
-        ! Arguments
+    function simplify_polyline_mtx(xy, tol, err) result(ln)
+        !! Simplifies a 2D or 3D polyline by removing points too close to 
+        !! discern given a specified tolerance.
         real(real64), intent(in), dimension(:,:) :: xy
+            !! An N-by-2 or N-by-3 matrix containing the polyline vertex data.
         real(real64), intent(in) :: tol
+            !! The distance tolerance to use when simplifying the polyline.
+            !! This value must be positive, and larger than machine epsilon.
         class(errors), intent(inout), optional, target :: err
+            !! An error handling object.
         real(real64), allocatable, dimension(:,:) :: ln
+            !! A matrix containing the simplified polyline vertices.  The first
+            !! column of the matrix contains the x-coordinates, the second 
+            !! column contains the y-coordinates, and if necessary, the third 
+            !! column contains the z-coordinates.
 
         ! Local Variables
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         
         ! Initialization
         if (present(err)) then
@@ -123,10 +165,9 @@ contains
 
         ! Ensure there are at least 2 columns of data in XY
         if (size(xy, 2) < 2) then
-            write(errmsg, 100) "The input matrix must have at " // &
-                "least 2 columns; however, only ", size(xy, 2), " was found."
-            call errmgr%report_error("simplify_polyline_mtx", trim(errmsg), &
-                PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+            call report_matrix_size_mismatch_error(errmgr, &
+                "simplify_polyline_mtx", "xy", size(xy, 1), 2, size(xy, 1), &
+                size(xy, 2))
             return
         end if
 
@@ -136,8 +177,6 @@ contains
         else
             ln = simplify_polyline_3d1(xy(:,1), xy(:,2), xy(:,3), tol, errmgr)
         end if
-        
-100     format(A, I0, A)
     end function
 
 
@@ -165,9 +204,7 @@ contains
         ! Local Memory Allocation
         allocate(valid(n), stat = flag)
         if (flag /= 0) then
-            call err%report_error("radial_distance_2d", &
-                "Insufficient memory available.", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(err, "radial_distance_2d", flag)
             return
         end if
         valid(1) = .true.
@@ -194,9 +231,7 @@ contains
         ! Allocate space, and collect all valid points
         allocate(pts(nvalid, 2), stat = flag)
         if (flag /= 0) then
-            call err%report_error("radial_distance_2d", &
-                "Insufficient memory available.", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(err, "radial_distance_2d", flag)
             return
         end if
         j = 1
@@ -234,9 +269,7 @@ contains
         ! Local Memory Allocation
         allocate(valid(n), stat = flag)
         if (flag /= 0) then
-            call err%report_error("radial_distance_3d", &
-                "Insufficient memory available.", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(err, "radial_distance_3d", flag)
             return
         end if
         valid(1) = .true.
@@ -264,9 +297,7 @@ contains
         ! Allocate space, and collect all valid points
         allocate(pts(nvalid, 3), stat = flag)
         if (flag /= 0) then
-            call err%report_error("radial_distance_3d", &
-                "Insufficient memory available.", &
-                PLOT_OUT_OF_MEMORY_ERROR)
+            call report_memory_error(err, "radial_distance_3d", flag)
             return
         end if
         j = 1
@@ -319,4 +350,4 @@ contains
         end if
     end function
 
-end submodule
+end module

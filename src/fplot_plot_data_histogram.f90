@@ -1,28 +1,66 @@
 ! fplot_plot_data_histogram.f90
 
-submodule (fplot_core) fplot_plot_data_histogram
+module fplot_plot_data_histogram
+    use iso_fortran_env
+    use fplot_plot_data_bar
+    use fplot_errors
+    use ferror
+    use strings
+    implicit none
+    private
+    public :: plot_data_histogram
+
+    type, extends(plot_data_bar) :: plot_data_histogram
+        !! A container for plotting data in the form of a histogram.
+        integer(int32), private :: m_binCount = 10
+            !! The number of bins.
+        character(len = :), private, allocatable :: m_numberFmt
+            !! The numerical label format string.
+    contains
+        procedure, public :: get_bin_count => pdh_get_bin_count
+        procedure, public :: set_bin_count => pdh_set_bin_count
+        procedure, public :: bin_data => pdh_bin_data
+        procedure, public :: get_extreme_values => pdh_get_extremes
+        procedure, public :: get_number_format => pdh_get_num_fmt
+        procedure, public :: set_number_format => pdh_set_num_fmt
+        procedure, public :: set_data_1 => pdh_set_data_1
+        procedure, public :: set_data_2 => pdh_set_data_2
+        procedure, public :: set_data_3 => pdh_set_data_3
+    end type
+
 contains
 ! ------------------------------------------------------------------------------
-pure module function pdh_get_bin_count(this) result(x)
+pure function pdh_get_bin_count(this) result(x)
+    !! Gets the number of bins.
     class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
     integer(int32) :: x
+        !! The bin count.
     x = this%m_binCount
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdh_set_bin_count(this, x)
+subroutine pdh_set_bin_count(this, x)
+    !! Sets the bin count.  For this property to have an effect, call before
+    !! calling the define_data subroutine or bin_data subroutine.
     class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
     integer(int32), intent(in) :: x
+        !! The bin count.
     this%m_binCount = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module function pdh_bin_data(this, x, err) result(bx)
-    ! Arguments
+function pdh_bin_data(this, x, err) result(bx)
+    !! Bins the supplied data set.
     class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set to bin.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
     real(real64), allocatable, dimension(:,:) :: bx
+        !! The binned data.
 
     ! Local Variables
     real(real64) :: maxX, minX, width, val
@@ -49,8 +87,7 @@ module function pdh_bin_data(this, x, err) result(bx)
     allocate(bx(nbins, 2), stat = flag)
     if (flag == 0) allocate(ranges(nbins, 2), stat = flag)
     if (flag /= 0) then
-        call errmgr%report_error("pdh_bin_data", &
-            "Insufficient memory available.", PLOT_OUT_OF_MEMORY_ERROR)
+        call report_memory_error(errmgr, "pdh_bin_data", flag)
         return
     end if
     bx = 0.0d0
@@ -78,10 +115,13 @@ module function pdh_bin_data(this, x, err) result(bx)
 end function
 
 ! ------------------------------------------------------------------------------
-pure module function pdh_get_extremes(this) result(x)
-    ! Arguments
+pure function pdh_get_extremes(this) result(x)
+    !! Returns the extreme values in the data set.
     class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
     real(real64), dimension(2) :: x
+        !! A two-element array containing the minimum and maximum values, in 
+        !! that order.
 
     ! Local Variables
     integer(int32) :: i, j, nrows, ncols
@@ -113,11 +153,14 @@ pure module function pdh_get_extremes(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdh_set_data_1(this, x, err)
-    ! Arguments
+subroutine pdh_set_data_1(this, x, err)
+    !! Defines the data set.
     class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     real(real64), allocatable, dimension(:,:) :: bx
@@ -142,12 +185,16 @@ module subroutine pdh_set_data_1(this, x, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdh_set_data_2(this, labels, x, err)
-    ! Arguments
+subroutine pdh_set_data_2(this, labels, x, err)
+    !! Defines the data set with associated axis labels.
     class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
     class(string), intent(in), dimension(:) :: labels
+        !! The axis labels.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     real(real64), allocatable, dimension(:,:) :: bx
@@ -163,9 +210,8 @@ module subroutine pdh_set_data_2(this, labels, x, err)
 
     ! Ensure the labels array is the same size as the number of bins
     if (size(labels) /= this%get_bin_count()) then
-        call errmgr%report_error("pdh_set_data_2", &
-            "The labels array must be the same size as the number of bins.", &
-            PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        call report_array_size_mismatch_error(errmgr, "pdh_set_data_2", &
+            "labels", this%get_bin_count(), size(labels))
         return
     end if
 
@@ -174,13 +220,18 @@ module subroutine pdh_set_data_2(this, labels, x, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-module subroutine pdh_set_data_3(this, labels, x, fmt, err)
-    ! Arguments
+subroutine pdh_set_data_3(this, labels, x, fmt, err)
+    !! Defines the data set with associated axis labels with a specific format.
     class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
     real(real64), intent(in), dimension(:) :: labels
+        !! The axis labels.
     real(real64), intent(in), dimension(:) :: x
+        !! The data set.
     character(len = *), intent(in), optional :: fmt
+        !! The format string for the labels (e.g. '(I0)', etc.).
     class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
 
     ! Local Variables
     real(real64), allocatable, dimension(:,:) :: bx
@@ -196,9 +247,8 @@ module subroutine pdh_set_data_3(this, labels, x, fmt, err)
 
     ! Ensure the labels array is the same size as the number of bins
     if (size(labels) /= this%get_bin_count()) then
-        call errmgr%report_error("pdh_set_data_3", &
-            "The labels array must be the same size as the number of bins.", &
-            PLOT_ARRAY_SIZE_MISMATCH_ERROR)
+        call report_array_size_mismatch_error(errmgr, "pdh_set_data_3", &
+            "labels", this%get_bin_count(), size(labels))
         return
     end if
 
@@ -207,9 +257,12 @@ module subroutine pdh_set_data_3(this, labels, x, fmt, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-pure module function pdh_get_num_fmt(this) result(x)
+pure function pdh_get_num_fmt(this) result(x)
+    !! Gets the numerical format string used for the labels.
     class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
     character(len = :), allocatable :: x
+        !! The format string.
     if (allocated(this%m_numberFmt)) then
         x = this%m_numberFmt
     else
@@ -218,11 +271,14 @@ pure module function pdh_get_num_fmt(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-module subroutine pdh_set_num_fmt(this, x)
+subroutine pdh_set_num_fmt(this, x)
+    !! Sets the numerical format string used for the labels.
     class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
     character(len = *), intent(in) :: x
+        !! The format string (e.g. "(F6.2)").
     this%m_numberFmt = x
 end subroutine
 
 ! ------------------------------------------------------------------------------
-end submodule
+end module
