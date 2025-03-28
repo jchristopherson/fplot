@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="FPLOT is a Fortran library providing a convenient interface for plotting with GNUPLOT.">
+    <meta name="author" content="Jason Christopherson" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>fplot_constants &ndash; FPLOT</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">FPLOT </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>fplot_constants
+      <small>Module</small>
+      
+    </h1>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.9% of total for modules and submodules.">58 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/fplot_constants.f90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/fplot_constants.f90.html'>fplot_constants.f90</a></li>
+          <li class="active">fplot_constants</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-0">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_backhead">ARROW_BACKHEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_empty">ARROW_EMPTY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_filled">ARROW_FILLED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_head">ARROW_HEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_heads">ARROW_HEADS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_border">ARROW_NO_BORDER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_fill">ARROW_NO_FILL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_head">ARROW_NO_HEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cartesian">COORDINATES_CARTESIAN</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cylindrical">COORDINATES_CYLINDRICAL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_spherical">COORDINATES_SPHERICAL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_fontname">GNUPLOT_DEFAULT_FONTNAME</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_font_size">GNUPLOT_DEFAULT_FONT_SIZE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_height">GNUPLOT_DEFAULT_WINDOW_HEIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_width">GNUPLOT_DEFAULT_WINDOW_WIDTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_label_length">GNUPLOT_MAX_LABEL_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_path_length">GNUPLOT_MAX_PATH_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_latex">GNUPLOT_TERMINAL_LATEX</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_png">GNUPLOT_TERMINAL_PNG</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_qt">GNUPLOT_TERMINAL_QT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_win32">GNUPLOT_TERMINAL_WIN32</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_wxt">GNUPLOT_TERMINAL_WXT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_horizontally">LEGEND_ARRANGE_HORIZONTALLY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_vertically">LEGEND_ARRANGE_VERTICALLY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_bottom">LEGEND_BOTTOM</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_center">LEGEND_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_left">LEGEND_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_right">LEGEND_RIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_top">LEGEND_TOP</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dashed">LINE_DASHED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dotted">LINE_DASH_DOTTED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dot_dot">LINE_DASH_DOT_DOT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dotted">LINE_DOTTED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_solid">LINE_SOLID</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_asterisk">MARKER_ASTERISK</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_circle">MARKER_EMPTY_CIRCLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_nabla">MARKER_EMPTY_NABLA</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_rhombus">MARKER_EMPTY_RHOMBUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_square">MARKER_EMPTY_SQUARE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_triangle">MARKER_EMPTY_TRIANGLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_circle">MARKER_FILLED_CIRCLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_nabla">MARKER_FILLED_NABLA</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_rhombus">MARKER_FILLED_RHOMBUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_square">MARKER_FILLED_SQUARE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_triangle">MARKER_FILLED_TRIANGLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_plus">MARKER_PLUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_x">MARKER_X</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-plotdata_max_name_length">PLOTDATA_MAX_NAME_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_bottom">POLAR_THETA_BOTTOM</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_ccw">POLAR_THETA_CCW</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_cw">POLAR_THETA_CW</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_left">POLAR_THETA_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_right">POLAR_THETA_RIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_top">POLAR_THETA_TOP</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+            <ul class="list-inline">
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+            </ul>
+          </li>
+      </ul>
+    </div>
+
+      
+      <br>
+
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#vars-1">Variables</a>
+        </h3>
+      </div>
+      <div id="vars-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_backhead">ARROW_BACKHEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_empty">ARROW_EMPTY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_filled">ARROW_FILLED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_head">ARROW_HEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_heads">ARROW_HEADS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_border">ARROW_NO_BORDER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_fill">ARROW_NO_FILL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_head">ARROW_NO_HEAD</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cartesian">COORDINATES_CARTESIAN</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cylindrical">COORDINATES_CYLINDRICAL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_spherical">COORDINATES_SPHERICAL</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_fontname">GNUPLOT_DEFAULT_FONTNAME</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_font_size">GNUPLOT_DEFAULT_FONT_SIZE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_height">GNUPLOT_DEFAULT_WINDOW_HEIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_width">GNUPLOT_DEFAULT_WINDOW_WIDTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_label_length">GNUPLOT_MAX_LABEL_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_path_length">GNUPLOT_MAX_PATH_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_latex">GNUPLOT_TERMINAL_LATEX</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_png">GNUPLOT_TERMINAL_PNG</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_qt">GNUPLOT_TERMINAL_QT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_win32">GNUPLOT_TERMINAL_WIN32</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_wxt">GNUPLOT_TERMINAL_WXT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_horizontally">LEGEND_ARRANGE_HORIZONTALLY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_vertically">LEGEND_ARRANGE_VERTICALLY</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_bottom">LEGEND_BOTTOM</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_center">LEGEND_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_left">LEGEND_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_right">LEGEND_RIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_top">LEGEND_TOP</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dashed">LINE_DASHED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dotted">LINE_DASH_DOTTED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dot_dot">LINE_DASH_DOT_DOT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dotted">LINE_DOTTED</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_solid">LINE_SOLID</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_asterisk">MARKER_ASTERISK</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_circle">MARKER_EMPTY_CIRCLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_nabla">MARKER_EMPTY_NABLA</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_rhombus">MARKER_EMPTY_RHOMBUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_square">MARKER_EMPTY_SQUARE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_triangle">MARKER_EMPTY_TRIANGLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_circle">MARKER_FILLED_CIRCLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_nabla">MARKER_FILLED_NABLA</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_rhombus">MARKER_FILLED_RHOMBUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_square">MARKER_FILLED_SQUARE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_triangle">MARKER_FILLED_TRIANGLE</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_plus">MARKER_PLUS</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_x">MARKER_X</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-plotdata_max_name_length">PLOTDATA_MAX_NAME_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_bottom">POLAR_THETA_BOTTOM</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_ccw">POLAR_THETA_CCW</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_cw">POLAR_THETA_CW</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_left">POLAR_THETA_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_right">POLAR_THETA_RIGHT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_top">POLAR_THETA_TOP</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Visibility</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+<th></th><th>Initial</th>        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_backhead"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_BACKHEAD</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                <p>Defines an arrow with it's head at it's back end (tail).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_empty"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_EMPTY</strong></td>
+<td> =</td>
+                <td>101</td>
+            <td>
+                <p>Defines an empty arrow head.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_filled"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_FILLED</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+                <p>Defines a filled arrow head.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_head"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_HEAD</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>Defines an arrow with a traditional head.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_heads"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_HEADS</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                <p>Defines an arrow with a head on both ends.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_no_border"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_NO_BORDER</strong></td>
+<td> =</td>
+                <td>103</td>
+            <td>
+                <p>Defines an arrow head with no border.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_no_fill"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_NO_FILL</strong></td>
+<td> =</td>
+                <td>102</td>
+            <td>
+                <p>Defines an arrow head without fill.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-arrow_no_head"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>ARROW_NO_HEAD</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>Defines an arrow with no head.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates_cartesian"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>COORDINATES_CARTESIAN</strong></td>
+<td> =</td>
+                <td>100</td>
+            <td>
+                <p>Defines a Cartesian coordinate system.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates_cylindrical"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>COORDINATES_CYLINDRICAL</strong></td>
+<td> =</td>
+                <td>102</td>
+            <td>
+                <p>Defines a cylindrical coordinate system.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coordinates_spherical"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>COORDINATES_SPHERICAL</strong></td>
+<td> =</td>
+                <td>101</td>
+            <td>
+                <p>Defines a spherical coordinate system.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_default_fontname"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_DEFAULT_FONTNAME</strong></td>
+<td> =</td>
+                <td>"Calibri"</td>
+            <td>
+                <p>Defines the default font used by text on the graph.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_default_font_size"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_DEFAULT_FONT_SIZE</strong></td>
+<td> =</td>
+                <td>14</td>
+            <td>
+                <p>Defines the default font size used by text on the graph.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_default_window_height"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_DEFAULT_WINDOW_HEIGHT</strong></td>
+<td> =</td>
+                <td>420</td>
+            <td>
+                <p>The default GNUPLOT window height, in pixels.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_default_window_width"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_DEFAULT_WINDOW_WIDTH</strong></td>
+<td> =</td>
+                <td>640</td>
+            <td>
+                <p>The default GNUPLOT window width, in pixels.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_max_label_length"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_MAX_LABEL_LENGTH</strong></td>
+<td> =</td>
+                <td>128</td>
+            <td>
+                <p>Defines the maximum number of characters allowed in a graph label.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_max_path_length"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_MAX_PATH_LENGTH</strong></td>
+<td> =</td>
+                <td>256</td>
+            <td>
+                <p>Defines the maximum number of characters allowed in a file path.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_terminal_latex"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_TERMINAL_LATEX</strong></td>
+<td> =</td>
+                <td>5</td>
+            <td>
+                <p>Defines a LATEX terminal.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_terminal_png"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_TERMINAL_PNG</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                <p>Defines a PNG terminal.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_terminal_qt"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_TERMINAL_QT</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                <p>Defines a QT terminal.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_terminal_win32"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_TERMINAL_WIN32</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>Defines a Win32 terminal.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_terminal_wxt"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_TERMINAL_WXT</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                <p>Defines a WXT terminal.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_arrange_horizontally"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_ARRANGE_HORIZONTALLY</strong></td>
+<td> =</td>
+                <td>"horizontal"</td>
+            <td>
+                <p>Defines the legend should be arranged such that the row count
+is minimized.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_arrange_vertically"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_ARRANGE_VERTICALLY</strong></td>
+<td> =</td>
+                <td>"vertical"</td>
+            <td>
+                <p>Defines the legend should be arranged such that the column count
+is minimized.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_bottom"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_BOTTOM</strong></td>
+<td> =</td>
+                <td>"bottom"</td>
+            <td>
+                <p>Defines the legend should be placed at the bottom of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_center"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_CENTER</strong></td>
+<td> =</td>
+                <td>"center"</td>
+            <td>
+                <p>Defines the legend should be centered on the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_left"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_LEFT</strong></td>
+<td> =</td>
+                <td>"left"</td>
+            <td>
+                <p>Defines the legend should be placed at the left of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_right"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_RIGHT</strong></td>
+<td> =</td>
+                <td>"right"</td>
+            <td>
+                <p>Defines the legend should be placed at the right of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-legend_top"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LEGEND_TOP</strong></td>
+<td> =</td>
+                <td>"top"</td>
+            <td>
+                <p>Defines the legend should be placed at the top of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line_dashed"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LINE_DASHED</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                <p>Defines a dashed line.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line_dash_dotted"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LINE_DASH_DOTTED</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                <p>Defines a dash-dotted line.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line_dash_dot_dot"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LINE_DASH_DOT_DOT</strong></td>
+<td> =</td>
+                <td>5</td>
+            <td>
+                <p>Defines a dash-dot-dotted line.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line_dotted"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LINE_DOTTED</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                <p>Defines a dotted line.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-line_solid"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>LINE_SOLID</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>Defines a solid line.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_asterisk"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_ASTERISK</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                <p>Defines an * data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_empty_circle"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_EMPTY_CIRCLE</strong></td>
+<td> =</td>
+                <td>6</td>
+            <td>
+                <p>Defines an empty circle-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_empty_nabla"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_EMPTY_NABLA</strong></td>
+<td> =</td>
+                <td>10</td>
+            <td>
+                <p>Defines an empty nabla-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_empty_rhombus"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_EMPTY_RHOMBUS</strong></td>
+<td> =</td>
+                <td>12</td>
+            <td>
+                <p>Defines an empty rhombus-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_empty_square"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_EMPTY_SQUARE</strong></td>
+<td> =</td>
+                <td>4</td>
+            <td>
+                <p>Defines an empty square-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_empty_triangle"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_EMPTY_TRIANGLE</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+                <p>Defines an empty triangle-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_filled_circle"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_FILLED_CIRCLE</strong></td>
+<td> =</td>
+                <td>7</td>
+            <td>
+                <p>Defines an filled circle-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_filled_nabla"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_FILLED_NABLA</strong></td>
+<td> =</td>
+                <td>11</td>
+            <td>
+                <p>Defines an filled nabla-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_filled_rhombus"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_FILLED_RHOMBUS</strong></td>
+<td> =</td>
+                <td>13</td>
+            <td>
+                <p>Defines an filled rhombus-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_filled_square"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_FILLED_SQUARE</strong></td>
+<td> =</td>
+                <td>5</td>
+            <td>
+                <p>Defines an filled square-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_filled_triangle"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_FILLED_TRIANGLE</strong></td>
+<td> =</td>
+                <td>9</td>
+            <td>
+                <p>Defines an filled triangle-shaped data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_plus"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_PLUS</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>Defines a + data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-marker_x"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>MARKER_X</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                <p>Defines an x data point marker.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-plotdata_max_name_length"></span>
+              integer(kind=int32),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>PLOTDATA_MAX_NAME_LENGTH</strong></td>
+<td> =</td>
+                <td>128</td>
+            <td>
+                <p>Defines the maximum number of characters allowed in a graph label.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_bottom"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_BOTTOM</strong></td>
+<td> =</td>
+                <td>"bottom"</td>
+            <td>
+                <p>States that theta should start at the bottom of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_ccw"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_CCW</strong></td>
+<td> =</td>
+                <td>"ccw"</td>
+            <td>
+                <p>States that theta should proceed in a counter-clockwise direction.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_cw"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_CW</strong></td>
+<td> =</td>
+                <td>"cw"</td>
+            <td>
+                <p>States that theta should proceed in a clockwise direction.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_left"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_LEFT</strong></td>
+<td> =</td>
+                <td>"left"</td>
+            <td>
+                <p>States that theta should start at the left of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_right"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_RIGHT</strong></td>
+<td> =</td>
+                <td>"right"</td>
+            <td>
+                <p>States that theta should start at the right of the plot.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-polar_theta_top"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>POLAR_THETA_TOP</strong></td>
+<td> =</td>
+                <td>"top"</td>
+            <td>
+                <p>States that theta should start at the top of the plot.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2025 
+</p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-03-28 05:45              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="FPLOT is a Fortran library providing a convenient interface for plotting with GNUPLOT.">
+    <meta name="author" content="Jason Christopherson" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>fplot_plot_data &ndash; FPLOT</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">FPLOT </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>fplot_plot_data
+      <small>Module</small>
+      
+    </h1>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 5.1% of total for modules and submodules.">344 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/fplot_plot_data.f90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/fplot_plot_data.f90.html'>fplot_plot_data.f90</a></li>
+          <li class="active">fplot_plot_data</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#inters-0">Interfaces</a>
+        </h3>
+      </div>
+      <div id="inters-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_get_string_result">pd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_int_value">spd_get_int_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_string_result">spd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_value">spd_get_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_set_value">spd_set_value</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#types-0">Derived Types</a>
+        </h3>
+      </div>
+      <div id="types-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data">plot_data</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data_colored">plot_data_colored</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-scatter_plot_data">scatter_plot_data</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+            <ul class="list-inline">
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
+                <li>ferror</li>
+                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
+                <li>strings</li>
+                <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+            </ul>
+          </li>
+      </ul>
+    </div>
+
+      
+      <br>
+
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#inters-1">Interfaces</a>
+        </h3>
+      </div>
+      <div id="inters-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_get_string_result">pd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_int_value">spd_get_int_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_string_result">spd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_value">spd_get_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_set_value">spd_set_value</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#types-1">Derived Types</a>
+        </h3>
+      </div>
+      <div id="types-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data">plot_data</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data_colored">plot_data_colored</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-scatter_plot_data">scatter_plot_data</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-pd_get_string_result"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public  function pd_get_string_result(this) result(x)  
+
+    </h3>
+  <p>Retrieves a string from a plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The string.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-spd_get_int_value"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure function spd_get_int_value(this) result(x)  
+
+    </h3>
+  <p>Gets an integer value from the scatter_plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The scatter_plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int32)</small>
+    </h4>
+    <p>The value.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-spd_get_string_result"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public  function spd_get_string_result(this) result(x)  
+
+    </h3>
+  <p>Gets a string value from the scatter_plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The scatter_plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The string.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-spd_get_value"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure function spd_get_value(this, index) result(x)  
+
+    </h3>
+  <p>Gets an indexed value from the scatter_plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The scatter_plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+                <p>The index.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real64)</small>
+    </h4>
+    <p>The value.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-spd_set_value"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public  subroutine spd_set_value(this, index, x)  
+
+    </h3>
+  <p>Sets an indexed value from the scatter_plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The scatter_plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+                <p>The index.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The value.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="type-plot_data"></span>
+      <h3>
+        type, public, extends(<a href='../type/plot_object.html'>plot_object</a>)&nbsp;::&nbsp;
+        <a href='../type/plot_data.html'>plot_data</a>
+        
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>A container for plot data.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>
+                    procedure
+(get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_object.html#boundprocedure-get_command_string~13'>get_command_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="type-plot_data_colored"></span>
+      <h3>
+        type, public, extends(<a href='../type/plot_data.html'>plot_data</a>)&nbsp;::&nbsp;
+        <a href='../type/plot_data_colored.html'>plot_data_colored</a>
+        
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>Defines a colored plot data set.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_object.html#boundprocedure-get_command_string~13'>get_command_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+ =>
+                    pdc_set_color_index
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
+ =>
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="type-scatter_plot_data"></span>
+      <h3>
+        type, public, extends(<a href='../type/plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
+        <a href='../type/scatter_plot_data.html'>scatter_plot_data</a>
+        
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>A plot_data object for describing scatter plot data sets.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>
+                    procedure
+(spd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_axes_string~2'>get_axes_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_command_string~14'>get_command_string</a></strong>
+ =>
+                    spd_get_cmd
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_get_int_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_count~2'>get_count</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_draw_line'>get_draw_line</a></strong>
+ =>
+                    spd_get_draw_line
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_draw_markers'>get_draw_markers</a></strong>
+ =>
+                    spd_get_draw_markers
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_fill_curve'>get_fill_curve</a></strong>
+ =>
+                    spd_get_filled
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_line_style~2'>get_line_style</a></strong>
+ =>
+                    spd_get_line_style
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_line_width~2'>get_line_width</a></strong>
+ =>
+                    spd_get_line_width
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_marker_frequency'>get_marker_frequency</a></strong>
+ =>
+                    spd_get_marker_frequency
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_marker_scaling'>get_marker_scaling</a></strong>
+ =>
+                    spd_get_marker_scaling
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_marker_style'>get_marker_style</a></strong>
+ =>
+                    spd_get_marker_style
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_simplification_factor'>get_simplification_factor</a></strong>
+ =>
+                    spd_get_simplify_factor
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_simplify_data'>get_simplify_data</a></strong>
+ =>
+                    spd_get_simplify_data
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_use_data_dependent_colors'>get_use_data_dependent_colors</a></strong>
+ =>
+                    spd_get_data_dependent_colors
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_use_variable_size_points'>get_use_variable_size_points</a></strong>
+ =>
+                    spd_get_use_var_point_size
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_get_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_x'>get_x</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_get_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_y'>get_y</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+ =>
+                    pdc_set_color_index
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_draw_line'>set_draw_line</a></strong>
+ =>
+                    spd_set_draw_line
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_draw_markers'>set_draw_markers</a></strong>
+ =>
+                    spd_set_draw_markers
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_fill_curve'>set_fill_curve</a></strong>
+ =>
+                    spd_set_filled
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
+ =>
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_line_style~2'>set_line_style</a></strong>
+ =>
+                    spd_set_line_style
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_line_width~2'>set_line_width</a></strong>
+ =>
+                    spd_set_line_width
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_marker_frequency'>set_marker_frequency</a></strong>
+ =>
+                    spd_set_marker_frequency
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_marker_scaling'>set_marker_scaling</a></strong>
+ =>
+                    spd_set_marker_scaling
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_marker_style'>set_marker_style</a></strong>
+ =>
+                    spd_set_marker_style
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_simplification_factor'>set_simplification_factor</a></strong>
+ =>
+                    spd_set_simplify_factor
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_simplify_data'>set_simplify_data</a></strong>
+ =>
+                    spd_set_simplify_data
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_use_data_dependent_colors'>set_use_data_dependent_colors</a></strong>
+ =>
+                    spd_set_data_dependent_colors
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_use_variable_size_points'>set_use_variable_size_points</a></strong>
+ =>
+                    spd_set_use_var_point_size
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_set_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_x'>set_x</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_set_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_y'>set_y</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2025 
+</p>
+          </div>
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-03-28 05:45              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+        <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>
