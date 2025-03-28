@@ -10,6 +10,7 @@ module fplot_stats_plots
     use fplot_constants
     use fplot_errors
     use fplot_colors
+    use fplot_plot_axis
     use collections
     use strings
     use ferror
@@ -49,12 +50,16 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine cp_init(this, x, term, err)
+    subroutine cp_init(this, x, labels, term, err)
         !! Initializes the correlation_plot object.
         class(correlation_plot), intent(inout) :: this
             !! The correlation_plot object.
         real(real64), intent(in), dimension(:,:) :: x
             !! The data to plot with each column representing a data set.
+        type(string), intent(in), optional, dimension(:) :: labels
+            !! An optional array containing a label to associate with each
+            !! data set in x.  If supplied, this array must have the same length
+            !! as x has columns.
         integer(int32), intent(in), optional :: term
             !! An optional input that is used to define the terminal.  The 
             !! default terminal is a WXT terminal.  The acceptable inputs are:
@@ -78,6 +83,7 @@ contains
         type(plot_2d), allocatable, dimension(:) :: plts
         type(plot_data_2d) :: pdata
         type(plot_data_histogram) :: hdata
+        class(plot_axis), pointer :: xAxis, yAxis
         
         ! Initialization
         if (present(err)) then
@@ -93,7 +99,16 @@ contains
             call report_memory_error(errmgr, "cp_init", flag)
             return
         end if
-        call this%m_plt%set_font_size(10)    ! use a small font size
+        call this%m_plt%set_font_size(11)    ! use a small font size
+
+        ! Input Checking
+        if (present(labels)) then
+            if (size(labels) /= n) then
+                call report_array_size_mismatch_error(errmgr, "cp_init", &
+                    "labels", n, size(labels))
+                return
+            end if
+        end if
 
         ! Create plots
         k = 0
@@ -117,6 +132,27 @@ contains
                     call pdata%define_data(x(:,i), x(:,j), err = errmgr)
                     if (errmgr%has_error_occurred()) return
                     call plts(k)%push(pdata)
+                end if
+
+                ! Deal with axis labels
+                if (j == 1) then
+                    ! Display y axis labels for these plots
+                    yAxis => plts(k)%get_y_axis()
+                    if (present(labels)) then
+                        call yAxis%set_title(char(labels(i)))
+                    else
+                        call yAxis%set_title(char("x_{" // to_string(i) // "}"))
+                    end if
+                end if
+
+                if (i == n) then
+                    ! Display x axis labels for these plots
+                    xAxis => plts(k)%get_x_axis()
+                    if (present(labels)) then
+                        call xAxis%set_title(char(labels(j)))
+                    else
+                        call xAxis%set_title(char("x_{" // to_string(j) // "}"))
+                    end if
                 end if
 
                 ! Store the plot - the collection makes a copy of the plot and
