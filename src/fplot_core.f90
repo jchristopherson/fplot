@@ -40,6 +40,7 @@ module fplot_core
     use fplot_multiplot
     use fplot_plot_bar
     use fplot_plot_polar
+    use fplot_stats_plots
     implicit none
     private
     
@@ -240,4 +241,6 @@ module fplot_core
     ! FPLOT_PLOT_POLAR.F90    
     public :: plot_polar
 
+    ! FPLOT_STATS_PLOTS.F90
+    public :: correlation_plot
 end module
