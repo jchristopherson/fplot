@@ -283,7 +283,6 @@ contains
         integer(int32) :: fid, flag
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
-        character(len = 256) :: errmsg
         class(terminal), pointer :: term
 
         ! Initialization
@@ -320,8 +319,6 @@ contains
         ! Clean up by deleting the file
         open(newunit = fid, file = fname)
         close(fid, status = "delete")
-        
-100     format(A, I0, A)
     end subroutine
 
 ! ------------------------------------------------------------------------------
