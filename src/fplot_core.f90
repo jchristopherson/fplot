@@ -247,21 +247,4 @@ module fplot_core
     ! FPLOT_PLOT_POLAR.F90    
     public :: plot_polar
 
-
-    ! public :: assignment(=)
-    
-
-
-
-
-
-! ******************************************************************************
-! OPERATORS
-! ------------------------------------------------------------------------------
-    ! interface assignment(=)
-    !     ! module procedure :: clr_assign
-    !     ! module procedure :: lbl_assign
-    !     ! module procedure :: par_assign
-    ! end interface
-
 end module
