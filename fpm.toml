@@ -3,7 +3,7 @@ version = "1.7.2"
 license = "GPL-3.0"
 author = "Jason Christopherson"
 maintainer = "Jason Christopherson"
-copyright = "Copyright 2017-2024, Jason Christopherson"
+copyright = "Copyright 2017-2025, Jason Christopherson"
 description = "A Fortran library providing a convenient interface for plotting with Gnuplot."
 homepage = "https://github.com/jchristopherson/fplot"
 
