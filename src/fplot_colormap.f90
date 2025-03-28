@@ -406,7 +406,7 @@ contains
             !! The command string.
 
         type(string_builder) :: str
-        integer(int32) :: i, n, r, g, b
+        integer(int32) :: i, n
         type(color) :: clr
 
         if (.not.associated(this%m_map)) then
@@ -417,6 +417,7 @@ contains
         n = this%m_map%get_levels()
         do i = 0, n - 1
             ! Get the RGB triple
+            clr%alpha = 0
             call this%m_map%get_RGB(i, clr%red, clr%green, clr%blue)
 
             ! Append the color information
