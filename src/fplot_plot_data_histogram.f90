@@ -208,6 +208,10 @@ subroutine pdh_set_data_2(this, labels, x, err)
         errmgr => deferr
     end if
 
+    ! Bin the data
+    bx = this%bin_data(x, errmgr)
+    if (errmgr%has_error_occurred()) return
+
     ! Ensure the labels array is the same size as the number of bins
     if (size(labels) /= this%get_bin_count()) then
         call report_array_size_mismatch_error(errmgr, "pdh_set_data_2", &
@@ -244,6 +248,10 @@ subroutine pdh_set_data_3(this, labels, x, fmt, err)
     else
         errmgr => deferr
     end if
+
+    ! Bin the data
+    bx = this%bin_data(x, errmgr)
+    if (errmgr%has_error_occurred()) return
 
     ! Ensure the labels array is the same size as the number of bins
     if (size(labels) /= this%get_bin_count()) then
