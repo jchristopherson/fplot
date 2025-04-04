@@ -406,8 +406,8 @@ contains
             !! The command string.
 
         type(string_builder) :: str
-        integer(int32) :: i, n
-        type(color) :: clr
+        integer(int32) :: i, n, r, g, b, c
+        character(len = 6) :: ctxt
 
         if (.not.associated(this%m_map)) then
             allocate(character(len = 0) :: x)
@@ -417,13 +417,14 @@ contains
         n = this%m_map%get_levels()
         do i = 0, n - 1
             ! Get the RGB triple
-            clr%alpha = 0
-            call this%m_map%get_RGB(i, clr%red, clr%green, clr%blue)
+            call this%m_map%get_RGB(i, r, g, b)
+            c = ishft(r, 16) + ishft(g, 8) + b
+            write(ctxt, '(Z6.6)') c
 
             ! Append the color information
             call str%append(to_string(i))
             call str%append(" '#")
-            call str%append(clr%to_hex_string())
+            call str%append(ctxt)
             call str%append("'")
             if (i /= n - 1) then
                 call str%append(",")
