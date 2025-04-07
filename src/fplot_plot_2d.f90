@@ -130,6 +130,7 @@ contains
         ! Local Variables
         type(string_builder) :: str
         integer(int32) :: i, n
+        real(real32) :: lmargin, rmargin, tmargin, bmargin
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: axis, xAxis, yAxis
         type(legend), pointer :: leg
@@ -154,6 +155,32 @@ contains
             call str%append('set title "')
             call str%append(this%get_title())
             call str%append('"')
+        end if
+
+        ! Margin
+        lmargin = this%get_left_margin()
+        rmargin = this%get_right_margin()
+        tmargin = this%get_top_margin()
+        bmargin = this%get_bottom_margin()
+        if (lmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set lmargin at screen ")
+            call str%append(to_string(lmargin))
+        end if
+        if (rmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set rmargin at screen ")
+            call str%append(to_string(rmargin))
+        end if
+        if (tmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set tmargin at screen ")
+            call str%append(to_string(tmargin))
+        end if
+        if (bmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set bmargin at screen ")
+            call str%append(to_string(bmargin))
         end if
 
         ! Axes
