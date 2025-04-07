@@ -39,6 +39,7 @@ module fplot_plot_axis
         integer(int32), private :: m_ticXOffset = 0
             !! The tic label x-offset, in characters.
         integer(int32), private :: m_ticYOffset = 0
+            !! The tic label y-offset, in characters.
         character(len = PLOTDATA_MAX_NAME_LENGTH), private :: &
             m_ticLabelAlignment = GNUPLOT_HORIZONTAL_ALIGN_CENTER
             !! The tic label alignment.
@@ -61,6 +62,10 @@ module fplot_plot_axis
             !! - GNUPLOT_ROTATION_ORIGIN_LEFT
             !!
             !! - GNUPLOT_ROTATION_ORIGIN_CENTER
+        integer(int32), private :: m_titleXOffset = 0
+            !! The axis title x offset, in characters.
+        integer(int32), private :: m_titleYOffset = 0
+            !! The axis title y offset, in characters.
     contains
         procedure, public :: get_title => pa_get_title
         procedure, public :: set_title => pa_set_title
@@ -101,6 +106,10 @@ module fplot_plot_axis
             pa_set_tic_label_alignment
         procedure, public :: get_offset_tics => pa_get_offset_tics
         procedure, public :: set_offset_tics => pa_set_offset_tics
+        procedure, public :: get_title_x_offset => pa_get_title_x_offset
+        procedure, public :: set_title_x_offset => pa_set_title_x_offset
+        procedure, public :: get_title_y_offset => pa_get_title_y_offset
+        procedure, public :: set_title_y_offset => pa_set_title_y_offset
     end type
 
     interface
@@ -353,12 +362,22 @@ contains
             call str%append('"')
             call str%append(this%get_title())
             call str%append('"')
+
+            if (this%get_title_x_offset() /= 0 .or. &
+                this%get_title_y_offset() /= 0) &
+            then
+                call str%append(" offset ")
+                call str%append(to_string(this%get_title_x_offset()))
+                call str%append(",")
+                call str%append(to_string(this%get_title_y_offset()))
+            end if
         else
             call str%append("set ")
             call str%append(axis)
             call str%append("label ")
             call str%append('""')
         end if
+        call str%append(new_line('a'))
 
         ! Scaling
         call str%append(new_line('a'))
@@ -648,6 +667,46 @@ contains
         logical, intent(in) :: x
             !! Set to true to offset the tics; else, set to false.
         this%m_offsetTics = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_title_x_offset(this) result(x)
+        !! Gets the axis title x-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The axis title x-offset, in characters.
+        x = this%m_titleXOffset
+    end function
+
+! --------------------
+    subroutine pa_set_title_x_offset(this, x)
+        !! Sets the axis title x-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The axis title x-offset, in characters.
+        this%m_titleXOffset = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_title_y_offset(this) result(x)
+        !! Gets the axis title y-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The axis title y-offset, in characters.
+        x = this%m_titleYOffset
+    end function
+
+! --------------------
+    subroutine pa_set_title_y_offset(this, x)
+        !! Sets the axis title y-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The axis title y-offset, in characters.
+        this%m_titleYOffset = x
     end subroutine
 
 ! ******************************************************************************
