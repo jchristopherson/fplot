@@ -34,6 +34,8 @@ module fplot_plot_axis
             !! Use default tic label format?
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_ticLabelFmt = "%g"
             !! The tic lablel format.
+        logical :: m_showTicLabels = .true.
+            !! Show tic labels?
     contains
         procedure, public :: get_title => pa_get_title
         procedure, public :: set_title => pa_set_title
@@ -56,6 +58,8 @@ module fplot_plot_axis
             pa_set_use_dft_tic_lbl_fmt
         procedure, public :: get_tic_label_format => pa_get_tic_label_fmt
         procedure, public :: set_tic_label_format => pa_set_tic_label_fmt
+        procedure, public :: get_show_tic_labels => pa_get_show_tic_labels
+        procedure, public :: set_show_tic_labels => pa_set_show_tic_labels
     end type
 
     interface
@@ -248,6 +252,16 @@ contains
             call str%append(new_line('a'))
         end if
 
+        ! Show Tic Labels?
+        if (this%get_show_tic_labels()) then
+            call str%append("set ")
+        else
+            call str%append("unset ")
+        end if
+        call str%append(axis)
+        call str%append("tics")
+        call str%append(new_line('a'))
+
         ! Axis Limits
         if (this%get_autoscale()) then
             call str%append("set ")
@@ -391,6 +405,26 @@ contains
         character(len = *), intent(in) :: x
             !! The tic label format string.
         this%m_ticLabelFmt = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_show_tic_labels(this) result(x)
+        !! Gets a value determining if tic labels should be shown.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        logical :: x
+            !! Returns true to show tic labels; else, set to false.
+        x = this%m_showTicLabels
+    end function
+
+! --------------------
+    subroutine pa_set_show_tic_labels(this, x)
+        !! Sets a value determining if tic labels should be shown.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        logical, intent(in) :: x
+            !! Set to true to show tic labels; else, set to false.
+        this%m_showTicLabels = x
     end subroutine
 
 ! ******************************************************************************
