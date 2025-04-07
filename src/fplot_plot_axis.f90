@@ -356,6 +356,7 @@ contains
         ! Titles
         call str%append(new_line('a'))
         if (this%is_title_defined()) then
+            ! Title
             call str%append("set ")
             call str%append(axis)
             call str%append("label ")
@@ -363,6 +364,7 @@ contains
             call str%append(this%get_title())
             call str%append('"')
 
+            ! Offsets
             if (this%get_title_x_offset() /= 0 .or. &
                 this%get_title_y_offset() /= 0) &
             then
