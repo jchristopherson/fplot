@@ -93,6 +93,12 @@ module fplot_core
     public :: ARROW_EMPTY
     public :: ARROW_NO_FILL
     public :: ARROW_NO_BORDER
+    public :: GNUPLOT_HORIZONTAL_ALIGN_LEFT
+    public :: GNUPLOT_HORIZONTAL_ALIGN_CENTER
+    public :: GNUPLOT_HORIZONTAL_ALIGN_RIGHT
+    public :: GNUPLOT_ROTATION_ORIGIN_RIGHT
+    public :: GNUPLOT_ROTATION_ORIGIN_CENTER
+    public :: GNUPLOT_ROTATION_ORIGIN_LEFT
 
     ! FPLOT_CORE_ROUTINES.F90
     public :: linspace
