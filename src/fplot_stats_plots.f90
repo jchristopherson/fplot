@@ -129,7 +129,7 @@ contains
                     call plts(k)%push(hdata)
                 else
                     ! Plot a scatter plot
-                    call pdata%define_data(x(:,i), x(:,j), err = errmgr)
+                    call pdata%define_data(x(:,j), x(:,i), err = errmgr)
                     if (errmgr%has_error_occurred()) return
                     call plts(k)%push(pdata)
                 end if
@@ -145,15 +145,22 @@ contains
                     end if
                 end if
 
+                ! Get an x-axis object for the plot
+                xAxis => plts(k)%get_x_axis()
+
+                ! Define axis labels
                 if (i == n) then
                     ! Display x axis labels for these plots
-                    xAxis => plts(k)%get_x_axis()
                     if (present(labels)) then
                         call xAxis%set_title(char(labels(j)))
                     else
                         call xAxis%set_title(char("x_{" // to_string(j) // "}"))
                     end if
                 end if
+
+                ! Rotate histogram tic labels
+                call xAxis%set_tic_label_angle(45.0)
+                call xAxis%set_tic_label_rotation_origin(GNUPLOT_ROTATION_ORIGIN_RIGHT)
 
                 ! Store the plot - the collection makes a copy of the plot and
                 ! manages it's lifetime
