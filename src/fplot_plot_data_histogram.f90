@@ -287,7 +287,7 @@ pure function pdh_get_num_fmt(this) result(x)
     if (allocated(this%m_numberFmt)) then
         x = this%m_numberFmt
     else
-        x = "(F6.2)"
+        x = "(G10.3)"
     end if
 end function
 
