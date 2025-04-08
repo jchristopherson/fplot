@@ -30,7 +30,6 @@ module fplot_plot_data_histogram
     contains
         procedure, public :: get_bin_count => pdh_get_bin_count
         procedure, public :: set_bin_count => pdh_set_bin_count
-        procedure, private :: bin_data => pdh_bin_data
         procedure, public :: get_minimum_value => pdh_get_min_x
         procedure, public :: get_maximum_value => pdh_get_max_x
         procedure, public :: define_data => pdh_define_data
@@ -41,6 +40,7 @@ module fplot_plot_data_histogram
         procedure, public :: set_is_filled => pdh_set_is_filled
         procedure, public :: get_draw_against_y2 => pdh_get_use_y2
         procedure, public :: set_draw_against_y2 => pdh_set_use_y2
+        procedure, public :: get => pdh_get_bin_data
     end type
 
 contains
@@ -64,72 +64,6 @@ subroutine pdh_set_bin_count(this, x)
         !! The bin count.
     this%m_binCount = x
 end subroutine
-
-! ------------------------------------------------------------------------------
-function pdh_bin_data(this, x, err) result(bx)
-    !! Bins the supplied data set.
-    class(plot_data_histogram), intent(inout) :: this
-        !! The plot_data_histogram object.
-    real(real64), intent(in), dimension(:) :: x
-        !! The data set to bin.
-    class(errors), intent(inout), optional, target :: err
-        !! An error handling object.
-    real(real64), allocatable, dimension(:,:) :: bx
-        !! The binned data.
-
-    ! Local Variables
-    real(real64) :: maxX, minX, width, val
-    integer(int32) :: i, j, flag, n, nbins
-    real(real64), allocatable, dimension(:,:) :: ranges
-    class(errors), pointer :: errmgr
-    type(errors), target :: deferr
-    
-    ! Initialization
-    if (present(err)) then
-        errmgr => err
-    else
-        errmgr => deferr
-    end if
-    n = size(x)
-    nbins = this%get_bin_count()
-
-    ! Get the max and min of the entire data set
-    maxX = maxval(x)
-    minX = minval(x)
-    width = (maxX - minX) / (nbins - 1.0)
-    this%m_minX = minX
-    this%m_maxX = maxX
-
-    ! Allocate space for the output
-    allocate(bx(nbins, 2), stat = flag)
-    if (flag == 0) allocate(ranges(nbins, 2), stat = flag)
-    if (flag /= 0) then
-        call report_memory_error(errmgr, "pdh_bin_data", flag)
-        return
-    end if
-    bx = 0.0d0
-
-    ! Define each range
-    ranges(1,:) = [minX, minX + width]
-    do i = 2, nbins
-        ranges(i,1) = ranges(i-1,2)
-        ranges(i,2) = ranges(i,1) + width
-    end do
-
-    ! Construct the bins
-    do i = 1, n
-        val = x(i)
-        do j = 1, nbins
-            if ((val >= ranges(j,1)) .and. (val <= ranges(j,2))) then
-                bx(j,1) = bx(j,1) + 1.0d0   ! Counter
-                exit    ! Exit the inner do loop
-            end if
-        end do
-    end do
-
-    ! Now compute the center of each bin - store in column 2 of bx
-    bx(:,2) = 0.5d0 * (ranges(:,1) + ranges(:,2))
-end function
 
 ! ------------------------------------------------------------------------------
 pure function pdh_get_min_x(this) result(x)
@@ -263,7 +197,8 @@ function pdh_get_data_cmd(this) result(rst)
 
     ! Local Variables
     type(string_builder) :: str
-    integer(int32) :: i, nbars
+    integer(int32) :: i, nbars, cnt
+    real(real64) :: val
     character :: delimiter, nl
 
     ! Initialization
@@ -273,9 +208,10 @@ function pdh_get_data_cmd(this) result(rst)
 
     ! Process
     do i = 1, nbars
-        call str%append(to_string(this%m_data(i,2)))
+        call this%get(i, val, cnt)
+        call str%append(to_string(val))
         call str%append(delimiter)
-        call str%append(to_string(this%m_data(i,1)))
+        call str%append(to_string(cnt))
         call str%append(nl)
     end do
 
@@ -343,6 +279,28 @@ subroutine pdh_set_use_y2(this, x)
         !! Set to true if the data is to be plotted against the secondary y 
         !! axis; else, false for the primary y axis.
     this%m_useY2 = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdh_get_bin_data(this, i, x, cnt)
+    !! Gets the requested binned data.
+    class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
+    integer(int32), intent(in) :: i
+        !! The bin number to get.
+    real(real64), intent(out) :: x
+        !! The center of the bin.
+    integer(int32), intent(out) :: cnt
+        !! The number of items in the bin.
+
+    ! Process
+    if (.not.allocated(this%m_data)) then
+        cnt = 0
+        x = 0.0d0
+        return
+    end if
+    x = this%m_data(i,2)
+    cnt = floor(this%m_data(i,1))
 end subroutine
 
 ! ------------------------------------------------------------------------------
