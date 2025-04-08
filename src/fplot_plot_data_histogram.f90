@@ -12,10 +12,17 @@ module fplot_plot_data_histogram
 
     type, extends(plot_data_bar) :: plot_data_histogram
         !! A container for plotting data in the form of a histogram.
-        integer(int32), private :: m_binCount = 10
+        integer(int32), private :: m_binCount = 20
             !! The number of bins.
         character(len = :), private, allocatable :: m_numberFmt
             !! The numerical label format string.
+        logical, private :: m_useTicLabels = .false.
+            !! Flag to indicate if user-defind tic labels are used.  This
+            !! overrides the base class behavior.
+        real(real64), private :: m_minX
+            !! The minimum data value.
+        real(real64), private :: m_maxX
+            !! The maximum data value.
     contains
         procedure, public :: get_bin_count => pdh_get_bin_count
         procedure, public :: set_bin_count => pdh_set_bin_count
@@ -26,6 +33,10 @@ module fplot_plot_data_histogram
         procedure, public :: set_data_1 => pdh_set_data_1
         procedure, public :: set_data_2 => pdh_set_data_2
         procedure, public :: set_data_3 => pdh_set_data_3
+        procedure, public :: get_use_labels => pdh_get_use_labels
+        procedure, public :: set_use_labels => pdh_set_use_labels
+        procedure, public :: get_minimum_value => pdh_get_min_x
+        procedure, public :: get_maximum_value => pdh_get_max_x
     end type
 
 contains
@@ -53,7 +64,7 @@ end subroutine
 ! ------------------------------------------------------------------------------
 function pdh_bin_data(this, x, err) result(bx)
     !! Bins the supplied data set.
-    class(plot_data_histogram), intent(in) :: this
+    class(plot_data_histogram), intent(inout) :: this
         !! The plot_data_histogram object.
     real(real64), intent(in), dimension(:) :: x
         !! The data set to bin.
@@ -82,6 +93,8 @@ function pdh_bin_data(this, x, err) result(bx)
     maxX = maxval(x)
     minX = minval(x)
     width = (maxX - minX) / (nbins - 1.0)
+    this%m_minX = minX
+    this%m_maxX = maxX
 
     ! Allocate space for the output
     allocate(bx(nbins, 2), stat = flag)
@@ -287,6 +300,46 @@ subroutine pdh_set_num_fmt(this, x)
         !! The format string (e.g. "(F6.2)").
     this%m_numberFmt = x
 end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdh_get_use_labels(this) result(x)
+    !! Gets the flag indicating if user-defined tic labels are used.
+    class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
+    logical :: x
+        !! The flag.
+    x = this%m_useTicLabels
+end function
+
+! --------------------
+subroutine pdh_set_use_labels(this, x)
+    !! Sets the flag indicating if user-defined tic labels are used.
+    class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
+    logical, intent(in) :: x
+        !! The flag.
+    this%m_useTicLabels = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdh_get_min_x(this) result(x)
+    !! Gets the minimum data value.
+    class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
+    real(real64) :: x
+        !! The minimum data value.
+    x = this%m_minX
+end function
+
+! ------------------------------------------------------------------------------
+pure function pdh_get_max_x(this) result(x)
+    !! Gets the maximum data value.
+    class(plot_data_histogram), intent(in) :: this
+        !! The plot_data_histogram object.
+    real(real64) :: x
+        !! The maximum data value.
+    x = this%m_maxX
+end function
 
 ! ------------------------------------------------------------------------------
 end module
