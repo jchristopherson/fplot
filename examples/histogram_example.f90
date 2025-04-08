@@ -28,7 +28,6 @@ program example
     ! Plot the data
     call pd1%set_bin_count(nbins)   ! optional, but must be done prior to define_data is used
     call pd1%define_data(x)
-    call pd1%set_transparency(0.5)  ! optional - for illustration purposes
     call plt%push(pd1)
     call plt%draw()
 end program
