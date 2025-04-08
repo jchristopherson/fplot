@@ -5,9 +5,9 @@ program example
 
     ! Local Variables
     integer(int32), parameter :: n = 5000
-    integer(int32), parameter :: nbins = 12
+    integer(int32), parameter :: nbins = 30
     real(real64) :: x(n), u(n), v(n)
-    type(plot_bar) :: plt   ! can also be plot_2d
+    type(plot_2d) :: plt
     type(plot_data_histogram) :: pd1
     class(plot_axis), pointer :: xAxis
 
