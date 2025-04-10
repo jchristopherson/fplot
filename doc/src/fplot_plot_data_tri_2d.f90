@@ -36,7 +36,7 @@ module fplot_plot_data_tri_2d
 
 contains
 ! ------------------------------------------------------------------------------
-    module function pdt2d_get_data_cmd(this) result(x)
+    function pdt2d_get_data_cmd(this) result(x)
         !! Gets the GNUPLOT command string describing the data to plot.
         class(plot_data_tri_2d), intent(in) :: this
             !! The plot_data_tri_2d object.
@@ -131,7 +131,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module function pdt2d_get_cmd(this) result(x)
+    function pdt2d_get_cmd(this) result(x)
         !! Gets the GNUPLOT command string for the object.
         class(plot_data_tri_2d), intent(in) :: this
             !! The plot_data_tri_2d object.
@@ -182,7 +182,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    module subroutine pdt2d_define_data(this, tri)
+    subroutine pdt2d_define_data(this, tri)
         !! Defines the data to plot.
         class(plot_data_tri_2d), intent(inout) :: this
             !! The plot_data_tri_2d object.
@@ -200,7 +200,7 @@ contains
     end subroutine
     
 ! ------------------------------------------------------------------------------
-    pure module function pdt2d_get_line_width(this) result(rst)
+    pure function pdt2d_get_line_width(this) result(rst)
         !! Gets the width of the lines used to draw the triangulation.
         class(plot_data_tri_2d), intent(in) :: this
             !! The plot_data_tri_2d object.
@@ -210,7 +210,7 @@ contains
     end function
 
 ! --------------------
-    module subroutine pdt2d_set_line_width(this, x)
+    subroutine pdt2d_set_line_width(this, x)
         !! Sets the width of the lines used to draw the triangulation.
         class(plot_data_tri_2d), intent(inout) :: this
             !! The plot_data_tri_2d object.
@@ -223,7 +223,7 @@ contains
         end if
     end subroutine
 ! ------------------------------------------------------------------------------
-    pure module function pdt2d_get_line_style(this) result(rst)
+    pure function pdt2d_get_line_style(this) result(rst)
         !! Gets the line style.
         class(plot_data_tri_2d), intent(in) :: this
             !! The plot_data_tri_2d object.
@@ -244,7 +244,7 @@ contains
     end function
 
 ! --------------------
-    module subroutine pdt2d_set_line_style(this, x)
+    subroutine pdt2d_set_line_style(this, x)
         !! Sets the line style.
         class(plot_data_tri_2d), intent(inout) :: this
             !! The plot_data_tri_2d object.

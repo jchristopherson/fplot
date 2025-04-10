@@ -15,25 +15,57 @@ module fplot_plot_axis
     public :: z_axis
 
     type, abstract, extends(plot_object) :: plot_axis
-    private
-        logical :: m_hasTitle = .false.
+        !! Defines a plot axis object.
+        logical, private :: m_hasTitle = .false.
             !! Has a title?
-        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_title = ""
+        character(len = PLOTDATA_MAX_NAME_LENGTH), private :: m_title = ""
             !! Axis title.
-        logical :: m_autoscale = .true.
+        logical, private :: m_autoscale = .true.
             !! Autoscale?
-        real(real64), dimension(2) :: m_limits = [0.0d0, 1.0d0]
+        real(real64), private, dimension(2) :: m_limits = [0.0d0, 1.0d0]
             !! Display limits.
-        logical :: m_logScale = .false.
+        logical, private :: m_logScale = .false.
             !! Log scaled?
-        logical :: m_zeroAxis = .false.
+        logical, private:: m_zeroAxis = .false.
             !! Has a zero axis?
-        real(real32) :: m_axisWidth = 1.0
+        real(real32), private :: m_axisWidth = 1.0
             !! The width, in pixels, of the zero-axis line.
-        logical :: m_defaultTicLabels = .true.
+        logical, private :: m_defaultTicLabels = .true.
             !! Use default tic label format?
-        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_ticLabelFmt = "%g"
+        character(len = PLOTDATA_MAX_NAME_LENGTH), private :: m_ticLabelFmt = "%g"
             !! The tic lablel format.
+        logical, private :: m_showTicLabels = .true.
+            !! Show tic labels?
+        integer(int32), private :: m_ticXOffset = 0
+            !! The tic label x-offset, in characters.
+        integer(int32), private :: m_ticYOffset = 0
+            !! The tic label y-offset, in characters.
+        character(len = PLOTDATA_MAX_NAME_LENGTH), private :: &
+            m_ticLabelAlignment = GNUPLOT_HORIZONTAL_ALIGN_CENTER
+            !! The tic label alignment.
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_LEFT
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_CENTER
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_RIGHT
+        logical, private :: m_offsetTics = .false.
+            !! Offset tics?
+        real(real32), private :: m_ticLabelAngle = 0.0
+            !! The tic label angle, in degrees.
+        character(len = PLOTDATA_MAX_NAME_LENGTH), private :: m_ticRotationOrigin = &
+            GNUPLOT_ROTATION_ORIGIN_CENTER
+            !! The tic label rotation origin.
+            !! 
+            !! - GNUPLOT_ROTATION_ORIGIN_RIGHT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_LEFT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_CENTER
+        integer(int32), private :: m_titleXOffset = 0
+            !! The axis title x offset, in characters.
+        integer(int32), private :: m_titleYOffset = 0
+            !! The axis title y offset, in characters.
     contains
         procedure, public :: get_title => pa_get_title
         procedure, public :: set_title => pa_set_title
@@ -56,6 +88,28 @@ module fplot_plot_axis
             pa_set_use_dft_tic_lbl_fmt
         procedure, public :: get_tic_label_format => pa_get_tic_label_fmt
         procedure, public :: set_tic_label_format => pa_set_tic_label_fmt
+        procedure, public :: get_show_tic_labels => pa_get_show_tic_labels
+        procedure, public :: set_show_tic_labels => pa_set_show_tic_labels
+        procedure, public :: get_tic_label_x_offset => pa_get_tic_x_offset
+        procedure, public :: set_tic_label_x_offset => pa_set_tic_x_offset
+        procedure, public :: get_tic_label_y_offset => pa_get_tic_y_offset
+        procedure, public :: set_tic_label_y_offset => pa_set_tic_y_offset
+        procedure, public :: get_tic_label_angle => pa_get_tic_label_angle
+        procedure, public :: set_tic_label_angle => pa_set_tic_label_angle
+        procedure, public :: get_tic_label_rotation_origin => &
+            pa_get_tic_rotation_origin
+        procedure, public :: set_tic_label_rotation_origin => &
+            pa_set_tic_rotation_origin
+        procedure, public :: get_tic_label_alignment => &
+            pa_get_tic_label_alignment
+        procedure, public :: set_tic_label_alignment => &
+            pa_set_tic_label_alignment
+        procedure, public :: get_offset_tics => pa_get_offset_tics
+        procedure, public :: set_offset_tics => pa_set_offset_tics
+        procedure, public :: get_title_x_offset => pa_get_title_x_offset
+        procedure, public :: set_title_x_offset => pa_set_title_x_offset
+        procedure, public :: get_title_y_offset => pa_get_title_y_offset
+        procedure, public :: set_title_y_offset => pa_set_title_y_offset
     end type
 
     interface
@@ -229,6 +283,7 @@ contains
 
         ! Local Variables
         type(string_builder) :: str
+        real(real32) :: angle
         character(len = :), allocatable :: axis, fmt
         real(real64) :: lim(2)
 
@@ -245,6 +300,41 @@ contains
             call str%append('"')
             call str%append(fmt)
             call str%append('"')
+            call str%append(new_line('a'))
+        end if
+
+        ! Show Tic Labels?
+        if (this%get_show_tic_labels()) then
+            call str%append("set ")
+        else
+            call str%append("unset ")
+        end if
+        call str%append(axis)
+        call str%append("tics")
+        call str%append(new_line('a'))
+
+        ! Tic Label Offsets
+        if (this%get_show_tic_labels() .and. this%get_offset_tics()) then
+            call str%append("set ")
+            call str%append(axis)
+            call str%append("tics ")
+            call str%append(this%get_tic_label_alignment())
+            call str%append(" offset ")
+            call str%append(to_string(this%get_tic_label_x_offset()))
+            call str%append(",")
+            call str%append(to_string(this%get_tic_label_y_offset()))
+            call str%append(new_line('a'))
+        end if
+
+        ! Tic Label Rotation
+        angle = this%get_tic_label_angle()
+        if (this%get_show_tic_labels() .and. angle /= 0.0) then
+            call str%append("set ")
+            call str%append(axis)
+            call str%append("tics rotate by ")
+            call str%append(to_string(angle))
+            call str%append(" ")
+            call str%append(this%get_tic_label_rotation_origin())
             call str%append(new_line('a'))
         end if
 
@@ -266,18 +356,30 @@ contains
         ! Titles
         call str%append(new_line('a'))
         if (this%is_title_defined()) then
+            ! Title
             call str%append("set ")
             call str%append(axis)
             call str%append("label ")
             call str%append('"')
             call str%append(this%get_title())
             call str%append('"')
+
+            ! Offsets
+            if (this%get_title_x_offset() /= 0 .or. &
+                this%get_title_y_offset() /= 0) &
+            then
+                call str%append(" offset ")
+                call str%append(to_string(this%get_title_x_offset()))
+                call str%append(",")
+                call str%append(to_string(this%get_title_y_offset()))
+            end if
         else
             call str%append("set ")
             call str%append(axis)
             call str%append("label ")
             call str%append('""')
         end if
+        call str%append(new_line('a'))
 
         ! Scaling
         call str%append(new_line('a'))
@@ -391,6 +493,222 @@ contains
         character(len = *), intent(in) :: x
             !! The tic label format string.
         this%m_ticLabelFmt = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_show_tic_labels(this) result(x)
+        !! Gets a value determining if tic labels should be shown.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        logical :: x
+            !! Returns true to show tic labels; else, set to false.
+        x = this%m_showTicLabels
+    end function
+
+! --------------------
+    subroutine pa_set_show_tic_labels(this, x)
+        !! Sets a value determining if tic labels should be shown.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        logical, intent(in) :: x
+            !! Set to true to show tic labels; else, set to false.
+        this%m_showTicLabels = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_tic_x_offset(this) result(x)
+        !! Gets the tic label x-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The tic label x-offset, in characters.
+        x = this%m_ticXOffset
+    end function
+
+! --------------------
+    subroutine pa_set_tic_x_offset(this, x)
+        !! Sets the tic label x-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The tic label x-offset, in characters.
+        this%m_ticXOffset = x
+        call this%set_offset_tics(.true.)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_tic_y_offset(this) result(x)
+        !! Gets the tic label y-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The tic label y-offset, in characters.
+        x = this%m_ticYOffset
+    end function
+
+! --------------------
+    subroutine pa_set_tic_y_offset(this, x)
+        !! Sets the tic label y-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The tic label y-offset, in characters.
+        this%m_ticYOffset = x
+        call this%set_offset_tics(.true.)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_tic_label_angle(this) result(x)
+        !! Gets the tic label angle, in degrees.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        real(real32) :: x
+            !! The tic label angle, in degrees.
+        x = this%m_ticLabelAngle
+    end function
+
+! --------------------
+    subroutine pa_set_tic_label_angle(this, x)
+        !! Sets the tic label angle, in degrees.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        real(real32), intent(in) :: x
+            !! The tic label angle, in degrees.
+        this%m_ticLabelAngle = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_tic_rotation_origin(this) result(x)
+        !! Gets the tic label rotation origin.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        character(len = :), allocatable :: x
+            !! The tic label rotation origin.  The tic label rotation origin
+            !! must be one of the following:
+            !! 
+            !! - GNUPLOT_ROTATION_ORIGIN_RIGHT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_LEFT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_CENTER
+        integer(int32) :: n
+        n = len_trim(this%m_ticRotationOrigin)
+        allocate(character(len = n) :: x)
+        x = trim(this%m_ticRotationOrigin)
+    end function
+
+! --------------------
+    subroutine pa_set_tic_rotation_origin(this, x)
+        !! Sets the tic label rotation origin.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        character(len = *), intent(in) :: x
+            !! The tic label rotation origin.  The tic label rotation origin
+            !! must be one of the following:
+            !! 
+            !! - GNUPLOT_ROTATION_ORIGIN_RIGHT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_LEFT
+            !!
+            !! - GNUPLOT_ROTATION_ORIGIN_CENTER
+        this%m_ticRotationOrigin = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_tic_label_alignment(this) result(x)
+        !! Gets the tic label alignment.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        character(len = :), allocatable :: x
+            !! The tic label alignment.  The tic label alignment must be one of 
+            !! the following:
+            !! 
+            !! - GNUPLOT_HORIZONTAL_ALIGN_LEFT
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_CENTER
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_RIGHT
+        integer(int32) :: n
+        n = len_trim(this%m_ticLabelAlignment)
+        allocate(character(len = n) :: x)
+        x = trim(this%m_ticLabelAlignment)
+    end function
+
+! --------------------
+    subroutine pa_set_tic_label_alignment(this, x)
+        !! Sets the tic label alignment.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        character(len = *), intent(in) :: x
+            !! The tic label alignment.  The tic label alignment must be one of 
+            !! the following:
+            !! 
+            !! - GNUPLOT_HORIZONTAL_ALIGN_LEFT
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_CENTER
+            !!
+            !! - GNUPLOT_HORIZONTAL_ALIGN_RIGHT
+        this%m_ticLabelAlignment = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_offset_tics(this) result(x)
+        !! Gets a value determining if the tics should be offset.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        logical :: x
+            !! Returns true to offset the tics; else, set to false.
+        x = this%m_offsetTics
+    end function
+
+! --------------------
+    subroutine pa_set_offset_tics(this, x)
+        !! Sets a value determining if the tics should be offset.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        logical, intent(in) :: x
+            !! Set to true to offset the tics; else, set to false.
+        this%m_offsetTics = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_title_x_offset(this) result(x)
+        !! Gets the axis title x-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The axis title x-offset, in characters.
+        x = this%m_titleXOffset
+    end function
+
+! --------------------
+    subroutine pa_set_title_x_offset(this, x)
+        !! Sets the axis title x-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The axis title x-offset, in characters.
+        this%m_titleXOffset = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_title_y_offset(this) result(x)
+        !! Gets the axis title y-offset, in characters.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        integer(int32) :: x
+            !! The axis title y-offset, in characters.
+        x = this%m_titleYOffset
+    end function
+
+! --------------------
+    subroutine pa_set_title_y_offset(this, x)
+        !! Sets the axis title y-offset, in characters.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        integer(int32), intent(in) :: x
+            !! The axis title y-offset, in characters.
+        this%m_titleYOffset = x
     end subroutine
 
 ! ******************************************************************************

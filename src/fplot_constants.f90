@@ -149,4 +149,23 @@ module fplot_constants
     integer(int32), parameter :: GNUPLOT_MAX_PATH_LENGTH = 256
         !! Defines the maximum number of characters allowed in a file path.
 
+! ******************************************************************************
+! HORIZONTAL ALIGNMENT CONSTANTS
+! ------------------------------------------------------------------------------
+    character(len = *), parameter :: GNUPLOT_HORIZONTAL_ALIGN_LEFT = "left"
+        !! Defines the text should be aligned to the left.
+    character(len = *), parameter :: GNUPLOT_HORIZONTAL_ALIGN_CENTER = "center"
+        !! Defines the text should be centered.
+    character(len = *), parameter :: GNUPLOT_HORIZONTAL_ALIGN_RIGHT = "right"
+        !! Defines the text should be aligned to the right.
+
+! ******************************************************************************
+! ROTATION ORIGIN CONSTANTS
+! ------------------------------------------------------------------------------
+    character(len = *), parameter :: GNUPLOT_ROTATION_ORIGIN_RIGHT = "right"
+        !! Defines the text should be rotated around the right side of the text.
+    character(len = *), parameter :: GNUPLOT_ROTATION_ORIGIN_CENTER = "center"
+        !! Defines the text should be rotated around the center of the text.
+    character(len = *), parameter :: GNUPLOT_ROTATION_ORIGIN_LEFT = "left"
+        !! Defines the text should be rotated around the left side of the text.
 end module

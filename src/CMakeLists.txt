@@ -41,5 +41,6 @@ set(FPLOT_SOURCES
     ${dir}/fplot_plot_data_2d.f90
     ${dir}/fplot_plot_data_3d.f90
     ${dir}/fplot_surface_plot_data.f90
+    ${dir}/fplot_stats_plots.f90
 )
 set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)

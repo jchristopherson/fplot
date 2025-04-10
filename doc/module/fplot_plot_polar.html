@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 2.7% of total for modules and submodules.">181 statements</a>
+               title=" 2.8% of total for modules and submodules.">206 statements</a>
           </li>
 
             <li id="source-file">
@@ -169,15 +169,15 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
-                <li><a href='../module/fplot_terminal.html'>fplot_terminal</a></li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
                 <li>ferror</li>
+                <li><a href='../module/fplot_terminal.html'>fplot_terminal</a></li>
+                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
                 <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
                 <li>strings</li>
                 <li><a href='../module/fplot_plot.html'>fplot_plot</a></li>
                 <li><a href='../module/fplot_legend.html'>fplot_legend</a></li>
-                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
-                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
             </ul>
           </li>
       </ul>
@@ -362,6 +362,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_bottom_margin'>get_bottom_margin</a></strong>
+ =>
+                    plt_get_bottom_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_colormap~2'>get_colormap</a></strong>
  =>
                     plt_get_colormap
@@ -372,7 +382,7 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_polar.html#boundprocedure-get_command_string~18'>get_command_string</a></strong>
+                  :: <strong><a href='../type/plot_polar.html#boundprocedure-get_command_string~19'>get_command_string</a></strong>
  =>
                     plr_get_cmd
 <small>Function</small>                </td>
@@ -442,6 +452,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_left_margin'>get_left_margin</a></strong>
+ =>
+                    plt_get_left_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_legend'>get_legend</a></strong>
  =>
                     plt_get_legend
@@ -455,6 +475,16 @@
                   :: <strong><a href='../type/plot_polar.html#boundprocedure-get_radial_limits'>get_radial_limits</a></strong>
  =>
                     plr_get_limits
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_right_margin'>get_right_margin</a></strong>
+ =>
+                    plt_get_right_margin
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -525,6 +555,16 @@
                   :: <strong><a href='../type/plot.html#boundprocedure-get_title~3'>get_title</a></strong>
  =>
                     plt_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_top_margin'>get_top_margin</a></strong>
+ =>
+                    plt_get_top_margin
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -662,6 +702,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_bottom_margin'>set_bottom_margin</a></strong>
+ =>
+                    plt_set_bottom_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-set_colormap~2'>set_colormap</a></strong>
  =>
                     plt_set_colormap
@@ -712,9 +762,29 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_left_margin'>set_left_margin</a></strong>
+ =>
+                    plt_set_left_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_polar.html#boundprocedure-set_radial_limits'>set_radial_limits</a></strong>
  =>
                     plr_set_limits
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_right_margin'>set_right_margin</a></strong>
+ =>
+                    plt_set_right_margin
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -778,6 +848,16 @@
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_top_margin'>set_top_margin</a></strong>
+ =>
+                    plt_set_top_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
           </tbody>
         </table>
     </div>
@@ -805,7 +885,7 @@
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>

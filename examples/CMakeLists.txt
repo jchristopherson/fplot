@@ -138,3 +138,11 @@ target_link_libraries(variable_point_size_2d_example fplot)
 # Example 35
 add_executable(variable_point_size_3d_example variable_point_size_3d_example.f90)
 target_link_libraries(variable_point_size_3d_example fplot)
+
+# Example 36
+add_executable(correlation_plot_example correlation_plot_example.f90)
+target_link_libraries(correlation_plot_example fplot)
+
+# Example 37
+add_executable(margins_example margins_example.f90)
+target_link_libraries(margins_example fplot)

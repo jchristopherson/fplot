@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 project(
     fplot 
     LANGUAGES Fortran
-    VERSION 1.7.2
+    VERSION 1.8.0
 )
 
 # Get helper macros and functions

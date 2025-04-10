@@ -109,6 +109,7 @@ contains
         integer(int32) :: i, n
         type(string_builder) :: str
         type(legend), pointer :: leg
+        real(real64) :: lmargin, rmargin, tmargin, bmargin
         real(real64) :: lim(2)
         ! class(plot_label), pointer :: lbl
         class(plot_data), pointer :: ptr
@@ -118,6 +119,32 @@ contains
 
         ! Call the base routine
         call str%append(this%plot%get_command_string())
+
+        ! Margin
+        lmargin = this%get_left_margin()
+        rmargin = this%get_right_margin()
+        tmargin = this%get_top_margin()
+        bmargin = this%get_bottom_margin()
+        if (lmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set lmargin at screen ")
+            call str%append(to_string(lmargin))
+        end if
+        if (rmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set rmargin at screen ")
+            call str%append(to_string(rmargin))
+        end if
+        if (tmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set tmargin at screen ")
+            call str%append(to_string(tmargin))
+        end if
+        if (bmargin >= 0.0) then
+            call str%append(new_line('a'))
+            call str%append("set bmargin at screen ")
+            call str%append(to_string(bmargin))
+        end if
 
         ! Polar-Specific Settings
         call str%append(new_line('a'))

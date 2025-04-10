@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 2.5% of total for modules and submodules.">171 statements</a>
+               title=" 2.5% of total for modules and submodules.">181 statements</a>
           </li>
 
             <li id="source-file">
@@ -169,11 +169,12 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/fplot_plot_data_bar.html'>fplot_plot_data_bar</a></li>
                 <li>ferror</li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+                <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
+                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
                 <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
                 <li>strings</li>
-                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
             </ul>
           </li>
       </ul>
@@ -231,7 +232,7 @@
     <div class="panel-heading codesum">
       <span class="anchor" id="type-plot_data_histogram"></span>
       <h3>
-        type, public, extends(<a href='../type/plot_data_bar.html'>plot_data_bar</a>)&nbsp;::&nbsp;
+        type, public, extends(<a href='../type/plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
         <a href='../type/plot_data_histogram.html'>plot_data_histogram</a>
         
       </h3>
@@ -249,49 +250,29 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-bin_data'>bin_data</a></strong>
- =>
-                    pdh_bin_data
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-generic,
-                  public
                   :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-define_data~5'>define_data</a></strong>
  =>
-                    pdb_set_data_1, pdb_set_data_2, pdb_set_data_3
-                </td>
+                    pdh_define_data
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get~3'>get</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get~4'>get</a></strong>
  =>
-                    pdb_get_data
-<small>Function</small>                </td>
+                    pdh_get_bin_data
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_axes_string~5'>get_axes_string</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_axes_string~6'>get_axes_string</a></strong>
  =>
-                    pdb_get_axes_cmd
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_bar_per_label_count'>get_bar_per_label_count</a></strong>
- =>
-                    pdb_get_col_count
+                    pdh_get_axes_cmd
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -319,9 +300,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_command_string~15'>get_command_string</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_command_string~17'>get_command_string</a></strong>
  =>
-                    pdb_get_cmd
+                    pdh_get_cmd
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -329,9 +310,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_count~5'>get_count</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_data_string~7'>get_data_string</a></strong>
  =>
-                    pdb_get_count
+                    pdh_get_data_cmd
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -339,9 +320,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_data'>get_data</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_draw_against_y2~4'>get_draw_against_y2</a></strong>
  =>
-                    pdb_get_data_set
+                    pdh_get_use_y2
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -349,49 +330,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_data_string~5'>get_data_string</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_is_filled~2'>get_is_filled</a></strong>
  =>
-                    pdb_get_data_cmd
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_draw_against_y2~3'>get_draw_against_y2</a></strong>
- =>
-                    pdb_get_use_y2
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_extreme_values'>get_extreme_values</a></strong>
- =>
-                    pdh_get_extremes
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_is_filled'>get_is_filled</a></strong>
- =>
-                    pdb_get_is_filled
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_label~3'>get_label</a></strong>
- =>
-                    pdb_get_label
+                    pdh_get_is_filled
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -409,50 +350,30 @@ generic,
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_maximum_value'>get_maximum_value</a></strong>
+ =>
+                    pdh_get_max_x
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_minimum_value'>get_minimum_value</a></strong>
+ =>
+                    pdh_get_min_x
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
  =>
                     pd_get_name
 <small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-get_number_format'>get_number_format</a></strong>
- =>
-                    pdh_get_num_fmt
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_transparency'>get_transparency</a></strong>
- =>
-                    pdb_get_alpha
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_use_labels'>get_use_labels</a></strong>
- =>
-                    pdb_get_use_labels
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set~3'>set</a></strong>
- =>
-                    pdb_set_data
-<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
@@ -479,9 +400,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_data_1~2'>set_data_1</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_draw_against_y2~4'>set_draw_against_y2</a></strong>
  =>
-                    pdh_set_data_1
+                    pdh_set_use_y2
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -489,49 +410,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_data_2~2'>set_data_2</a></strong>
+                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_is_filled~2'>set_is_filled</a></strong>
  =>
-                    pdh_set_data_2
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_data_3~2'>set_data_3</a></strong>
- =>
-                    pdh_set_data_3
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_draw_against_y2~3'>set_draw_against_y2</a></strong>
- =>
-                    pdb_set_use_y2
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_is_filled'>set_is_filled</a></strong>
- =>
-                    pdb_set_is_filled
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_label~3'>set_label</a></strong>
- =>
-                    pdb_set_label
+                    pdh_set_is_filled
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -552,36 +433,6 @@ generic,
                   :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
  =>
                     pd_set_name
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_histogram.html#boundprocedure-set_number_format'>set_number_format</a></strong>
- =>
-                    pdh_set_num_fmt
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_transparency'>set_transparency</a></strong>
- =>
-                    pdb_set_alpha
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_use_labels'>set_use_labels</a></strong>
- =>
-                    pdb_set_use_labels
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -612,7 +463,7 @@ generic,
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>
