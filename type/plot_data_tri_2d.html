@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title="<p> 2.1% of total for derived types.</p>Including implementation: 183 statements,  1.7% of total for derived types.">15 statements</a>
+               title="<p> 1.9% of total for derived types.</p>Including implementation: 183 statements,  1.5% of total for derived types.">15 statements</a>
           </li>
 
             <li id="source-file">
@@ -151,8 +151,8 @@
         <div class="list-group">
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-define_data~6">define_data</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~17">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~7">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~18">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~8">get_data_string</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_color">get_line_color</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_style~3">get_line_style</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_width~3">get_line_width</a>
@@ -207,8 +207,8 @@
         <div class="list-group">
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-define_data~6">define_data</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~17">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~7">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~18">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~8">get_data_string</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_color">get_line_color</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_style~3">get_line_style</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_width~3">get_line_width</a>
@@ -239,7 +239,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private module subroutine pdt2d_define_data(this, tri)  
+    private  subroutine pdt2d_define_data(this, tri)  
 </h3>
   <p>Defines the data to plot.</p>
 
@@ -342,12 +342,12 @@
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~17"></span><h3>procedure, public :: <strong>get_command_string</strong>  => pdt2d_get_cmd         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~18"></span><h3>procedure, public :: <strong>get_command_string</strong>  => pdt2d_get_cmd         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private module function pdt2d_get_cmd(this) result(x)  
+    private  function pdt2d_get_cmd(this) result(x)  
 </h3>
   <p>Gets the GNUPLOT command string for the object.</p>
 
@@ -391,12 +391,12 @@
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_data_string~7"></span><h3>procedure, public :: <strong>get_data_string</strong>  => pdt2d_get_data_cmd         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_data_string~8"></span><h3>procedure, public :: <strong>get_data_string</strong>  => pdt2d_get_data_cmd         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private module function pdt2d_get_data_cmd(this) result(x)  
+    private  function pdt2d_get_data_cmd(this) result(x)  
 </h3>
   <p>Gets the GNUPLOT command string describing the data to plot.</p>
 
@@ -494,7 +494,7 @@
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure module function pdt2d_get_line_style(this) result(rst)  
+    private pure function pdt2d_get_line_style(this) result(rst)  
 </h3>
   <p>Gets the line style.</p>
 
@@ -561,7 +561,7 @@ constants.</p>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure module function pdt2d_get_line_width(this) result(rst)  
+    private pure function pdt2d_get_line_width(this) result(rst)  
 </h3>
   <p>Gets the width of the lines used to draw the triangulation.</p>
 
@@ -777,7 +777,7 @@ constants.</p>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private module subroutine pdt2d_set_line_style(this, x)  
+    private  subroutine pdt2d_set_line_style(this, x)  
 </h3>
   <p>Sets the line style.</p>
 
@@ -854,7 +854,7 @@ constants.</p>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private module subroutine pdt2d_set_line_width(this, x)  
+    private  subroutine pdt2d_set_line_width(this, x)  
 </h3>
   <p>Sets the width of the lines used to draw the triangulation.</p>
 
@@ -984,7 +984,7 @@ constants.</p>
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>

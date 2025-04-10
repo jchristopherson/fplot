@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 3.8% of total for modules and submodules.">255 statements</a>
+               title=" 5.7% of total for modules and submodules.">416 statements</a>
           </li>
 
             <li id="source-file">
@@ -185,10 +185,10 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
                 <li>strings</li>
-                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
                 <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
             </ul>
           </li>
       </ul>
@@ -325,7 +325,7 @@
       </h3>
     </div>
     <div class="panel-body">
-      
+      <p>Defines a plot axis object.</p>
 
 
 
@@ -385,6 +385,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_offset_tics'>get_offset_tics</a></strong>
+ =>
+                    pa_get_offset_tics
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_show_tic_labels'>get_show_tic_labels</a></strong>
+ =>
+                    pa_get_show_tic_labels
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_alignment'>get_tic_label_alignment</a></strong>
+ =>
+                    pa_get_tic_label_alignment
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_angle'>get_tic_label_angle</a></strong>
+ =>
+                    pa_get_tic_label_angle
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_format'>get_tic_label_format</a></strong>
  =>
                     pa_get_tic_label_fmt
@@ -395,9 +435,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_rotation_origin'>get_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_get_tic_rotation_origin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_x_offset'>get_tic_label_x_offset</a></strong>
+ =>
+                    pa_get_tic_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_y_offset'>get_tic_label_y_offset</a></strong>
+ =>
+                    pa_get_tic_y_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title~4'>get_title</a></strong>
  =>
                     pa_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong>
+ =>
+                    pa_get_title_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_y_offset'>get_title_y_offset</a></strong>
+ =>
+                    pa_get_title_y_offset
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -475,6 +565,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_offset_tics'>set_offset_tics</a></strong>
+ =>
+                    pa_set_offset_tics
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_show_tic_labels'>set_show_tic_labels</a></strong>
+ =>
+                    pa_set_show_tic_labels
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_alignment'>set_tic_label_alignment</a></strong>
+ =>
+                    pa_set_tic_label_alignment
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_angle'>set_tic_label_angle</a></strong>
+ =>
+                    pa_set_tic_label_angle
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_format'>set_tic_label_format</a></strong>
  =>
                     pa_set_tic_label_fmt
@@ -485,9 +615,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_rotation_origin'>set_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_set_tic_rotation_origin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_x_offset'>set_tic_label_x_offset</a></strong>
+ =>
+                    pa_set_tic_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_y_offset'>set_tic_label_y_offset</a></strong>
+ =>
+                    pa_set_tic_y_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title~4'>set_title</a></strong>
  =>
                     pa_set_title
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong>
+ =>
+                    pa_set_title_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_y_offset'>set_title_y_offset</a></strong>
+ =>
+                    pa_set_title_y_offset
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -598,6 +778,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_offset_tics'>get_offset_tics</a></strong>
+ =>
+                    pa_get_offset_tics
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_show_tic_labels'>get_show_tic_labels</a></strong>
+ =>
+                    pa_get_show_tic_labels
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_alignment'>get_tic_label_alignment</a></strong>
+ =>
+                    pa_get_tic_label_alignment
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_angle'>get_tic_label_angle</a></strong>
+ =>
+                    pa_get_tic_label_angle
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_format'>get_tic_label_format</a></strong>
  =>
                     pa_get_tic_label_fmt
@@ -608,9 +828,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_rotation_origin'>get_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_get_tic_rotation_origin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_x_offset'>get_tic_label_x_offset</a></strong>
+ =>
+                    pa_get_tic_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_y_offset'>get_tic_label_y_offset</a></strong>
+ =>
+                    pa_get_tic_y_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title~4'>get_title</a></strong>
  =>
                     pa_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong>
+ =>
+                    pa_get_title_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_y_offset'>get_title_y_offset</a></strong>
+ =>
+                    pa_get_title_y_offset
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -688,6 +958,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_offset_tics'>set_offset_tics</a></strong>
+ =>
+                    pa_set_offset_tics
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_show_tic_labels'>set_show_tic_labels</a></strong>
+ =>
+                    pa_set_show_tic_labels
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_alignment'>set_tic_label_alignment</a></strong>
+ =>
+                    pa_set_tic_label_alignment
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_angle'>set_tic_label_angle</a></strong>
+ =>
+                    pa_set_tic_label_angle
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_format'>set_tic_label_format</a></strong>
  =>
                     pa_set_tic_label_fmt
@@ -698,9 +1008,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_rotation_origin'>set_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_set_tic_rotation_origin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_x_offset'>set_tic_label_x_offset</a></strong>
+ =>
+                    pa_set_tic_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_y_offset'>set_tic_label_y_offset</a></strong>
+ =>
+                    pa_set_tic_y_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title~4'>set_title</a></strong>
  =>
                     pa_set_title
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong>
+ =>
+                    pa_set_title_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_y_offset'>set_title_y_offset</a></strong>
+ =>
+                    pa_set_title_y_offset
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -811,6 +1171,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_offset_tics'>get_offset_tics</a></strong>
+ =>
+                    pa_get_offset_tics
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_show_tic_labels'>get_show_tic_labels</a></strong>
+ =>
+                    pa_get_show_tic_labels
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_alignment'>get_tic_label_alignment</a></strong>
+ =>
+                    pa_get_tic_label_alignment
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_angle'>get_tic_label_angle</a></strong>
+ =>
+                    pa_get_tic_label_angle
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_format'>get_tic_label_format</a></strong>
  =>
                     pa_get_tic_label_fmt
@@ -821,9 +1221,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_rotation_origin'>get_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_get_tic_rotation_origin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_x_offset'>get_tic_label_x_offset</a></strong>
+ =>
+                    pa_get_tic_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_y_offset'>get_tic_label_y_offset</a></strong>
+ =>
+                    pa_get_tic_y_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title~4'>get_title</a></strong>
  =>
                     pa_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong>
+ =>
+                    pa_get_title_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_y_offset'>get_title_y_offset</a></strong>
+ =>
+                    pa_get_title_y_offset
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -901,6 +1351,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_offset_tics'>set_offset_tics</a></strong>
+ =>
+                    pa_set_offset_tics
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_show_tic_labels'>set_show_tic_labels</a></strong>
+ =>
+                    pa_set_show_tic_labels
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_alignment'>set_tic_label_alignment</a></strong>
+ =>
+                    pa_set_tic_label_alignment
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_angle'>set_tic_label_angle</a></strong>
+ =>
+                    pa_set_tic_label_angle
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_format'>set_tic_label_format</a></strong>
  =>
                     pa_set_tic_label_fmt
@@ -911,9 +1401,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_rotation_origin'>set_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_set_tic_rotation_origin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_x_offset'>set_tic_label_x_offset</a></strong>
+ =>
+                    pa_set_tic_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_y_offset'>set_tic_label_y_offset</a></strong>
+ =>
+                    pa_set_tic_y_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title~4'>set_title</a></strong>
  =>
                     pa_set_title
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong>
+ =>
+                    pa_set_title_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_y_offset'>set_title_y_offset</a></strong>
+ =>
+                    pa_set_title_y_offset
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -1024,6 +1564,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_offset_tics'>get_offset_tics</a></strong>
+ =>
+                    pa_get_offset_tics
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_show_tic_labels'>get_show_tic_labels</a></strong>
+ =>
+                    pa_get_show_tic_labels
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_alignment'>get_tic_label_alignment</a></strong>
+ =>
+                    pa_get_tic_label_alignment
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_angle'>get_tic_label_angle</a></strong>
+ =>
+                    pa_get_tic_label_angle
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_format'>get_tic_label_format</a></strong>
  =>
                     pa_get_tic_label_fmt
@@ -1034,9 +1614,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_rotation_origin'>get_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_get_tic_rotation_origin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_x_offset'>get_tic_label_x_offset</a></strong>
+ =>
+                    pa_get_tic_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_y_offset'>get_tic_label_y_offset</a></strong>
+ =>
+                    pa_get_tic_y_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title~4'>get_title</a></strong>
  =>
                     pa_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong>
+ =>
+                    pa_get_title_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_y_offset'>get_title_y_offset</a></strong>
+ =>
+                    pa_get_title_y_offset
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -1114,6 +1744,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_offset_tics'>set_offset_tics</a></strong>
+ =>
+                    pa_set_offset_tics
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_show_tic_labels'>set_show_tic_labels</a></strong>
+ =>
+                    pa_set_show_tic_labels
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_alignment'>set_tic_label_alignment</a></strong>
+ =>
+                    pa_set_tic_label_alignment
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_angle'>set_tic_label_angle</a></strong>
+ =>
+                    pa_set_tic_label_angle
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_format'>set_tic_label_format</a></strong>
  =>
                     pa_set_tic_label_fmt
@@ -1124,9 +1794,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_rotation_origin'>set_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_set_tic_rotation_origin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_x_offset'>set_tic_label_x_offset</a></strong>
+ =>
+                    pa_set_tic_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_y_offset'>set_tic_label_y_offset</a></strong>
+ =>
+                    pa_set_tic_y_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title~4'>set_title</a></strong>
  =>
                     pa_set_title
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong>
+ =>
+                    pa_set_title_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_y_offset'>set_title_y_offset</a></strong>
+ =>
+                    pa_set_title_y_offset
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -1237,6 +1957,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_offset_tics'>get_offset_tics</a></strong>
+ =>
+                    pa_get_offset_tics
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_show_tic_labels'>get_show_tic_labels</a></strong>
+ =>
+                    pa_get_show_tic_labels
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_alignment'>get_tic_label_alignment</a></strong>
+ =>
+                    pa_get_tic_label_alignment
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_angle'>get_tic_label_angle</a></strong>
+ =>
+                    pa_get_tic_label_angle
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_format'>get_tic_label_format</a></strong>
  =>
                     pa_get_tic_label_fmt
@@ -1247,9 +2007,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_rotation_origin'>get_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_get_tic_rotation_origin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_x_offset'>get_tic_label_x_offset</a></strong>
+ =>
+                    pa_get_tic_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_tic_label_y_offset'>get_tic_label_y_offset</a></strong>
+ =>
+                    pa_get_tic_y_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title~4'>get_title</a></strong>
  =>
                     pa_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong>
+ =>
+                    pa_get_title_x_offset
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-get_title_y_offset'>get_title_y_offset</a></strong>
+ =>
+                    pa_get_title_y_offset
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -1327,6 +2137,46 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_offset_tics'>set_offset_tics</a></strong>
+ =>
+                    pa_set_offset_tics
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_show_tic_labels'>set_show_tic_labels</a></strong>
+ =>
+                    pa_set_show_tic_labels
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_alignment'>set_tic_label_alignment</a></strong>
+ =>
+                    pa_set_tic_label_alignment
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_angle'>set_tic_label_angle</a></strong>
+ =>
+                    pa_set_tic_label_angle
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_format'>set_tic_label_format</a></strong>
  =>
                     pa_set_tic_label_fmt
@@ -1337,9 +2187,59 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_rotation_origin'>set_tic_label_rotation_origin</a></strong>
+ =>
+                    pa_set_tic_rotation_origin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_x_offset'>set_tic_label_x_offset</a></strong>
+ =>
+                    pa_set_tic_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_tic_label_y_offset'>set_tic_label_y_offset</a></strong>
+ =>
+                    pa_set_tic_y_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title~4'>set_title</a></strong>
  =>
                     pa_set_title
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong>
+ =>
+                    pa_set_title_x_offset
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_axis.html#boundprocedure-set_title_y_offset'>set_title_y_offset</a></strong>
+ =>
+                    pa_set_title_y_offset
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -1400,7 +2300,7 @@
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>

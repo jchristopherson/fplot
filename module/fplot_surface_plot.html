@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 2.5% of total for modules and submodules.">172 statements</a>
+               title=" 2.3% of total for modules and submodules.">172 statements</a>
           </li>
 
             <li id="source-file">
@@ -170,11 +170,11 @@
           <li class="list-group-item">
             <ul class="list-inline">
                 <li>ferror</li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
                 <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
                 <li>strings</li>
                 <li><a href='../module/fplot_plot_3d.html'>fplot_plot_3d</a></li>
                 <li><a href='../module/fplot_legend.html'>fplot_legend</a></li>
-                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
             </ul>
           </li>
       </ul>
@@ -360,6 +360,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_bottom_margin'>get_bottom_margin</a></strong>
+ =>
+                    plt_get_bottom_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_colormap~2'>get_colormap</a></strong>
  =>
                     plt_get_colormap
@@ -370,7 +380,7 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/surface_plot.html#boundprocedure-get_command_string~21'>get_command_string</a></strong>
+                  :: <strong><a href='../type/surface_plot.html#boundprocedure-get_command_string~23'>get_command_string</a></strong>
  =>
                     surf_get_cmd
 <small>Function</small>                </td>
@@ -460,6 +470,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_left_margin'>get_left_margin</a></strong>
+ =>
+                    plt_get_left_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_legend'>get_legend</a></strong>
  =>
                     plt_get_legend
@@ -473,6 +493,16 @@
                   :: <strong><a href='../type/surface_plot.html#boundprocedure-get_light_intensity'>get_light_intensity</a></strong>
  =>
                     surf_get_light_intensity
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_right_margin'>get_right_margin</a></strong>
+ =>
+                    plt_get_right_margin
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -560,6 +590,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_top_margin'>get_top_margin</a></strong>
+ =>
+                    plt_get_top_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/surface_plot.html#boundprocedure-get_transparency~2'>get_transparency</a></strong>
  =>
                     surf_get_transparency
@@ -630,7 +670,7 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/surface_plot.html#boundprocedure-initialize~6'>initialize</a></strong>
+                  :: <strong><a href='../type/surface_plot.html#boundprocedure-initialize~7'>initialize</a></strong>
  =>
                     surf_init
 <small>Subroutine</small>                </td>
@@ -770,6 +810,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_bottom_margin'>set_bottom_margin</a></strong>
+ =>
+                    plt_set_bottom_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-set_colormap~2'>set_colormap</a></strong>
  =>
                     plt_set_colormap
@@ -840,9 +890,29 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_left_margin'>set_left_margin</a></strong>
+ =>
+                    plt_set_left_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/surface_plot.html#boundprocedure-set_light_intensity'>set_light_intensity</a></strong>
  =>
                     surf_set_light_intensity
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_right_margin'>set_right_margin</a></strong>
+ =>
+                    plt_set_right_margin
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -920,6 +990,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_top_margin'>set_top_margin</a></strong>
+ =>
+                    plt_set_top_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/surface_plot.html#boundprocedure-set_transparency~2'>set_transparency</a></strong>
  =>
                     surf_set_transparency
@@ -983,7 +1063,7 @@
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>

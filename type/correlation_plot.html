@@ -8,7 +8,7 @@
     <meta name="author" content="Jason Christopherson" >
     <link rel="icon" href="../favicon.png">
 
-    <title>qt_terminal &ndash; FPLOT </title>
+    <title>correlation_plot &ndash; FPLOT </title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>qt_terminal
+    <h1>correlation_plot
       <small>Derived Type</small>
       
     </h1>
@@ -96,18 +96,18 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title="<p> 0.6% of total for derived types.</p>Including implementation: 132 statements,  1.1% of total for derived types.">5 statements</a>
+               title="<p> 2.2% of total for derived types.</p>Including implementation: 166 statements,  1.4% of total for derived types.">17 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fplot_qt_terminal.f90"> Source File</a>
+              <a href="../src/fplot_stats_plots.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fplot_qt_terminal.f90.html'>fplot_qt_terminal.f90</a></li>
-              <li><a href='../module/fplot_qt_terminal.html'>fplot_qt_terminal</a></li>
-          <li class="active">qt_terminal</li>
+              <li><a href='../sourcefile/fplot_stats_plots.f90.html'>fplot_stats_plots.f90</a></li>
+              <li><a href='../module/fplot_stats_plots.html'>fplot_stats_plots</a></li>
+          <li class="active">correlation_plot</li>
         </ol>
       </div>
     </div>
@@ -149,20 +149,19 @@
       </div>
       <div id="boundprocs-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_command_string~21">get_command_string</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_font_name">get_font_name</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_font_size">get_font_size</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_id_string~8">get_id_string</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_plot_window_number">get_plot_window_number</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_title">get_title</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_window_height">get_window_height</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_window_width">get_window_width</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_font_name">set_font_name</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_font_size">set_font_size</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_plot_window_number">set_plot_window_number</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_title">set_title</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_window_height">set_window_height</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_window_width">set_window_width</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-draw~3">draw</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get~5">get</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_column_count~2">get_column_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_command_string~22">get_command_string</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_font_name~4">get_font_name</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_font_size~4">get_font_size</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_plot_count~2">get_plot_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_row_count~2">get_row_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_terminal~3">get_terminal</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-initialize~6">initialize</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-save_file~3">save_file</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-set_font_name~4">set_font_name</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-set_font_size~4">set_font_size</a>
         </div>
       </div>
     </div>
@@ -175,8 +174,9 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(<a href='../type/terminal.html'>terminal</a>) :: qt_terminal</h2>
-    <p>Defines a terminal that utilizes QT.</p>
+      <h2>type, public, extends(<a href='../type/plot_object.html'>plot_object</a>) :: correlation_plot</h2>
+    <p>Defines a multiplot arrangement designed to illustrate correlation
+between data sets.</p>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
@@ -206,20 +206,19 @@
       </div>
       <div id="boundprocs-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_command_string~21">get_command_string</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_font_name">get_font_name</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_font_size">get_font_size</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_id_string~8">get_id_string</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_plot_window_number">get_plot_window_number</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_title">get_title</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_window_height">get_window_height</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-get_window_width">get_window_width</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_font_name">set_font_name</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_font_size">set_font_size</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_plot_window_number">set_plot_window_number</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_title">set_title</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_window_height">set_window_height</a>
-            <a class="list-group-item" href="../type/qt_terminal.html#boundprocedure-set_window_width">set_window_width</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-draw~3">draw</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get~5">get</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_column_count~2">get_column_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_command_string~22">get_command_string</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_font_name~4">get_font_name</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_font_size~4">get_font_size</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_plot_count~2">get_plot_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_row_count~2">get_row_count</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-get_terminal~3">get_terminal</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-initialize~6">initialize</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-save_file~3">save_file</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-set_font_name~4">set_font_name</a>
+            <a class="list-group-item" href="../type/correlation_plot.html#boundprocedure-set_font_size~4">set_font_size</a>
         </div>
       </div>
     </div>
@@ -236,15 +235,15 @@
       <section>
         <h2>Type-Bound Procedures</h2>
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~21"></span><h3>procedure, public :: <strong>get_command_string</strong>  => term_get_command_string         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-draw~3"></span><h3>procedure, public :: <strong>draw</strong>  => cp_draw         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  function term_get_command_string(this) result(x)  
+    private  subroutine cp_draw(this, persist, err)  
 </h3>
-  <p>Returns the appropriate GNUPLOT command string to establish
-appropriate parameters.</p>
+  <p>Launches GNUPLOT and draws the correlation_plot per the current 
+state of the command list.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -260,7 +259,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -269,7 +268,211 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>persist</strong></td>
+            <td>
+                <p>An optional parameter that can be used to keep GNUPLOT open.<br>
+Set to true to force GNUPLOT to remain open; else, set to false
+to allow GNUPLOT to close after drawing.  The default is true.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(errors),
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+                <p>An error handling object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get~5"></span><h3>procedure, public :: <strong>get</strong>  => cp_get         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  function cp_get(this, i, j) result(x)  
+</h3>
+  <p>Gets the requested plot object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The correlation_plot object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+                <p>The row index of the plot to retrieve.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>j</strong></td>
+            <td>
+                <p>The column index of the plot to retrieve.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>class(<a href='../type/plot.html'>plot</a>), pointer</small>
+    </h4>
+    <p>A pointer to the plot object.</p>
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_column_count~2"></span><h3>procedure, public :: <strong>get_column_count</strong>  => cp_get_cols         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function cp_get_cols(this) result(x)  
+</h3>
+  <p>Gets the number of columns of plots.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The correlation_plot object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int32)</small>
+    </h4>
+    <p>The column count.</p>
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~22"></span><h3>procedure, public :: <strong>get_command_string</strong>  => cp_get_command         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  function cp_get_command(this) result(x)  
+</h3>
+  <p>Gets the GNUPLOT commands for this object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -279,21 +482,21 @@ appropriate parameters.</p>
     Return Value
     <small>character(len=:), allocatable</small>
     </h4>
-    <p>The GNUPLOT command string.</p>
+    <p>The command string.</p>
 
         </li>
     </ul>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_font_name"></span><h3>procedure, public :: <strong>get_font_name</strong>  => term_get_font_name         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_font_name~4"></span><h3>procedure, public :: <strong>get_font_name</strong>  => cp_get_font         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  function term_get_font_name(this) result(name)  
+    private  function cp_get_font(this) result(x)  
 </h3>
-  <p>Gets the name of the font used for text displayed by the graph.</p>
+  <p>Gets the name of the font used for plot text.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -309,7 +512,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -318,7 +521,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -335,14 +538,14 @@ appropriate parameters.</p>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_font_size"></span><h3>procedure, public :: <strong>get_font_size</strong>  => term_get_font_size         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_font_size~4"></span><h3>procedure, public :: <strong>get_font_size</strong>  => cp_get_font_size         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function term_get_font_size(this) result(sz)  
+    private  function cp_get_font_size(this) result(x)  
 </h3>
-  <p>Gets the size of the font used by the graph.</p>
+  <p>Gets the size of the font used by the plot.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -358,7 +561,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -367,7 +570,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -377,21 +580,21 @@ appropriate parameters.</p>
     Return Value
     <small>integer(kind=int32)</small>
     </h4>
-    <p>The font size, in points.</p>
+    <p>The font size.</p>
 
         </li>
     </ul>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_id_string~8"></span><h3>procedure, public :: <strong>get_id_string</strong>  => qt_get_term_string         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_plot_count~2"></span><h3>procedure, public :: <strong>get_plot_count</strong>  => cp_get_count         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  function qt_get_term_string(this) result(x)  
+    private pure function cp_get_count(this) result(x)  
 </h3>
-  <p>Retrieves a GNUPLOT terminal identifier string.</p>
+  <p>Gets the total number of plots.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -407,7 +610,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/qt_terminal.html'>qt_terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -416,56 +619,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The qt_terminal object.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>character(len=:), allocatable</small>
-    </h4>
-    <p>The string.</p>
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_plot_window_number"></span><h3>procedure, public :: <strong>get_plot_window_number</strong>  => term_get_plot_window_number         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private pure function term_get_plot_window_number(this) result(x)  
-</h3>
-  <p>Gets the targeted plot window number.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -475,21 +629,21 @@ appropriate parameters.</p>
     Return Value
     <small>integer(kind=int32)</small>
     </h4>
-    <p>The plot window number.</p>
+    <p>The plot count.</p>
 
         </li>
     </ul>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_title"></span><h3>procedure, public :: <strong>get_title</strong>  => term_get_title         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_row_count~2"></span><h3>procedure, public :: <strong>get_row_count</strong>  => cp_get_rows         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  function term_get_title(this) result(str)  
+    private pure function cp_get_rows(this) result(x)  
 </h3>
-  <p>Gets the plot window's title.</p>
+  <p>Gets the number of rows of plots.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -505,7 +659,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -514,7 +668,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -522,23 +676,23 @@ appropriate parameters.</p>
 
     <h4>
     Return Value
-    <small>character(len=:), allocatable</small>
+    <small>integer(kind=int32)</small>
     </h4>
-    <p>The title.</p>
+    <p>The row count.</p>
 
         </li>
     </ul>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_window_height"></span><h3>procedure, public :: <strong>get_window_height</strong>  => term_get_window_height         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_terminal~3"></span><h3>procedure, public :: <strong>get_terminal</strong>  => cp_get_term         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function term_get_window_height(this) result(x)  
+    private  function cp_get_term(this) result(x)  
 </h3>
-  <p>Gets the height of the plot window.</p>
+  <p>Gets the GNUPLOT terminal object.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -554,7 +708,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -563,7 +717,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
     </tbody>
@@ -571,23 +725,23 @@ appropriate parameters.</p>
 
     <h4>
     Return Value
-    <small>integer</small>
+    <small>class(<a href='../type/terminal.html'>terminal</a>), pointer</small>
     </h4>
-    <p>The height of the plot window.</p>
+    <p>A pointer to the terminal object.</p>
 
         </li>
     </ul>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_window_width"></span><h3>procedure, public :: <strong>get_window_width</strong>  => term_get_window_width         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-initialize~6"></span><h3>procedure, public :: <strong>initialize</strong>  => cp_init         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function term_get_window_width(this) result(x)  
+    private  subroutine cp_init(this, x, labels, term, width, height, err)  
 </h3>
-  <p>Gets the width of the plot window.</p>
+  <p>Initializes the correlation_plot object.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -603,56 +757,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    <p>The width of the plot window.</p>
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_font_name"></span><h3>procedure, public :: <strong>set_font_name</strong>  => term_set_font_name         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private  subroutine term_set_font_name(this, name)  
-</h3>
-  <p>Sets the name of the font used for text displayed by the graph.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -661,7 +766,161 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real64),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:,:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The data to plot with each column representing a data set.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(string),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>labels</strong></td>
+            <td>
+                <p>An optional array containing a label to associate with each
+data set in x.  If supplied, this array must have the same length
+as x has columns.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>term</strong></td>
+            <td>
+                <p>An optional input that is used to define the terminal.  The 
+default terminal is a WXT terminal.  The acceptable inputs are:</p>
+<ul>
+<li>
+<p>GNUPLOT_TERMINAL_PNG</p>
+</li>
+<li>
+<p>GNUPLOT_TERMINAL_QT</p>
+</li>
+<li>
+<p>GNUPLOT_TERMINAL_WIN32</p>
+</li>
+<li>
+<p>GNUPLOT_TERMINAL_WXT</p>
+</li>
+<li>
+<p>GNUPLOT_TERMINAL_LATEX</p>
+</li>
+</ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>width</strong></td>
+            <td>
+                <p>Optionally, the width of the plot window.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>height</strong></td>
+            <td>
+                <p>Optionally, the height of the plot window.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(errors),
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+                <p>An error handling object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-save_file~3"></span><h3>procedure, public :: <strong>save_file</strong>  => cp_save         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine cp_save(this, fname, err)  
+</h3>
+  <p>Saves a GNUPLOT command file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
         <tr>
@@ -674,7 +933,81 @@ appropriate parameters.</p>
               
             </td>
             <td>::</td>
-            <td><strong>name</strong></td>
+            <td><strong>fname</strong></td>
+            <td>
+                <p>The filename.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(errors),
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+                <p>An error handling object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_font_name~4"></span><h3>procedure, public :: <strong>set_font_name</strong>  => cp_set_font         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine cp_set_font(this, x)  
+</h3>
+  <p>Sets the name of the font used for plot text.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The correlation_plot object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
             <td>
                 <p>The font name.</p>
             </td>
@@ -688,14 +1021,14 @@ appropriate parameters.</p>
   </div>
 
             <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_font_size"></span><h3>procedure, public :: <strong>set_font_size</strong>  => term_set_font_size         
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_font_size~4"></span><h3>procedure, public :: <strong>set_font_size</strong>  => cp_set_font_size         
     </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine term_set_font_size(this, sz)  
+    private  subroutine cp_set_font_size(this, x)  
 </h3>
-  <p>Sets the size of the font used by the graph.</p>
+  <p>Sets the size of the font used by the plot.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -711,7 +1044,7 @@ appropriate parameters.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
+              class(<a href='../type/correlation_plot.html'>correlation_plot</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -720,66 +1053,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The terminal object.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>sz</strong></td>
-            <td>
-                <p>The font size, in points.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_plot_window_number"></span><h3>procedure, public :: <strong>set_plot_window_number</strong>  => term_set_plot_window_number         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private  subroutine term_set_plot_window_number(this, x)  
-</h3>
-  <p>Sets the targeted plot window number.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
+                <p>The correlation_plot object.</p>
             </td>
         </tr>
         <tr>
@@ -794,184 +1068,7 @@ appropriate parameters.</p>
             <td>::</td>
             <td><strong>x</strong></td>
             <td>
-                <p>The plot window number.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_title"></span><h3>procedure, public :: <strong>set_title</strong>  => term_set_title         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private  subroutine term_set_title(this, txt)  
-</h3>
-  <p>Sets the plot window's title.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>txt</strong></td>
-            <td>
-                <p>The title.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_window_height"></span><h3>procedure, public :: <strong>set_window_height</strong>  => term_set_window_height         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private  subroutine term_set_window_height(this, x)  
-</h3>
-  <p>Sets the height of the plot window.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong></td>
-            <td>
-                <p>The height of the plot window.</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-        </li>
-    </ul>
-  </div>
-
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_window_width"></span><h3>procedure, public :: <strong>set_window_width</strong>  => term_set_window_width         
-    </h3></div>
-    <ul class="list-group">
-        <li class="list-group-item">
-                  <h3>
-    private  subroutine term_set_window_width(this, x)  
-</h3>
-  <p>Sets the width of the plot window.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              class(<a href='../type/terminal.html'>terminal</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>this</strong></td>
-            <td>
-                <p>The terminal object.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" ></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong></td>
-            <td>
-                <p>The width of the plot window.</p>
+                <p>The font size.</p>
             </td>
         </tr>
     </tbody>

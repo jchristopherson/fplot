@@ -10,7 +10,7 @@ module fplot_plot_bar
 
     type, extends(plot_2d) :: plot_bar
         !! Defines a 2D plot tailored towards bar plotting.
-        real(real32), private :: m_barWidth = 0.75d0
+        real(real32), private :: m_barWidth = 1.0d0
             !! A relative scaling of the width of a single bar.  The value
             !! must be between 0 and 1 with 1 being full width.
     contains

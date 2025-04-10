@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 7.5% of total for modules and submodules.">510 statements</a>
+               title=" 7.7% of total for modules and submodules.">562 statements</a>
           </li>
 
             <li id="source-file">
@@ -169,25 +169,25 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
-                <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
                 <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
-                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
-                <li><a href='../module/fplot_colormap.html'>fplot_colormap</a></li>
-                <li>ferror</li>
-                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
-                <li><a href='../module/fplot_png_terminal.html'>fplot_png_terminal</a></li>
-                <li>collections</li>
-                <li><a href='../module/fplot_latex_terminal.html'>fplot_latex_terminal</a></li>
-                <li><a href='../module/fplot_arrow.html'>fplot_arrow</a></li>
-                <li><a href='../module/fplot_windows_terminal.html'>fplot_windows_terminal</a></li>
                 <li><a href='../module/fplot_qt_terminal.html'>fplot_qt_terminal</a></li>
-                <li><a href='../module/fplot_wxt_terminal.html'>fplot_wxt_terminal</a></li>
-                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
-                <li><a href='../module/fplot_terminal.html'>fplot_terminal</a></li>
+                <li><a href='../module/fplot_colormap.html'>fplot_colormap</a></li>
+                <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
+                <li>collections</li>
+                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li><a href='../module/fplot_arrow.html'>fplot_arrow</a></li>
+                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
                 <li>strings</li>
-                <li><a href='../module/fplot_legend.html'>fplot_legend</a></li>
+                <li><a href='../module/fplot_latex_terminal.html'>fplot_latex_terminal</a></li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+                <li>ferror</li>
+                <li><a href='../module/fplot_terminal.html'>fplot_terminal</a></li>
+                <li><a href='../module/fplot_wxt_terminal.html'>fplot_wxt_terminal</a></li>
+                <li><a href='../module/fplot_windows_terminal.html'>fplot_windows_terminal</a></li>
+                <li><a href='../module/fplot_png_terminal.html'>fplot_png_terminal</a></li>
                 <li><a href='../module/fplot_label.html'>fplot_label</a></li>
+                <li><a href='../module/fplot_legend.html'>fplot_legend</a></li>
             </ul>
           </li>
       </ul>
@@ -353,6 +353,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_bottom_margin'>get_bottom_margin</a></strong>
+ =>
+                    plt_get_bottom_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_colormap~2'>get_colormap</a></strong>
  =>
                     plt_get_colormap
@@ -433,9 +443,29 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_left_margin'>get_left_margin</a></strong>
+ =>
+                    plt_get_left_margin
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-get_legend'>get_legend</a></strong>
  =>
                     plt_get_legend
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_right_margin'>get_right_margin</a></strong>
+ =>
+                    plt_get_right_margin
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -486,6 +516,16 @@
                   :: <strong><a href='../type/plot.html#boundprocedure-get_title~3'>get_title</a></strong>
  =>
                     plt_get_title
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-get_top_margin'>get_top_margin</a></strong>
+ =>
+                    plt_get_top_margin
 <small>Function</small>                </td>
                 <td></td>
               </tr>
@@ -613,6 +653,16 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_bottom_margin'>set_bottom_margin</a></strong>
+ =>
+                    plt_set_bottom_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-set_colormap~2'>set_colormap</a></strong>
  =>
                     plt_set_colormap
@@ -663,6 +713,26 @@
                 <td>
                     procedure
                     ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_left_margin'>set_left_margin</a></strong>
+ =>
+                    plt_set_left_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_right_margin'>set_right_margin</a></strong>
+ =>
+                    plt_set_right_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
                   :: <strong><a href='../type/plot.html#boundprocedure-set_show_colorbar'>set_show_colorbar</a></strong>
  =>
                     plt_set_show_colorbar
@@ -699,6 +769,16 @@
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot.html#boundprocedure-set_top_margin'>set_top_margin</a></strong>
+ =>
+                    plt_set_top_margin
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
           </tbody>
         </table>
     </div>
@@ -726,7 +806,7 @@
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>

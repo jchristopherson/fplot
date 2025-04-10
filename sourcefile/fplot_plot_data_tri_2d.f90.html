@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 2.3% of total for source files.">155 statements</a>
+               title=" 2.1% of total for source files.">155 statements</a>
           </li>
 
             <li id="source-file">
@@ -251,7 +251,7 @@
 <a id="ln-36" name="ln-36" href="#ln-36"></a>
 <a id="ln-37" name="ln-37" href="#ln-37"></a><span class="k">contains</span><span class="w"></span>
 <a id="ln-38" name="ln-38" href="#ln-38"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">    </span><span class="k">module function </span><span class="n">pdt2d_get_data_cmd</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">    </span><span class="k">function </span><span class="n">pdt2d_get_data_cmd</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 <a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">        </span><span class="c">!! Gets the GNUPLOT command string describing the data to plot.</span>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -346,7 +346,7 @@
 <a id="ln-131" name="ln-131" href="#ln-131"></a><span class="w">    </span><span class="k">end function</span><span class="w"></span>
 <a id="ln-132" name="ln-132" href="#ln-132"></a>
 <a id="ln-133" name="ln-133" href="#ln-133"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">    </span><span class="k">module function </span><span class="n">pdt2d_get_cmd</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">    </span><span class="k">function </span><span class="n">pdt2d_get_cmd</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 <a id="ln-135" name="ln-135" href="#ln-135"></a><span class="w">        </span><span class="c">!! Gets the GNUPLOT command string for the object.</span>
 <a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-137" name="ln-137" href="#ln-137"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -397,7 +397,7 @@
 <a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">    </span><span class="k">end function</span><span class="w"></span>
 <a id="ln-183" name="ln-183" href="#ln-183"></a>
 <a id="ln-184" name="ln-184" href="#ln-184"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">    </span><span class="k">module subroutine </span><span class="n">pdt2d_define_data</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">tri</span><span class="p">)</span><span class="w"></span>
+<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_define_data</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">tri</span><span class="p">)</span><span class="w"></span>
 <a id="ln-186" name="ln-186" href="#ln-186"></a><span class="w">        </span><span class="c">!! Defines the data to plot.</span>
 <a id="ln-187" name="ln-187" href="#ln-187"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-188" name="ln-188" href="#ln-188"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -415,7 +415,7 @@
 <a id="ln-200" name="ln-200" href="#ln-200"></a><span class="w">    </span><span class="k">end subroutine</span><span class="w"></span>
 <a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">    </span>
 <a id="ln-202" name="ln-202" href="#ln-202"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">    </span><span class="k">pure module function </span><span class="n">pdt2d_get_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span><span class="w"></span>
+<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span><span class="w"></span>
 <a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">        </span><span class="c">!! Gets the width of the lines used to draw the triangulation.</span>
 <a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-206" name="ln-206" href="#ln-206"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -425,7 +425,7 @@
 <a id="ln-210" name="ln-210" href="#ln-210"></a><span class="w">    </span><span class="k">end function</span><span class="w"></span>
 <a id="ln-211" name="ln-211" href="#ln-211"></a>
 <a id="ln-212" name="ln-212" href="#ln-212"></a><span class="c">! --------------------</span>
-<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">    </span><span class="k">module subroutine </span><span class="n">pdt2d_set_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 <a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">        </span><span class="c">!! Sets the width of the lines used to draw the triangulation.</span>
 <a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -438,7 +438,7 @@
 <a id="ln-223" name="ln-223" href="#ln-223"></a><span class="w">        </span><span class="k">end if</span>
 <a id="ln-224" name="ln-224" href="#ln-224"></a><span class="k">    end subroutine</span><span class="w"></span>
 <a id="ln-225" name="ln-225" href="#ln-225"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">    </span><span class="k">pure module function </span><span class="n">pdt2d_get_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span><span class="w"></span>
+<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span><span class="w"></span>
 <a id="ln-227" name="ln-227" href="#ln-227"></a><span class="w">        </span><span class="c">!! Gets the line style.</span>
 <a id="ln-228" name="ln-228" href="#ln-228"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-229" name="ln-229" href="#ln-229"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -459,7 +459,7 @@
 <a id="ln-244" name="ln-244" href="#ln-244"></a><span class="w">    </span><span class="k">end function</span><span class="w"></span>
 <a id="ln-245" name="ln-245" href="#ln-245"></a>
 <a id="ln-246" name="ln-246" href="#ln-246"></a><span class="c">! --------------------</span>
-<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">    </span><span class="k">module subroutine </span><span class="n">pdt2d_set_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">        </span><span class="c">!! Sets the line style.</span>
 <a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"></span>
 <a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
@@ -506,7 +506,7 @@
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>
