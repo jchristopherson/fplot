@@ -109,7 +109,7 @@ subroutine pdh_define_data(this, x, err)
         errmgr => deferr
     end if
     n = size(x)
-    nbins = this%get_bin_count()
+    nbins = min(n, this%get_bin_count()) ! protects against the case where nbins > n however unlikely
 
     ! Get the max and min of the entire data set
     maxX = maxval(x)
