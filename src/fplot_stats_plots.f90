@@ -82,10 +82,12 @@ contains
 
         ! Local Variables
         integer(int32) :: i, j, k, t, n, flag
+        real(real64) :: m, b
+        real(real64), allocatable, dimension(:) :: mdl
         class(errors), pointer :: errmgr
         type(errors), target :: deferr
         type(plot_2d), allocatable, dimension(:) :: plts
-        type(plot_data_2d) :: pdata
+        type(plot_data_2d) :: pdata, mdata
         type(plot_data_histogram) :: hdata
         class(plot_axis), pointer :: xAxis, yAxis
         
@@ -121,6 +123,8 @@ contains
         call pdata%set_draw_markers(.true.)
         call pdata%set_marker_style(MARKER_FILLED_CIRCLE)
         call pdata%set_marker_scaling(0.5)
+        call mdata%set_line_width(2.0)
+        call mdata%set_line_color(CLR_BLACK)
         if (errmgr%has_error_occurred()) return
         do j = 1, n
             do i = 1, n
@@ -137,6 +141,15 @@ contains
                     call pdata%define_data(x(:,j), x(:,i), err = errmgr)
                     if (errmgr%has_error_occurred()) return
                     call plts(k)%push(pdata)
+
+                    ! Fit a line to the data
+                    call compute_linear_fit(x(:,j), x(:,i), m, b)
+                    mdl = m * x(:,j) + b
+
+                    ! Plot the fitted line
+                    call mdata%define_data(x(:,j), mdl, err = err)
+                    if (errmgr%has_error_occurred()) return
+                    call plts(k)%push(mdata)
                 end if
 
                 ! Deal with axis labels
@@ -300,6 +313,45 @@ contains
             !! The font size.
         call this%m_plt%set_font_size(x)
     end subroutine
+
+! ******************************************************************************
+! PRIVATE HELPER ROUTINES
+! ------------------------------------------------------------------------------
+subroutine compute_linear_fit(x, y, m, b)
+    !! Computes the coefficients of a linear equation (y = m * x + b) using a
+    !! least-squares approach.
+    real(real64), intent(in), dimension(:) :: x
+        !! The x-coordinate data.
+    real(real64), intent(in), dimension(:) :: y
+        !! The y-coordinate data.
+    real(real64), intent(out) :: m
+        !! The slope term.
+    real(real64), intent(out) :: b
+        !! The intercept term.
+
+    ! Local Variables
+    integer(int32) :: i, n
+    real(real64) :: sumX, sumY, sumX2, sumY2, sumXY
+
+    ! Initialization
+    n = size(x)
+    sumX = 0.0d0
+    sumY = 0.0d0
+    sumX2 = 0.0d0
+    sumY2 = 0.0d0
+    sumXY = 0.0d0
+
+    ! Process
+    do i = 1, n
+        sumX = sumX + x(i)
+        sumY = sumY + y(i)
+        sumXY = sumXY + x(i) * y(i)
+        sumX2 = sumX2 + (x(i))**2
+        sumY2 = sumY2 + (y(i))**2
+    end do
+    m = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX**2)
+    b = (sumY * sumX2 - sumX * sumXY) / (n * sumX2 - sumX**2)
+end subroutine
 
 ! ------------------------------------------------------------------------------
 end module
