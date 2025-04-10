@@ -54,6 +54,10 @@ module fplot_plot
             !! Show the colorbar?
         type(list), private :: m_arrows ! Added 1/3/2024, JAC
             !! A collection of plot_arrow items to draw.
+        real(real32), private :: m_leftMargin = -1.0
+        real(real32), private :: m_rightMargin = -1.0
+        real(real32), private :: m_topMargin = -1.0
+        real(real32), private :: m_bottomMargin = -1.0
     contains
         procedure, public :: free_resources => plt_clean_up
         procedure, public :: initialize => plt_init
@@ -99,6 +103,14 @@ module fplot_plot
         procedure, public :: set_arrow => plt_set_arrow
         procedure, public :: get_arrow_count => plt_get_arrow_count
         procedure, public :: clear_arrows => plt_clear_arrows
+        procedure, public :: get_left_margin => plt_get_left_margin
+        procedure, public :: set_left_margin => plt_set_left_margin
+        procedure, public :: get_right_margin => plt_get_right_margin
+        procedure, public :: set_right_margin => plt_set_right_margin
+        procedure, public :: get_top_margin => plt_get_top_margin
+        procedure, public :: set_top_margin => plt_set_top_margin
+        procedure, public :: get_bottom_margin => plt_get_bottom_margin
+        procedure, public :: set_bottom_margin => plt_set_bottom_margin
     end type
 
 contains
@@ -857,6 +869,100 @@ contains
         class(plot), intent(inout) :: this
             !! The plot object.
         call this%m_arrows%clear()
+    end subroutine
+
+! ******************************************************************************
+! ADDED: 4/7/2025 - JAC
+! ------------------------------------------------------------------------------
+    pure function plt_get_left_margin(this) result(x)
+        !! Gets the left margin of the plot.
+        class(plot), intent(in) :: this
+            !! The plot object.
+        real(real32) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        x = this%m_leftMargin
+    end function
+
+! ----------
+    subroutine plt_set_left_margin(this, x)
+        !! Sets the left margin of the plot.  If the value is negative, the
+        !! default margin is used.
+        class(plot), intent(inout) :: this
+            !! The plot object.
+        real(real32), intent(in) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        this%m_leftMargin = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_right_margin(this) result(x)
+        !! Gets the right margin of the plot.
+        class(plot), intent(in) :: this
+            !! The plot object.
+        real(real32) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        x = this%m_rightMargin
+    end function
+
+! ----------
+    subroutine plt_set_right_margin(this, x)
+        !! Sets the right margin of the plot.  If the value is negative, the
+        !! default margin is used.
+        class(plot), intent(inout) :: this
+            !! The plot object.
+        real(real32), intent(in) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        this%m_rightMargin = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_top_margin(this) result(x)
+        !! Gets the top margin of the plot.
+        class(plot), intent(in) :: this
+            !! The plot object.
+        real(real32) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        x = this%m_topMargin
+    end function
+
+! ----------
+    subroutine plt_set_top_margin(this, x)
+        !! Sets the top margin of the plot.  If the value is negative, the
+        !! default margin is used.
+        class(plot), intent(inout) :: this
+            !! The plot object.
+        real(real32), intent(in) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        this%m_topMargin = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_bottom_margin(this) result(x)
+        !! Gets the bottom margin of the plot.
+        class(plot), intent(in) :: this
+            !! The plot object.
+        real(real32) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        x = this%m_bottomMargin
+    end function
+
+! ----------
+    subroutine plt_set_bottom_margin(this, x)
+        !! Sets the bottom margin of the plot.  If the value is negative, the
+        !! default margin is used.
+        class(plot), intent(inout) :: this
+            !! The plot object.
+        real(real32), intent(in) :: x
+            !! The margin, in percent of screen.  A negative value indicates the
+            !! default margin is used.
+        this%m_bottomMargin = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

@@ -8,7 +8,7 @@
     <meta name="author" content="Jason Christopherson" >
     <link rel="icon" href="../favicon.png">
 
-    <title>fplot_plot_data_bar &ndash; FPLOT</title>
+    <title>fplot_stats_plots &ndash; FPLOT</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>fplot_plot_data_bar
+    <h1>fplot_stats_plots
       <small>Module</small>
       
     </h1>
@@ -96,17 +96,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 4.8% of total for modules and submodules.">351 statements</a>
+               title=" 2.9% of total for modules and submodules.">210 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fplot_plot_data_bar.f90"> Source File</a>
+              <a href="../src/fplot_stats_plots.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fplot_plot_data_bar.f90.html'>fplot_plot_data_bar.f90</a></li>
-          <li class="active">fplot_plot_data_bar</li>
+              <li><a href='../sourcefile/fplot_stats_plots.f90.html'>fplot_stats_plots.f90</a></li>
+          <li class="active">fplot_stats_plots</li>
         </ol>
       </div>
     </div>
@@ -141,7 +141,7 @@
       </div>
       <div id="types-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/fplot_plot_data_bar.html#type-plot_data_bar">plot_data_bar</a>
+            <a class="list-group-item" href="../module/fplot_stats_plots.html#type-correlation_plot">correlation_plot</a>
         </div>
       </div>
     </div>
@@ -169,12 +169,21 @@
       <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
+                <li><a href='../module/fplot_plot_data_2d.html'>fplot_plot_data_2d</a></li>
                 <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
-                <li>ferror</li>
+                <li><a href='../module/fplot_plot_axis.html'>fplot_plot_axis</a></li>
+                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li><a href='../module/fplot_terminal.html'>fplot_terminal</a></li>
                 <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
-                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
+                <li>ferror</li>
+                <li><a href='../module/fplot_plot_data_histogram.html'>fplot_plot_data_histogram</a></li>
+                <li><a href='../module/fplot_multiplot.html'>fplot_multiplot</a></li>
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
                 <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
                 <li>strings</li>
+                <li>collections</li>
+                <li><a href='../module/fplot_plot.html'>fplot_plot</a></li>
+                <li><a href='../module/fplot_plot_2d.html'>fplot_plot_2d</a></li>
             </ul>
           </li>
       </ul>
@@ -203,7 +212,7 @@
       </div>
       <div id="types-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/fplot_plot_data_bar.html#type-plot_data_bar">plot_data_bar</a>
+            <a class="list-group-item" href="../module/fplot_stats_plots.html#type-correlation_plot">correlation_plot</a>
         </div>
       </div>
     </div>
@@ -230,15 +239,16 @@
           <h2>Derived Types</h2>
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="type-plot_data_bar"></span>
+      <span class="anchor" id="type-correlation_plot"></span>
       <h3>
-        type, public, extends(<a href='../type/plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
-        <a href='../type/plot_data_bar.html'>plot_data_bar</a>
+        type, public, extends(<a href='../type/plot_object.html'>plot_object</a>)&nbsp;::&nbsp;
+        <a href='../type/correlation_plot.html'>correlation_plot</a>
         
       </h3>
     </div>
     <div class="panel-body">
-      <p>Defines a data set tailored to bar charts.</p>
+      <p>Defines a multiplot arrangement designed to illustrate correlation
+between data sets.</p>
 
 
 
@@ -248,171 +258,11 @@
           <tbody>
               <tr>
                 <td>
-generic,
-                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-define_data~4'>define_data</a></strong>
- =>
-                    pdb_set_data_1, pdb_set_data_2, pdb_set_data_3
-                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get~3'>get</a></strong>
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-draw~3'>draw</a></strong>
  =>
-                    pdb_get_data
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_axes_string~5'>get_axes_string</a></strong>
- =>
-                    pdb_get_axes_cmd
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_bar_per_label_count'>get_bar_per_label_count</a></strong>
- =>
-                    pdb_get_col_count
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
- =>
-                    pdc_get_color_index
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_command_string~15'>get_command_string</a></strong>
- =>
-                    pdb_get_cmd
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_count~5'>get_count</a></strong>
- =>
-                    pdb_get_count
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_data'>get_data</a></strong>
- =>
-                    pdb_get_data_set
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_data_string~5'>get_data_string</a></strong>
- =>
-                    pdb_get_data_cmd
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_draw_against_y2~3'>get_draw_against_y2</a></strong>
- =>
-                    pdb_get_use_y2
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_is_filled'>get_is_filled</a></strong>
- =>
-                    pdb_get_is_filled
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_label~3'>get_label</a></strong>
- =>
-                    pdb_get_label
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
- =>
-                    pdc_get_line_color
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
- =>
-                    pd_get_name
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_transparency'>get_transparency</a></strong>
- =>
-                    pdb_get_alpha
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-get_use_labels'>get_use_labels</a></strong>
- =>
-                    pdb_get_use_labels
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set~3'>set</a></strong>
- =>
-                    pdb_set_data
+                    cp_draw
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -420,9 +270,89 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get~5'>get</a></strong>
  =>
-                    pdc_set_color_index
+                    cp_get
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_column_count~2'>get_column_count</a></strong>
+ =>
+                    cp_get_cols
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_command_string~22'>get_command_string</a></strong>
+ =>
+                    cp_get_command
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_font_name~4'>get_font_name</a></strong>
+ =>
+                    cp_get_font
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_font_size~4'>get_font_size</a></strong>
+ =>
+                    cp_get_font_size
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_plot_count~2'>get_plot_count</a></strong>
+ =>
+                    cp_get_count
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_row_count~2'>get_row_count</a></strong>
+ =>
+                    cp_get_rows
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-get_terminal~3'>get_terminal</a></strong>
+ =>
+                    cp_get_term
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-initialize~6'>initialize</a></strong>
+ =>
+                    cp_init
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -430,9 +360,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_data_1'>set_data_1</a></strong>
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-save_file~3'>save_file</a></strong>
  =>
-                    pdb_set_data_1_core
+                    cp_save
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -440,9 +370,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_data_2'>set_data_2</a></strong>
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-set_font_name~4'>set_font_name</a></strong>
  =>
-                    pdb_set_data_2_core
+                    cp_set_font
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -450,79 +380,9 @@ generic,
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_data_3'>set_data_3</a></strong>
+                  :: <strong><a href='../type/correlation_plot.html#boundprocedure-set_font_size~4'>set_font_size</a></strong>
  =>
-                    pdb_set_data_3_core
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_draw_against_y2~3'>set_draw_against_y2</a></strong>
- =>
-                    pdb_set_use_y2
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_is_filled'>set_is_filled</a></strong>
- =>
-                    pdb_set_is_filled
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_label~3'>set_label</a></strong>
- =>
-                    pdb_set_label
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
- =>
-                    pdc_set_line_color
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
- =>
-                    pd_set_name
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_transparency'>set_transparency</a></strong>
- =>
-                    pdb_set_alpha
-<small>Subroutine</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/plot_data_bar.html#boundprocedure-set_use_labels'>set_use_labels</a></strong>
- =>
-                    pdb_set_use_labels
+                    cp_set_font_size
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>

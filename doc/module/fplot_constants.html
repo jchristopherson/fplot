@@ -96,7 +96,7 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 0.9% of total for modules and submodules.">58 statements</a>
+               title=" 0.9% of total for modules and submodules.">64 statements</a>
           </li>
 
             <li id="source-file">
@@ -147,8 +147,14 @@
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_font_size">GNUPLOT_DEFAULT_FONT_SIZE</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_height">GNUPLOT_DEFAULT_WINDOW_HEIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_width">GNUPLOT_DEFAULT_WINDOW_WIDTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_center">GNUPLOT_HORIZONTAL_ALIGN_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_left">GNUPLOT_HORIZONTAL_ALIGN_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_right">GNUPLOT_HORIZONTAL_ALIGN_RIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_label_length">GNUPLOT_MAX_LABEL_LENGTH</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_path_length">GNUPLOT_MAX_PATH_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_center">GNUPLOT_ROTATION_ORIGIN_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_left">GNUPLOT_ROTATION_ORIGIN_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_right">GNUPLOT_ROTATION_ORIGIN_RIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_latex">GNUPLOT_TERMINAL_LATEX</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_png">GNUPLOT_TERMINAL_PNG</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_qt">GNUPLOT_TERMINAL_QT</a>
@@ -257,8 +263,14 @@
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_font_size">GNUPLOT_DEFAULT_FONT_SIZE</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_height">GNUPLOT_DEFAULT_WINDOW_HEIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_width">GNUPLOT_DEFAULT_WINDOW_WIDTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_center">GNUPLOT_HORIZONTAL_ALIGN_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_left">GNUPLOT_HORIZONTAL_ALIGN_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_right">GNUPLOT_HORIZONTAL_ALIGN_RIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_label_length">GNUPLOT_MAX_LABEL_LENGTH</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_path_length">GNUPLOT_MAX_PATH_LENGTH</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_center">GNUPLOT_ROTATION_ORIGIN_CENTER</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_left">GNUPLOT_ROTATION_ORIGIN_LEFT</a>
+            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_right">GNUPLOT_ROTATION_ORIGIN_RIGHT</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_latex">GNUPLOT_TERMINAL_LATEX</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_png">GNUPLOT_TERMINAL_PNG</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_qt">GNUPLOT_TERMINAL_QT</a>
@@ -592,6 +604,57 @@ parameter
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-gnuplot_horizontal_align_center"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_HORIZONTAL_ALIGN_CENTER</strong></td>
+<td> =</td>
+                <td>"center"</td>
+            <td>
+                <p>Defines the text should be centered.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_horizontal_align_left"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_HORIZONTAL_ALIGN_LEFT</strong></td>
+<td> =</td>
+                <td>"left"</td>
+            <td>
+                <p>Defines the text should be aligned to the left.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_horizontal_align_right"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_HORIZONTAL_ALIGN_RIGHT</strong></td>
+<td> =</td>
+                <td>"right"</td>
+            <td>
+                <p>Defines the text should be aligned to the right.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-gnuplot_max_label_length"></span>
               integer(kind=int32),
             </td>
@@ -622,6 +685,57 @@ parameter
                 <td>256</td>
             <td>
                 <p>Defines the maximum number of characters allowed in a file path.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_rotation_origin_center"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_ROTATION_ORIGIN_CENTER</strong></td>
+<td> =</td>
+                <td>"center"</td>
+            <td>
+                <p>Defines the text should be rotated around the center of the text.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_rotation_origin_left"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_ROTATION_ORIGIN_LEFT</strong></td>
+<td> =</td>
+                <td>"left"</td>
+            <td>
+                <p>Defines the text should be rotated around the left side of the text.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gnuplot_rotation_origin_right"></span>
+              character(len=*),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>GNUPLOT_ROTATION_ORIGIN_RIGHT</strong></td>
+<td> =</td>
+                <td>"right"</td>
+            <td>
+                <p>Defines the text should be rotated around the right side of the text.</p>
             </td>
         </tr>
         <tr>
@@ -1284,7 +1398,7 @@ parameter
             <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 05:45              </p>
+ on 2025-04-10 13:38              </p>
           </div>
         </div>
         <br>
