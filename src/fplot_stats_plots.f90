@@ -50,7 +50,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine cp_init(this, x, labels, term, err)
+    subroutine cp_init(this, x, labels, term, width, height, err)
         !! Initializes the correlation_plot object.
         class(correlation_plot), intent(inout) :: this
             !! The correlation_plot object.
@@ -73,6 +73,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+        integer(int32), intent(in), optional :: width
+            !! Optionally, the width of the plot window.
+        integer(int32), intent(in), optional :: height
+            !! Optionally, the height of the plot window.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
 
@@ -92,7 +96,8 @@ contains
             errmgr => deferr
         end if
         n = size(x, 2)
-        call this%m_plt%initialize(n, n, term = term, err = errmgr)
+        call this%m_plt%initialize(n, n, term = term, width = width, &
+            height = height, err = errmgr)
         if (errmgr%has_error_occurred()) return
         allocate(plts(n * n), stat = flag)
         if (flag /= 0) then

@@ -105,7 +105,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine mp_init(this, m, n, term, err)
+    subroutine mp_init(this, m, n, term, width, height, err)
         !! Initializes the multiplot object.
         class(multiplot), intent(inout) :: this
             !! The multiplot object.
@@ -126,6 +126,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+        integer(int32), intent(in), optional :: width
+            !! Optionally, the width of the plot window.
+        integer(int32), intent(in), optional :: height
+            !! Optionally, the height of the plot window.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
 
@@ -188,6 +192,14 @@ contains
         if (flag /= 0) then
             call report_memory_error(errmgr, "mp_init", flag)
             return
+        end if
+
+        ! Size the window?
+        if (present(width)) then
+            call this%m_terminal%set_window_width(width)
+        end if
+        if (present(height)) then
+            call this%m_terminal%set_window_height(height)
         end if
     end subroutine
     
