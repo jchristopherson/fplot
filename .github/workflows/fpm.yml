@@ -28,19 +28,13 @@ jobs:
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
-    
-    - name: Install BLAS & LAPACK
-      if: contains(matrix.os, 'ubuntu')
-      run: |
-        sudo apt-get update
-        sudo apt-get install libopenblas-dev liblapack-dev
-
+        
     - name: Install fpm
       uses: fortran-lang/setup-fpm@v5
       with:
         fpm-version: 'v0.10.1'
 
-    - name: Build LINALG
+    - name: Build FPLOT
       run: |
         gfortran --version
         fpm build
@@ -49,84 +43,3 @@ jobs:
       run: |
         gfortran --version
         fpm test
-
-  msys2-build:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          path-type: inherit
-          install: |
-            mingw-w64-x86_64-gcc-fortran
-            mingw-w64-x86_64-fpm
-            mingw-w64-x86_64-openblas
-            mingw-w64-x86_64-lapack
-
-      - name: fpm build
-        run: |
-          gfortran --version
-          fpm --version
-          fpm build
-
-      - name: fpm test
-        run: |
-          fpm test
-
-  # intel-build:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-
-  #   env:
-  #     FPM_FC: ifx
-  #     FC: ifx
-
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v3
-
-  #   - name: Add Intel repository (Linux)
-  #     run: |
-  #       wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
-  #       sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
-  #       rm GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
-  #       echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-  #       sudo apt-get update
-
-  #   - name: Install Intel oneAPI compiler (Linux)
-  #     run: |
-  #       sudo apt-get install intel-oneapi-compiler-fortran
-
-  #   - name: Setup Intel oneAPI environment
-  #     run: |
-  #       source /opt/intel/oneapi/setvars.sh
-  #       printenv >> $GITHUB_ENV
-
-  #   - name: Install MKL
-  #     run: |
-  #       sudo apt-get update
-  #       sudo apt-get -y install intel-mkl
-  #       sudo apt update
-  #       sudo apt -y install intel-mkl
-
-  #   - name: Install fpm
-  #     uses: fortran-lang/setup-fpm@v3
-  #     with:
-  #       fpm-version: 'v0.8.2'
-
-  #   - name: fpm build
-  #     run: |
-  #       ifx --version
-  #       fpm --version
-  #       fpm build --profile debug --flag "-warn nointerfaces"
-
-  #   - name: fpm test
-  #     run: |
-  #       fpm test --profile debug --flag "-warn nointerfaces"

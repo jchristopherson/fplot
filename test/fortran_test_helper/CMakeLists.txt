@@ -1,5 +1,3 @@
-# Get the macros and functions we'll need
-include("${PROJECT_SOURCE_DIR}/cmake/helper.cmake")
 include(FetchContent)
 
 # Fetch the proper content
