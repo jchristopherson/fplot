@@ -49,6 +49,8 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 include(FetchContent)
 find_package(ferror QUIET)
 find_package(collections QUIET)
+find_package(geompack QUIET)
+find_package(fstring QUIET)
 if (NOT ferror_FOUND)
     message(STATUS "FERROR could not be found.  A reference version will be employed.")
     FetchContent_Declare(
@@ -78,12 +80,35 @@ else()
     set(BUILD_COLLECTIONS FALSE)
 endif()
 
-FetchContent_Declare(
-    geompack
-    GIT_REPOSITORY "https://github.com/jchristopherson/geompack"
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(geompack)
+if (NOT geompack_FOUND)
+    message(STATUS "GEOMPACK could not be found.  A reference version will be employed.")
+    FetchContent_Declare(
+        geompack
+        GIT_REPOSITORY "https://github.com/jchristopherson/geompack"
+        GIT_TAG main
+    )
+    FetchContent_MakeAvailable(geompack)
+    set(GEOMPACK_LIBRARIES geompack)
+    set(BUILD_GEOMPACK TRUE)
+else()
+    set(GEOMPACK_LIBRARIES geompack::geompack)
+    set(BUILD_GEOMPACK FALSE)
+endif()
+
+if (NOT fstring_FOUND)
+    message(STATUS "FSTRING could not be found.  A reference version will be employed.")
+    FetchContent_Declare(
+        fstring
+        GIT_REPOSITORY "https://github.com/jchristopherson/fstring"
+        GIT_TAG main
+    )
+    FetchContent_MakeAvailable(fstring)
+    set(FSTRING_LIBRARIES fstring)
+    set(BUILD_FSTRING TRUE)
+else()
+    set(FSTRING_LIBRARIES fstring::fstring)
+    set(BUILD_FSTRING FALSE)
+endif()
 
 FetchContent_Declare(
     forcolormap
@@ -92,27 +117,20 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(forcolormap)
 
-FetchContent_Declare(
-    fstring
-    GIT_REPOSITORY "https://github.com/jchristopherson/fstring"
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(fstring)
-
 # Build
 add_library(${PROJECT_NAME} ${FPLOT_SOURCES})
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
     ${FERROR_LIBRARIES}
-    ${COLLECTIONS_LIBRARIES}
 )
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
-    $<BUILD_INTERFACE:geompack>
+    ${COLLECTIONS_LIBRARIES}
+    ${GEOMPACK_LIBRARIES}
+    ${FSTRING_LIBRARIES}
     $<BUILD_INTERFACE:forcolormap>
-    $<BUILD_INTERFACE:fstring>
 )
 
 set_target_properties(
@@ -155,3 +173,10 @@ if (${BUILD_COLLECTIONS} AND ${BUILD_SHARED_LIBS})
     install(IMPORTED_RUNTIME_ARTIFACTS ${COLLECTIONS_LIBRARIES})
 endif()
 
+if (${BUILD_GEOMPACK} AND ${BUILD_SHARED_LIBS})
+    install(IMPORTED_RUNTIME_ARTIFACTS ${GEOMPACK_LIBRARIES})
+endif()
+
+if (${BUILD_FSTRING} AND ${BUILD_SHARED_LIBS})
+    install(IMPORTED_RUNTIME_ARTIFACTS ${FSTRING_LIBRARIES})
+endif()

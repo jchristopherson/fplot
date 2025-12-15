@@ -146,3 +146,14 @@ target_link_libraries(correlation_plot_example fplot)
 # Example 37
 add_executable(margins_example margins_example.f90)
 target_link_libraries(margins_example fplot)
+
+if (${BUILD_SHARED_LIBS} AND WIN32)
+    add_custom_command(
+        TARGET generic_2d_plot
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy 
+        $<TARGET_RUNTIME_DLLS:generic_2d_plot> 
+        $<TARGET_FILE_DIR:generic_2d_plot>
+        COMMAND_EXPAND_LISTS
+    )
+endif()

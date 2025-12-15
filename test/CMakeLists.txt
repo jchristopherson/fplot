@@ -1,12 +1,10 @@
-add_subdirectory(fortran_test_helper)
-
 set(fplot_test_sources
     fplot_test.f90
     fplot_3d_test.f90
     fplot_arrow_test.f90
 )
 
-find_package(fotran_test_helper QUIET)
+find_package(fortran_test_helper QUIET)
 if (NOT fortran_test_helper_FOUND)
     include(FetchContent)
     FetchContent_Declare(
