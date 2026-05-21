@@ -23,21 +23,15 @@ jobs:
           - {compiler: intel, version: '2022.0'}
           - {compiler: intel, version: '2023.0'}
           - {compiler: intel, version: '2024.0'}
-          - {compiler: intel, version: '2025.0'}
-        include:
-          - os: ubuntu-latest
-            toolchain: {compiler: intel, version: '2023.2'}
         exclude:
           - os: macos-latest
             toolchain: {compiler: gcc, version: 16}
           - os: macos-latest
-            toolchain: {compiler: intel, version: '2022.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2023.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2024.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2025.0'}
+            toolchain: 
+              - {compiler: intel, version: '2022.0'}
+              - {compiler: intel, version: '2023.0'}
+              - {compiler: intel, version: '2024.0'}
+              - {compiler: intel, version: '2025.0'}
 
     steps:
       - uses: fortran-lang/setup-fortran@v1.6.1
