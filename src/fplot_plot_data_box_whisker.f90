@@ -106,7 +106,7 @@ function pdbw_get_cmd(this) result(rst)
     end if
 
     ! Style
-    call str%append("using ($0+1):2:3:4:5:xtic(1) with candlesticks")
+    call str%append(" using ($0+1):2:3:4:5:xtic(1) with candlesticks")
 
     ! Whisker bars
 
@@ -115,6 +115,9 @@ function pdbw_get_cmd(this) result(rst)
     call str%append(' lc rgb "#')
     call str%append(clr%to_hex_string())
     call str%append('"')
+
+    ! End
+    rst = char(str%to_string())
 end function
 
 ! ------------------------------------------------------------------------------
