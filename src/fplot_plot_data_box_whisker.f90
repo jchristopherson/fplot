@@ -31,6 +31,10 @@ module fplot_plot_data_box_whisker
             !! The line width.
         real(real32), private :: m_boxWidth = 0.05
             !! The box width.
+        logical, private :: m_fillBoxes = .true.
+            !! Fill the boxes?
+        real(real32), private :: m_boxOpacity = 1.0
+            !! Box opacity [0, 1.0].
     contains
         procedure, public :: define_data => pdbw_define_data_xstring
         procedure, public :: get_command_string => pdbw_get_cmd
@@ -45,6 +49,10 @@ module fplot_plot_data_box_whisker
         procedure, public :: set_line_width => pdbw_set_line_width
         procedure, public :: get_box_width => pdbw_get_box_width
         procedure, public :: set_box_width => pdbw_set_box_width
+        procedure, public :: get_fill_boxes => pdbw_get_fill_boxes
+        procedure, public :: set_fill_boxes => pdbw_set_fill_boxes
+        procedure, public :: get_box_fill_opacity => pdbw_get_opacity
+        procedure, public :: set_box_fill_opacity => pdbw_set_opacity
     end type
 
 contains
@@ -142,6 +150,13 @@ function pdbw_get_cmd(this) result(rst)
     ! Line Width
     call str%append(" lw ")
     call str%append(to_string(this%get_line_width()))
+
+    ! Fill Boxes
+    if (this%get_fill_boxes()) then
+        call str%append(" fill solid ")
+        call str%append(to_string(this%get_box_fill_opacity()))
+        call str%append(" border")
+    end if
 
     ! End
     rst = char(str%to_string())
@@ -295,7 +310,8 @@ end subroutine
 
 ! ------------------------------------------------------------------------------
 pure function pdbw_get_box_width(this) result(rst)
-    !! Gets the box width.
+    !! Gets the box width.  By default the x-axis is incremented in units of 1;
+    !! therefore, a box width of 1 will fully fill the space.
     class(plot_data_box_whisker), intent(in) :: this
         !! The plot_data_box_whisker object.
     real(real32) :: rst
@@ -305,7 +321,8 @@ end function
 
 ! --------------------
 subroutine pdbw_set_box_width(this, x)
-    !! Sets the box width.
+    !! Sets the box width.  By default the x-axis is incremented in units of 1;
+    !! therefore, a box width of 1 will fully fill the space.
     class(plot_data_box_whisker), intent(inout) :: this
         !! The plot_data_box_whisker object.
     real(real32), intent(in) :: x
@@ -314,12 +331,44 @@ subroutine pdbw_set_box_width(this, x)
 end subroutine
 
 ! ------------------------------------------------------------------------------
+pure function pdbw_get_fill_boxes(this) result(rst)
+    !! Gets a value determining if the boxes should be filled.
+    class(plot_data_box_whisker), intent(in) :: this
+        !! The plot_data_box_whisker object.
+    logical :: rst
+        !! True if the boxes are to be filled; else, false.
+    rst = this%m_fillBoxes
+end function
 
 ! --------------------
+subroutine pdbw_set_fill_boxes(this, x)
+    !! Sets a value determining if the boxes should be filled.
+    class(plot_data_box_whisker), intent(inout) :: this
+        !! The plot_data_box_whisker object.
+    logical, intent(in) :: x
+        !! Set to true if the boxes are to be filled; else, false.
+    this%m_fillBoxes = x
+end subroutine
 
 ! ------------------------------------------------------------------------------
+pure function pdbw_get_opacity(this) result(rst)
+    !! Gets the opacity of the box fill color.
+    class(plot_data_box_whisker), intent(in) :: this
+        !! The plot_data_box_whisker object.
+    real(real32) :: rst
+        !! The opacity on a scale from 0 to 1.
+    rst = this%m_boxOpacity
+end function
 
 ! --------------------
+subroutine pdbw_set_opacity(this, x)
+    !! Sets the opacity of the box fill color.
+    class(plot_data_box_whisker), intent(inout) :: this
+        !! The plot_data_box_whisker object.
+    real(real32), intent(in) :: x
+        !! The opacity on a scale from 0 to 1.
+    this%m_boxOpacity = x
+end subroutine
 
 ! ------------------------------------------------------------------------------
 end module
