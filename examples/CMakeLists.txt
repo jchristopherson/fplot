@@ -1,3 +1,5 @@
+find_package(fstring QUIET)
+
 # Example 1
 add_executable(generic_2d_plot generic_2d_plot.f90)
 target_link_libraries(generic_2d_plot fplot)
@@ -146,6 +148,10 @@ target_link_libraries(correlation_plot_example fplot)
 # Example 37
 add_executable(margins_example margins_example.f90)
 target_link_libraries(margins_example fplot)
+
+# Example 38
+add_executable(box_whisker_example box_whisker_example.f90)
+target_link_libraries(box_whisker_example fplot fstring::fstring)
 
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(

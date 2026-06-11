@@ -7,7 +7,6 @@ module fplot_plot_data_histogram
     use ferror
     use strings
     use fplot_colors
-    use fplot_errors
     implicit none
     private
     public :: plot_data_histogram

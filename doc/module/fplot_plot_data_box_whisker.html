@@ -8,7 +8,7 @@
     <meta name="author" content="Jason Christopherson" >
     <link rel="icon" href="../favicon.png">
 
-    <title>fplot_legend &ndash; FPLOT</title>
+    <title>fplot_plot_data_box_whisker &ndash; FPLOT</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -84,7 +84,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>fplot_legend
+    <h1>fplot_plot_data_box_whisker
       <small>Module</small>
       
     </h1>
@@ -96,17 +96,17 @@
           <li id="statements"><i class="fa fa-list-ol"></i>
             <a data-toggle="tooltip"
                data-placement="bottom" data-html="true"
-               title=" 2.0% of total for modules and submodules.">151 statements</a>
+               title=" 2.9% of total for modules and submodules.">219 statements</a>
           </li>
 
             <li id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fplot_legend.f90"> Source File</a>
+              <a href="../src/fplot_plot_data_box_whisker.f90"> Source File</a>
             </li>
         </ul>
         <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fplot_legend.f90.html'>fplot_legend.f90</a></li>
-          <li class="active">fplot_legend</li>
+              <li><a href='../sourcefile/fplot_plot_data_box_whisker.f90.html'>fplot_plot_data_box_whisker.f90</a></li>
+          <li class="active">fplot_plot_data_box_whisker</li>
         </ol>
       </div>
     </div>
@@ -141,7 +141,7 @@
       </div>
       <div id="types-0" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/fplot_legend.html#type-legend">legend</a>
+            <a class="list-group-item" href="../module/fplot_plot_data_box_whisker.html#type-plot_data_box_whisker">plot_data_box_whisker</a>
         </div>
       </div>
     </div>
@@ -170,9 +170,11 @@
           <li class="list-group-item">
             <ul class="list-inline">
                 <li>strings</li>
+                <li>ferror</li>
                 <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
-                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
-                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li><a href='../module/fplot_plot_data.html'>fplot_plot_data</a></li>
+                <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
+                <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
             </ul>
           </li>
       </ul>
@@ -201,7 +203,7 @@
       </div>
       <div id="types-1" class="panel-collapse collapse">
         <div class="list-group">
-            <a class="list-group-item" href="../module/fplot_legend.html#type-legend">legend</a>
+            <a class="list-group-item" href="../module/fplot_plot_data_box_whisker.html#type-plot_data_box_whisker">plot_data_box_whisker</a>
         </div>
       </div>
     </div>
@@ -228,15 +230,15 @@
           <h2>Derived Types</h2>
               <div class="panel panel-default">
     <div class="panel-heading codesum">
-      <span class="anchor" id="type-legend"></span>
+      <span class="anchor" id="type-plot_data_box_whisker"></span>
       <h3>
-        type, public, extends(<a href='../type/plot_object.html'>plot_object</a>)&nbsp;::&nbsp;
-        <a href='../type/legend.html'>legend</a>
+        type, public, extends(<a href='../type/plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
+        <a href='../type/plot_data_box_whisker.html'>plot_data_box_whisker</a>
         
       </h3>
     </div>
     <div class="panel-body">
-      <p>Defines a legend object.</p>
+      <p>A container for box-whisker plot data.</p>
 
 
 
@@ -248,89 +250,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_command_string~6'>get_command_string</a></strong>
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-define_data~5'>define_data</a></strong>
  =>
-                    leg_get_command_txt
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong>
- =>
-                    leg_get_box
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_draw_inside_axes'>get_draw_inside_axes</a></strong>
- =>
-                    leg_get_inside
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_horizontal_position'>get_horizontal_position</a></strong>
- =>
-                    leg_get_horz_pos
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_is_opaque'>get_is_opaque</a></strong>
- =>
-                    leg_get_opaque
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_is_visible~3'>get_is_visible</a></strong>
- =>
-                    leg_get_visible
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_layout'>get_layout</a></strong>
- =>
-                    leg_get_layout
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-get_vertical_position'>get_vertical_position</a></strong>
- =>
-                    leg_get_vert_pos
-<small>Function</small>                </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>
-                    procedure
-                    ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong>
- =>
-                    leg_set_box
+                    pdbw_define_data_xstring
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -338,9 +260,129 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_draw_inside_axes'>set_draw_inside_axes</a></strong>
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_box_fill_opacity'>get_box_fill_opacity</a></strong>
  =>
-                    leg_set_inside
+                    pdbw_get_opacity
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_box_width'>get_box_width</a></strong>
+ =>
+                    pdbw_get_box_width
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_command_string~16'>get_command_string</a></strong>
+ =>
+                    pdbw_get_cmd
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_data_string~6'>get_data_string</a></strong>
+ =>
+                    pdbw_get_data_cmd
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_draw_against_y2~4'>get_draw_against_y2</a></strong>
+ =>
+                    pdbw_get_use_y2
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_fill_boxes'>get_fill_boxes</a></strong>
+ =>
+                    pdbw_get_fill_boxes
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_line_width~3'>get_line_width</a></strong>
+ =>
+                    pdbw_get_line_width
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_use_whiskerbars'>get_use_whiskerbars</a></strong>
+ =>
+                    pdbw_get_use_whiskerbars
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-get_whiskerbar_width'>get_whiskerbar_width</a></strong>
+ =>
+                    pdbw_get_whiskerbar_width
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_box_fill_opacity'>set_box_fill_opacity</a></strong>
+ =>
+                    pdbw_set_opacity
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -348,9 +390,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_horizontal_position'>set_horizontal_position</a></strong>
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_box_width'>set_box_width</a></strong>
  =>
-                    leg_set_horz_pos
+                    pdbw_set_box_width
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -358,9 +400,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_is_opaque'>set_is_opaque</a></strong>
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
  =>
-                    leg_set_opaque
+                    pdc_set_color_index
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -368,9 +410,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_is_visible~3'>set_is_visible</a></strong>
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_draw_against_y2~4'>set_draw_against_y2</a></strong>
  =>
-                    leg_set_visible
+                    pdbw_set_use_y2
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -378,9 +420,9 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_layout'>set_layout</a></strong>
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_fill_boxes'>set_fill_boxes</a></strong>
  =>
-                    leg_set_layout
+                    pdbw_set_fill_boxes
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
@@ -388,9 +430,49 @@
                 <td>
                     procedure
                     ,                  public
-                  :: <strong><a href='../type/legend.html#boundprocedure-set_vertical_position'>set_vertical_position</a></strong>
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
  =>
-                    leg_set_vert_pos
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_line_width~3'>set_line_width</a></strong>
+ =>
+                    pdbw_set_line_width
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_use_whiskerbars'>set_use_whiskerbars</a></strong>
+ =>
+                    pdbw_set_use_whiskerbars
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_box_whisker.html#boundprocedure-set_whiskerbar_width'>set_whiskerbar_width</a></strong>
+ =>
+                    pdbw_set_whiskerbar_width
 <small>Subroutine</small>                </td>
                 <td></td>
               </tr>
