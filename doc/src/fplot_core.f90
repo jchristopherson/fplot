@@ -41,6 +41,7 @@ module fplot_core
     use fplot_plot_bar
     use fplot_plot_polar
     use fplot_stats_plots
+    use fplot_plot_data_box_whisker
     implicit none
     private
     
@@ -249,4 +250,7 @@ module fplot_core
 
     ! FPLOT_STATS_PLOTS.F90
     public :: correlation_plot
+
+    ! FPLOT_PLOT_DATA_BOX_WHISKER.F90
+    public :: plot_data_box_whisker
 end module
