@@ -48,7 +48,6 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 
 # Dependencies
 include(FetchContent)
-find_package(OpenMP REQUIRED COMPONENTS Fortran)
 find_package(ferror QUIET)
 find_package(collections QUIET)
 find_package(geompack QUIET)
@@ -134,11 +133,6 @@ target_link_libraries(
     ${FSTRING_LIBRARIES}
     $<BUILD_INTERFACE:forcolormap>
 )
-
-if (OpenMP_Fortran_FOUND)
-    target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_Fortran)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE USEOPENMP=1)
-endif()
 
 set_target_properties(
     ${PROJECT_NAME}
