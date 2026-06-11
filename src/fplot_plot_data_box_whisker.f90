@@ -35,6 +35,8 @@ module fplot_plot_data_box_whisker
             !! Fill the boxes?
         real(real32), private :: m_boxOpacity = 1.0
             !! Box opacity [0, 1.0].
+        logical, private :: m_drawBorder = .true.
+            !! Draw the box border?
     contains
         procedure, public :: define_data => pdbw_define_data_xstring
         procedure, public :: get_command_string => pdbw_get_cmd
