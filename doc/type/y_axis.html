@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,77 +12,53 @@
 
     <title>y_axis &ndash; FPLOT </title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">FPLOT </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,33 +66,37 @@
       <small>Derived Type</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title="<p> 0.6% of total for derived types.</p>Including implementation: 306 statements,  2.5% of total for derived types.">5 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p> 0.6% of total for derived types.</p>Including implementation: 349 statements,  2.9% of total for derived types.">5 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/fplot_plot_axis.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fplot_plot_axis.f90.html'>fplot_plot_axis.f90</a></li>
-              <li><a href='../module/fplot_plot_axis.html'>fplot_plot_axis</a></li>
-          <li class="active">y_axis</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_plot_axis.f90.html'>fplot_plot_axis.f90</a></li>
+                <li class="breadcrumb-item"><a href='..\module\fplot_plot_axis.html'>fplot_plot_axis</a></li>
+            <li class="breadcrumb-item active" aria-current="page">y_axis</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -141,19 +123,19 @@
   
   
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a>
-        </h3>
-      </div>
-      <div id="boundprocs-0" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_autoscale">get_autoscale</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_command_string~11">get_command_string</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_id_string~5">get_id_string</a>
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_autoscale~2">get_autoscale</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_command_string~16">get_command_string</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_id_string~7">get_id_string</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_is_log_scaled">get_is_log_scaled</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_limits">get_limits</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_manual_tic_labels">get_manual_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_offset_tics">get_offset_tics</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_show_tic_labels">get_show_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_alignment">get_tic_label_alignment</a>
@@ -162,16 +144,18 @@
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_rotation_origin">get_tic_label_rotation_origin</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_x_offset">get_tic_label_x_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_y_offset">get_tic_label_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title~4">get_title</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title~3">get_title</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title_x_offset">get_title_x_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title_y_offset">get_title_y_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_use_default_tic_label_format">get_use_default_tic_label_format</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_use_manual_tic_labels">get_use_manual_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_zero_axis">get_zero_axis</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_zero_axis_line_width">get_zero_axis_line_width</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-is_title_defined~3">is_title_defined</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_autoscale">set_autoscale</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-is_title_defined~2">is_title_defined</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_autoscale~2">set_autoscale</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_is_log_scaled">set_is_log_scaled</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_limits">set_limits</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_manual_tic_labels">set_manual_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_offset_tics">set_offset_tics</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_show_tic_labels">set_show_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_alignment">set_tic_label_alignment</a>
@@ -180,16 +164,18 @@
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_rotation_origin">set_tic_label_rotation_origin</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_x_offset">set_tic_label_x_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_y_offset">set_tic_label_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title~4">set_title</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title~3">set_title</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title_x_offset">set_title_x_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title_y_offset">set_title_y_offset</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_use_default_tic_label_format">set_use_default_tic_label_format</a>
+            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_use_manual_tic_labels">set_use_manual_tic_labels</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_zero_axis">set_zero_axis</a>
             <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_zero_axis_line_width">set_zero_axis_line_width</a>
         </div>
       </div>
     </div>
 
+  
   
 
 
@@ -198,97 +184,32 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(<a href='../type/plot_axis.html'>plot_axis</a>) :: y_axis</h2>
+      <h2>
+        type, public, extends(<a href='plot_axis.html'>plot_axis</a>) :: y_axis</h2>
     <p>Defines a y-axis object.</p>
     <br>
-
-    <section class="visible-xs visible-sm hidden-md">
-        <h3>Contents</h3>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a>
-        </h3>
-      </div>
-      <div id="boundprocs-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_autoscale">get_autoscale</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_command_string~11">get_command_string</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_id_string~5">get_id_string</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_is_log_scaled">get_is_log_scaled</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_limits">get_limits</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_offset_tics">get_offset_tics</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_show_tic_labels">get_show_tic_labels</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_alignment">get_tic_label_alignment</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_angle">get_tic_label_angle</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_format">get_tic_label_format</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_rotation_origin">get_tic_label_rotation_origin</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_x_offset">get_tic_label_x_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_tic_label_y_offset">get_tic_label_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title~4">get_title</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title_x_offset">get_title_x_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_title_y_offset">get_title_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_use_default_tic_label_format">get_use_default_tic_label_format</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_zero_axis">get_zero_axis</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-get_zero_axis_line_width">get_zero_axis_line_width</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-is_title_defined~3">is_title_defined</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_autoscale">set_autoscale</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_is_log_scaled">set_is_log_scaled</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_limits">set_limits</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_offset_tics">set_offset_tics</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_show_tic_labels">set_show_tic_labels</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_alignment">set_tic_label_alignment</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_angle">set_tic_label_angle</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_format">set_tic_label_format</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_rotation_origin">set_tic_label_rotation_origin</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_x_offset">set_tic_label_x_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_tic_label_y_offset">set_tic_label_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title~4">set_title</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title_x_offset">set_title_x_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_title_y_offset">set_title_y_offset</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_use_default_tic_label_format">set_use_default_tic_label_format</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_zero_axis">set_zero_axis</a>
-            <a class="list-group-item" href="../type/y_axis.html#boundprocedure-set_zero_axis_line_width">set_zero_axis_line_width</a>
-        </div>
-      </div>
-    </div>
-
-  
-
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
 
     
 
 
       <section>
         <h2>Type-Bound Procedures</h2>
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_autoscale"></span><h3>procedure, public :: <strong>get_autoscale</strong>  => pa_get_autoscale         
-    </h3></div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_autoscale~2"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_autoscale</strong> => pa_get_autoscale
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_autoscale(this) result(x)  
 </h3>
+
   <p>Gets a value determining if the axis should be automatically scaled
 to fit the data.</p>
 
@@ -296,17 +217,17 @@ to fit the data.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -332,14 +253,23 @@ false.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~11"></span><h3>procedure, public :: <strong>get_command_string</strong>  => pa_get_cmd_string         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_command_string~16"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_command_string</strong> => pa_get_cmd_string
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pa_get_cmd_string(this) result(txt)  
 </h3>
+
   <p>Returns the appropriate GNUPLOT command string to define the
 plot_axis properties.</p>
 
@@ -347,17 +277,17 @@ plot_axis properties.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -382,31 +312,40 @@ plot_axis properties.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_id_string~5"></span><h3>procedure, public :: <strong>get_id_string</strong>  => ya_get_id         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_id_string~7"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_id_string</strong> => ya_get_id
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function ya_get_id(this) result(x)  
 </h3>
+
   <p>Gets the axis identification string.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/y_axis.html'>y_axis</a>),
+              class(<a href='y_axis.html'>y_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -431,31 +370,40 @@ plot_axis properties.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_is_log_scaled"></span><h3>procedure, public :: <strong>get_is_log_scaled</strong>  => pa_get_log_scale         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_is_log_scaled"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_is_log_scaled</strong> => pa_get_log_scale
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_log_scale(this) result(x)  
 </h3>
+
   <p>Gets a logical value defining if the axis should be log scaled.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -480,14 +428,23 @@ plot_axis properties.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_limits"></span><h3>procedure, public :: <strong>get_limits</strong>  => pa_get_axis_limits         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_limits"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_limits</strong> => pa_get_axis_limits
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_axis_limits(this) result(x)  
 </h3>
+
   <p>Gets the axis display limits, assuming autoscaling is not
 active for this axis.</p>
 
@@ -495,17 +452,17 @@ active for this axis.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -531,31 +488,99 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_offset_tics"></span><h3>procedure, public :: <strong>get_offset_tics</strong>  => pa_get_offset_tics         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_manual_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_manual_tic_labels</strong> => pa_get_manual_tic_labels
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pa_get_manual_tic_labels(this) result(rst)  
+</h3>
+
+  <p>Gets a list of manual tic labels.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='name_value_pair.html'>name_value_pair</a>), allocatable, dimension(:)</small>
+    </h4>
+    <p>A list of name-value pairs where the name defines the label
+shown with the corresponding axis value.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_offset_tics"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_offset_tics</strong> => pa_get_offset_tics
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_offset_tics(this) result(x)  
 </h3>
+
   <p>Gets a value determining if the tics should be offset.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -580,31 +605,40 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_show_tic_labels"></span><h3>procedure, public :: <strong>get_show_tic_labels</strong>  => pa_get_show_tic_labels         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_show_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_show_tic_labels</strong> => pa_get_show_tic_labels
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_show_tic_labels(this) result(x)  
 </h3>
+
   <p>Gets a value determining if tic labels should be shown.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -629,31 +663,40 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_alignment"></span><h3>procedure, public :: <strong>get_tic_label_alignment</strong>  => pa_get_tic_label_alignment         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_alignment"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_alignment</strong> => pa_get_tic_label_alignment
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_label_alignment(this) result(x)  
 </h3>
+
   <p>Gets the tic label alignment.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -690,31 +733,40 @@ the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_angle"></span><h3>procedure, public :: <strong>get_tic_label_angle</strong>  => pa_get_tic_label_angle         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_angle</strong> => pa_get_tic_label_angle
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_label_angle(this) result(x)  
 </h3>
+
   <p>Gets the tic label angle, in degrees.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -739,14 +791,23 @@ the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_format"></span><h3>procedure, public :: <strong>get_tic_label_format</strong>  => pa_get_tic_label_fmt         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_format"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_format</strong> => pa_get_tic_label_fmt
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_label_fmt(this) result(rst)  
 </h3>
+
   <p>Gets the tic label format.  The format string can be any format 
 string accepted by the C command 'printf.'</p>
 
@@ -754,17 +815,17 @@ string accepted by the C command 'printf.'</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -789,31 +850,40 @@ string accepted by the C command 'printf.'</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_rotation_origin"></span><h3>procedure, public :: <strong>get_tic_label_rotation_origin</strong>  => pa_get_tic_rotation_origin         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_rotation_origin"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_rotation_origin</strong> => pa_get_tic_rotation_origin
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_rotation_origin(this) result(x)  
 </h3>
+
   <p>Gets the tic label rotation origin.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -850,31 +920,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_x_offset"></span><h3>procedure, public :: <strong>get_tic_label_x_offset</strong>  => pa_get_tic_x_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_x_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_x_offset</strong> => pa_get_tic_x_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_x_offset(this) result(x)  
 </h3>
+
   <p>Gets the tic label x-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -899,31 +978,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_tic_label_y_offset"></span><h3>procedure, public :: <strong>get_tic_label_y_offset</strong>  => pa_get_tic_y_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_tic_label_y_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_tic_label_y_offset</strong> => pa_get_tic_y_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_tic_y_offset(this) result(x)  
 </h3>
+
   <p>Gets the tic label y-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -948,31 +1036,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_title~4"></span><h3>procedure, public :: <strong>get_title</strong>  => pa_get_title         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_title~3"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_title</strong> => pa_get_title
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pa_get_title(this) result(txt)  
 </h3>
+
   <p>Gets the axis title.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -997,31 +1094,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_title_x_offset"></span><h3>procedure, public :: <strong>get_title_x_offset</strong>  => pa_get_title_x_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_title_x_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_title_x_offset</strong> => pa_get_title_x_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_title_x_offset(this) result(x)  
 </h3>
+
   <p>Gets the axis title x-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1046,31 +1152,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_title_y_offset"></span><h3>procedure, public :: <strong>get_title_y_offset</strong>  => pa_get_title_y_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_title_y_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_title_y_offset</strong> => pa_get_title_y_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_title_y_offset(this) result(x)  
 </h3>
+
   <p>Gets the axis title y-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1095,14 +1210,23 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_use_default_tic_label_format"></span><h3>procedure, public :: <strong>get_use_default_tic_label_format</strong>  => pa_get_use_dft_tic_lbl_fmt         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_use_default_tic_label_format"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_use_default_tic_label_format</strong> => pa_get_use_dft_tic_lbl_fmt
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_use_dft_tic_lbl_fmt(this) result(rst)  
 </h3>
+
   <p>Gets a value determining if the default tic label format will be 
 used.</p>
 
@@ -1110,17 +1234,17 @@ used.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1146,14 +1270,81 @@ false.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_zero_axis"></span><h3>procedure, public :: <strong>get_zero_axis</strong>  => pa_get_zero_axis         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_use_manual_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_use_manual_tic_labels</strong> => pa_get_use_manual_tic_labels
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pa_get_use_manual_tic_labels(this) result(rst)  
+</h3>
+
+  <p>Gets a value determining if manual tic labels should be used.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    <p>True if manual tic labels should be used; else, false.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_zero_axis"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_zero_axis</strong> => pa_get_zero_axis
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_zero_axis(this) result(x)  
 </h3>
+
   <p>Gets a value determining if the axis should be drawn through
 zero of opposing axes.</p>
 
@@ -1161,17 +1352,17 @@ zero of opposing axes.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1196,14 +1387,23 @@ zero of opposing axes.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_zero_axis_line_width"></span><h3>procedure, public :: <strong>get_zero_axis_line_width</strong>  => pa_get_zero_axis_width         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_zero_axis_line_width"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_zero_axis_line_width</strong> => pa_get_zero_axis_width
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_get_zero_axis_width(this) result(x)  
 </h3>
+
   <p>Gets the width of the line used to represent the zero axis line, if 
 active.</p>
 
@@ -1211,17 +1411,17 @@ active.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1246,31 +1446,40 @@ active.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-is_title_defined~3"></span><h3>procedure, public :: <strong>is_title_defined</strong>  => pa_has_title         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-is_title_defined~2"></span>
+      <h3>
+          procedure, public ::
+  <strong>is_title_defined</strong> => pa_has_title
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pa_has_title(this) result(x)  
 </h3>
+
   <p>Gets a value determining if a title has been defined for this axis.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1295,14 +1504,23 @@ active.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_autoscale"></span><h3>procedure, public :: <strong>set_autoscale</strong>  => pa_set_autoscale         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_autoscale~2"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_autoscale</strong> => pa_set_autoscale
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_autoscale(this, x)  
 </h3>
+
   <p>Sets a value determining if the axis should be automatically scaled
 to fit the data.</p>
 
@@ -1310,17 +1528,17 @@ to fit the data.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1356,31 +1574,40 @@ set to false.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_is_log_scaled"></span><h3>procedure, public :: <strong>set_is_log_scaled</strong>  => pa_set_log_scale         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_is_log_scaled"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_is_log_scaled</strong> => pa_set_log_scale
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_log_scale(this, x)  
 </h3>
+
   <p>Sets a logical value defining if the axis should be log scaled.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1415,32 +1642,42 @@ set to false.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_limits"></span><h3>procedure, public :: <strong>set_limits</strong>  => pa_set_axis_limits         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_limits"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_limits</strong> => pa_set_axis_limits
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_axis_limits(this, lower, upper)  
 </h3>
+
   <p>Gets the axis display limits, assuming autoscaling is not
-active for this axis.</p>
+active for this axis.  This routine also calls <a>set_autoscale</a> and
+sets the property value to false.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1490,31 +1727,110 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_offset_tics"></span><h3>procedure, public :: <strong>set_offset_tics</strong>  => pa_set_offset_tics         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_manual_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_manual_tic_labels</strong> => pa_set_manual_tic_labels
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pa_set_manual_tic_labels(this, x)  
+</h3>
+
+  <p>Sets a list of manual tic labels.  This routine also sets 
+<a>set_use_manual_tic_labels</a> to true.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='name_value_pair.html'>name_value_pair</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The list of tic values with the name component representing the
+displayed label text and the value is the associated axis value.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_offset_tics"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_offset_tics</strong> => pa_set_offset_tics
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_offset_tics(this, x)  
 </h3>
+
   <p>Sets a value determining if the tics should be offset.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1549,31 +1865,40 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_show_tic_labels"></span><h3>procedure, public :: <strong>set_show_tic_labels</strong>  => pa_set_show_tic_labels         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_show_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_show_tic_labels</strong> => pa_set_show_tic_labels
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_show_tic_labels(this, x)  
 </h3>
+
   <p>Sets a value determining if tic labels should be shown.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1608,31 +1933,40 @@ active for this axis.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_alignment"></span><h3>procedure, public :: <strong>set_tic_label_alignment</strong>  => pa_set_tic_label_alignment         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_alignment"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_alignment</strong> => pa_set_tic_label_alignment
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_label_alignment(this, x)  
 </h3>
+
   <p>Sets the tic label alignment.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1679,31 +2013,40 @@ the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_angle"></span><h3>procedure, public :: <strong>set_tic_label_angle</strong>  => pa_set_tic_label_angle         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_angle</strong> => pa_set_tic_label_angle
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_label_angle(this, x)  
 </h3>
+
   <p>Sets the tic label angle, in degrees.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1738,14 +2081,23 @@ the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_format"></span><h3>procedure, public :: <strong>set_tic_label_format</strong>  => pa_set_tic_label_fmt         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_format"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_format</strong> => pa_set_tic_label_fmt
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_label_fmt(this, x)  
 </h3>
+
   <p>Sets the tic label format.  The format string can be any format 
 string accepted by the C command 'printf.'</p>
 
@@ -1753,17 +2105,17 @@ string accepted by the C command 'printf.'</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1798,31 +2150,40 @@ string accepted by the C command 'printf.'</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_rotation_origin"></span><h3>procedure, public :: <strong>set_tic_label_rotation_origin</strong>  => pa_set_tic_rotation_origin         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_rotation_origin"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_rotation_origin</strong> => pa_set_tic_rotation_origin
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_rotation_origin(this, x)  
 </h3>
+
   <p>Sets the tic label rotation origin.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1869,31 +2230,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_x_offset"></span><h3>procedure, public :: <strong>set_tic_label_x_offset</strong>  => pa_set_tic_x_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_x_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_x_offset</strong> => pa_set_tic_x_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_x_offset(this, x)  
 </h3>
+
   <p>Sets the tic label x-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1928,31 +2298,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_tic_label_y_offset"></span><h3>procedure, public :: <strong>set_tic_label_y_offset</strong>  => pa_set_tic_y_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_tic_label_y_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_tic_label_y_offset</strong> => pa_set_tic_y_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_tic_y_offset(this, x)  
 </h3>
+
   <p>Sets the tic label y-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1987,31 +2366,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_title~4"></span><h3>procedure, public :: <strong>set_title</strong>  => pa_set_title         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_title~3"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_title</strong> => pa_set_title
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_title(this, txt)  
 </h3>
+
   <p>Sets the axis title.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2046,31 +2434,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_title_x_offset"></span><h3>procedure, public :: <strong>set_title_x_offset</strong>  => pa_set_title_x_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_title_x_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_title_x_offset</strong> => pa_set_title_x_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_title_x_offset(this, x)  
 </h3>
+
   <p>Sets the axis title x-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2105,31 +2502,40 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_title_y_offset"></span><h3>procedure, public :: <strong>set_title_y_offset</strong>  => pa_set_title_y_offset         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_title_y_offset"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_title_y_offset</strong> => pa_set_title_y_offset
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_title_y_offset(this, x)  
 </h3>
+
   <p>Sets the axis title y-offset, in characters.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2164,14 +2570,23 @@ must be one of the following:</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_use_default_tic_label_format"></span><h3>procedure, public :: <strong>set_use_default_tic_label_format</strong>  => pa_set_use_dft_tic_lbl_fmt         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_use_default_tic_label_format"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_use_default_tic_label_format</strong> => pa_set_use_dft_tic_lbl_fmt
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_use_dft_tic_lbl_fmt(this, x)  
 </h3>
+
   <p>Sets a value determining if the default tic label format will be 
 used.</p>
 
@@ -2179,17 +2594,17 @@ used.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2225,14 +2640,91 @@ false.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_zero_axis"></span><h3>procedure, public :: <strong>set_zero_axis</strong>  => pa_set_zero_axis         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_use_manual_tic_labels"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_use_manual_tic_labels</strong> => pa_set_use_manual_tic_labels
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pa_set_use_manual_tic_labels(this, x)  
+</h3>
+
+  <p>Sets a value determining if manual tic labels should be used.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>Set to true if manual tic labels should be used; else, false.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_zero_axis"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_zero_axis</strong> => pa_set_zero_axis
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_zero_axis(this, x)  
 </h3>
+
   <p>Sets a value determining if the axis should be drawn through
 zero of opposing axes.</p>
 
@@ -2240,17 +2732,17 @@ zero of opposing axes.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2285,14 +2777,23 @@ zero of opposing axes.</p>
     </ul>
   </div>
 
-            <div class="panel panel-default">
-    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_zero_axis_line_width"></span><h3>procedure, public :: <strong>set_zero_axis_line_width</strong>  => pa_set_zero_axis_width         
-    </h3></div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_zero_axis_line_width"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_zero_axis_line_width</strong> => pa_set_zero_axis_width
+        
+      </h3>
+    </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pa_set_zero_axis_width(this, x)  
 </h3>
+
   <p>Sets the width of the line used to represent the zero axis line, if 
 active.</p>
 
@@ -2300,17 +2801,17 @@ active.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Intent</th><th>Optional</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='../type/plot_axis.html'>plot_axis</a>),
+              class(<a href='plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2345,6 +2846,7 @@ active.</p>
     </ul>
   </div>
 
+          </div>
       </section>
 
     
@@ -2355,32 +2857,27 @@ active.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
+        <div class="row justify-content-between">
+          <div class="col"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-11 10:41              </p>
+ on 2026-06-14 08:02              </p>
           </div>
         </div>
         <br>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

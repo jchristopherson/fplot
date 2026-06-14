@@ -150,6 +150,7 @@ module fplot_core
     public :: y_axis
     public :: y2_axis
     public :: z_axis
+    public :: name_value_pair
 
     ! FPLOT_TERMINAL.F90
     public :: terminal
