@@ -13,6 +13,15 @@ module fplot_plot_axis
     public :: y_axis
     public :: y2_axis
     public :: z_axis
+    public :: name_value_pair
+
+    type name_value_pair
+        !! Defines a name-value pair.
+        character(len = :), allocatable :: name
+            !! The name.
+        real(real64) :: value
+            !! The associated value.
+    end type
 
     type, abstract, extends(plot_object) :: plot_axis
         !! Defines a plot axis object.
@@ -66,6 +75,10 @@ module fplot_plot_axis
             !! The axis title x offset, in characters.
         integer(int32), private :: m_titleYOffset = 0
             !! The axis title y offset, in characters.
+        logical, private :: m_useManualTicLabels = .false.
+            !! Use manual (user-defined) tic labels?
+        type(name_value_pair), private, allocatable, dimension(:) :: m_ticLabels
+            !! A list of user-defined tic labels.
     contains
         procedure, public :: get_title => pa_get_title
         procedure, public :: set_title => pa_set_title
@@ -110,6 +123,12 @@ module fplot_plot_axis
         procedure, public :: set_title_x_offset => pa_set_title_x_offset
         procedure, public :: get_title_y_offset => pa_get_title_y_offset
         procedure, public :: set_title_y_offset => pa_set_title_y_offset
+        procedure, public :: get_use_manual_tic_labels => &
+            pa_get_use_manual_tic_labels
+        procedure, public :: set_use_manual_tic_labels => &
+            pa_set_use_manual_tic_labels
+        procedure, public :: get_manual_tic_labels => pa_get_manual_tic_labels
+        procedure, public :: set_manual_tic_labels => pa_set_manual_tic_labels
     end type
 
     interface
@@ -241,7 +260,8 @@ contains
 ! --------------------
     subroutine pa_set_axis_limits(this, lower, upper)
         !! Gets the axis display limits, assuming autoscaling is not
-        !! active for this axis.
+        !! active for this axis.  This routine also calls [[set_autoscale]] and
+        !! sets the property value to false.
         class(plot_axis), intent(inout) :: this
             !! The plot_axis object.
         real(real64), intent(in) :: lower
@@ -250,6 +270,7 @@ contains
             !! The upper display limit.
         this%m_limits(1) = min(lower, upper)
         this%m_limits(2) = max(lower, upper)
+        call this%set_autoscale(.false.)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -286,6 +307,8 @@ contains
         real(real32) :: angle
         character(len = :), allocatable :: axis, fmt
         real(real64) :: lim(2)
+        integer(int32) :: i
+        type(name_value_pair), allocatable, dimension(:) :: ticLabels
 
         ! Process
         axis = this%get_id_string()
@@ -398,6 +421,22 @@ contains
             call str%append(this%get_id_string())
             call str%append("zeroaxis linestyle -1 linewidth ")
             call str%append(to_string(this%get_zero_axis_line_width()))
+        end if
+
+        ! Use manual labels
+        ticLabels = this%get_manual_tic_labels()
+        if (this%get_use_manual_tic_labels() .and. size(ticLabels) > 0) then
+            call str%append(new_line('a'))
+            call str%append("set ")
+            call str%append(this%get_id_string() // "tics(")
+            do i = 1, size(ticLabels)
+                call str%append('"')
+                call str%append(ticLabels(i)%name)
+                call str%append('" ')
+                call str%append(to_string(ticLabels(i)%value))
+                if (i /= size(ticLabels)) call str%append(", ")
+            end do
+            call str%append(")")
         end if
 
         ! Output
@@ -709,6 +748,56 @@ contains
         integer(int32), intent(in) :: x
             !! The axis title y-offset, in characters.
         this%m_titleYOffset = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_use_manual_tic_labels(this) result(rst)
+        !! Gets a value determining if manual tic labels should be used.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        logical :: rst
+            !! True if manual tic labels should be used; else, false.
+        rst = this%m_useManualTicLabels
+    end function
+
+! --------------------
+    subroutine pa_set_use_manual_tic_labels(this, x)
+        !! Sets a value determining if manual tic labels should be used.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        logical, intent(in) :: x
+            !! Set to true if manual tic labels should be used; else, false.
+        this%m_useManualTicLabels = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_manual_tic_labels(this) result(rst)
+        !! Gets a list of manual tic labels.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        type(name_value_pair), allocatable, dimension(:) :: rst
+            !! A list of name-value pairs where the name defines the label
+            !! shown with the corresponding axis value.
+        if (allocated(this%m_ticLabels)) then
+            rst = this%m_ticLabels
+        else
+            allocate(rst(0))
+        end if
+    end function
+
+! --------------------
+    subroutine pa_set_manual_tic_labels(this, x)
+        !! Sets a list of manual tic labels.  This routine also sets 
+        !! [[set_use_manual_tic_labels]] to true.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        type(name_value_pair), intent(in), dimension(:) :: x
+            !! The list of tic values with the name component representing the
+            !! displayed label text and the value is the associated axis value.
+
+        if (allocated(this%m_ticLabels)) deallocate(this%m_ticLabels)
+        allocate(this%m_ticLabels(size(x)), source = x)
+        call this%set_use_manual_tic_labels(.true.)
     end subroutine
 
 ! ******************************************************************************
