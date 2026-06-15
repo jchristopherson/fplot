@@ -24,6 +24,12 @@ module fplot_plot_2d
             !! Display the secondary y axis?
         logical, private :: m_set2square = .false.
             !! Set to square scaling.
+        logical, private :: m_useJitter = .false.
+            !! Allow jittering?
+        real(real32), private :: m_jitterOverlap = 1.0
+            !! Jitter overlap.
+        real(real32), private :: m_jitterSpread = 1.0
+            !! Jitter horizontal spread.
     contains
         final :: p2d_clean_up
         procedure, public :: initialize => p2d_init
@@ -35,6 +41,12 @@ module fplot_plot_2d
         procedure, public :: set_use_y2_axis => p2d_set_use_y2
         procedure, public :: get_square_axes => p2d_get_square_axes
         procedure, public :: set_square_axes => p2d_set_square_axes
+        procedure, public :: get_use_jittering => p2d_get_use_jitter
+        procedure, public :: set_use_jittering => p2d_set_use_jitter
+        procedure, public :: get_jitter_overlap => p2d_get_jitter_overlap
+        procedure, public :: set_jitter_overlap => p2d_set_jitter_overlap
+        procedure, public :: get_jitter_spread => p2d_get_jitter_spread
+        procedure, public :: set_jitter_spread => p2d_set_jitter_spread
     end type
 
 contains
@@ -273,6 +285,17 @@ contains
         !     call str%append(lbl%get_command_string())
         ! end do
 
+        ! Jittering
+        call str%append(new_line('a'))
+        if (this%get_use_jittering()) then
+            call str%append("set jitter overlap ")
+            call str%append(to_string(this%get_jitter_overlap()))
+            call str%append(" spread ")
+            call str%append(to_string(this%get_jitter_spread()))
+        else
+            call str%append("unset jitter")
+        end if
+
         ! Define the plot function and data formatting commands
         n = this%get_count()
         call str%append(new_line('a'))
@@ -374,6 +397,66 @@ contains
             !! Set to true if the axes are to be sized to a square; else,
             !! false.
         this%m_set2square = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p2d_get_use_jitter(this) result(rst)
+        !! Gets a logical value determining if jittering should be used.
+        class(plot_2d), intent(in) :: this
+            !! The plot_2d object.
+        logical :: rst
+            !! True if jittering should be used; else, false.
+        rst = this%m_useJitter
+    end function
+    
+! --------------------
+    subroutine p2d_set_use_jitter(this, x)
+        !! Sets a logical value determining if jittering should be used.
+        class(plot_2d), intent(inout) :: this
+            !! The plot_2d object.
+        logical, intent(in) :: x
+            !! Set to true if jittering should be used; else, false.
+        this%m_useJitter = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p2d_get_jitter_overlap(this) result(rst)
+        !! Gets the jitter overalp.
+        class(plot_2d), intent(in) :: this
+            !! The plot_2d object.
+        real(real32) :: rst
+            !! The jitter overlap.
+        rst = this%m_jitterOverlap
+    end function
+
+! --------------------
+    subroutine p2d_set_jitter_overlap(this, x)
+        !! Sets the jitter overlap.
+        class(plot_2d), intent(inout) :: this
+            !! The plot_2d object.
+        real(real32), intent(in) :: x
+            !! The jitter overlap.
+        this%m_jitterOverlap = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p2d_get_jitter_spread(this) result(rst)
+        !! Gets the jitter horizontal spread.
+        class(plot_2d), intent(in) :: this
+            !! The plot_2d object.
+        real(real32) :: rst
+            !! The jitter horizontal spread.
+        rst = this%m_jitterSpread
+    end function
+
+! --------------------
+    subroutine p2d_set_jitter_spread(this, x)
+        !! Sets the jitter horizontal spread.
+        class(plot_2d), intent(inout) :: this
+            !! The plot_2d object.
+        real(real32), intent(in) :: x
+            !! The jitter horizontal spread.
+        this%m_jitterSpread = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

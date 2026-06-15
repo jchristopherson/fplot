@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,77 +12,53 @@
 
     <title>fplot_constants &ndash; FPLOT</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-         <script src="../js/jquery-2.1.3.min.js"></script>
-         <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">FPLOT </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-                 data-toggle="dropdown" role="button"
-                 aria-haspopup="true"
-                 aria-expanded="false">
-                 Contents <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                    <li><a href="../lists/files.html">Source Files</a></li>
-                  <li><a href="../lists/modules.html">Modules</a></li>
-                  <li><a href="../lists/procedures.html">Procedures</a></li>
-                  <li><a href="../lists/types.html">Derived Types</a></li>
-              </ul>
-            </li>
-                <li class="visible-xs hidden-sm visible-lg">
-                  <a href="../lists/files.html">Source Files</a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
                 </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/modules.html">Modules</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/procedures.html">Procedures</a>
-              </li>
-              <li class="visible-xs hidden-sm visible-lg">
-                <a href="../lists/types.html">Derived Types</a>
-              </li>
-          </ul>
-            <form action="../search.html" class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
               </div>
-              <!--
-                  <button type="submit" class="btn btn-default">Submit</button>
-                  -->
-            </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
@@ -88,50 +66,53 @@
       <small>Module</small>
       
     </h1>
-      <div class="row" id="info-bar">
-    <div class="col-lg-12">
-      <div class="well well-sm">
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-          <li id="statements"><i class="fa fa-list-ol"></i>
-            <a data-toggle="tooltip"
-               data-placement="bottom" data-html="true"
-               title=" 0.8% of total for modules and submodules.">64 statements</a>
-          </li>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.8% of total for modules and submodules.">64 statements</a>
+            </li>
 
-            <li id="source-file">
+            <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/fplot_constants.f90"> Source File</a>
             </li>
         </ul>
-        <ol class="breadcrumb in-well text-right">
-              <li><a href='../sourcefile/fplot_constants.f90.html'>fplot_constants.f90</a></li>
-          <li class="active">fplot_constants</li>
-        </ol>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_constants.f90.html'>fplot_constants.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">fplot_constants</li>
+          </ol>
+        </nav>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div class="col-md-3">
         <div id="sidebar">
       <h3>Contents</h3>
   
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-0">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-0" class="panel-collapse collapse">
-        <div class="list-group">
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_backhead">ARROW_BACKHEAD</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_empty">ARROW_EMPTY</a>
             <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_filled">ARROW_FILLED</a>
@@ -196,6 +177,7 @@
       </div>
     </div>
 
+  
   
   
   
@@ -221,118 +203,21 @@
 
     <div class="col-md-9" id='text'>
       
-<br>          <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Uses</h3>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+              </ul>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
-            </ul>
-          </li>
-      </ul>
     </div>
 
       
       <br>
-
-      <section class="visible-xs visible-sm hidden-md">
-          <h3>Contents</h3>
-  
-      <div class="panel panel-primary">
-      <div class="panel-heading text-left">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#vars-1">Variables</a>
-        </h3>
-      </div>
-      <div id="vars-1" class="panel-collapse collapse">
-        <div class="list-group">
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_backhead">ARROW_BACKHEAD</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_empty">ARROW_EMPTY</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_filled">ARROW_FILLED</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_head">ARROW_HEAD</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_heads">ARROW_HEADS</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_border">ARROW_NO_BORDER</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_fill">ARROW_NO_FILL</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-arrow_no_head">ARROW_NO_HEAD</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cartesian">COORDINATES_CARTESIAN</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_cylindrical">COORDINATES_CYLINDRICAL</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-coordinates_spherical">COORDINATES_SPHERICAL</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_fontname">GNUPLOT_DEFAULT_FONTNAME</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_font_size">GNUPLOT_DEFAULT_FONT_SIZE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_height">GNUPLOT_DEFAULT_WINDOW_HEIGHT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_default_window_width">GNUPLOT_DEFAULT_WINDOW_WIDTH</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_center">GNUPLOT_HORIZONTAL_ALIGN_CENTER</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_left">GNUPLOT_HORIZONTAL_ALIGN_LEFT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_horizontal_align_right">GNUPLOT_HORIZONTAL_ALIGN_RIGHT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_label_length">GNUPLOT_MAX_LABEL_LENGTH</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_max_path_length">GNUPLOT_MAX_PATH_LENGTH</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_center">GNUPLOT_ROTATION_ORIGIN_CENTER</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_left">GNUPLOT_ROTATION_ORIGIN_LEFT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_rotation_origin_right">GNUPLOT_ROTATION_ORIGIN_RIGHT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_latex">GNUPLOT_TERMINAL_LATEX</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_png">GNUPLOT_TERMINAL_PNG</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_qt">GNUPLOT_TERMINAL_QT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_win32">GNUPLOT_TERMINAL_WIN32</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-gnuplot_terminal_wxt">GNUPLOT_TERMINAL_WXT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_horizontally">LEGEND_ARRANGE_HORIZONTALLY</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_arrange_vertically">LEGEND_ARRANGE_VERTICALLY</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_bottom">LEGEND_BOTTOM</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_center">LEGEND_CENTER</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_left">LEGEND_LEFT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_right">LEGEND_RIGHT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-legend_top">LEGEND_TOP</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dashed">LINE_DASHED</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dotted">LINE_DASH_DOTTED</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dash_dot_dot">LINE_DASH_DOT_DOT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_dotted">LINE_DOTTED</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-line_solid">LINE_SOLID</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_asterisk">MARKER_ASTERISK</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_circle">MARKER_EMPTY_CIRCLE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_nabla">MARKER_EMPTY_NABLA</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_rhombus">MARKER_EMPTY_RHOMBUS</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_square">MARKER_EMPTY_SQUARE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_empty_triangle">MARKER_EMPTY_TRIANGLE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_circle">MARKER_FILLED_CIRCLE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_nabla">MARKER_FILLED_NABLA</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_rhombus">MARKER_FILLED_RHOMBUS</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_square">MARKER_FILLED_SQUARE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_filled_triangle">MARKER_FILLED_TRIANGLE</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_plus">MARKER_PLUS</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-marker_x">MARKER_X</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-plotdata_max_name_length">PLOTDATA_MAX_NAME_LENGTH</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_bottom">POLAR_THETA_BOTTOM</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_ccw">POLAR_THETA_CCW</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_cw">POLAR_THETA_CW</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_left">POLAR_THETA_LEFT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_right">POLAR_THETA_RIGHT</a>
-            <a class="list-group-item" href="../module/fplot_constants.html#variable-polar_theta_top">POLAR_THETA_TOP</a>
-        </div>
-      </div>
-    </div>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-      </section>
-      <br class="visible-xs visible-sm hidden-md">
 
 
         <section>
@@ -340,11 +225,11 @@
             <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th>Type</th>
-<th>Visibility</th>        <th>Attributes</th>
-        <th></th>
-        <th>Name</th>
-<th></th><th>Initial</th>        <th></th>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
     </thead>
     <tbody>
         <tr>
@@ -546,7 +431,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_DEFAULT_FONTNAME</strong></td>
 <td> =</td>
-                <td>"Calibri"</td>
+                <td>&#34;Calibri&#34;</td>
             <td>
                 <p>Defines the default font used by text on the graph.</p>
             </td>
@@ -614,7 +499,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_HORIZONTAL_ALIGN_CENTER</strong></td>
 <td> =</td>
-                <td>"center"</td>
+                <td>&#34;center&#34;</td>
             <td>
                 <p>Defines the text should be centered.</p>
             </td>
@@ -631,7 +516,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_HORIZONTAL_ALIGN_LEFT</strong></td>
 <td> =</td>
-                <td>"left"</td>
+                <td>&#34;left&#34;</td>
             <td>
                 <p>Defines the text should be aligned to the left.</p>
             </td>
@@ -648,7 +533,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_HORIZONTAL_ALIGN_RIGHT</strong></td>
 <td> =</td>
-                <td>"right"</td>
+                <td>&#34;right&#34;</td>
             <td>
                 <p>Defines the text should be aligned to the right.</p>
             </td>
@@ -699,7 +584,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_ROTATION_ORIGIN_CENTER</strong></td>
 <td> =</td>
-                <td>"center"</td>
+                <td>&#34;center&#34;</td>
             <td>
                 <p>Defines the text should be rotated around the center of the text.</p>
             </td>
@@ -716,7 +601,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_ROTATION_ORIGIN_LEFT</strong></td>
 <td> =</td>
-                <td>"left"</td>
+                <td>&#34;left&#34;</td>
             <td>
                 <p>Defines the text should be rotated around the left side of the text.</p>
             </td>
@@ -733,7 +618,7 @@ parameter
             <td>::</td>
             <td><strong>GNUPLOT_ROTATION_ORIGIN_RIGHT</strong></td>
 <td> =</td>
-                <td>"right"</td>
+                <td>&#34;right&#34;</td>
             <td>
                 <p>Defines the text should be rotated around the right side of the text.</p>
             </td>
@@ -835,7 +720,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_ARRANGE_HORIZONTALLY</strong></td>
 <td> =</td>
-                <td>"horizontal"</td>
+                <td>&#34;horizontal&#34;</td>
             <td>
                 <p>Defines the legend should be arranged such that the row count
 is minimized.</p>
@@ -853,7 +738,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_ARRANGE_VERTICALLY</strong></td>
 <td> =</td>
-                <td>"vertical"</td>
+                <td>&#34;vertical&#34;</td>
             <td>
                 <p>Defines the legend should be arranged such that the column count
 is minimized.</p>
@@ -871,7 +756,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_BOTTOM</strong></td>
 <td> =</td>
-                <td>"bottom"</td>
+                <td>&#34;bottom&#34;</td>
             <td>
                 <p>Defines the legend should be placed at the bottom of the plot.</p>
             </td>
@@ -888,7 +773,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_CENTER</strong></td>
 <td> =</td>
-                <td>"center"</td>
+                <td>&#34;center&#34;</td>
             <td>
                 <p>Defines the legend should be centered on the plot.</p>
             </td>
@@ -905,7 +790,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_LEFT</strong></td>
 <td> =</td>
-                <td>"left"</td>
+                <td>&#34;left&#34;</td>
             <td>
                 <p>Defines the legend should be placed at the left of the plot.</p>
             </td>
@@ -922,7 +807,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_RIGHT</strong></td>
 <td> =</td>
-                <td>"right"</td>
+                <td>&#34;right&#34;</td>
             <td>
                 <p>Defines the legend should be placed at the right of the plot.</p>
             </td>
@@ -939,7 +824,7 @@ parameter
             <td>::</td>
             <td><strong>LEGEND_TOP</strong></td>
 <td> =</td>
-                <td>"top"</td>
+                <td>&#34;top&#34;</td>
             <td>
                 <p>Defines the legend should be placed at the top of the plot.</p>
             </td>
@@ -1279,7 +1164,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_BOTTOM</strong></td>
 <td> =</td>
-                <td>"bottom"</td>
+                <td>&#34;bottom&#34;</td>
             <td>
                 <p>States that theta should start at the bottom of the plot.</p>
             </td>
@@ -1296,7 +1181,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_CCW</strong></td>
 <td> =</td>
-                <td>"ccw"</td>
+                <td>&#34;ccw&#34;</td>
             <td>
                 <p>States that theta should proceed in a counter-clockwise direction.</p>
             </td>
@@ -1313,7 +1198,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_CW</strong></td>
 <td> =</td>
-                <td>"cw"</td>
+                <td>&#34;cw&#34;</td>
             <td>
                 <p>States that theta should proceed in a clockwise direction.</p>
             </td>
@@ -1330,7 +1215,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_LEFT</strong></td>
 <td> =</td>
-                <td>"left"</td>
+                <td>&#34;left&#34;</td>
             <td>
                 <p>States that theta should start at the left of the plot.</p>
             </td>
@@ -1347,7 +1232,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_RIGHT</strong></td>
 <td> =</td>
-                <td>"right"</td>
+                <td>&#34;right&#34;</td>
             <td>
                 <p>States that theta should start at the right of the plot.</p>
             </td>
@@ -1364,7 +1249,7 @@ parameter
             <td>::</td>
             <td><strong>POLAR_THETA_TOP</strong></td>
 <td> =</td>
-                <td>"top"</td>
+                <td>&#34;top&#34;</td>
             <td>
                 <p>States that theta should start at the top of the plot.</p>
             </td>
@@ -1390,32 +1275,27 @@ parameter
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row">
-          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
+        <div class="row justify-content-between">
+          <div class="col"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
 </p>
           </div>
-          <div class="col-xs-6 col-md-6">
-            <p class="text-right">
+          <div class="col">
+            <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-11 10:41              </p>
+ on 2026-06-14 08:02              </p>
           </div>
         </div>
         <br>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-         ================================================== -->
-         <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        -->
-        <script src="../js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
-        <!-- MathJax JavaScript
+    <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">
