@@ -188,8 +188,9 @@ function pdb_get_cmd(this) result(x)
     ! Initialization
     call str%initialize()
 
-    ! Starting off...
-    call str%append(' "-" ')
+    ! Data Block
+    call str%append(" $")
+    call str%append(this%get_datablock_name())
 
     ! Tic Labels
     if (this%get_use_labels() .and. allocated(this%m_barData) .and. &
@@ -456,6 +457,10 @@ subroutine pdb_set_data_1_core(this, x, err)
     end if
     n = size(x)
 
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
     ! Process
     if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)
     if (allocated(this%m_barData)) deallocate(this%m_barData)
@@ -491,6 +496,10 @@ subroutine pdb_set_data_2_core(this, labels, x, err)
         errmgr => deferr
     end if
     n = size(x)
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
 
     ! Input Check
     if (size(labels) /= n) then
@@ -539,6 +548,10 @@ subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
         errmgr => deferr
     end if
     n = size(x)
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
 
     ! Input Check
     if (size(labels) /= n) then

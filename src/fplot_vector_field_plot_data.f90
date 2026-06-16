@@ -118,14 +118,18 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+
         ! Title
         n = len_trim(this%get_name())
         if (n > 0) then
-            call str%append(' "-" title "')
+            call str%append(' title "')
             call str%append(this%get_name())
             call str%append('"')
         else
-            call str%append(' "-" notitle')
+            call str%append(' notitle')
         end if
 
         ! Property Definition
@@ -206,6 +210,11 @@ contains
                     "vfpd_define_data", "c", m, n, size(c, 1), size(c, 2))
                 return
             end if
+        end if
+
+        ! Create a name
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Allocate space for the data

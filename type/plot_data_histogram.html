@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 2.6% of total for derived types.</p>Including implementation: 208 statements,  1.7% of total for derived types.">22 statements</a>
+                 title="<p> 2.6% of total for derived types.</p>Including implementation: 238 statements,  1.9% of total for derived types.">22 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,23 +130,26 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-define_data~3">define_data</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get~2">get</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_axes_string~3">get_axes_string</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_bin_count">get_bin_count</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_command_string~8">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_data_string~4">get_data_string</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_draw_against_y2~3">get_draw_against_y2</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_is_filled~2">get_is_filled</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_command_string~7">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_data_string~3">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_datablock_name">get_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_draw_against_y2~2">get_draw_against_y2</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_is_filled">get_is_filled</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_line_color">get_line_color</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_maximum_value">get_maximum_value</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_minimum_value">get_minimum_value</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-get_name">get_name</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_bin_count">set_bin_count</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_color_index">set_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_draw_against_y2~3">set_draw_against_y2</a>
-            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_is_filled~2">set_is_filled</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_datablock_name">set_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_draw_against_y2~2">set_draw_against_y2</a>
+            <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_is_filled">set_is_filled</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_line_color">set_line_color</a>
             <a class="list-group-item" href="../type/plot_data_histogram.html#boundprocedure-set_name">set_name</a>
         </div>
@@ -172,6 +175,60 @@
 
       <section>
         <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-create_unique_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>create_unique_datablock_name</strong> => pd_create_unique_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_create_unique_datablock_name(this)  
+</h3>
+
+  <p>Creates a unique name for the GNUPLOT datablock representing this
+data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
@@ -531,7 +588,7 @@ plotted against.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~8"></span>
+      <span class="anchor" id="boundprocedure-get_command_string~7"></span>
       <h3>
           procedure, public ::
   <strong>get_command_string</strong> => pdh_get_cmd
@@ -589,7 +646,7 @@ plotted against.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_data_string~4"></span>
+      <span class="anchor" id="boundprocedure-get_data_string~3"></span>
       <h3>
           procedure, public ::
   <strong>get_data_string</strong> => pdh_get_data_cmd
@@ -647,7 +704,66 @@ plotted against.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_draw_against_y2~3"></span>
+      <span class="anchor" id="boundprocedure-get_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_datablock_name</strong> => pd_get_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pd_get_datablock_name(this) result(rst)  
+</h3>
+
+  <p>Gets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The name.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_draw_against_y2~2"></span>
       <h3>
           procedure, public ::
   <strong>get_draw_against_y2</strong> => pdh_get_use_y2
@@ -707,7 +823,7 @@ axis; else, false for the primary y axis.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_is_filled~2"></span>
+      <span class="anchor" id="boundprocedure-get_is_filled"></span>
       <h3>
           procedure, public ::
   <strong>get_is_filled</strong> => pdh_get_is_filled
@@ -1134,7 +1250,76 @@ calling the define_data subroutine or bin_data subroutine.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_draw_against_y2~3"></span>
+      <span class="anchor" id="boundprocedure-set_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_datablock_name</strong> => pd_set_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_set_datablock_name(this, x)  
+</h3>
+
+  <p>Sets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The name.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_draw_against_y2~2"></span>
       <h3>
           procedure, public ::
   <strong>set_draw_against_y2</strong> => pdh_set_use_y2
@@ -1204,7 +1389,7 @@ axis; else, false for the primary y axis.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_is_filled~2"></span>
+      <span class="anchor" id="boundprocedure-set_is_filled"></span>
       <h3>
           procedure, public ::
   <strong>set_is_filled</strong> => pdh_set_is_filled
@@ -1424,7 +1609,7 @@ box.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

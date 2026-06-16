@@ -249,6 +249,10 @@ subroutine pd2d_set_data_1(this, x, y, c, ps, err)
         errmgr => deferr
     end if
 
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
     ! Input Check
     if (size(y) /= n) then
         call report_array_size_mismatch_error(errmgr, "pd2d_set_data_1", &
@@ -372,6 +376,10 @@ subroutine pd2d_set_data_2(this, y, err)
         errmgr => err
     else
         errmgr => deferr
+    end if
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
     end if
 
     ! Process
