@@ -85,14 +85,18 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+
         ! Title
         n = len_trim(this%get_name())
         if (n > 0) then
-            call str%append(' "-" title "')
+            call str%append(' title "')
             call str%append(this%get_name())
             call str%append('"')
         else
-            call str%append(' "-" notitle')
+            call str%append(' notitle')
         end if
 
         ! Establish filled data
@@ -190,6 +194,11 @@ contains
         if (flag /= 0) then
             call report_memory_error(errmgr, "fpd_define_data", flag)
             return
+        end if
+
+        ! Create a name
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Store the data

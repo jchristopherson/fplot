@@ -110,6 +110,10 @@ subroutine pdh_define_data(this, x, err)
     n = size(x)
     nbins = min(n, this%get_bin_count()) ! protects against the case where nbins > n however unlikely
 
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
     ! Get the max and min of the entire data set
     maxX = maxval(x)
     minX = minval(x)
@@ -162,7 +166,8 @@ function pdh_get_cmd(this) result(rst)
     type(color) :: clr
 
     ! Process
-    call str%append(' "-" ')
+    call str%append(" $")
+    call str%append(this%get_datablock_name())
     call str%append(" with boxes ")
 
     ! Color

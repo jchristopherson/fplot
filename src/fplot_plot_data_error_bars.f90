@@ -67,14 +67,18 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+
         ! Title
         n = len_trim(this%get_name())
         if (n > 0) then
-            call str%append(' "-" title "')
+            call str%append(' title "')
             call str%append(this%get_name())
             call str%append('"')
         else
-            call str%append(' "-" notitle')
+            call str%append(' notitle')
         end if
 
         ! Color
@@ -225,6 +229,10 @@ contains
             errmgr => deferr
         end if
 
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
+        end if
+
         ! Input Checking
         if (size(y) /= n) then
             call report_array_size_mismatch_error(errmgr, "pde_define_x_err", &
@@ -282,6 +290,10 @@ contains
             errmgr => err
         else
             errmgr => deferr
+        end if
+
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Input Checking
@@ -342,6 +354,10 @@ contains
             errmgr => err
         else
             errmgr => deferr
+        end if
+
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Input Checking
@@ -487,6 +503,10 @@ contains
             errmgr => deferr
         end if
 
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
+        end if
+
         ! Input Checking
         if (size(y) /= n) then
             call report_array_size_mismatch_error(errmgr, &
@@ -555,6 +575,10 @@ contains
             errmgr => err
         else
             errmgr => deferr
+        end if
+
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Input Checking
@@ -631,6 +655,10 @@ contains
             errmgr => err
         else
             errmgr => deferr
+        end if
+
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
         end if
 
         ! Input Checking

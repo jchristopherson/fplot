@@ -290,8 +290,21 @@ contains
             call str%append("set mapping spherical")
         end if
 
-        ! Define the plot function and data formatting commands
+        ! Define the datablock
         n = this%get_count()
+        do i = 1, n
+            ptr => this%get(i)
+            if (.not.associated(ptr)) cycle
+            call str%append(new_line('a'))
+            call str%append("$")
+            call str%append(ptr%get_datablock_name())
+            call str%append(" << EOD")
+            call str%append(new_line('a'))
+            call str%append(ptr%get_data_string())
+            call str%append("EOD")
+        end do
+
+        ! Define the plot function and data formatting commands
         call str%append(new_line('a'))
         call str%append("splot ")
         do i = 1, n
@@ -299,18 +312,6 @@ contains
             if (.not.associated(ptr)) cycle
             call str%append(ptr%get_command_string())
             if (i /= n) call str%append(", ")
-        end do
-
-        ! Define the data to plot
-        do i = 1, n
-            ptr => this%get(i)
-            if (.not.associated(ptr)) cycle
-            call str%append(new_line('a'))
-            call str%append(ptr%get_data_string())
-            call str%append("e")
-            ! if (i /= n) then
-            !     call str%append("e")
-            ! end if
         end do
 
         ! End
