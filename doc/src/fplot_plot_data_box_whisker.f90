@@ -90,6 +90,10 @@ subroutine pdbw_define_data_xstring(this, x, boxmin, boxmax, whiskermin, &
     end if
     n = size(x)
 
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
     ! Allocations
     if (allocated(this%m_x)) deallocate(this%m_x)
     if (allocated(this%m_boxMin)) deallocate(this%m_boxMin)
@@ -121,9 +125,12 @@ function pdbw_get_cmd(this) result(rst)
     integer(int32) :: n, nname
     type(color) :: clr
 
+    ! Data Block
+    call str%append(" $")
+    call str%append(this%get_datablock_name())
+
     ! Style
-    ! call str%append(' "-" using ($0+1):2:3:4:5:xtic(1) with candlesticks')
-    call str%append(' "-" using ($0+1):2:3:4:5:(')
+    call str%append(' using ($0+1):2:3:4:5:(')
     call str%append(to_string(this%get_box_width()))
     call str%append("):xtic(1) with candlesticks")
 

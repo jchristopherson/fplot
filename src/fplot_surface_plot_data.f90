@@ -192,14 +192,18 @@ function surfd_get_cmd(this) result(x)
     ! Initialization
     call str%initialize()
 
+    ! Data Block
+    call str%append(" $")
+    call str%append(this%get_datablock_name())
+
     ! Title
     n = len_trim(this%get_name())
     if (n > 0) then
-        call str%append(' "-" title "')
+        call str%append(' title "')
         call str%append(this%get_name())
         call str%append('"')
     else
-        call str%append(' "-" notitle')
+        call str%append(' notitle')
     end if
 
     ! PM3D or wireframe?
@@ -276,6 +280,10 @@ subroutine surfd_set_data_1(this, x, y, z, err)
         errmgr => err
     else
         errmgr => deferr
+    end if
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
     end if
 
     ! Input Check

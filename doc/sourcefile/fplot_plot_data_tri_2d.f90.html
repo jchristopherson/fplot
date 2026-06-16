@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 2.0% of total for source files.">155 statements</a>
+                 title=" 2.1% of total for source files.">160 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -299,133 +299,141 @@
 <a id="ln-146" name="ln-146" href="#ln-146"></a><span class="w">        </span><span class="c">! Initialization</span>
 <a id="ln-147" name="ln-147" href="#ln-147"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">initialize</span><span class="p">()</span>
 <a id="ln-148" name="ln-148" href="#ln-148"></a>
-<a id="ln-149" name="ln-149" href="#ln-149"></a><span class="w">        </span><span class="c">! Title</span>
-<a id="ln-150" name="ln-150" href="#ln-150"></a><span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_name</span><span class="p">())</span>
-<a id="ln-151" name="ln-151" href="#ln-151"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-152" name="ln-152" href="#ln-152"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &quot;-&quot; title &quot;&#39;</span><span class="p">)</span>
-<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_name</span><span class="p">())</span>
-<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="w">        </span><span class="k">else</span>
-<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &quot;-&quot; notitle&#39;</span><span class="p">)</span>
-<a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-158" name="ln-158" href="#ln-158"></a>
-<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">        </span><span class="c">! Lines</span>
-<a id="ln-160" name="ln-160" href="#ln-160"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; with lines&quot;</span><span class="p">)</span>
-<a id="ln-161" name="ln-161" href="#ln-161"></a>
-<a id="ln-162" name="ln-162" href="#ln-162"></a><span class="w">        </span><span class="c">! Line Width</span>
-<a id="ln-163" name="ln-163" href="#ln-163"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; lw &quot;</span><span class="p">)</span>
-<a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_width</span><span class="p">()))</span>
+<a id="ln-149" name="ln-149" href="#ln-149"></a><span class="w">        </span><span class="c">! Data Block</span>
+<a id="ln-150" name="ln-150" href="#ln-150"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; $&quot;</span><span class="p">)</span>
+<a id="ln-151" name="ln-151" href="#ln-151"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_datablock_name</span><span class="p">())</span>
+<a id="ln-152" name="ln-152" href="#ln-152"></a>
+<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="w">        </span><span class="c">! Title</span>
+<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len_trim</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_name</span><span class="p">())</span>
+<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; title &quot;&#39;</span><span class="p">)</span>
+<a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_name</span><span class="p">())</span>
+<a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">        </span><span class="k">else</span>
+<a id="ln-160" name="ln-160" href="#ln-160"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; notitle&#39;</span><span class="p">)</span>
+<a id="ln-161" name="ln-161" href="#ln-161"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-162" name="ln-162" href="#ln-162"></a>
+<a id="ln-163" name="ln-163" href="#ln-163"></a><span class="w">        </span><span class="c">! Lines</span>
+<a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; with lines&quot;</span><span class="p">)</span>
 <a id="ln-165" name="ln-165" href="#ln-165"></a>
-<a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">        </span><span class="c">! Line Color</span>
-<a id="ln-167" name="ln-167" href="#ln-167"></a><span class="w">        </span><span class="n">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">get_line_color</span><span class="p">()</span>
-<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; lc rgb &quot;#&#39;</span><span class="p">)</span>
-<a id="ln-169" name="ln-169" href="#ln-169"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">clr</span><span class="p">%</span><span class="n">to_hex_string</span><span class="p">())</span>
-<a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-<a id="ln-171" name="ln-171" href="#ln-171"></a>
-<a id="ln-172" name="ln-172" href="#ln-172"></a><span class="w">        </span><span class="c">! Line Style</span>
-<a id="ln-173" name="ln-173" href="#ln-173"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; lt &quot;</span><span class="p">)</span>
-<a id="ln-174" name="ln-174" href="#ln-174"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()))</span>
-<a id="ln-175" name="ln-175" href="#ln-175"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">LINE_SOLID</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-176" name="ln-176" href="#ln-176"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; dashtype &quot;</span><span class="p">)</span>
-<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()))</span>
-<a id="ln-178" name="ln-178" href="#ln-178"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-179" name="ln-179" href="#ln-179"></a>
-<a id="ln-180" name="ln-180" href="#ln-180"></a><span class="w">        </span><span class="c">! End</span>
-<a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">char</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">to_string</span><span class="p">())</span>
-<a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">        </span><span class="c">! Line Width</span>
+<a id="ln-167" name="ln-167" href="#ln-167"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; lw &quot;</span><span class="p">)</span>
+<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_width</span><span class="p">()))</span>
+<a id="ln-169" name="ln-169" href="#ln-169"></a>
+<a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">        </span><span class="c">! Line Color</span>
+<a id="ln-171" name="ln-171" href="#ln-171"></a><span class="w">        </span><span class="n">clr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">get_line_color</span><span class="p">()</span>
+<a id="ln-172" name="ln-172" href="#ln-172"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; lc rgb &quot;#&#39;</span><span class="p">)</span>
+<a id="ln-173" name="ln-173" href="#ln-173"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">clr</span><span class="p">%</span><span class="n">to_hex_string</span><span class="p">())</span>
+<a id="ln-174" name="ln-174" href="#ln-174"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+<a id="ln-175" name="ln-175" href="#ln-175"></a>
+<a id="ln-176" name="ln-176" href="#ln-176"></a><span class="w">        </span><span class="c">! Line Style</span>
+<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; lt &quot;</span><span class="p">)</span>
+<a id="ln-178" name="ln-178" href="#ln-178"></a><span class="w">        </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()))</span>
+<a id="ln-179" name="ln-179" href="#ln-179"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">LINE_SOLID</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-180" name="ln-180" href="#ln-180"></a><span class="k">            call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; dashtype &quot;</span><span class="p">)</span>
+<a id="ln-181" name="ln-181" href="#ln-181"></a><span class="w">            </span><span class="k">call </span><span class="n">str</span><span class="p">%</span><span class="n">append</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_line_style</span><span class="p">()))</span>
+<a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">        </span><span class="k">end if</span>
 <a id="ln-183" name="ln-183" href="#ln-183"></a>
-<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_define_data</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">tri</span><span class="p">)</span>
-<a id="ln-186" name="ln-186" href="#ln-186"></a><span class="w">        </span><span class="c">!! Defines the data to plot.</span>
-<a id="ln-187" name="ln-187" href="#ln-187"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<a id="ln-188" name="ln-188" href="#ln-188"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
-<a id="ln-189" name="ln-189" href="#ln-189"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">delaunay_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tri</span>
-<a id="ln-190" name="ln-190" href="#ln-190"></a><span class="w">            </span><span class="c">!! The triangulation data to plot.</span>
-<a id="ln-191" name="ln-191" href="#ln-191"></a>
-<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">        </span><span class="c">! Process</span>
-<a id="ln-193" name="ln-193" href="#ln-193"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="p">)</span>
-<a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="p">)</span>
-<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="p">)</span>
-<a id="ln-196" name="ln-196" href="#ln-196"></a>
-<a id="ln-197" name="ln-197" href="#ln-197"></a><span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_points_x</span><span class="p">()</span>
-<a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_points_y</span><span class="p">()</span>
-<a id="ln-199" name="ln-199" href="#ln-199"></a><span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_indices</span><span class="p">()</span>
-<a id="ln-200" name="ln-200" href="#ln-200"></a><span class="w">    </span><span class="k">end subroutine</span>
-<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">    </span>
-<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span>
-<a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">        </span><span class="c">!! Gets the width of the lines used to draw the triangulation.</span>
-<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
-<a id="ln-207" name="ln-207" href="#ln-207"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rst</span>
-<a id="ln-208" name="ln-208" href="#ln-208"></a><span class="w">            </span><span class="c">!! The line width.</span>
-<a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">        </span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span>
-<a id="ln-210" name="ln-210" href="#ln-210"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-211" name="ln-211" href="#ln-211"></a>
-<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="c">! --------------------</span>
-<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
-<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">        </span><span class="c">!! Sets the width of the lines used to draw the triangulation.</span>
-<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
-<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
-<a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">            </span><span class="c">!! The line width.</span>
-<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0d0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span>
-<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="w">        </span><span class="k">else</span>
-<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
-<a id="ln-223" name="ln-223" href="#ln-223"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="k">    end subroutine</span>
-<a id="ln-225" name="ln-225" href="#ln-225"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span>
-<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="w">        </span><span class="c">!! Gets the line style.</span>
-<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<a id="ln-229" name="ln-229" href="#ln-229"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
-<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rst</span>
-<a id="ln-231" name="ln-231" href="#ln-231"></a><span class="w">            </span><span class="c">!! The line style.  The line style must be one of the following</span>
-<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="w">            </span><span class="c">!! constants.</span>
-<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="w">            </span><span class="c">!! - LINE_DASHED</span>
-<a id="ln-235" name="ln-235" href="#ln-235"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-236" name="ln-236" href="#ln-236"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOTTED</span>
-<a id="ln-237" name="ln-237" href="#ln-237"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-238" name="ln-238" href="#ln-238"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOT_DOT</span>
-<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="w">            </span><span class="c">!!  - LINE_DOTTED</span>
+<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">        </span><span class="c">! End</span>
+<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">char</span><span class="p">(</span><span class="n">str</span><span class="p">%</span><span class="n">to_string</span><span class="p">())</span>
+<a id="ln-186" name="ln-186" href="#ln-186"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-187" name="ln-187" href="#ln-187"></a>
+<a id="ln-188" name="ln-188" href="#ln-188"></a><span class="c">! ------------------------------------------------------------------------------</span>
+<a id="ln-189" name="ln-189" href="#ln-189"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_define_data</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">tri</span><span class="p">)</span>
+<a id="ln-190" name="ln-190" href="#ln-190"></a><span class="w">        </span><span class="c">!! Defines the data to plot.</span>
+<a id="ln-191" name="ln-191" href="#ln-191"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
+<a id="ln-193" name="ln-193" href="#ln-193"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">delaunay_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tri</span>
+<a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">            </span><span class="c">!! The triangulation data to plot.</span>
+<a id="ln-195" name="ln-195" href="#ln-195"></a>
+<a id="ln-196" name="ln-196" href="#ln-196"></a><span class="w">        </span><span class="c">! Process</span>
+<a id="ln-197" name="ln-197" href="#ln-197"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="p">)</span>
+<a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="p">)</span>
+<a id="ln-199" name="ln-199" href="#ln-199"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="p">)</span>
+<a id="ln-200" name="ln-200" href="#ln-200"></a>
+<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">get_datablock_name</span><span class="p">())</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="k">            call </span><span class="n">this</span><span class="p">%</span><span class="n">create_unique_datablock_name</span><span class="p">()</span>
+<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-204" name="ln-204" href="#ln-204"></a>
+<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="k">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_points_x</span><span class="p">()</span>
+<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_points_y</span><span class="p">()</span>
+<a id="ln-207" name="ln-207" href="#ln-207"></a><span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">m_indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tri</span><span class="p">%</span><span class="n">get_indices</span><span class="p">()</span>
+<a id="ln-208" name="ln-208" href="#ln-208"></a><span class="w">    </span><span class="k">end subroutine</span>
+<a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">    </span>
+<a id="ln-210" name="ln-210" href="#ln-210"></a><span class="c">! ------------------------------------------------------------------------------</span>
+<a id="ln-211" name="ln-211" href="#ln-211"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span>
+<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">        </span><span class="c">!! Gets the width of the lines used to draw the triangulation.</span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
+<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rst</span>
+<a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">            </span><span class="c">!! The line width.</span>
+<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">        </span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span>
+<a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a>
+<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="c">! --------------------</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_width</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="w">        </span><span class="c">!! Sets the width of the lines used to draw the triangulation.</span>
+<a id="ln-223" name="ln-223" href="#ln-223"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
+<a id="ln-225" name="ln-225" href="#ln-225"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">real32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">            </span><span class="c">!! The line width.</span>
+<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0d0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span>
+<a id="ln-229" name="ln-229" href="#ln-229"></a><span class="w">        </span><span class="k">else</span>
+<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-231" name="ln-231" href="#ln-231"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="k">    end subroutine</span>
+<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="c">! ------------------------------------------------------------------------------</span>
+<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="w">    </span><span class="k">pure function </span><span class="n">pdt2d_get_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rst</span><span class="p">)</span>
+<a id="ln-235" name="ln-235" href="#ln-235"></a><span class="w">        </span><span class="c">!! Gets the line style.</span>
+<a id="ln-236" name="ln-236" href="#ln-236"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<a id="ln-237" name="ln-237" href="#ln-237"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
+<a id="ln-238" name="ln-238" href="#ln-238"></a><span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rst</span>
+<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="w">            </span><span class="c">!! The line style.  The line style must be one of the following</span>
+<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="w">            </span><span class="c">!! constants.</span>
 <a id="ln-241" name="ln-241" href="#ln-241"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="w">            </span><span class="c">!!  - LINE_SOLID</span>
-<a id="ln-243" name="ln-243" href="#ln-243"></a><span class="w">        </span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineStyle</span>
-<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="w">    </span><span class="k">end function</span>
-<a id="ln-245" name="ln-245" href="#ln-245"></a>
-<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="c">! --------------------</span>
-<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
-<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">        </span><span class="c">!! Sets the line style.</span>
-<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
-<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
-<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
-<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="w">            </span><span class="c">!! The line style.  The line style must be one of the following</span>
-<a id="ln-253" name="ln-253" href="#ln-253"></a><span class="w">            </span><span class="c">!! constants.</span>
-<a id="ln-254" name="ln-254" href="#ln-254"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-255" name="ln-255" href="#ln-255"></a><span class="w">            </span><span class="c">!! - LINE_DASHED</span>
-<a id="ln-256" name="ln-256" href="#ln-256"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOTTED</span>
-<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOT_DOT</span>
-<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">            </span><span class="c">!!  - LINE_DOTTED</span>
+<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="w">            </span><span class="c">!! - LINE_DASHED</span>
+<a id="ln-243" name="ln-243" href="#ln-243"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOTTED</span>
+<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOT_DOT</span>
+<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">            </span><span class="c">!!  - LINE_DOTTED</span>
+<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">            </span><span class="c">!!  - LINE_SOLID</span>
+<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="w">        </span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineStyle</span>
+<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-253" name="ln-253" href="#ln-253"></a>
+<a id="ln-254" name="ln-254" href="#ln-254"></a><span class="c">! --------------------</span>
+<a id="ln-255" name="ln-255" href="#ln-255"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">pdt2d_set_line_style</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="ln-256" name="ln-256" href="#ln-256"></a><span class="w">        </span><span class="c">!! Sets the line style.</span>
+<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">plot_data_tri_2d</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">            </span><span class="c">!! The plot_data_tri_2d object.</span>
+<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">            </span><span class="c">!! The line style.  The line style must be one of the following</span>
+<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">            </span><span class="c">!! constants.</span>
 <a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">            </span><span class="c">!!</span>
-<a id="ln-263" name="ln-263" href="#ln-263"></a><span class="w">            </span><span class="c">!!  - LINE_SOLID</span>
-<a id="ln-264" name="ln-264" href="#ln-264"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASHED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-265" name="ln-265" href="#ln-265"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASH_DOTTED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASH_DOT_DOT</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DOTTED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_SOLID</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="w">            </span><span class="c">! Only reset the line style if it is a valid type.</span>
-<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="w">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
-<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-272" name="ln-272" href="#ln-272"></a><span class="k">    end subroutine</span>
-<a id="ln-273" name="ln-273" href="#ln-273"></a>
-<a id="ln-274" name="ln-274" href="#ln-274"></a><span class="c">! ------------------------------------------------------------------------------</span>
-<a id="ln-275" name="ln-275" href="#ln-275"></a><span class="k">end module</span>
+<a id="ln-263" name="ln-263" href="#ln-263"></a><span class="w">            </span><span class="c">!! - LINE_DASHED</span>
+<a id="ln-264" name="ln-264" href="#ln-264"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-265" name="ln-265" href="#ln-265"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOTTED</span>
+<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">            </span><span class="c">!!  - LINE_DASH_DOT_DOT</span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="w">            </span><span class="c">!!  - LINE_DOTTED</span>
+<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="w">            </span><span class="c">!!</span>
+<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">            </span><span class="c">!!  - LINE_SOLID</span>
+<a id="ln-272" name="ln-272" href="#ln-272"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASHED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-273" name="ln-273" href="#ln-273"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASH_DOTTED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-274" name="ln-274" href="#ln-274"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DASH_DOT_DOT</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-275" name="ln-275" href="#ln-275"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_DOTTED</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-276" name="ln-276" href="#ln-276"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LINE_SOLID</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="w">            </span><span class="c">! Only reset the line style if it is a valid type.</span>
+<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="w">            </span><span class="n">this</span><span class="p">%</span><span class="n">m_lineStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-279" name="ln-279" href="#ln-279"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-280" name="ln-280" href="#ln-280"></a><span class="k">    end subroutine</span>
+<a id="ln-281" name="ln-281" href="#ln-281"></a>
+<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="c">! ------------------------------------------------------------------------------</span>
+<a id="ln-283" name="ln-283" href="#ln-283"></a><span class="k">end module</span>
 </pre></div>
 
       </section>
@@ -444,7 +452,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

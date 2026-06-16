@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 4.5% of total for modules and submodules.">344 statements</a>
+                 title=" 4.8% of total for modules and submodules.">376 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -167,12 +167,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='fplot_colors.html'>fplot_colors</a></li>
-                  <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item">ferror</li>
-                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
+                  <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
                   <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='fplot_colors.html'>fplot_colors</a></li>
+                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
                   <li class="list-inline-item">strings</li>
               </ul>
             </li>
@@ -215,7 +215,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~334"></span>
+              <span class="anchor" id="variable-this~380"></span>
               class(<a href='..\type\plot_data.html'>plot_data</a>),
             </td>
 <td>intent(in)</td>
@@ -268,7 +268,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~337"></span>
+              <span class="anchor" id="variable-this~383"></span>
               class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
@@ -321,7 +321,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~338"></span>
+              <span class="anchor" id="variable-this~384"></span>
               class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
@@ -374,7 +374,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~335"></span>
+              <span class="anchor" id="variable-this~381"></span>
               class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
@@ -389,7 +389,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~9"></span>
+              <span class="anchor" id="variable-index~11"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -442,7 +442,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~336"></span>
+              <span class="anchor" id="variable-this~382"></span>
               class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
@@ -457,7 +457,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~10"></span>
+              <span class="anchor" id="variable-index~12"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -472,7 +472,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~247"></span>
+              <span class="anchor" id="variable-x~287"></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -518,18 +518,33 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>  procedure(<a href='..\interface\get_string_result.html'>get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~7'>get_command_string</a></strong></td>
+  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~16'>get_command_string</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~6'>get_data_string</a></strong></td>
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='..\type\plot_data.html#boundprocedure-get_name'>get_name</a></strong> => pd_get_name</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -562,17 +577,27 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong> => pdc_get_color_index</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\get_string_result.html'>get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~7'>get_command_string</a></strong></td>
+  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~16'>get_command_string</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~6'>get_data_string</a></strong></td>
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -588,6 +613,11 @@
               <tr>
                 <td>  procedure, public ::
   <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong> => pdc_set_color_index</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -624,8 +654,13 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>  procedure(<a href='..\interface\spd_get_string_result.html'>spd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_axes_string~4'>get_axes_string</a></strong></td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_axes_string~5'>get_axes_string</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -635,7 +670,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_command_string~18'>get_command_string</a></strong> => spd_get_cmd</td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_command_string~23'>get_command_string</a></strong> => spd_get_cmd</td>
                 <td></td>
               </tr>
               <tr>
@@ -645,7 +680,12 @@
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~6'>get_data_string</a></strong></td>
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -670,7 +710,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_line_style~2'>get_line_style</a></strong> => spd_get_line_style</td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_line_style~3'>get_line_style</a></strong> => spd_get_line_style</td>
                 <td></td>
               </tr>
               <tr>
@@ -720,17 +760,22 @@
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\spd_get_value.html'>spd_get_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_x~2'>get_x</a></strong></td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_x~3'>get_x</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\spd_get_value.html'>spd_get_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_y~2'>get_y</a></strong></td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_y~3'>get_y</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
   <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong> => pdc_set_color_index</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -755,7 +800,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_line_style~2'>set_line_style</a></strong> => spd_set_line_style</td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_line_style~3'>set_line_style</a></strong> => spd_set_line_style</td>
                 <td></td>
               </tr>
               <tr>
@@ -805,12 +850,12 @@
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\spd_set_value.html'>spd_set_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_x~2'>set_x</a></strong></td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_x~3'>set_x</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure(<a href='..\interface\spd_set_value.html'>spd_set_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_y~2'>set_y</a></strong></td>
+  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_y~3'>set_y</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -840,7 +885,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

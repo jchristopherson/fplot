@@ -283,6 +283,10 @@ subroutine pd3d_set_data_1(this, x, y, z, c, ps, err)
         errmgr => deferr
     end if
 
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
     ! Input Check
     if (size(y) /= n) then
         call report_array_size_mismatch_error(errmgr, "pd3d_set_data_1", &

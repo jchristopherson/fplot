@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 2.3% of total for derived types.</p>Including implementation: 201 statements,  1.7% of total for derived types.">19 statements</a>
+                 title="<p> 2.3% of total for derived types.</p>Including implementation: 232 statements,  1.9% of total for derived types.">19 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,20 +130,23 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-define_data~6">define_data</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_command_string~22">get_command_string</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_data_string~8">get_data_string</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-define_data~9">define_data</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_command_string~26">get_command_string</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_data_string~11">get_data_string</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_datablock_name">get_datablock_name</a>
             <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_name">get_name</a>
             <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_size">get_size</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_use_wireframe">get_use_wireframe</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_x~3">get_x</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_y~3">get_y</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_z">get_z</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_use_wireframe~2">get_use_wireframe</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_x~4">get_x</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_y~4">get_y</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-get_z~2">get_z</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_datablock_name">set_datablock_name</a>
             <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_name">set_name</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_use_wireframe">set_use_wireframe</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_x~3">set_x</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_y~3">set_y</a>
-            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_z">set_z</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_use_wireframe~2">set_use_wireframe</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_x~4">set_x</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_y~4">set_y</a>
+            <a class="list-group-item" href="../type/surface_plot_data.html#boundprocedure-set_z~2">set_z</a>
         </div>
       </div>
     </div>
@@ -170,7 +173,61 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-define_data~6"></span>
+      <span class="anchor" id="boundprocedure-create_unique_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>create_unique_datablock_name</strong> => pd_create_unique_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_create_unique_datablock_name(this)  
+</h3>
+
+  <p>Creates a unique name for the GNUPLOT datablock representing this
+data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-define_data~9"></span>
       <h3>
           procedure, public ::
   <strong>define_data</strong> => surfd_set_data_1
@@ -283,7 +340,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~22"></span>
+      <span class="anchor" id="boundprocedure-get_command_string~26"></span>
       <h3>
           procedure, public ::
   <strong>get_command_string</strong> => surfd_get_cmd
@@ -342,7 +399,7 @@ object.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_data_string~8"></span>
+      <span class="anchor" id="boundprocedure-get_data_string~11"></span>
       <h3>
           procedure, public ::
   <strong>get_data_string</strong> => surfd_get_data_cmd
@@ -391,6 +448,65 @@ object.</p>
     <small>character(len=:), allocatable</small>
     </h4>
     <p>The GNUPLOT command string.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_datablock_name</strong> => pd_get_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pd_get_datablock_name(this) result(rst)  
+</h3>
+
+  <p>Gets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The name.</p>
 
         </li>
     </ul>
@@ -532,7 +648,7 @@ object.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_use_wireframe"></span>
+      <span class="anchor" id="boundprocedure-get_use_wireframe~2"></span>
       <h3>
           procedure, public ::
   <strong>get_use_wireframe</strong> => surfd_get_wireframe
@@ -591,7 +707,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_x~3"></span>
+      <span class="anchor" id="boundprocedure-get_x~4"></span>
       <h3>
           procedure, public ::
   <strong>get_x</strong> => surfd_get_x
@@ -679,7 +795,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_y~3"></span>
+      <span class="anchor" id="boundprocedure-get_y~4"></span>
       <h3>
           procedure, public ::
   <strong>get_y</strong> => surfd_get_y
@@ -767,7 +883,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_z"></span>
+      <span class="anchor" id="boundprocedure-get_z~2"></span>
       <h3>
           procedure, public ::
   <strong>get_z</strong> => surfd_get_z
@@ -855,6 +971,75 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_datablock_name</strong> => pd_set_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_set_datablock_name(this, x)  
+</h3>
+
+  <p>Sets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The name.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-set_name"></span>
       <h3>
           procedure, public ::
@@ -923,7 +1108,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_use_wireframe"></span>
+      <span class="anchor" id="boundprocedure-set_use_wireframe~2"></span>
       <h3>
           procedure, public ::
   <strong>set_use_wireframe</strong> => surfd_set_wireframe
@@ -992,7 +1177,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_x~3"></span>
+      <span class="anchor" id="boundprocedure-set_x~4"></span>
       <h3>
           procedure, public ::
   <strong>set_x</strong> => surfd_set_x
@@ -1090,7 +1275,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_y~3"></span>
+      <span class="anchor" id="boundprocedure-set_y~4"></span>
       <h3>
           procedure, public ::
   <strong>set_y</strong> => surfd_set_y
@@ -1188,7 +1373,7 @@ false to display a solid surface.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_z"></span>
+      <span class="anchor" id="boundprocedure-set_z~2"></span>
       <h3>
           procedure, public ::
   <strong>set_z</strong> => surfd_set_z
@@ -1301,7 +1486,7 @@ false to display a solid surface.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

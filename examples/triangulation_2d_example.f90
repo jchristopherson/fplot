@@ -27,7 +27,7 @@ program example
     call tri%create(x, y)
 
     ! Display the number of points and elements
-    print '(AI0AI0A)', "The triangulation consists of ", &
+    print '(A, I0, A, I0, A)', "The triangulation consists of ", &
         tri%get_point_count(), " points, and ", tri%get_triangle_count(), &
         " triangles."
 
