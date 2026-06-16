@@ -33,10 +33,10 @@ program example
 
     ! Print the interpolated values
     print '(A)', "Interpolated Value:"
-    print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), zi
+    print '(A, F0.3, A, F0.3, A, F0.3)', achar(9), xi, achar(9), yi, achar(9), zi
     
     print '(A)', "Actual Values:"
-    print '(AF0.3AF0.3AF0.3)', achar(9), xi, achar(9), yi, achar(9), &
+    print '(A, F0.3, A, F0.3, A, F0.3)', achar(9), xi, achar(9), yi, achar(9), &
         sin(xi) + sin(yi)
 
     ! Generate the plot
