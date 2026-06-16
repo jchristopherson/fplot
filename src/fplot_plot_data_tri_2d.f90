@@ -32,6 +32,7 @@ module fplot_plot_data_tri_2d
         procedure, public :: set_line_width => pdt2d_set_line_width
         procedure, public :: get_line_style => pdt2d_get_line_style
         procedure, public :: set_line_style => pdt2d_set_line_style
+        procedure, public :: clean_data => pdt2d_clean_data
     end type
 
 contains
@@ -277,6 +278,16 @@ contains
             ! Only reset the line style if it is a valid type.
             this%m_lineStyle = x
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine pdt2d_clean_data(this)
+        !! Cleans the data from this data set.
+        class(plot_data_tri_2d), intent(inout) :: this
+            !! The plot_data_tri_2d object.
+        if (allocated(this%m_indices)) deallocate(this%m_indices)
+        if (allocated(this%m_x)) deallocate(this%m_x)
+        if (allocated(this%m_y)) deallocate(this%m_y)
     end subroutine
 
 ! ------------------------------------------------------------------------------

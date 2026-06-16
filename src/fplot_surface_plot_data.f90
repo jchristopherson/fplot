@@ -32,6 +32,7 @@ module fplot_surface_plot_data
         procedure, public :: get_command_string => surfd_get_cmd
         procedure, public :: get_data_string => surfd_get_data_cmd
         procedure, public :: define_data => surfd_set_data_1
+        procedure, public :: clean_data => surfd_clean_data
     end type
 
 contains
@@ -317,6 +318,16 @@ subroutine surfd_set_data_1(this, x, y, z, err)
             this%m_z(i, j) = z(i, j)
         end do
     end do
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine surfd_clean_data(this)
+    !! Cleans the data from this data set.
+    class(surface_plot_data), intent(inout) :: this
+        !! The surface_plot_data object.
+    if (allocated(this%m_x)) deallocate(this%m_x)
+    if (allocated(this%m_y)) deallocate(this%m_y)
+    if (allocated(this%m_z)) deallocate(this%m_z)
 end subroutine
 
 ! ------------------------------------------------------------------------------

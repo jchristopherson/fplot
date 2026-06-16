@@ -34,7 +34,9 @@ module fplot_plot_data
         procedure, public :: set_datablock_name => pd_set_datablock_name
         procedure, public :: create_unique_datablock_name => &
             pd_create_unique_datablock_name
+        procedure, public :: clean => pd_clean
         procedure(pd_get_string_result), deferred, public :: get_data_string
+        procedure(pd_clean_action), deferred, public :: clean_data
     end type
 
     interface
@@ -46,6 +48,13 @@ module fplot_plot_data
             character(len = :), allocatable :: x
                 !! The string.
         end function
+
+        subroutine pd_clean_action(this)
+            !! Performs a cleaning operation.
+            import plot_data
+            class(plot_data), intent(inout) :: this
+                !! The plot_data object.
+        end subroutine
     end interface
 
     type, abstract, extends(plot_data) :: plot_data_colored
@@ -241,11 +250,25 @@ contains
         real(real64) :: r, rng
         integer(int32) :: count
 
+        call random_seed()
         call random_number(r)
         r = r * huge(count)
         count = floor(r)
         str = "PlotData" // to_string(count)
         call this%set_datablock_name(char(str))
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine pd_clean(this)
+        !! Cleans the data set by removing stored data and clearing the 
+        !! GNUPLOT datablock name.  This routine also calls clean_data to
+        !! ensure the data is cleared from the data set as well as the datablock
+        !! name.
+        class(plot_data), intent(inout) :: this
+            !! The plot_data object.
+
+        call this%set_datablock_name("")
+        call this%clean_data()
     end subroutine
 
 ! ******************************************************************************

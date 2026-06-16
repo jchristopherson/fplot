@@ -24,6 +24,7 @@ module fplot_filled_plot_data
         procedure, public :: get_command_string => fpd_get_cmd
         procedure, public :: get_data_string => fpd_get_data_cmd
         procedure, public :: define_data => fpd_define_data
+        procedure, public :: clean_data => fpd_clean_data
     end type
 
 contains
@@ -207,6 +208,14 @@ contains
             this%m_data(i,2) = y(i)
             this%m_data(i,3) = yc(i)
         end do
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine fpd_clean_data(this)
+        !! Cleans the data from this data set.
+        class(filled_plot_data), intent(inout) :: this
+            !! The filled_plot_data object.
+        if (allocated(this%m_data)) deallocate(this%m_data)
     end subroutine
 
 ! ------------------------------------------------------------------------------

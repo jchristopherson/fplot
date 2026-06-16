@@ -55,6 +55,7 @@ module fplot_plot_data_box_whisker
         procedure, public :: set_fill_boxes => pdbw_set_fill_boxes
         procedure, public :: get_box_fill_opacity => pdbw_get_opacity
         procedure, public :: set_box_fill_opacity => pdbw_set_opacity
+        procedure, public :: clean_data => pdbw_clean_data
     end type
 
 contains
@@ -377,6 +378,18 @@ subroutine pdbw_set_opacity(this, x)
     real(real32), intent(in) :: x
         !! The opacity on a scale from 0 to 1.
     this%m_boxOpacity = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdbw_clean_data(this)
+    !! Cleans the data from this data set.
+    class(plot_data_box_whisker), intent(inout) :: this
+        !! The plot_data_box_whisker object.
+    if (allocated(this%m_x)) deallocate(this%m_x)
+    if (allocated(this%m_boxMin)) deallocate(this%m_boxMin)
+    if (allocated(this%m_boxMax)) deallocate(this%m_boxMax)
+    if (allocated(this%m_whiskerMin)) deallocate(this%m_whiskerMin)
+    if (allocated(this%m_whiskerMin)) deallocate(this%m_whiskerMin)
 end subroutine
 
 ! ------------------------------------------------------------------------------

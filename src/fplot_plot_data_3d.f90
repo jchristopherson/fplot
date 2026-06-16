@@ -29,6 +29,7 @@ module fplot_plot_data_3d
         procedure, public :: get_z_data => pd3d_get_z_array
         procedure, public :: get_color_data => pd3d_get_c_array
         procedure, public :: get_point_size_data => pd3d_get_c_array
+        procedure, public :: clean_data => pd3d_clean_data
     end type
 
 contains
@@ -420,8 +421,6 @@ function pd3d_get_c_array(this) result(x)
     end if
 end function
 
-! ******************************************************************************
-! ADDED: JAN. 12, 2020 - JAC
 ! ------------------------------------------------------------------------------
 function pd3d_get_ps_array(this) result(x)
     !! Gets the stored point scaling data array.
@@ -437,6 +436,14 @@ function pd3d_get_ps_array(this) result(x)
         end if
     end if
 end function
+
+! ------------------------------------------------------------------------------
+subroutine pd3d_clean_data(this)
+    !! Cleans the data from this data set.
+    class(plot_data_3d), intent(inout) :: this
+        !! The plot_data_3d object.
+    if (allocated(this%m_data)) deallocate(this%m_data)
+end subroutine
 
 ! ------------------------------------------------------------------------------
 end module
