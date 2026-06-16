@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 2.6% of total for modules and submodules.">197 statements</a>
+                 title=" 2.6% of total for modules and submodules.">202 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -150,9 +150,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item">ferror</li>
                   <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item">ferror</li>
                   <li class="list-inline-item"><a href='fplot_plot_data.html'>fplot_plot_data</a></li>
                   <li class="list-inline-item">strings</li>
               </ul>
@@ -191,17 +191,27 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-define_data~6'>define_data</a></strong> => surfd_set_data_1</td>
+  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_command_string~22'>get_command_string</a></strong> => surfd_get_cmd</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-define_data~9'>define_data</a></strong> => surfd_set_data_1</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong> => surfd_get_data_cmd</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_command_string~26'>get_command_string</a></strong> => surfd_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_data_string~11'>get_data_string</a></strong> => surfd_get_data_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -216,22 +226,27 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_use_wireframe'>get_use_wireframe</a></strong> => surfd_get_wireframe</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_use_wireframe~2'>get_use_wireframe</a></strong> => surfd_get_wireframe</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_x~3'>get_x</a></strong> => surfd_get_x</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_x~4'>get_x</a></strong> => surfd_get_x</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_y~3'>get_y</a></strong> => surfd_get_y</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_y~4'>get_y</a></strong> => surfd_get_y</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_z'>get_z</a></strong> => surfd_get_z</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-get_z~2'>get_z</a></strong> => surfd_get_z</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
                 <td></td>
               </tr>
               <tr>
@@ -241,22 +256,22 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_use_wireframe'>set_use_wireframe</a></strong> => surfd_set_wireframe</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_use_wireframe~2'>set_use_wireframe</a></strong> => surfd_set_wireframe</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_x~3'>set_x</a></strong> => surfd_set_x</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_x~4'>set_x</a></strong> => surfd_set_x</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_y~3'>set_y</a></strong> => surfd_set_y</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_y~4'>set_y</a></strong> => surfd_set_y</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_z'>set_z</a></strong> => surfd_set_z</td>
+  <strong><a href='..\type\surface_plot_data.html#boundprocedure-set_z~2'>set_z</a></strong> => surfd_set_z</td>
                 <td></td>
               </tr>
           </tbody>
@@ -286,7 +301,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

@@ -260,7 +260,7 @@ contains
 ! --------------------
     subroutine pa_set_axis_limits(this, lower, upper)
         !! Gets the axis display limits, assuming autoscaling is not
-        !! active for this axis.  This routine also calls [[set_autoscale]] and
+        !! active for this axis.  This routine also calls set_autoscale and
         !! sets the property value to false.
         class(plot_axis), intent(inout) :: this
             !! The plot_axis object.
@@ -788,7 +788,7 @@ contains
 ! --------------------
     subroutine pa_set_manual_tic_labels(this, x)
         !! Sets a list of manual tic labels.  This routine also sets 
-        !! [[set_use_manual_tic_labels]] to true.
+        !! set_use_manual_tic_labels to true.
         class(plot_axis), intent(inout) :: this
             !! The plot_axis object.
         type(name_value_pair), intent(in), dimension(:) :: x

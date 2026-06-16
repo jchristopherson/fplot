@@ -146,14 +146,18 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+
         ! Title
         n = len_trim(this%get_name())
         if (n > 0) then
-            call str%append(' "-" title "')
+            call str%append(' title "')
             call str%append(this%get_name())
             call str%append('"')
         else
-            call str%append(' "-" notitle')
+            call str%append(' notitle')
         end if
 
         ! Lines
@@ -193,6 +197,10 @@ contains
         if (allocated(this%m_x)) deallocate(this%m_x)
         if (allocated(this%m_y)) deallocate(this%m_y)
         if (allocated(this%m_indices)) deallocate(this%m_indices)
+
+        if (len(this%get_datablock_name()) == 0) then
+            call this%create_unique_datablock_name()
+        end if
 
         this%m_x = tri%get_points_x()
         this%m_y = tri%get_points_y()

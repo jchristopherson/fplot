@@ -24,9 +24,16 @@ module fplot_plot_data
     private
         character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_name = ""
             !! The name to associate with the data set.
+        character(len = PLOTDATA_MAX_NAME_LENGTH) :: m_datablockName = ""
+            !! The name to associate with the datablock used to store the data
+            !! in the actual plot file.
     contains
         procedure, public :: get_name => pd_get_name
         procedure, public :: set_name => pd_set_name
+        procedure, public :: get_datablock_name => pd_get_datablock_name
+        procedure, public :: set_datablock_name => pd_set_datablock_name
+        procedure, public :: create_unique_datablock_name => &
+            pd_create_unique_datablock_name
         procedure(pd_get_string_result), deferred, public :: get_data_string
     end type
 
@@ -194,6 +201,53 @@ contains
         end if
     end subroutine
 
+! ------------------------------------------------------------------------------
+    pure function pd_get_datablock_name(this) result(rst)
+        !! Gets the name to associate with the datablock in the actual GNUPLOT
+        !! plot file.
+        class(plot_data), intent(in) :: this
+            !! The plot_data object.
+        character(len = :), allocatable :: rst
+            !! The name.
+        
+        rst = trim(this%m_datablockName)
+    end function
+
+! --------------------
+    subroutine pd_set_datablock_name(this, x)
+        !! Sets the name to associate with the datablock in the actual GNUPLOT
+        !! plot file.
+        class(plot_data), intent(inout) :: this
+            !! The plot_data object.
+        character(len = *), intent(in) :: x
+            !! The name.
+
+        integer(int32) :: n
+        n = min(len(x), PLOTDATA_MAX_NAME_LENGTH)
+        this%m_datablockName = ""
+        if (n /= 0) then
+            this%m_datablockName(1:n) = x(1:n)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine pd_create_unique_datablock_name(this)
+        !! Creates a unique name for the GNUPLOT datablock representing this
+        !! data set.
+        class(plot_data), intent(inout) :: this
+            !! The plot_data object.
+
+        type(string) :: str
+        real(real64) :: r, rng
+        integer(int32) :: count
+
+        call random_number(r)
+        r = r * huge(count)
+        count = floor(r)
+        str = "PlotData" // to_string(count)
+        call this%set_datablock_name(char(str))
+    end subroutine
+
 ! ******************************************************************************
 ! PLOT_DATA_COLORED
 ! ------------------------------------------------------------------------------
@@ -260,14 +314,18 @@ contains
         ! Initialization
         call str%initialize()
 
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+
         ! Title
         n = len_trim(this%get_name())
         if (n > 0) then
-            call str%append(' "-" title "')
+            call str%append(' title "')
             call str%append(this%get_name())
             call str%append('"')
         else
-            call str%append(' "-" notitle')
+            call str%append(' notitle')
         end if
 
         ! Lines, points, or filled

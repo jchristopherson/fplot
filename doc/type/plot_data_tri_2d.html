@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 1.8% of total for derived types.</p>Including implementation: 183 statements,  1.5% of total for derived types.">15 statements</a>
+                 title="<p> 1.8% of total for derived types.</p>Including implementation: 214 statements,  1.7% of total for derived types.">15 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,18 +130,21 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-define_data~8">define_data</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-define_data~5">define_data</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~25">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~10">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_command_string~11">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_data_string~6">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_datablock_name">get_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_color">get_line_color</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_style~3">get_line_style</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_width~4">get_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_style~2">get_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_line_width~2">get_line_width</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-get_name">get_name</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_color_index">set_color_index</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_datablock_name">set_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_line_color">set_line_color</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_line_style~3">set_line_style</a>
-            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_line_width~4">set_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_line_style~2">set_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_line_width~2">set_line_width</a>
             <a class="list-group-item" href="../type/plot_data_tri_2d.html#boundprocedure-set_name">set_name</a>
         </div>
       </div>
@@ -169,7 +172,61 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-define_data~8"></span>
+      <span class="anchor" id="boundprocedure-create_unique_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>create_unique_datablock_name</strong> => pd_create_unique_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_create_unique_datablock_name(this)  
+</h3>
+
+  <p>Creates a unique name for the GNUPLOT datablock representing this
+data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-define_data~5"></span>
       <h3>
           procedure, public ::
   <strong>define_data</strong> => pdt2d_define_data
@@ -295,7 +352,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~25"></span>
+      <span class="anchor" id="boundprocedure-get_command_string~11"></span>
       <h3>
           procedure, public ::
   <strong>get_command_string</strong> => pdt2d_get_cmd
@@ -353,7 +410,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_data_string~10"></span>
+      <span class="anchor" id="boundprocedure-get_data_string~6"></span>
       <h3>
           procedure, public ::
   <strong>get_data_string</strong> => pdt2d_get_data_cmd
@@ -402,6 +459,65 @@
     <small>character(len=:), allocatable</small>
     </h4>
     <p>The command string.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_datablock_name</strong> => pd_get_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pd_get_datablock_name(this) result(rst)  
+</h3>
+
+  <p>Gets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The name.</p>
 
         </li>
     </ul>
@@ -469,7 +585,7 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_line_style~3"></span>
+      <span class="anchor" id="boundprocedure-get_line_style~2"></span>
       <h3>
           procedure, public ::
   <strong>get_line_style</strong> => pdt2d_get_line_style
@@ -545,7 +661,7 @@ constants.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_line_width~4"></span>
+      <span class="anchor" id="boundprocedure-get_line_width~2"></span>
       <h3>
           procedure, public ::
   <strong>get_line_width</strong> => pdt2d_get_line_width
@@ -729,6 +845,75 @@ constants.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_datablock_name</strong> => pd_set_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_set_datablock_name(this, x)  
+</h3>
+
+  <p>Sets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The name.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-set_line_color"></span>
       <h3>
           procedure, public ::
@@ -797,7 +982,7 @@ constants.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_line_style~3"></span>
+      <span class="anchor" id="boundprocedure-set_line_style~2"></span>
       <h3>
           procedure, public ::
   <strong>set_line_style</strong> => pdt2d_set_line_style
@@ -883,7 +1068,7 @@ constants.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_line_width~4"></span>
+      <span class="anchor" id="boundprocedure-set_line_width~2"></span>
       <h3>
           procedure, public ::
   <strong>set_line_width</strong> => pdt2d_set_line_width
@@ -1034,7 +1219,7 @@ constants.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>

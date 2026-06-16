@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 3.0% of total for derived types.</p>Including implementation: 472 statements,  3.9% of total for derived types.">25 statements</a>
+                 title="<p> 3.0% of total for derived types.</p>Including implementation: 518 statements,  4.2% of total for derived types.">25 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,13 +130,15 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-define_x_error_data">define_x_error_data</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-define_xy_error_data">define_xy_error_data</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-define_y_error_data">define_y_error_data</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_command_string">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_count">get_count</a>
-            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_data_string">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_command_string~8">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_count~3">get_count</a>
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_data_string~4">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_datablock_name">get_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_line_color">get_line_color</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_name">get_name</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-get_plot_x_error_bars">get_plot_x_error_bars</a>
@@ -150,6 +152,7 @@
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-pde_define_y_err">pde_define_y_err</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-pde_define_y_err_lim">pde_define_y_err_lim</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-set_color_index">set_color_index</a>
+            <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-set_datablock_name">set_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-set_line_color">set_line_color</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-set_name">set_name</a>
             <a class="list-group-item" href="../type/plot_data_error_bars.html#boundprocedure-set_use_error_box">set_use_error_box</a>
@@ -176,6 +179,60 @@
 
       <section>
         <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-create_unique_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>create_unique_datablock_name</strong> => pd_create_unique_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_create_unique_datablock_name(this)  
+</h3>
+
+  <p>Creates a unique name for the GNUPLOT datablock representing this
+data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
@@ -968,7 +1025,7 @@ point.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string"></span>
+      <span class="anchor" id="boundprocedure-get_command_string~8"></span>
       <h3>
           procedure, public ::
   <strong>get_command_string</strong> => pde_get_cmd
@@ -1026,7 +1083,7 @@ point.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_count"></span>
+      <span class="anchor" id="boundprocedure-get_count~3"></span>
       <h3>
           procedure, public ::
   <strong>get_count</strong> => pde_get_count
@@ -1084,7 +1141,7 @@ point.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_data_string"></span>
+      <span class="anchor" id="boundprocedure-get_data_string~4"></span>
       <h3>
           procedure, public ::
   <strong>get_data_string</strong> => pde_get_data_cmd
@@ -1133,6 +1190,65 @@ point.</p>
     <small>character(len=:), allocatable</small>
     </h4>
     <p>The command string.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_datablock_name</strong> => pd_get_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pd_get_datablock_name(this) result(rst)  
+</h3>
+
+  <p>Gets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The name.</p>
 
         </li>
     </ul>
@@ -2340,6 +2456,75 @@ point.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_datablock_name"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_datablock_name</strong> => pd_set_datablock_name
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_set_datablock_name(this, x)  
+</h3>
+
+  <p>Sets the name to associate with the datablock in the actual GNUPLOT
+plot file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The name.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-set_line_color"></span>
       <h3>
           procedure, public ::
@@ -2562,7 +2747,7 @@ property.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-14 08:02              </p>
+ on 2026-06-16 07:03              </p>
           </div>
         </div>
         <br>
