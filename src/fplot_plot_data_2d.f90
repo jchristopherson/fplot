@@ -33,7 +33,7 @@ module fplot_plot_data_2d
         procedure, public :: get_y_data => pd2d_get_y_array
         procedure, public :: get_color_data => pd2d_get_c_array
         procedure, public :: get_point_size_data => pd2d_get_ps_array
-        procedure, public :: clean_data => pd2d_clean_data
+        procedure, public :: clear_data => pd2d_clear_data
     end type
 
 contains
@@ -461,8 +461,8 @@ function pd2d_get_ps_array(this) result(x)
 end function
 
 ! ------------------------------------------------------------------------------
-subroutine pd2d_clean_data(this)
-    !! Cleans the data from this data set.
+subroutine pd2d_clear_data(this)
+    !! Clears the data from this data set.
     class(plot_data_2d), intent(inout) :: this
         !! The plot_data_2d object.
     if (allocated(this%m_data)) deallocate(this%m_data)

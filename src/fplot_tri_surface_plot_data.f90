@@ -29,7 +29,7 @@ module fplot_tri_surface_plot_data
         procedure, public :: get_use_wireframe => tspd_get_wireframe
         procedure, public :: set_use_wireframe => tspd_set_wireframe
         procedure, public :: define_data => tspd_define_data
-        procedure, public :: clean_data => tspd_clean_data
+        procedure, public :: clear_data => tspd_clear_data
     end type
 
 contains
@@ -224,8 +224,8 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    subroutine tspd_clean_data(this)
-        !! Cleans the data from the data set.
+    subroutine tspd_clear_data(this)
+        !! Clears the data from the data set.
         class(tri_surface_plot_data), intent(inout) :: this
             !! The tri_surface_plot_data object.
         if (allocated(this%m_x)) deallocate(this%m_x)

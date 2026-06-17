@@ -12,6 +12,7 @@ module fplot_plot_data
     private
     public :: plot_data
     public :: pd_get_string_result
+    public :: pd_clear_action
     public :: plot_data_colored
     public :: scatter_plot_data
     public :: spd_get_int_value
@@ -34,9 +35,9 @@ module fplot_plot_data
         procedure, public :: set_datablock_name => pd_set_datablock_name
         procedure, public :: create_unique_datablock_name => &
             pd_create_unique_datablock_name
-        procedure, public :: clean => pd_clean
+        procedure, public :: clear_all => pd_clear
         procedure(pd_get_string_result), deferred, public :: get_data_string
-        procedure(pd_clean_action), deferred, public :: clean_data
+        procedure(pd_clear_action), deferred, public :: clear_data
     end type
 
     interface
@@ -49,8 +50,8 @@ module fplot_plot_data
                 !! The string.
         end function
 
-        subroutine pd_clean_action(this)
-            !! Performs a cleaning operation.
+        subroutine pd_clear_action(this)
+            !! Performs a clearing operation.
             import plot_data
             class(plot_data), intent(inout) :: this
                 !! The plot_data object.
@@ -259,16 +260,16 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    subroutine pd_clean(this)
-        !! Cleans the data set by removing stored data and clearing the 
-        !! GNUPLOT datablock name.  This routine also calls clean_data to
+    subroutine pd_clear(this)
+        !! Clears the data set by removing stored data and clearing the 
+        !! GNUPLOT datablock name.  This routine also calls clear_data to
         !! ensure the data is cleared from the data set as well as the datablock
         !! name.
         class(plot_data), intent(inout) :: this
             !! The plot_data object.
 
         call this%set_datablock_name("")
-        call this%clean_data()
+        call this%clear_data()
     end subroutine
 
 ! ******************************************************************************

@@ -55,7 +55,7 @@ module fplot_plot_data_bar
         procedure, public :: set_data_1 => pdb_set_data_1_core
         procedure, public :: set_data_2 => pdb_set_data_2_core
         procedure, public :: set_data_3 => pdb_set_data_3_core
-        procedure, public :: clean_data => pdb_clean_data
+        procedure, public :: clear_data => pdb_clear_data
     end type
 
 contains
@@ -585,8 +585,8 @@ subroutine pdb_set_data_3_core(this, labels, x, fmt, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
-subroutine pdb_clean_data(this)
-    !! Cleans the data from this data set.
+subroutine pdb_clear_data(this)
+    !! Clears the data from this data set.
     class(plot_data_bar), intent(inout) :: this
         !! The plot_data_bar object.
     if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)

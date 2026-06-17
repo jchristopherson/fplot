@@ -136,6 +136,7 @@ module fplot_core
     ! FPLOT_PLOT_DATA.F90
     public :: plot_data
     public :: pd_get_string_result
+    public :: pd_clear_action
     public :: plot_data_colored
     public :: scatter_plot_data
     public :: spd_get_int_value

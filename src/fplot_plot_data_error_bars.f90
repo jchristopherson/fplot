@@ -41,7 +41,7 @@ module fplot_plot_data_error_bars
         procedure, public :: get_use_error_box => pde_get_box
         procedure, public :: set_use_error_box => pde_set_box
         procedure, public :: get_use_range => pde_get_use_range
-        procedure, public :: clean_data => pde_clean_data
+        procedure, public :: clear_data => pde_clear_data
         procedure :: pde_define_x_err
         procedure :: pde_define_y_err
         procedure :: pde_define_xy_err
@@ -716,8 +716,8 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    subroutine pde_clean_data(this)
-        !! Cleans the data from this data set.
+    subroutine pde_clear_data(this)
+        !! Clears the data from this data set.
         class(plot_data_error_bars), intent(inout) :: this
             !! The plot_data_error_bars object.
         if (allocated(this%m_data)) deallocate(this%m_data)

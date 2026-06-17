@@ -24,7 +24,7 @@ module fplot_filled_plot_data
         procedure, public :: get_command_string => fpd_get_cmd
         procedure, public :: get_data_string => fpd_get_data_cmd
         procedure, public :: define_data => fpd_define_data
-        procedure, public :: clean_data => fpd_clean_data
+        procedure, public :: clear_data => fpd_clear_data
     end type
 
 contains
@@ -211,8 +211,8 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    subroutine fpd_clean_data(this)
-        !! Cleans the data from this data set.
+    subroutine fpd_clear_data(this)
+        !! Clears the data from this data set.
         class(filled_plot_data), intent(inout) :: this
             !! The filled_plot_data object.
         if (allocated(this%m_data)) deallocate(this%m_data)

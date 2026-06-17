@@ -35,7 +35,7 @@ module fplot_vector_field_plot_data
         procedure, public :: set_fill_arrow => vfpd_set_fill_arrow
         procedure, public :: get_use_data_dependent_colors => &
             vfpd_get_use_data_dependent_colors
-        procedure, public :: clean_data => vfpd_clean_data
+        procedure, public :: clear_data => vfpd_clear_data
     end type
 
 contains
@@ -316,8 +316,8 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine vfpd_clean_data(this)
-        !! Cleans the data from the data set.
+    subroutine vfpd_clear_data(this)
+        !! Clears the data from the data set.
         class(vector_field_plot_data), intent(inout) :: this
             !! The vector_field_plot_data object.
         if (allocated(this%m_data)) deallocate(this%m_data)
