@@ -42,6 +42,7 @@ module fplot_core
     use fplot_plot_polar
     use fplot_stats_plots
     use fplot_plot_data_box_whisker
+    use fplot_plot_data_function
     implicit none
     private
     
@@ -255,4 +256,7 @@ module fplot_core
 
     ! FPLOT_PLOT_DATA_BOX_WHISKER.F90
     public :: plot_data_box_whisker
+
+    ! FPLOT_PLOT_DATA_FUNCTION.F90
+    public :: plot_data_function
 end module

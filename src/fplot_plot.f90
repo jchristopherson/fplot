@@ -17,12 +17,14 @@ module fplot_plot
     use fplot_legend
     use fplot_label
     use fplot_arrow
+    use fplot_plot_data_function
     use ferror
     use strings
     use collections
     implicit none
     private
     public :: plot
+    public :: is_plot_data_function
 
     type, extends(plot_object) :: plot
         !! Defines the basic GNUPLOT plot.
@@ -114,6 +116,23 @@ module fplot_plot
     end type
 
 contains
+! ------------------------------------------------------------------------------
+    pure function is_plot_data_function(x) result(rst)
+        !! Tests to see if the supplied [[plot_data]] object is a 
+        !! [[plot_data_function]] based type.
+        class(plot_data), intent(in) :: x
+            !! The [[plot_data]] object.
+        logical :: rst
+            !! True if x is a [[plot_data_function]] based type.
+
+        select type (x)
+        class is (plot_data_function)
+            rst = .true.
+        class default
+            rst = .false.
+        end select
+    end function
+
 ! ------------------------------------------------------------------------------
     subroutine plt_clean_up(this)
         !! Cleans up resources held by the plot object.  Inheriting
