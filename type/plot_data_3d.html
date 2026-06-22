@@ -1,5 +1,3 @@
-<!-- -*- mode: jinja2 -*- -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,53 +10,77 @@
 
     <title>plot_data_3d &ndash; FPLOT </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <div class="container-fluid mb-sm-4 mb-xl-2">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="../index.html">FPLOT </a>
-          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
-                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="../lists/files.html">Source Files</a>
-                  </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/modules.html">Modules</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
-                </li>
-            </ul>
-              <div class="d-flex align-items-end flex-grow-1">
-                <form action="../search.html" role="search" class="ms-auto">
-                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-                </form>
-              </div>
-          </div><!--/.nav-collapse -->
+          <a class="navbar-brand" href="../index.html">FPLOT </a>
         </div>
-      </nav>
-    </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
     <div class="container">
   <div class="row">
@@ -66,37 +88,33 @@
       <small>Derived Type</small>
       
     </h1>
-      <div class="container p-2 mb-4 bg-light border rounded-3">
-    <div class="row align-items-center justify-content-between" id="info-bar">
-      <div class="col">
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title="<p> 2.3% of total for derived types.</p>Including implementation: 554 statements,  4.5% of total for derived types.">19 statements</a>
-            </li>
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title="<p> 2.3% of total for derived types.</p>Including implementation: 565 statements,  4.2% of total for derived types.">20 statements</a>
+          </li>
 
-            <li class="list-inline-item" id="source-file">
+            <li id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/fplot_plot_data_3d.f90"> Source File</a>
             </li>
         </ul>
-      </div>
-      <div class="col">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_plot_data_3d.f90.html'>fplot_plot_data_3d.f90</a></li>
-                <li class="breadcrumb-item"><a href='..\module\fplot_plot_data_3d.html'>fplot_plot_data_3d</a></li>
-            <li class="breadcrumb-item active" aria-current="page">plot_data_3d</li>
-          </ol>
-        </nav>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/fplot_plot_data_3d.f90.html'>fplot_plot_data_3d.f90</a></li>
+              <li><a href='../module/fplot_plot_data_3d.html'>fplot_plot_data_3d</a></li>
+          <li class="active">plot_data_3d</li>
+        </ol>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -123,41 +141,44 @@
   
   
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#boundprocs-0"
-         aria-expanded="false" aria-controls="boundprocs-0">
-         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
-      </a>
-      <div id="boundprocs-0" class="collapse">
-        <div class="list-group list-group-flush">
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-clear_all">clear_all</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-clear_data~4">clear_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-define_data">define_data</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_axes_string">get_axes_string</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_color_data">get_color_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-define_data~3">define_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_axes_string~4">get_axes_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_color_data~2">get_color_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_color_index">get_color_index</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_command_string~23">get_command_string</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_count">get_count</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_data_string">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_command_string~15">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_count~4">get_count</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_data_string~4">get_data_string</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_datablock_name">get_datablock_name</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_draw_line">get_draw_line</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_draw_markers">get_draw_markers</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_fill_curve">get_fill_curve</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_color">get_line_color</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_style~3">get_line_style</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_width~3">get_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_style~2">get_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_width~2">get_line_width</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_frequency">get_marker_frequency</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_scaling">get_marker_scaling</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_style">get_marker_style</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_name">get_name</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_point_size_data">get_point_size_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_point_size_data~2">get_point_size_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_simplification_factor">get_simplification_factor</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_simplify_data">get_simplify_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_use_data_dependent_colors">get_use_data_dependent_colors</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_use_variable_size_points">get_use_variable_size_points</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x">get_x</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x_data">get_x_data</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y">get_y</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y_data">get_y_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x~3">get_x</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x_data~2">get_x_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y~3">get_y</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y_data~2">get_y_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_z">get_z</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_z_data">get_z_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_color_index">set_color_index</a>
@@ -166,8 +187,8 @@
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_draw_markers">set_draw_markers</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_fill_curve">set_fill_curve</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_color">set_line_color</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_style~3">set_line_style</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_width~3">set_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_style~2">set_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_width~2">set_line_width</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_frequency">set_marker_frequency</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_scaling">set_marker_scaling</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_style">set_marker_style</a>
@@ -176,14 +197,13 @@
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_simplify_data">set_simplify_data</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_use_data_dependent_colors">set_use_data_dependent_colors</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_use_variable_size_points">set_use_variable_size_points</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_x">set_x</a>
-            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_y">set_y</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_x~3">set_x</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_y~3">set_y</a>
             <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_z">set_z</a>
         </div>
       </div>
     </div>
 
-  
   
 
 
@@ -192,50 +212,131 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
-        type, public, extends(<a href='scatter_plot_data.html'>scatter_plot_data</a>) :: plot_data_3d</h2>
+      <h2>type, public, extends(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>) :: plot_data_3d</h2>
     <p>Defines a three-dimensional plot data set.</p>
     <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-clear_all">clear_all</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-clear_data~4">clear_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-create_unique_datablock_name">create_unique_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-define_data~3">define_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_axes_string~4">get_axes_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_color_data~2">get_color_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_color_index">get_color_index</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_command_string~15">get_command_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_count~4">get_count</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_data_string~4">get_data_string</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_datablock_name">get_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_draw_line">get_draw_line</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_draw_markers">get_draw_markers</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_fill_curve">get_fill_curve</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_color">get_line_color</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_style~2">get_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_line_width~2">get_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_frequency">get_marker_frequency</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_scaling">get_marker_scaling</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_marker_style">get_marker_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_name">get_name</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_point_size_data~2">get_point_size_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_simplification_factor">get_simplification_factor</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_simplify_data">get_simplify_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_use_data_dependent_colors">get_use_data_dependent_colors</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_use_variable_size_points">get_use_variable_size_points</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x~3">get_x</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_x_data~2">get_x_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y~3">get_y</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_y_data~2">get_y_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_z">get_z</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-get_z_data">get_z_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_color_index">set_color_index</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_datablock_name">set_datablock_name</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_draw_line">set_draw_line</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_draw_markers">set_draw_markers</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_fill_curve">set_fill_curve</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_color">set_line_color</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_style~2">set_line_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_line_width~2">set_line_width</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_frequency">set_marker_frequency</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_scaling">set_marker_scaling</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_marker_style">set_marker_style</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_name">set_name</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_simplification_factor">set_simplification_factor</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_simplify_data">set_simplify_data</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_use_data_dependent_colors">set_use_data_dependent_colors</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_use_variable_size_points">set_use_variable_size_points</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_x~3">set_x</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_y~3">set_y</a>
+            <a class="list-group-item" href="../type/plot_data_3d.html#boundprocedure-set_z">set_z</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
 
     
 
 
       <section>
         <h2>Type-Bound Procedures</h2>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-create_unique_datablock_name"></span>
-      <h3>
-          procedure, public ::
-  <strong>create_unique_datablock_name</strong> => pd_create_unique_datablock_name
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clear_all"></span><h3>procedure, public :: <strong>clear_all</strong>  => pd_clear         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine pd_create_unique_datablock_name(this)  
+    private  subroutine pd_clear(this)  
 </h3>
-
-  <p>Creates a unique name for the GNUPLOT datablock representing this
-data set.</p>
+  <p>Clears the data set by removing stored data and clearing the 
+GNUPLOT datablock name.  This routine also calls clear_data to
+ensure the data is cleared from the data set as well as the datablock
+name.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data.html'>plot_data</a>),
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -255,40 +356,120 @@ data set.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-define_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>define_data</strong> => pd3d_set_data_1
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clear_data~4"></span><h3>procedure, public :: <strong>clear_data</strong>  => pd3d_clear_data         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd3d_clear_data(this)  
+</h3>
+  <p>Clears the data from this data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data_3d object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-create_unique_datablock_name"></span><h3>procedure, public :: <strong>create_unique_datablock_name</strong>  => pd_create_unique_datablock_name         
+    </h3></div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pd_create_unique_datablock_name(this)  
+</h3>
+  <p>Creates a unique name for the GNUPLOT datablock representing this
+data set.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-define_data~3"></span><h3>procedure, public :: <strong>define_data</strong>  => pd3d_set_data_1         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd3d_set_data_1(this, x, y, z, c, ps, err)  
 </h3>
-
   <p>Defines the data set.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -399,23 +580,14 @@ current colormap for each value.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_axes_string"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_axes_string</strong> => pd3d_get_axes_cmd
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_axes_string~4"></span><h3>procedure, public :: <strong>get_axes_string</strong>  => pd3d_get_axes_cmd         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_axes_cmd(this) result(x)  
 </h3>
-
   <p>Gets the GNUPLOT command string defining which axes the data
 is to be plotted against.</p>
 
@@ -423,17 +595,17 @@ is to be plotted against.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -458,40 +630,31 @@ is to be plotted against.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_color_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_color_data</strong> => pd3d_get_c_array
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_color_data~2"></span><h3>procedure, public :: <strong>get_color_data</strong>  => pd3d_get_c_array         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_c_array(this) result(x)  
 </h3>
-
   <p>Gets the stored color scaling data array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -516,40 +679,31 @@ is to be plotted against.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_color_index"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_color_index</strong> => pdc_get_color_index
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_color_index"></span><h3>procedure, public :: <strong>get_color_index</strong>  => pdc_get_color_index         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pdc_get_color_index(this) result(x)  
 </h3>
-
   <p>Gets the color index.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_colored.html'>plot_data_colored</a>),
+              class(<a href='../type/plot_data_colored.html'>plot_data_colored</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -574,23 +728,15 @@ is to be plotted against.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~23"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_command_string</strong> => spd_get_cmd
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~15"></span><h3>procedure, public :: <strong>get_command_string</strong>  => <a href='../proc/spd_get_cmd.html'>spd_get_cmd</a>         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  function spd_get_cmd(this) result(x)  
+    public  function <a href='../proc/spd_get_cmd.html'>spd_get_cmd</a>(this) result(x)  
 </h3>
-
+    
   <p>Gets the GNUPLOT command string to represent this
 scatter_plot_data object.</p>
 
@@ -598,17 +744,17 @@ scatter_plot_data object.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -617,7 +763,7 @@ scatter_plot_data object.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+<p>The scatter_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -633,40 +779,31 @@ scatter_plot_data object.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_count"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_count</strong> => pd3d_get_data_count
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_count~4"></span><h3>procedure, public :: <strong>get_count</strong>  => pd3d_get_data_count         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd3d_get_data_count(this) result(x)  
 </h3>
-
   <p>Gets the number of data points.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -691,40 +828,31 @@ scatter_plot_data object.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_data_string"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_data_string</strong> => pd3d_get_data_cmd
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_data_string~4"></span><h3>procedure, public :: <strong>get_data_string</strong>  => pd3d_get_data_cmd         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_data_cmd(this) result(x)  
 </h3>
-
   <p>Gets the GNUPLOT command string containing the actual data to plot.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -749,23 +877,14 @@ scatter_plot_data object.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_datablock_name"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_datablock_name</strong> => pd_get_datablock_name
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_datablock_name"></span><h3>procedure, public :: <strong>get_datablock_name</strong>  => pd_get_datablock_name         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd_get_datablock_name(this) result(rst)  
 </h3>
-
   <p>Gets the name to associate with the datablock in the actual GNUPLOT
 plot file.</p>
 
@@ -773,17 +892,17 @@ plot file.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data.html'>plot_data</a>),
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -808,40 +927,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_draw_line"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_draw_line</strong> => spd_get_draw_line
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_draw_line"></span><h3>procedure, public :: <strong>get_draw_line</strong>  => lpd_get_draw_line         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_draw_line(this) result(x)  
+    private pure function lpd_get_draw_line(this) result(x)  
 </h3>
-
   <p>Gets a value determining if a line should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -850,7 +960,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -866,40 +976,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_draw_markers"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_draw_markers</strong> => spd_get_draw_markers
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_draw_markers"></span><h3>procedure, public :: <strong>get_draw_markers</strong>  => lpd_get_draw_markers         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_draw_markers(this) result(x)  
+    private pure function lpd_get_draw_markers(this) result(x)  
 </h3>
-
   <p>Gets a value determining if data point markers should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -908,7 +1009,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -924,40 +1025,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_fill_curve"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_fill_curve</strong> => spd_get_filled
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_fill_curve"></span><h3>procedure, public :: <strong>get_fill_curve</strong>  => spd_get_filled         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function spd_get_filled(this) result(rst)  
 </h3>
-
   <p>Gets a logical value determining if a filled curve should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -982,40 +1074,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_line_color"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_line_color</strong> => pdc_get_line_color
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_line_color"></span><h3>procedure, public :: <strong>get_line_color</strong>  => pdc_get_line_color         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pdc_get_line_color(this) result(x)  
 </h3>
-
   <p>Gets the object color.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_colored.html'>plot_data_colored</a>),
+              class(<a href='../type/plot_data_colored.html'>plot_data_colored</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1032,7 +1115,7 @@ plot file.</p>
 
     <h4>
     Return Value
-    <small>type(<a href='color.html'>color</a>)</small>
+    <small>type(<a href='../type/color.html'>color</a>)</small>
     </h4>
     <p>The color.</p>
 
@@ -1040,40 +1123,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_line_style~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_line_style</strong> => spd_get_line_style
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_line_style~2"></span><h3>procedure, public :: <strong>get_line_style</strong>  => lpd_get_line_style         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_line_style(this) result(x)  
+    private pure function lpd_get_line_style(this) result(x)  
 </h3>
-
   <p>Gets the line style.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1082,7 +1156,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -1115,40 +1189,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_line_width~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_line_width</strong> => spd_get_line_width
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_line_width~2"></span><h3>procedure, public :: <strong>get_line_width</strong>  => lpd_get_line_width         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_line_width(this) result(x)  
+    private pure function lpd_get_line_width(this) result(x)  
 </h3>
-
   <p>Gets the width of the line, in pixels.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1157,7 +1222,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -1173,40 +1238,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_marker_frequency"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_marker_frequency</strong> => spd_get_marker_frequency
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_marker_frequency"></span><h3>procedure, public :: <strong>get_marker_frequency</strong>  => lpd_get_marker_frequency         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_marker_frequency(this) result(x)  
+    private pure function lpd_get_marker_frequency(this) result(x)  
 </h3>
-
   <p>Gets the marker frequency.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1215,7 +1271,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -1231,40 +1287,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_marker_scaling"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_marker_scaling</strong> => spd_get_marker_scaling
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_marker_scaling"></span><h3>procedure, public :: <strong>get_marker_scaling</strong>  => lpd_get_marker_scaling         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_marker_scaling(this) result(x)  
+    private pure function lpd_get_marker_scaling(this) result(x)  
 </h3>
-
   <p>Gets the marker scaling.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1273,7 +1320,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -1289,40 +1336,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_marker_style"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_marker_style</strong> => spd_get_marker_style
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_marker_style"></span><h3>procedure, public :: <strong>get_marker_style</strong>  => lpd_get_marker_style         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private pure function spd_get_marker_style(this) result(x)  
+    private pure function lpd_get_marker_style(this) result(x)  
 </h3>
-
   <p>Gets the marker style.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1331,7 +1369,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
     </tbody>
@@ -1388,40 +1426,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_name"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_name</strong> => pd_get_name
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_name"></span><h3>procedure, public :: <strong>get_name</strong>  => pd_get_name         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd_get_name(this) result(txt)  
 </h3>
-
   <p>Gets the name to associate with this data set.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data.html'>plot_data</a>),
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1446,40 +1475,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_point_size_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_point_size_data</strong> => pd3d_get_c_array
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_point_size_data~2"></span><h3>procedure, public :: <strong>get_point_size_data</strong>  => pd3d_get_c_array         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_c_array(this) result(x)  
 </h3>
-
   <p>Gets the stored color scaling data array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1504,40 +1524,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_simplification_factor"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_simplification_factor</strong> => spd_get_simplify_factor
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_simplification_factor"></span><h3>procedure, public :: <strong>get_simplification_factor</strong>  => spd_get_simplify_factor         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function spd_get_simplify_factor(this) result(x)  
 </h3>
-
   <p>Gets a factor used to establish the simplification tolerance.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1562,23 +1573,14 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_simplify_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_simplify_data</strong> => spd_get_simplify_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_simplify_data"></span><h3>procedure, public :: <strong>get_simplify_data</strong>  => spd_get_simplify_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function spd_get_simplify_data(this) result(x)  
 </h3>
-
   <p>Gets a value determining if the stored data should be
 simplified (reduced) before passing to GNUPLOT.</p>
 
@@ -1586,17 +1588,17 @@ simplified (reduced) before passing to GNUPLOT.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1622,40 +1624,31 @@ to GNUPLOT; else, false to leave the data alone.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_use_data_dependent_colors"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_use_data_dependent_colors</strong> => spd_get_data_dependent_colors
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_use_data_dependent_colors"></span><h3>procedure, public :: <strong>get_use_data_dependent_colors</strong>  => spd_get_data_dependent_colors         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function spd_get_data_dependent_colors(this) result(rst)  
 </h3>
-
   <p>Gets a value determing if data-dependent colors should be used.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1680,23 +1673,14 @@ to GNUPLOT; else, false to leave the data alone.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_use_variable_size_points"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_use_variable_size_points</strong> => spd_get_use_var_point_size
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_use_variable_size_points"></span><h3>procedure, public :: <strong>get_use_variable_size_points</strong>  => spd_get_use_var_point_size         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function spd_get_use_var_point_size(this) result(rst)  
 </h3>
-
   <p>Gets a logical value determining if variable sized data points
 should be used.  The default is false, such that points will be of
 a constant size.</p>
@@ -1705,17 +1689,17 @@ a constant size.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1740,40 +1724,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_x"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_x</strong> => pd3d_get_x_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_x~3"></span><h3>procedure, public :: <strong>get_x</strong>  => pd3d_get_x_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd3d_get_x_data(this, index) result(x)  
 </h3>
-
   <p>Gets the requested X data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1813,40 +1788,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_x_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_x_data</strong> => pd3d_get_x_array
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_x_data~2"></span><h3>procedure, public :: <strong>get_x_data</strong>  => pd3d_get_x_array         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_x_array(this) result(x)  
 </h3>
-
   <p>Gets the stored X data array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1871,40 +1837,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_y"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_y</strong> => pd3d_get_y_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_y~3"></span><h3>procedure, public :: <strong>get_y</strong>  => pd3d_get_y_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd3d_get_y_data(this, index) result(x)  
 </h3>
-
   <p>Gets the requested Y data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1944,40 +1901,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_y_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_y_data</strong> => pd3d_get_y_array
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_y_data~2"></span><h3>procedure, public :: <strong>get_y_data</strong>  => pd3d_get_y_array         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_y_array(this) result(x)  
 </h3>
-
   <p>Gets the stored Y data array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2002,40 +1950,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_z"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_z</strong> => pd3d_get_z_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_z"></span><h3>procedure, public :: <strong>get_z</strong>  => pd3d_get_z_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function pd3d_get_z_data(this, index) result(x)  
 </h3>
-
   <p>Gets the requested Z data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2075,40 +2014,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_z_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_z_data</strong> => pd3d_get_z_array
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_z_data"></span><h3>procedure, public :: <strong>get_z_data</strong>  => pd3d_get_z_array         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function pd3d_get_z_array(this) result(x)  
 </h3>
-
   <p>Gets the stored Z data array.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2133,40 +2063,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_color_index"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_color_index</strong> => pdc_set_color_index
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_color_index"></span><h3>procedure, public :: <strong>set_color_index</strong>  => pdc_set_color_index         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pdc_set_color_index(this, x)  
 </h3>
-
   <p>Sets the color index.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_colored.html'>plot_data_colored</a>),
+              class(<a href='../type/plot_data_colored.html'>plot_data_colored</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2201,23 +2122,14 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_datablock_name"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_datablock_name</strong> => pd_set_datablock_name
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_datablock_name"></span><h3>procedure, public :: <strong>set_datablock_name</strong>  => pd_set_datablock_name         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd_set_datablock_name(this, x)  
 </h3>
-
   <p>Sets the name to associate with the datablock in the actual GNUPLOT
 plot file.</p>
 
@@ -2225,17 +2137,17 @@ plot file.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data.html'>plot_data</a>),
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2270,40 +2182,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_draw_line"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_draw_line</strong> => spd_set_draw_line
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_draw_line"></span><h3>procedure, public :: <strong>set_draw_line</strong>  => lpd_set_draw_line         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_draw_line(this, x)  
+    private  subroutine lpd_set_draw_line(this, x)  
 </h3>
-
   <p>Sets a value determining if a line should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2312,7 +2215,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2338,40 +2241,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_draw_markers"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_draw_markers</strong> => spd_set_draw_markers
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_draw_markers"></span><h3>procedure, public :: <strong>set_draw_markers</strong>  => lpd_set_draw_markers         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_draw_markers(this, x)  
+    private  subroutine lpd_set_draw_markers(this, x)  
 </h3>
-
   <p>Sets a value determining if data point markers should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2380,7 +2274,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2406,40 +2300,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_fill_curve"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_fill_curve</strong> => spd_set_filled
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_fill_curve"></span><h3>procedure, public :: <strong>set_fill_curve</strong>  => spd_set_filled         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine spd_set_filled(this, x)  
 </h3>
-
   <p>Sets a logical value determining if a filled curve should be drawn.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2474,40 +2359,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_line_color"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_line_color</strong> => pdc_set_line_color
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_line_color"></span><h3>procedure, public :: <strong>set_line_color</strong>  => pdc_set_line_color         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pdc_set_line_color(this, x)  
 </h3>
-
   <p>Sets the object color.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_colored.html'>plot_data_colored</a>),
+              class(<a href='../type/plot_data_colored.html'>plot_data_colored</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2522,7 +2398,7 @@ plot file.</p>
         <tr>
             <td>
               <span class="anchor" ></span>
-              type(<a href='color.html'>color</a>),
+              type(<a href='../type/color.html'>color</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2542,40 +2418,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_line_style~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_line_style</strong> => spd_set_line_style
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_line_style~2"></span><h3>procedure, public :: <strong>set_line_style</strong>  => lpd_set_line_style         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_line_style(this, x)  
+    private  subroutine lpd_set_line_style(this, x)  
 </h3>
-
   <p>Sets the line style.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2584,7 +2451,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2627,40 +2494,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_line_width~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_line_width</strong> => spd_set_line_width
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_line_width~2"></span><h3>procedure, public :: <strong>set_line_width</strong>  => lpd_set_line_width         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_line_width(this, x)  
+    private  subroutine lpd_set_line_width(this, x)  
 </h3>
-
   <p>Sets the width of the line, in pixels.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2669,7 +2527,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2695,40 +2553,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_marker_frequency"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_marker_frequency</strong> => spd_set_marker_frequency
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_marker_frequency"></span><h3>procedure, public :: <strong>set_marker_frequency</strong>  => lpd_set_marker_frequency         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_marker_frequency(this, x)  
+    private  subroutine lpd_set_marker_frequency(this, x)  
 </h3>
-
   <p>Sets the marker frequency.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2737,7 +2586,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2763,40 +2612,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_marker_scaling"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_marker_scaling</strong> => spd_set_marker_scaling
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_marker_scaling"></span><h3>procedure, public :: <strong>set_marker_scaling</strong>  => lpd_set_marker_scaling         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_marker_scaling(this, x)  
+    private  subroutine lpd_set_marker_scaling(this, x)  
 </h3>
-
   <p>Sets the marker scaling.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2805,7 +2645,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2831,40 +2671,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_marker_style"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_marker_style</strong> => spd_set_marker_style
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_marker_style"></span><h3>procedure, public :: <strong>set_marker_style</strong>  => lpd_set_marker_style         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  subroutine spd_set_marker_style(this, x)  
+    private  subroutine lpd_set_marker_style(this, x)  
 </h3>
-
   <p>Sets the marker style.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -2873,7 +2704,7 @@ plot file.</p>
             <td>::</td>
             <td><strong>this</strong></td>
             <td>
-                <p>The scatter_plot_data object.</p>
+                <p>The line_plot_data object.</p>
             </td>
         </tr>
         <tr>
@@ -2940,40 +2771,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_name"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_name</strong> => pd_set_name
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_name"></span><h3>procedure, public :: <strong>set_name</strong>  => pd_set_name         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd_set_name(this, txt)  
 </h3>
-
   <p>Sets the name to associate with this data set.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data.html'>plot_data</a>),
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3008,40 +2830,31 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_simplification_factor"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_simplification_factor</strong> => spd_set_simplify_factor
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_simplification_factor"></span><h3>procedure, public :: <strong>set_simplification_factor</strong>  => spd_set_simplify_factor         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine spd_set_simplify_factor(this, x)  
 </h3>
-
   <p>Sets a factor used to establish the simplification tolerance.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3076,23 +2889,14 @@ plot file.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_simplify_data"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_simplify_data</strong> => spd_set_simplify_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_simplify_data"></span><h3>procedure, public :: <strong>set_simplify_data</strong>  => spd_set_simplify_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine spd_set_simplify_data(this, x)  
 </h3>
-
   <p>Sets a value determining if the stored data should be
 simplified (reduced) before passing to GNUPLOT.</p>
 
@@ -3100,17 +2904,17 @@ simplified (reduced) before passing to GNUPLOT.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3146,40 +2950,31 @@ to GNUPLOT; else, false to leave the data alone.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_use_data_dependent_colors"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_use_data_dependent_colors</strong> => spd_set_data_dependent_colors
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_use_data_dependent_colors"></span><h3>procedure, public :: <strong>set_use_data_dependent_colors</strong>  => spd_set_data_dependent_colors         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine spd_set_data_dependent_colors(this, x)  
 </h3>
-
   <p>Sets a value determing if data-dependent colors should be used.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3214,23 +3009,14 @@ to GNUPLOT; else, false to leave the data alone.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_use_variable_size_points"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_use_variable_size_points</strong> => spd_set_use_var_point_size
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_use_variable_size_points"></span><h3>procedure, public :: <strong>set_use_variable_size_points</strong>  => spd_set_use_var_point_size         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine spd_set_use_var_point_size(this, x)  
 </h3>
-
   <p>Sets a logical value determining if variable sized data points
 should be used.  The default is false, such that points will be of
 a constant size.</p>
@@ -3239,17 +3025,17 @@ a constant size.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='scatter_plot_data.html'>scatter_plot_data</a>),
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3284,40 +3070,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_x"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_x</strong> => pd3d_set_x_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_x~3"></span><h3>procedure, public :: <strong>set_x</strong>  => pd3d_set_x_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd3d_set_x_data(this, index, x)  
 </h3>
-
   <p>Sets the requested X data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3367,40 +3144,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_y"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_y</strong> => pd3d_set_y_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_y~3"></span><h3>procedure, public :: <strong>set_y</strong>  => pd3d_set_y_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd3d_set_y_data(this, index, x)  
 </h3>
-
   <p>Sets the requested Y data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3450,40 +3218,31 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_z"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_z</strong> => pd3d_set_z_data
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_z"></span><h3>procedure, public :: <strong>set_z</strong>  => pd3d_set_z_data         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine pd3d_set_z_data(this, index, x)  
 </h3>
-
   <p>Sets the requested Z data point.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='plot_data_3d.html'>plot_data_3d</a>),
+              class(<a href='../type/plot_data_3d.html'>plot_data_3d</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -3533,7 +3292,6 @@ a constant size.</p>
     </ul>
   </div>
 
-          </div>
       </section>
 
     
@@ -3544,27 +3302,32 @@ a constant size.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row justify-content-between">
-          <div class="col"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
 </p>
           </div>
-          <div class="col">
-            <p class="text-end">
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-16 07:03              </p>
+ on 2026-06-22 15:20              </p>
           </div>
         </div>
         <br>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
+        <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

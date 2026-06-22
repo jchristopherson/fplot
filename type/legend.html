@@ -1,5 +1,3 @@
-<!-- -*- mode: jinja2 -*- -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,53 +10,77 @@
 
     <title>legend &ndash; FPLOT </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <div class="container-fluid mb-sm-4 mb-xl-2">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="../index.html">FPLOT </a>
-          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
-                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="../lists/files.html">Source Files</a>
-                  </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/modules.html">Modules</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
-                </li>
-            </ul>
-              <div class="d-flex align-items-end flex-grow-1">
-                <form action="../search.html" role="search" class="ms-auto">
-                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-                </form>
-              </div>
-          </div><!--/.nav-collapse -->
+          <a class="navbar-brand" href="../index.html">FPLOT </a>
         </div>
-      </nav>
-    </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
     <div class="container">
   <div class="row">
@@ -66,37 +88,33 @@
       <small>Derived Type</small>
       
     </h1>
-      <div class="container p-2 mb-4 bg-light border rounded-3">
-    <div class="row align-items-center justify-content-between" id="info-bar">
-      <div class="col">
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title="<p> 3.0% of total for derived types.</p>Including implementation: 141 statements,  1.1% of total for derived types.">25 statements</a>
-            </li>
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title="<p> 2.9% of total for derived types.</p>Including implementation: 141 statements,  1.0% of total for derived types.">25 statements</a>
+          </li>
 
-            <li class="list-inline-item" id="source-file">
+            <li id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/fplot_legend.f90"> Source File</a>
             </li>
         </ul>
-      </div>
-      <div class="col">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_legend.f90.html'>fplot_legend.f90</a></li>
-                <li class="breadcrumb-item"><a href='..\module\fplot_legend.html'>fplot_legend</a></li>
-            <li class="breadcrumb-item active" aria-current="page">legend</li>
-          </ol>
-        </nav>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/fplot_legend.f90.html'>fplot_legend.f90</a></li>
+              <li><a href='../module/fplot_legend.html'>fplot_legend</a></li>
+          <li class="active">legend</li>
+        </ol>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
     })
   </script>
 
@@ -123,14 +141,15 @@
   
   
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#boundprocs-0"
-         aria-expanded="false" aria-controls="boundprocs-0">
-         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
-      </a>
-      <div id="boundprocs-0" class="collapse">
-        <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_command_string~13">get_command_string</a>
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_command_string~6">get_command_string</a>
             <a class="list-group-item" href="../type/legend.html#boundprocedure-get_draw_border~2">get_draw_border</a>
             <a class="list-group-item" href="../type/legend.html#boundprocedure-get_draw_inside_axes">get_draw_inside_axes</a>
             <a class="list-group-item" href="../type/legend.html#boundprocedure-get_horizontal_position">get_horizontal_position</a>
@@ -150,7 +169,6 @@
     </div>
 
   
-  
 
 
   </div>
@@ -158,49 +176,92 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
-        type, public, extends(<a href='plot_object.html'>plot_object</a>) :: legend</h2>
+      <h2>type, public, extends(<a href='../type/plot_object.html'>plot_object</a>) :: legend</h2>
     <p>Defines a legend object.</p>
     <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a>
+        </h3>
+      </div>
+      <div id="boundprocs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_command_string~6">get_command_string</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_draw_border~2">get_draw_border</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_draw_inside_axes">get_draw_inside_axes</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_horizontal_position">get_horizontal_position</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_is_opaque">get_is_opaque</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_is_visible~3">get_is_visible</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_layout">get_layout</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-get_vertical_position">get_vertical_position</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_draw_border~2">set_draw_border</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_draw_inside_axes">set_draw_inside_axes</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_horizontal_position">set_horizontal_position</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_is_opaque">set_is_opaque</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_is_visible~3">set_is_visible</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_layout">set_layout</a>
+            <a class="list-group-item" href="../type/legend.html#boundprocedure-set_vertical_position">set_vertical_position</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
 
     
 
 
       <section>
         <h2>Type-Bound Procedures</h2>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~13"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_command_string</strong> => leg_get_command_txt
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_command_string~6"></span><h3>procedure, public :: <strong>get_command_string</strong>  => leg_get_command_txt         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  function leg_get_command_txt(this) result(txt)  
 </h3>
-
   <p>Gets the command string defining the legend properties.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -225,40 +286,31 @@
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_draw_border~2"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_draw_border</strong> => leg_get_box
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_draw_border~2"></span><h3>procedure, public :: <strong>get_draw_border</strong>  => leg_get_box         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_box(this) result(x)  
 </h3>
-
   <p>Gets a value determining if the legend should have a border.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -283,23 +335,14 @@
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_draw_inside_axes"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_draw_inside_axes</strong> => leg_get_inside
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_draw_inside_axes"></span><h3>procedure, public :: <strong>get_draw_inside_axes</strong>  => leg_get_inside         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_inside(this) result(x)  
 </h3>
-
   <p>Gets a value determining if the legend should be drawn inside
 or outside the axes border.</p>
 
@@ -307,17 +350,17 @@ or outside the axes border.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -342,40 +385,31 @@ or outside the axes border.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_horizontal_position"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_horizontal_position</strong> => leg_get_horz_pos
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_horizontal_position"></span><h3>procedure, public :: <strong>get_horizontal_position</strong>  => leg_get_horz_pos         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_horz_pos(this) result(x)  
 </h3>
-
   <p>Gets the horizontal position of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -401,40 +435,31 @@ LEGEND_CENTER, or LEGEND_RIGHT).</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_is_opaque"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_is_opaque</strong> => leg_get_opaque
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_is_opaque"></span><h3>procedure, public :: <strong>get_is_opaque</strong>  => leg_get_opaque         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_opaque(this) result(rst)  
 </h3>
-
   <p>Gets a value determining if the legend is to be opaque.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -459,40 +484,31 @@ LEGEND_CENTER, or LEGEND_RIGHT).</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_is_visible~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_is_visible</strong> => leg_get_visible
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_is_visible~3"></span><h3>procedure, public :: <strong>get_is_visible</strong>  => leg_get_visible         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_visible(this) result(x)  
 </h3>
-
   <p>Gets a value determining if the legend is visible.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -517,40 +533,31 @@ LEGEND_CENTER, or LEGEND_RIGHT).</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_layout"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_layout</strong> => leg_get_layout
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_layout"></span><h3>procedure, public :: <strong>get_layout</strong>  => leg_get_layout         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_layout(this) result(rst)  
 </h3>
-
   <p>Gets the layout of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -576,40 +583,31 @@ LEGEND_ARRANGE_HORIZONTALLY.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_vertical_position"></span>
-      <h3>
-          procedure, public ::
-  <strong>get_vertical_position</strong> => leg_get_vert_pos
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_vertical_position"></span><h3>procedure, public :: <strong>get_vertical_position</strong>  => leg_get_vert_pos         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private pure function leg_get_vert_pos(this) result(x)  
 </h3>
-
   <p>Gets the vertical position of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -635,40 +633,31 @@ LEGEND_CENTER, or LEGEND_BOTTOM).</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_draw_border~2"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_draw_border</strong> => leg_set_box
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_draw_border~2"></span><h3>procedure, public :: <strong>set_draw_border</strong>  => leg_set_box         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_box(this, x)  
 </h3>
-
   <p>Sets a value determining if the legend should have a border.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -703,23 +692,14 @@ LEGEND_CENTER, or LEGEND_BOTTOM).</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_draw_inside_axes"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_draw_inside_axes</strong> => leg_set_inside
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_draw_inside_axes"></span><h3>procedure, public :: <strong>set_draw_inside_axes</strong>  => leg_set_inside         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_inside(this, x)  
 </h3>
-
   <p>Sets a value determining if the legend should be drawn inside
 or outside the axes border.</p>
 
@@ -727,17 +707,17 @@ or outside the axes border.</p>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -772,40 +752,31 @@ or outside the axes border.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_horizontal_position"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_horizontal_position</strong> => leg_set_horz_pos
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_horizontal_position"></span><h3>procedure, public :: <strong>set_horizontal_position</strong>  => leg_set_horz_pos         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_horz_pos(this, x)  
 </h3>
-
   <p>Sets the horizontal position of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -842,40 +813,31 @@ LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_is_opaque"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_is_opaque</strong> => leg_set_opaque
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_is_opaque"></span><h3>procedure, public :: <strong>set_is_opaque</strong>  => leg_set_opaque         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_opaque(this, x)  
 </h3>
-
   <p>Sets a value determining if the legend is to be opaque.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -910,40 +872,31 @@ LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_is_visible~3"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_is_visible</strong> => leg_set_visible
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_is_visible~3"></span><h3>procedure, public :: <strong>set_is_visible</strong>  => leg_set_visible         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_visible(this, x)  
 </h3>
-
   <p>Sets a value determining if the legend is visible.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -978,40 +931,31 @@ LEGEND_RIGHT.  If not, the default LEGEND_RIGHT will be used.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_layout"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_layout</strong> => leg_set_layout
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_layout"></span><h3>procedure, public :: <strong>set_layout</strong>  => leg_set_layout         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_layout(this, x)  
 </h3>
-
   <p>Sets the layout of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1047,40 +991,31 @@ LEGEND_ARRANGE_HORIZONTALLY.</p>
     </ul>
   </div>
 
-          </div>
-          <div class="row">
-              <div class="card mt-3">
-    <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_vertical_position"></span>
-      <h3>
-          procedure, public ::
-  <strong>set_vertical_position</strong> => leg_set_vert_pos
-        
-      </h3>
-    </div>
+            <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_vertical_position"></span><h3>procedure, public :: <strong>set_vertical_position</strong>  => leg_set_vert_pos         
+    </h3></div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
     private  subroutine leg_set_vert_pos(this, x)  
 </h3>
-
   <p>Sets the vertical position of the legend.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
               <span class="anchor" ></span>
-              class(<a href='legend.html'>legend</a>),
+              class(<a href='../type/legend.html'>legend</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -1117,7 +1052,6 @@ LEGEND_BOTTOM.  If not, the default LEGEND_TOP will be used.</p>
     </ul>
   </div>
 
-          </div>
       </section>
 
     
@@ -1128,27 +1062,32 @@ LEGEND_BOTTOM.  If not, the default LEGEND_TOP will be used.</p>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row justify-content-between">
-          <div class="col"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
 </p>
           </div>
-          <div class="col">
-            <p class="text-end">
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-16 07:03              </p>
+ on 2026-06-22 15:20              </p>
           </div>
         </div>
         <br>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
+        <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">
