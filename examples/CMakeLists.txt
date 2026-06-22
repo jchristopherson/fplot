@@ -157,6 +157,10 @@ target_link_libraries(box_whisker_example fplot fstring::fstring)
 add_executable(jitter_plot_example jitter_plot_example.f90)
 target_link_libraries(jitter_plot_example fplot)
 
+# Example 40
+add_executable(function_plot_example function_plot_example.f90)
+target_link_libraries(function_plot_example fplot)
+
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(
         TARGET generic_2d_plot

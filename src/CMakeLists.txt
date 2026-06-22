@@ -43,6 +43,7 @@ set(FPLOT_SOURCES
     ${dir}/fplot_surface_plot_data.f90
     ${dir}/fplot_stats_plots.f90
     ${dir}/fplot_plot_data_box_whisker.f90
+    ${dir}/fplot_plot_data_function.f90
 )
 set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 

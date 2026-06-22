@@ -1,5 +1,3 @@
-<!-- -*- mode: jinja2 -*- -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,53 +10,77 @@
 
     <title>fplot_plot_data &ndash; FPLOT</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+         <script src="../js/jquery-2.1.3.min.js"></script>
+         <script src="../js/svg-pan-zoom.min.js"></script>
+
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <div class="container-fluid mb-sm-4 mb-xl-2">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="../index.html">FPLOT </a>
-          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
-                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="../lists/files.html">Source Files</a>
-                  </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/modules.html">Modules</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
-                </li>
-            </ul>
-              <div class="d-flex align-items-end flex-grow-1">
-                <form action="../search.html" role="search" class="ms-auto">
-                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
-                </form>
-              </div>
-          </div><!--/.nav-collapse -->
+          <a class="navbar-brand" href="../index.html">FPLOT </a>
         </div>
-      </nav>
-    </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown" role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">
+                 Contents <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                    <li><a href="../lists/files.html">Source Files</a></li>
+                  <li><a href="../lists/modules.html">Modules</a></li>
+                  <li><a href="../lists/procedures.html">Procedures</a></li>
+                  <li><a href="../lists/types.html">Derived Types</a></li>
+              </ul>
+            </li>
+                <li class="visible-xs hidden-sm visible-lg">
+                  <a href="../lists/files.html">Source Files</a>
+                </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/modules.html">Modules</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/procedures.html">Procedures</a>
+              </li>
+              <li class="visible-xs hidden-sm visible-lg">
+                <a href="../lists/types.html">Derived Types</a>
+              </li>
+          </ul>
+            <form action="../search.html" class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              </div>
+              <!--
+                  <button type="submit" class="btn btn-default">Submit</button>
+                  -->
+            </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
     <div class="container">
   <div class="row">
@@ -66,43 +88,39 @@
       <small>Module</small>
       
     </h1>
-      <div class="container p-2 mb-4 bg-light border rounded-3">
-    <div class="row align-items-center justify-content-between" id="info-bar">
-      <div class="col">
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title=" 4.8% of total for modules and submodules.">376 statements</a>
-            </li>
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 5.5% of total for modules and submodules.">441 statements</a>
+          </li>
 
-            <li class="list-inline-item" id="source-file">
+            <li id="source-file">
               <i class="fa fa-code"></i>
               <a href="../src/fplot_plot_data.f90"> Source File</a>
             </li>
         </ul>
-      </div>
-      <div class="col">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_plot_data.f90.html'>fplot_plot_data.f90</a></li>
-            <li class="breadcrumb-item active" aria-current="page">fplot_plot_data</li>
-          </ol>
-        </nav>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/fplot_plot_data.f90.html'>fplot_plot_data.f90</a></li>
+          <li class="active">fplot_plot_data</li>
+        </ol>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
     })
   </script>
 
   </div>
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
         <div id="sidebar">
       <h3>Contents</h3>
   
@@ -113,13 +131,15 @@
   
   
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#inters-0"
-         aria-expanded="false" aria-controls="inters-0">
-         <h4 class="card-header bg-primary text-white">Interfaces</h4>
-      </a>
-      <div id="inters-0" class="collapse">
-        <div class="list-group list-group-flush">
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#inters-0">Interfaces</a>
+        </h3>
+      </div>
+      <div id="inters-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_clear_action">pd_clear_action</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_get_string_result">pd_get_string_result</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_int_value">spd_get_int_value</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_string_result">spd_get_string_result</a>
@@ -130,13 +150,15 @@
     </div>
 
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#types-0"
-         aria-expanded="false" aria-controls="types-0">
-         <h4 class="card-header bg-primary text-white">Derived Types</h4>
-      </a>
-      <div id="types-0" class="collapse">
-        <div class="list-group list-group-flush">
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#types-0">Derived Types</a>
+        </h3>
+      </div>
+      <div id="types-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-line_plot_data">line_plot_data</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data">plot_data</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data_colored">plot_data_colored</a>
             <a class="list-group-item" href="../module/fplot_plot_data.html#type-scatter_plot_data">scatter_plot_data</a>
@@ -144,8 +166,20 @@
       </div>
     </div>
 
-  
-  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#funcs-0">Functions</a>
+        </h3>
+      </div>
+      <div id="funcs-0" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#proc-lpd_get_cmd">lpd_get_cmd</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#proc-spd_get_cmd">spd_get_cmd</a>
+        </div>
+      </div>
+    </div>
+
   
   
   
@@ -161,35 +195,154 @@
 
     <div class="col-md-9" id='text'>
       
-<br>          <div class="card mb-4">
-      <h3 class="card-header card-title bg-light">Uses</h3>
-      <div class="card-body">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <ul class="list-inline">
-                  <li class="list-inline-item">ferror</li>
-                  <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
-                  <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item"><a href='fplot_colors.html'>fplot_colors</a></li>
-                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
-                  <li class="list-inline-item">strings</li>
-              </ul>
-            </li>
-        </ul>
+<br>          <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Uses</h3>
       </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+            <ul class="list-inline">
+                <li><a href='../module/fplot_constants.html'>fplot_constants</a></li>
+                <li>ferror</li>
+                <li><a href='../module/fplot_errors.html'>fplot_errors</a></li>
+                <li><a href='../module/fplot_colors.html'>fplot_colors</a></li>
+                <li><a href='<a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a>'>iso_fortran_env</a></li>
+                <li><a href='../module/fplot_plot_object.html'>fplot_plot_object</a></li>
+                <li>strings</li>
+            </ul>
+          </li>
+      </ul>
     </div>
 
       
       <br>
+
+      <section class="visible-xs visible-sm hidden-md">
+          <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#inters-1">Interfaces</a>
+        </h3>
+      </div>
+      <div id="inters-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_clear_action">pd_clear_action</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-pd_get_string_result">pd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_int_value">spd_get_int_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_string_result">spd_get_string_result</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_get_value">spd_get_value</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#interface-spd_set_value">spd_set_value</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#types-1">Derived Types</a>
+        </h3>
+      </div>
+      <div id="types-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-line_plot_data">line_plot_data</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data">plot_data</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-plot_data_colored">plot_data_colored</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#type-scatter_plot_data">scatter_plot_data</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="panel panel-primary">
+      <div class="panel-heading text-left">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#funcs-1">Functions</a>
+        </h3>
+      </div>
+      <div id="funcs-1" class="panel-collapse collapse">
+        <div class="list-group">
+            <a class="list-group-item" href="../module/fplot_plot_data.html#proc-lpd_get_cmd">lpd_get_cmd</a>
+            <a class="list-group-item" href="../module/fplot_plot_data.html#proc-spd_get_cmd">spd_get_cmd</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+      </section>
+      <br class="visible-xs visible-sm hidden-md">
 
 
 
 
         <section>
           <h2>Interfaces</h2>
-              <div class="card">
-    <div class="card-header bg-light codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="interface-pd_clear_action"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public  subroutine pd_clear_action(this)  
+
+    </h3>
+  <p>Performs a clearing operation.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/plot_data.html'>plot_data</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="interface-pd_get_string_result"></span>
       <h3>        interface
       </h3>
@@ -206,17 +359,17 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~380"></span>
-              class(<a href='..\type\plot_data.html'>plot_data</a>),
+              <span class="anchor" ></span>
+              class(<a href='../type/plot_data.html'>plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -241,8 +394,8 @@
     </ul>
   </div>
 
-              <div class="card">
-    <div class="card-header bg-light codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="interface-spd_get_int_value"></span>
       <h3>        interface
       </h3>
@@ -259,17 +412,17 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~383"></span>
-              class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -294,8 +447,8 @@
     </ul>
   </div>
 
-              <div class="card">
-    <div class="card-header bg-light codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="interface-spd_get_string_result"></span>
       <h3>        interface
       </h3>
@@ -312,17 +465,17 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~384"></span>
-              class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -347,8 +500,8 @@
     </ul>
   </div>
 
-              <div class="card">
-    <div class="card-header bg-light codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="interface-spd_get_value"></span>
       <h3>        interface
       </h3>
@@ -365,17 +518,17 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~381"></span>
-              class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -389,7 +542,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~11"></span>
+              <span class="anchor" ></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -415,8 +568,8 @@
     </ul>
   </div>
 
-              <div class="card">
-    <div class="card-header bg-light codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="interface-spd_set_value"></span>
       <h3>        interface
       </h3>
@@ -433,17 +586,17 @@
       <table class="table table-striped varlist">
     <thead>
       <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
     </thead>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~382"></span>
-              class(<a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>),
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -457,7 +610,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~12"></span>
+              <span class="anchor" ></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -472,7 +625,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~287"></span>
+              <span class="anchor" ></span>
               real(kind=real64),
             </td>
 <td>intent(in)</td>
@@ -499,16 +652,305 @@
 
         <section>
           <h2>Derived Types</h2>
-              <div class="card">
-    <div class="card-header codesum">
-      <span class="anchor" id="type-plot_data"></span>
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="type-line_plot_data"></span>
       <h3>
-        type, public, extends(<a href='..\type\plot_object.html'>plot_object</a>)&nbsp;::&nbsp;
-        <a href='..\type\plot_data.html'>plot_data</a>
+        type, public, extends(<a href='../type/plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
+        <a href='../type/line_plot_data.html'>line_plot_data</a>
         
       </h3>
     </div>
-    <div class="card-body">
+    <div class="panel-body">
+      <p>A plot_data object for describing line series data.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_all'>clear_all</a></strong>
+ =>
+                    pd_clear
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(pd_clear_action)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_data~2'>clear_data</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong>
+ =>
+                    pd_create_unique_datablock_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_command_string~13'>get_command_string</a></strong>
+ =>
+                    <a href='../proc/lpd_get_cmd.html'>lpd_get_cmd</a>
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong>
+ =>
+                    pd_get_datablock_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_draw_line'>get_draw_line</a></strong>
+ =>
+                    lpd_get_draw_line
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_draw_markers'>get_draw_markers</a></strong>
+ =>
+                    lpd_get_draw_markers
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_line_style~2'>get_line_style</a></strong>
+ =>
+                    lpd_get_line_style
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_line_width~2'>get_line_width</a></strong>
+ =>
+                    lpd_get_line_width
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_frequency'>get_marker_frequency</a></strong>
+ =>
+                    lpd_get_marker_frequency
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_scaling'>get_marker_scaling</a></strong>
+ =>
+                    lpd_get_marker_scaling
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_style'>get_marker_style</a></strong>
+ =>
+                    lpd_get_marker_style
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+ =>
+                    pdc_set_color_index
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong>
+ =>
+                    pd_set_datablock_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_draw_line'>set_draw_line</a></strong>
+ =>
+                    lpd_set_draw_line
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_draw_markers'>set_draw_markers</a></strong>
+ =>
+                    lpd_set_draw_markers
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
+ =>
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_line_style~2'>set_line_style</a></strong>
+ =>
+                    lpd_set_line_style
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_line_width~2'>set_line_width</a></strong>
+ =>
+                    lpd_set_line_width
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_frequency'>set_marker_frequency</a></strong>
+ =>
+                    lpd_set_marker_frequency
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_scaling'>set_marker_scaling</a></strong>
+ =>
+                    lpd_set_marker_scaling
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_style'>set_marker_style</a></strong>
+ =>
+                    lpd_set_marker_style
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
+      <span class="anchor" id="type-plot_data"></span>
+      <h3>
+        type, public, extends(<a href='../type/plot_object.html'>plot_object</a>)&nbsp;::&nbsp;
+        <a href='../type/plot_data.html'>plot_data</a>
+        
+      </h3>
+    </div>
+    <div class="panel-body">
       <p>A container for plot data.</p>
 
 
@@ -518,38 +960,87 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_all'>clear_all</a></strong>
+ =>
+                    pd_clear
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\get_string_result.html'>get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~16'>get_command_string</a></strong></td>
+                <td>
+                    procedure
+(pd_clear_action)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_data~2'>clear_data</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong>
+ =>
+                    pd_create_unique_datablock_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
+                <td>
+                    procedure
+(get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_object.html#boundprocedure-get_command_string~14'>get_command_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_name'>get_name</a></strong> => pd_get_name</td>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong>
+ =>
+                    pd_get_datablock_name
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_name'>set_name</a></strong> => pd_set_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong>
+ =>
+                    pd_set_datablock_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
           </tbody>
@@ -557,16 +1048,16 @@
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="type-plot_data_colored"></span>
       <h3>
-        type, public, extends(<a href='..\type\plot_data.html'>plot_data</a>)&nbsp;::&nbsp;
-        <a href='..\type\plot_data_colored.html'>plot_data_colored</a>
+        type, public, extends(<a href='../type/plot_data.html'>plot_data</a>)&nbsp;::&nbsp;
+        <a href='../type/plot_data_colored.html'>plot_data_colored</a>
         
       </h3>
     </div>
-    <div class="card-body">
+    <div class="panel-body">
       <p>Defines a colored plot data set.</p>
 
 
@@ -576,58 +1067,127 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_all'>clear_all</a></strong>
+ =>
+                    pd_clear
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong> => pdc_get_color_index</td>
+                <td>
+                    procedure
+(pd_clear_action)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_data~2'>clear_data</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\get_string_result.html'>get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_object.html#boundprocedure-get_command_string~16'>get_command_string</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong>
+ =>
+                    pd_create_unique_datablock_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
+                <td>
+                    procedure
+(get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_object.html#boundprocedure-get_command_string~14'>get_command_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong> => pdc_get_line_color</td>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_name'>get_name</a></strong> => pd_get_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong>
+ =>
+                    pd_get_datablock_name
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong> => pdc_set_color_index</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong> => pdc_set_line_color</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+ =>
+                    pdc_set_color_index
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_name'>set_name</a></strong> => pd_set_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong>
+ =>
+                    pd_set_datablock_name
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
+ =>
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
           </tbody>
@@ -635,16 +1195,16 @@
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum">
+              <div class="panel panel-default">
+    <div class="panel-heading codesum">
       <span class="anchor" id="type-scatter_plot_data"></span>
       <h3>
-        type, public, extends(<a href='..\type\plot_data_colored.html'>plot_data_colored</a>)&nbsp;::&nbsp;
-        <a href='..\type\scatter_plot_data.html'>scatter_plot_data</a>
+        type, public, extends(<a href='../type/line_plot_data.html'>line_plot_data</a>)&nbsp;::&nbsp;
+        <a href='../type/scatter_plot_data.html'>scatter_plot_data</a>
         
       </h3>
     </div>
-    <div class="card-body">
+    <div class="panel-body">
       <p>A plot_data object for describing scatter plot data sets.</p>
 
 
@@ -654,208 +1214,417 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong> => pd_create_unique_datablock_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_all'>clear_all</a></strong>
+ =>
+                    pd_clear
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_get_string_result.html'>spd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_axes_string~5'>get_axes_string</a></strong></td>
+                <td>
+                    procedure
+(pd_clear_action)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-clear_data~2'>clear_data</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong> => pdc_get_color_index</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-create_unique_datablock_name'>create_unique_datablock_name</a></strong>
+ =>
+                    pd_create_unique_datablock_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_command_string~23'>get_command_string</a></strong> => spd_get_cmd</td>
+                <td>
+                    procedure
+(spd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_axes_string~2'>get_axes_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_get_int_value.html'>spd_get_int_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_count~5'>get_count</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_color_index'>get_color_index</a></strong>
+ =>
+                    pdc_get_color_index
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\pd_get_string_result.html'>pd_get_string_result</a>), public, deferred ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_data_string~8'>get_data_string</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_command_string~15'>get_command_string</a></strong>
+ =>
+                    <a href='../proc/spd_get_cmd.html'>spd_get_cmd</a>
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong> => pd_get_datablock_name</td>
+                <td>
+                    procedure
+(spd_get_int_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_count~2'>get_count</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_draw_line'>get_draw_line</a></strong> => spd_get_draw_line</td>
+                <td>
+                    procedure
+(pd_get_string_result)                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_data_string~2'>get_data_string</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_draw_markers'>get_draw_markers</a></strong> => spd_get_draw_markers</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_datablock_name'>get_datablock_name</a></strong>
+ =>
+                    pd_get_datablock_name
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_fill_curve'>get_fill_curve</a></strong> => spd_get_filled</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_draw_line'>get_draw_line</a></strong>
+ =>
+                    lpd_get_draw_line
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong> => pdc_get_line_color</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_draw_markers'>get_draw_markers</a></strong>
+ =>
+                    lpd_get_draw_markers
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_line_style~3'>get_line_style</a></strong> => spd_get_line_style</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_fill_curve'>get_fill_curve</a></strong>
+ =>
+                    spd_get_filled
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_line_width~3'>get_line_width</a></strong> => spd_get_line_width</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-get_line_color'>get_line_color</a></strong>
+ =>
+                    pdc_get_line_color
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_marker_frequency'>get_marker_frequency</a></strong> => spd_get_marker_frequency</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_line_style~2'>get_line_style</a></strong>
+ =>
+                    lpd_get_line_style
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_marker_scaling'>get_marker_scaling</a></strong> => spd_get_marker_scaling</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_line_width~2'>get_line_width</a></strong>
+ =>
+                    lpd_get_line_width
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_marker_style'>get_marker_style</a></strong> => spd_get_marker_style</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_frequency'>get_marker_frequency</a></strong>
+ =>
+                    lpd_get_marker_frequency
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-get_name'>get_name</a></strong> => pd_get_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_scaling'>get_marker_scaling</a></strong>
+ =>
+                    lpd_get_marker_scaling
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_simplification_factor'>get_simplification_factor</a></strong> => spd_get_simplify_factor</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-get_marker_style'>get_marker_style</a></strong>
+ =>
+                    lpd_get_marker_style
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_simplify_data'>get_simplify_data</a></strong> => spd_get_simplify_data</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-get_name'>get_name</a></strong>
+ =>
+                    pd_get_name
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_use_data_dependent_colors'>get_use_data_dependent_colors</a></strong> => spd_get_data_dependent_colors</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_simplification_factor'>get_simplification_factor</a></strong>
+ =>
+                    spd_get_simplify_factor
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_use_variable_size_points'>get_use_variable_size_points</a></strong> => spd_get_use_var_point_size</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_simplify_data'>get_simplify_data</a></strong>
+ =>
+                    spd_get_simplify_data
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_get_value.html'>spd_get_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_x~3'>get_x</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_use_data_dependent_colors'>get_use_data_dependent_colors</a></strong>
+ =>
+                    spd_get_data_dependent_colors
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_get_value.html'>spd_get_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-get_y~3'>get_y</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_use_variable_size_points'>get_use_variable_size_points</a></strong>
+ =>
+                    spd_get_use_var_point_size
+<small>Function</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong> => pdc_set_color_index</td>
+                <td>
+                    procedure
+(spd_get_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_x'>get_x</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong> => pd_set_datablock_name</td>
+                <td>
+                    procedure
+(spd_get_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-get_y'>get_y</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_draw_line'>set_draw_line</a></strong> => spd_set_draw_line</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_color_index'>set_color_index</a></strong>
+ =>
+                    pdc_set_color_index
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_draw_markers'>set_draw_markers</a></strong> => spd_set_draw_markers</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_datablock_name'>set_datablock_name</a></strong>
+ =>
+                    pd_set_datablock_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_fill_curve'>set_fill_curve</a></strong> => spd_set_filled</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_draw_line'>set_draw_line</a></strong>
+ =>
+                    lpd_set_draw_line
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong> => pdc_set_line_color</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_draw_markers'>set_draw_markers</a></strong>
+ =>
+                    lpd_set_draw_markers
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_line_style~3'>set_line_style</a></strong> => spd_set_line_style</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_fill_curve'>set_fill_curve</a></strong>
+ =>
+                    spd_set_filled
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_line_width~3'>set_line_width</a></strong> => spd_set_line_width</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data_colored.html#boundprocedure-set_line_color'>set_line_color</a></strong>
+ =>
+                    pdc_set_line_color
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_marker_frequency'>set_marker_frequency</a></strong> => spd_set_marker_frequency</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_line_style~2'>set_line_style</a></strong>
+ =>
+                    lpd_set_line_style
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_marker_scaling'>set_marker_scaling</a></strong> => spd_set_marker_scaling</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_line_width~2'>set_line_width</a></strong>
+ =>
+                    lpd_set_line_width
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_marker_style'>set_marker_style</a></strong> => spd_set_marker_style</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_frequency'>set_marker_frequency</a></strong>
+ =>
+                    lpd_set_marker_frequency
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\plot_data.html#boundprocedure-set_name'>set_name</a></strong> => pd_set_name</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_scaling'>set_marker_scaling</a></strong>
+ =>
+                    lpd_set_marker_scaling
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_simplification_factor'>set_simplification_factor</a></strong> => spd_set_simplify_factor</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/line_plot_data.html#boundprocedure-set_marker_style'>set_marker_style</a></strong>
+ =>
+                    lpd_set_marker_style
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_simplify_data'>set_simplify_data</a></strong> => spd_set_simplify_data</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/plot_data.html#boundprocedure-set_name'>set_name</a></strong>
+ =>
+                    pd_set_name
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_use_data_dependent_colors'>set_use_data_dependent_colors</a></strong> => spd_set_data_dependent_colors</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_simplification_factor'>set_simplification_factor</a></strong>
+ =>
+                    spd_set_simplify_factor
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_use_variable_size_points'>set_use_variable_size_points</a></strong> => spd_set_use_var_point_size</td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_simplify_data'>set_simplify_data</a></strong>
+ =>
+                    spd_set_simplify_data
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_set_value.html'>spd_set_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_x~3'>set_x</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_use_data_dependent_colors'>set_use_data_dependent_colors</a></strong>
+ =>
+                    spd_set_data_dependent_colors
+<small>Subroutine</small>                </td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure(<a href='..\interface\spd_set_value.html'>spd_set_value</a>), public, deferred ::
-  <strong><a href='..\type\scatter_plot_data.html#boundprocedure-set_y~3'>set_y</a></strong></td>
+                <td>
+                    procedure
+                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_use_variable_size_points'>set_use_variable_size_points</a></strong>
+ =>
+                    spd_set_use_var_point_size
+<small>Subroutine</small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_set_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_x'>set_x</a></strong>
+<small></small>                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                    procedure
+(spd_set_value)                    ,                  public
+                  :: <strong><a href='../type/scatter_plot_data.html#boundprocedure-set_y'>set_y</a></strong>
+<small></small>                </td>
                 <td></td>
               </tr>
           </tbody>
@@ -866,6 +1635,102 @@
         </section>
         <br>
 
+        <section>
+          <h2>Functions</h2>
+              <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="proc-lpd_get_cmd"></span><h3>public  function <a href='../proc/lpd_get_cmd.html'>lpd_get_cmd</a>(this) result(rst)  
+</h3></div>
+    <div class="panel-body">
+          
+  <p>Gets the GNUPLOT command string to represent this line_plot_data
+object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/line_plot_data.html'>line_plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+<p>The line_plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The command string.</p>
+
+    </div>
+  </div>
+
+              <div class="panel panel-default">
+    <div class="panel-heading codesum"><span class="anchor" id="proc-spd_get_cmd"></span><h3>public  function <a href='../proc/spd_get_cmd.html'>spd_get_cmd</a>(this) result(x)  
+</h3></div>
+    <div class="panel-body">
+          
+  <p>Gets the GNUPLOT command string to represent this
+scatter_plot_data object.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='../type/scatter_plot_data.html'>scatter_plot_data</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+<p>The scatter_plot_data object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>character(len=:), allocatable</small>
+    </h4>
+    <p>The command string.</p>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
 
 
 
@@ -877,27 +1742,32 @@
     </div> <!-- /container -->
     <footer>
       <div class="container">
-        <div class="row justify-content-between">
-          <div class="col"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
+        <div class="row">
+          <div class="col-xs-6 col-md-6"><p>FPLOT was developed by Jason Christopherson<br>&copy; 2026 
 </p>
           </div>
-          <div class="col">
-            <p class="text-end">
+          <div class="col-xs-6 col-md-6">
+            <p class="text-right">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-06-16 07:03              </p>
+ on 2026-06-22 15:20              </p>
           </div>
         </div>
         <br>
       </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+         <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../js/ie10-viewport-bug-workaround.js"></script>
 
-    <!-- MathJax JavaScript
+        <!-- MathJax JavaScript
              ================================================== -->
              <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/x-mathjax-config">

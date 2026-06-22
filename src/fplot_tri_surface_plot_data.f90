@@ -29,6 +29,7 @@ module fplot_tri_surface_plot_data
         procedure, public :: get_use_wireframe => tspd_get_wireframe
         procedure, public :: set_use_wireframe => tspd_set_wireframe
         procedure, public :: define_data => tspd_define_data
+        procedure, public :: clear_data => tspd_clear_data
     end type
 
 contains
@@ -50,6 +51,16 @@ contains
         n = size(this%m_indices, 1)
         delimiter = achar(9)
         nl = new_line(nl)
+
+        if (.not.allocated(this%m_x) .or. &
+            .not.allocated(this%m_y) .or. &
+            .not.allocated(this%m_z) .or. &
+            .not.allocated(this%m_indices) &
+            ) &
+        then
+            x = ""
+            return
+        end if
 
         ! Process
         ! https://stackoverflow.com/questions/42784369/drawing-triangular-mesh-using-gnuplot
@@ -210,6 +221,17 @@ contains
         this%m_y = tri%get_points_y()
         this%m_z = tri%get_points_z()
         this%m_indices = tri%get_indices()
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine tspd_clear_data(this)
+        !! Clears the data from the data set.
+        class(tri_surface_plot_data), intent(inout) :: this
+            !! The tri_surface_plot_data object.
+        if (allocated(this%m_x)) deallocate(this%m_x)
+        if (allocated(this%m_y)) deallocate(this%m_y)
+        if (allocated(this%m_z)) deallocate(this%m_z)
+        if (allocated(this%m_indices)) deallocate(this%m_indices)
     end subroutine
 
 ! ------------------------------------------------------------------------------

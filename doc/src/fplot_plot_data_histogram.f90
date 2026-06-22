@@ -40,6 +40,7 @@ module fplot_plot_data_histogram
         procedure, public :: get_draw_against_y2 => pdh_get_use_y2
         procedure, public :: set_draw_against_y2 => pdh_set_use_y2
         procedure, public :: get => pdh_get_bin_data
+        procedure, public :: clear_data => pdh_clear_data
     end type
 
 contains
@@ -305,6 +306,14 @@ subroutine pdh_get_bin_data(this, i, x, cnt)
     end if
     x = this%m_data(i,2)
     cnt = floor(this%m_data(i,1))
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdh_clear_data(this)
+    !! Clears the data from this data set.
+    class(plot_data_histogram), intent(inout) :: this
+        !! The plot_data_histogram object.
+    if (allocated(this%m_data)) deallocate(this%m_data)
 end subroutine
 
 ! ------------------------------------------------------------------------------

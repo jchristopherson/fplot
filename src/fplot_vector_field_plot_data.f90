@@ -35,6 +35,7 @@ module fplot_vector_field_plot_data
         procedure, public :: set_fill_arrow => vfpd_set_fill_arrow
         procedure, public :: get_use_data_dependent_colors => &
             vfpd_get_use_data_dependent_colors
+        procedure, public :: clear_data => vfpd_clear_data
     end type
 
 contains
@@ -59,6 +60,10 @@ contains
         scaling = this%get_arrow_size()
         
         ! Fix later
+        if (.not.allocated(this%m_data)) then
+            x = ""
+            return
+        end if
         m = size(this%m_data, 1)
         n = size(this%m_data, 2)
 
@@ -309,6 +314,14 @@ contains
         if (.not.allocated(this%m_data)) return
         rst = size(this%m_data, 3) >= 5
     end function
+
+! ------------------------------------------------------------------------------
+    subroutine vfpd_clear_data(this)
+        !! Clears the data from the data set.
+        class(vector_field_plot_data), intent(inout) :: this
+            !! The vector_field_plot_data object.
+        if (allocated(this%m_data)) deallocate(this%m_data)
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 end module

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 project(
     fplot 
     LANGUAGES Fortran
-    VERSION 1.8.8
+    VERSION 1.8.9
 )
 
 # Confgiure everything
