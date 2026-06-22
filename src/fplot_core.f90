@@ -139,6 +139,7 @@ module fplot_core
     public :: pd_get_string_result
     public :: pd_clear_action
     public :: plot_data_colored
+    public :: line_plot_data
     public :: scatter_plot_data
     public :: spd_get_int_value
     public :: spd_get_string_result

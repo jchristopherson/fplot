@@ -2,12 +2,13 @@ module fplot_plot_data_function
     use iso_fortran_env
     use fplot_plot_data
     use fplot_colors
+    use fplot_constants
     use strings
     implicit none
     private
     public :: plot_data_function
 
-    type, extends(plot_data_colored) :: plot_data_function
+    type, extends(line_plot_data) :: plot_data_function
         !! Defines a function to plot.
         character(len = :), private, allocatable :: m_function
             !! The function to plot (e.g. sin(x))
@@ -16,7 +17,8 @@ module fplot_plot_data_function
         real(real64), private :: m_minX = -1.0d0
             !! The minimum X value of the plot range.
         real(real64), private :: m_maxX = 1.0d0
-            !! The maximum X value of the plot range.
+        integer(int32), private :: m_sampleCount = 100
+            !! The number of times to sample the function
     contains
         procedure, public :: get_function => pdf_get_function
         procedure, public :: get_function_name => pdf_get_function_name
@@ -28,6 +30,12 @@ module fplot_plot_data_function
         procedure, public :: set_minimum_x => pdf_set_min_x
         procedure, public :: get_maximum_x => pdf_get_max_x
         procedure, public :: set_maximum_x => pdf_set_max_x
+        ! procedure, public :: get_line_width => pdf_get_line_width
+        ! procedure, public :: set_line_width => pdf_set_line_width
+        ! procedure, public :: get_line_style => pdf_get_line_style
+        ! procedure, public :: set_line_style => pdf_set_line_style
+        procedure, public :: get_sample_count => pfd_get_sample_count
+        procedure, public :: set_sample_count => pfd_set_sample_count
     end type
 
 contains
@@ -62,7 +70,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine pdf_define_data(this, f, fname, minX, maxX)
+    subroutine pdf_define_data(this, f, fname, minX, maxX, name)
         !! Defines the function to plot.
         class(plot_data_function), intent(inout) :: this
             !! The plot_data_function object.
@@ -76,6 +84,10 @@ contains
         real(real64), intent(in), optional :: maxX
             !! The maximum x value to plot. If not supplied, this will default
             !! to a value of 1.
+        character(len = *), intent(in), optional :: name
+            !! An optional input that specifies the name that will be displayed
+            !! in the legend.  If nothing is supplied, the input string for 
+            !! parameter f will be utilized.
 
         this%m_function = f
         this%m_functionName = fname
@@ -91,6 +103,12 @@ contains
         else
             this%m_maxX = 1.0d0
         end if
+
+        if (present(name)) then
+            call this%set_name(name)
+        else
+            call this%set_name(f)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -102,6 +120,7 @@ contains
             !! The command string.
 
         ! Local Variables
+        integer(int32) :: n
         type(string_builder) :: str
         type(color) :: clr
 
@@ -114,12 +133,10 @@ contains
         call str%append("] ")
         call str%append(this%get_function_name())
 
-        ! Line Color
-        clr = this%get_line_color()
-        call str%append(' lc rgb "#')
-        call str%append(clr%to_hex_string())
-        call str%append('"')
+        ! Use the base object to define the line properties
+        call str%append(lpd_get_cmd(this))
 
+        ! Return the complete command string
         rst = char(str%to_string())
     end function
 
@@ -141,6 +158,12 @@ contains
         call str%append(" = ")
         call str%append(this%get_function())
 
+        ! Samples
+        call str%append(new_line('a'))
+        call str%append("set samples ")
+        call str%append(to_string(this%get_sample_count()))
+
+        ! End
         rst = char(str%to_string())
     end function
 
@@ -194,8 +217,31 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure function pfd_get_sample_count(this) result(rst)
+        !! Gets the number of times to sample the function.
+        class(plot_data_function), intent(in) :: this
+            !! The plot_data_function object.
+        integer(int32) :: rst
+            !! The sample count.
+        rst = this%m_sampleCount
+    end function
 
 ! --------------------
+    subroutine pfd_set_sample_count(this, x)
+        !! Sets the number of times to sample the function.  This variable is 
+        !! global for all function plots as GNUPLOT does not allow inline
+        !! sample modification currently.  Hopefully this will change somewhere
+        !! down the road.
+        class(plot_data_function), intent(inout) :: this
+            !! The plot_data_function object.
+        integer(int32), intent(in) :: x
+            !! The sample count.  Must be greater than 1.
+        if (x <= 1) then
+            this%m_sampleCount = 2
+        else
+            this%m_sampleCount = x
+        end if
+    end subroutine
 
 ! ------------------------------------------------------------------------------
 

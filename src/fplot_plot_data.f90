@@ -15,10 +15,13 @@ module fplot_plot_data
     public :: pd_clear_action
     public :: plot_data_colored
     public :: scatter_plot_data
+    public :: line_plot_data
     public :: spd_get_int_value
     public :: spd_get_string_result
     public :: spd_get_value
     public :: spd_set_value
+    public :: lpd_get_cmd
+    public :: spd_get_cmd
 
     type, abstract, extends(plot_object) :: plot_data
         !! A container for plot data.
@@ -74,52 +77,57 @@ module fplot_plot_data
         procedure, public :: set_color_index => pdc_set_color_index
     end type
 
-    type, abstract, extends(plot_data_colored) :: scatter_plot_data
-        !! A plot_data object for describing scatter plot data sets.
-    private
-        logical :: m_drawLine = .true.
+    type, abstract, extends(plot_data_colored) :: line_plot_data
+        !! A plot_data object for describing line series data.
+        logical, private :: m_drawLine = .true.
             !! Draw a line connecting the dots?
-        logical :: m_drawMarkers = .false.
+        logical, private :: m_drawMarkers = .false.
             !! Draw the markers?
-        integer(int32) :: m_markerFrequency = 1
-            !! Marker frequency.
-        real(real32) :: m_lineWidth = 1.0
+        real(real32), private :: m_lineWidth = 1.0
             !! Line width.
-        integer(int32) :: m_lineStyle = LINE_SOLID
+        integer(int32), private :: m_lineStyle = LINE_SOLID
             !! Line style.
-        integer(int32) :: m_markerType = MARKER_FILLED_CIRCLE
+        integer(int32), private :: m_markerType = MARKER_FILLED_CIRCLE
             !! Marker type.
-        real(real32) :: m_markerSize = 0.5
+        real(real32), private :: m_markerSize = 0.5
             !! Marker size multiplier.
-        logical :: m_simplifyData = .true.
+        integer(int32), private :: m_markerFrequency = 1
+            !! Marker frequency.
+    contains
+        procedure, public :: get_command_string => lpd_get_cmd
+        procedure, public :: get_line_width => lpd_get_line_width
+        procedure, public :: set_line_width => lpd_set_line_width
+        procedure, public :: get_line_style => lpd_get_line_style
+        procedure, public :: set_line_style => lpd_set_line_style
+        procedure, public :: get_draw_line => lpd_get_draw_line
+        procedure, public :: set_draw_line => lpd_set_draw_line
+        procedure, public :: get_draw_markers => lpd_get_draw_markers
+        procedure, public :: set_draw_markers => lpd_set_draw_markers
+        procedure, public :: get_marker_style => lpd_get_marker_style
+        procedure, public :: set_marker_style => lpd_set_marker_style
+        procedure, public :: get_marker_scaling => lpd_get_marker_scaling
+        procedure, public :: set_marker_scaling => lpd_set_marker_scaling
+        procedure, public :: get_marker_frequency => lpd_get_marker_frequency
+        procedure, public :: set_marker_frequency => lpd_set_marker_frequency
+    end type
+
+    type, abstract, extends(line_plot_data) :: scatter_plot_data
+        !! A plot_data object for describing scatter plot data sets.
+        logical, private :: m_simplifyData = .true.
             !! True if large data sets should be simplified before sending to
             !! GNUPLOT.
-        real(real64) :: m_simplifyFactor = 1.0d-3
+        real(real64), private :: m_simplifyFactor = 1.0d-3
             !! A scaling factor used to establish the simplification tolerance.
             !! The simplification tolerance is established by multiplying this
             !! factor by the range in the dependent variable data.
-        logical :: m_dataDependentColors = .false.
+        logical, private :: m_dataDependentColors = .false.
             !! Determines if the data should utilize data-dependent colors.
-        logical :: m_filledCurve = .false.
+        logical, private :: m_filledCurve = .false.
             !! Fill the curve?
-        logical :: m_useVariableSizePoints = .false.
+        logical, private :: m_useVariableSizePoints = .false.
             !! Use variable size data points?
     contains
         procedure, public :: get_command_string => spd_get_cmd
-        procedure, public :: get_line_width => spd_get_line_width
-        procedure, public :: set_line_width => spd_set_line_width
-        procedure, public :: get_line_style => spd_get_line_style
-        procedure, public :: set_line_style => spd_set_line_style
-        procedure, public :: get_draw_line => spd_get_draw_line
-        procedure, public :: set_draw_line => spd_set_draw_line
-        procedure, public :: get_draw_markers => spd_get_draw_markers
-        procedure, public :: set_draw_markers => spd_set_draw_markers
-        procedure, public :: get_marker_style => spd_get_marker_style
-        procedure, public :: set_marker_style => spd_set_marker_style
-        procedure, public :: get_marker_scaling => spd_get_marker_scaling
-        procedure, public :: set_marker_scaling => spd_set_marker_scaling
-        procedure, public :: get_marker_frequency => spd_get_marker_frequency
-        procedure, public :: set_marker_frequency => spd_set_marker_frequency
         procedure(spd_get_int_value), deferred, public :: get_count
         procedure(spd_get_value), deferred, public :: get_x
         procedure(spd_set_value), deferred, public :: set_x
@@ -320,6 +328,311 @@ contains
     end subroutine
 
 ! ******************************************************************************
+! LINE_PLOT_DATA
+! ------------------------------------------------------------------------------
+    pure function lpd_get_line_width(this) result(x)
+        !! Gets the width of the line, in pixels.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_lineWidth
+    end function
+
+! --------------------
+    subroutine lpd_set_line_width(this, x)
+        !! Sets the width of the line, in pixels.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_lineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_line_style(this) result(x)
+        !! Gets the line style.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_lineStyle
+    end function
+
+! --------------------
+    subroutine lpd_set_line_style(this, x)
+        !! Sets the line style.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_lineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_draw_line(this) result(x)
+        !! Gets a value determining if a line should be drawn.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        logical :: x
+            !! Returns true if the line should be drawn; else, false.
+        x = this%m_drawLine
+    end function
+
+! --------------------
+    subroutine lpd_set_draw_line(this, x)
+        !! Sets a value determining if a line should be drawn.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        logical, intent(in) :: x
+            !! Set to true if the line should be drawn; else, false.
+        this%m_drawLine = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_draw_markers(this) result(x)
+        !! Gets a value determining if data point markers should be drawn.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        logical :: x
+            !! Returns true if the markers should be drawn; else, false.
+        x = this%m_drawMarkers
+    end function
+
+! --------------------
+    subroutine lpd_set_draw_markers(this, x)
+        !! Sets a value determining if data point markers should be drawn.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        logical, intent(in) :: x
+            !! Set to true if the markers should be drawn; else, false.
+        this%m_drawMarkers = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_marker_style(this) result(x)
+        !! Gets the marker style.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        integer(int32) :: x
+            !! The marker type.  The marker type must be one of the following:
+            !!
+            !!  - MARKER_ASTERISK
+            !!
+            !!  - MARKER_EMPTY_CIRCLE
+            !!
+            !!  - MARKER_EMPTY_NABLA
+            !!
+            !!  - MARKER_EMPTY_RHOMBUS
+            !!
+            !!  - MARKER_EMPTY_SQUARE
+            !!
+            !!  - MARKER_EMPTY_TRIANGLE
+            !!
+            !!  - MARKER_FILLED_CIRCLE
+            !!
+            !!  - MARKER_FILLED_NABLA
+            !!
+            !!  - MARKER_FILLED_RHOMBUS
+            !!
+            !!  - MARKER_FILLED_SQUARE
+            !!
+            !!  - MARKER_FILLED_TRIANGLE
+            !!
+            !!  - MARKER_PLUS
+            !!
+            !!  - MARKER_X
+        x = this%m_markerType
+    end function
+
+! --------------------
+    subroutine lpd_set_marker_style(this, x)
+        !! Sets the marker style.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        integer(int32), intent(in) :: x
+            !! The marker type.  The marker type must be one of the following:
+            !!
+            !!  - MARKER_ASTERISK
+            !!
+            !!  - MARKER_EMPTY_CIRCLE
+            !!
+            !!  - MARKER_EMPTY_NABLA
+            !!
+            !!  - MARKER_EMPTY_RHOMBUS
+            !!
+            !!  - MARKER_EMPTY_SQUARE
+            !!
+            !!  - MARKER_EMPTY_TRIANGLE
+            !!
+            !!  - MARKER_FILLED_CIRCLE
+            !!
+            !!  - MARKER_FILLED_NABLA
+            !!
+            !!  - MARKER_FILLED_RHOMBUS
+            !!
+            !!  - MARKER_FILLED_SQUARE
+            !!
+            !!  - MARKER_FILLED_TRIANGLE
+            !!
+            !!  - MARKER_PLUS
+            !!
+            !!  - MARKER_X
+        if (x == MARKER_ASTERISK .or. &
+            x == MARKER_EMPTY_CIRCLE .or. &
+            x == MARKER_EMPTY_NABLA .or. &
+            x == MARKER_EMPTY_RHOMBUS .or. &
+            x == MARKER_EMPTY_SQUARE .or. &
+            x == MARKER_EMPTY_TRIANGLE .or. &
+            x == MARKER_FILLED_CIRCLE .or. &
+            x == MARKER_FILLED_NABLA .or. &
+            x == MARKER_FILLED_RHOMBUS .or. &
+            x == MARKER_FILLED_SQUARE .or. &
+            x == MARKER_FILLED_TRIANGLE .or. &
+            x == MARKER_PLUS .or. &
+            x == MARKER_X) then
+
+            ! Only alter the value if the marker is a known type
+            this%m_markerType = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_marker_scaling(this) result(x)
+        !! Gets the marker scaling.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        real(real32) :: x
+            !! The scaling factor.
+        x = this%m_markerSize
+    end function
+
+! --------------------
+    subroutine lpd_set_marker_scaling(this, x)
+        !! Sets the marker scaling.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        real(real32), intent(in) :: x
+            !! The scaling factor.
+        this%m_markerSize = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function lpd_get_marker_frequency(this) result(x)
+        !! Gets the marker frequency.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        integer(int32) :: x
+            !! The marker frequency.
+        x = this%m_markerFrequency
+    end function
+
+! --------------------
+    subroutine lpd_set_marker_frequency(this, x)
+        !! Sets the marker frequency.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        integer(int32), intent(in) :: x
+            !! The marker frequency.
+        this%m_markerFrequency = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    function lpd_get_cmd(this) result(rst)
+        !! Gets the GNUPLOT command string to represent this line_plot_data
+        !! object.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        character(len = :), allocatable :: rst
+            !! The command string.
+
+        ! Local Variables
+        type(string_builder) :: str
+        integer(int32) :: n
+        type(color) :: clr
+
+        ! Initialization
+        call str%initialize()
+
+        ! Title
+        n = len_trim(this%get_name())
+        if (n > 0) then
+            call str%append(' title "')
+            call str%append(this%get_name())
+            call str%append('"')
+        else
+            call str%append(' notitle')
+        end if
+
+        ! Lines or points
+        if (this%get_draw_line() .and. this%get_draw_markers()) then
+            call str%append(" with linespoints")
+        else if (.not.this%get_draw_line() .and. this%get_draw_markers()) then
+            call str%append(" with points")
+        else
+            call str%append(" with lines")
+        end if
+
+        ! Line Width
+        call str%append(" lw ")
+        call str%append(to_string(this%get_line_width()))
+
+        ! Line Color
+        clr = this%get_line_color()
+        call str%append(' lc rgb "#')
+        call str%append(clr%to_hex_string())
+        call str%append('"')
+
+        ! Define other properties specific to the lines and points
+        if (this%get_draw_line()) then
+            call str%append(" lt ")
+            call str%append(to_string(this%get_line_style()))
+            if (this%get_line_style() /= LINE_SOLID) then
+                call str%append(" dashtype ")
+                call str%append(to_string(this%get_line_style()))
+            end if
+        end if
+        if (this%get_draw_markers()) then
+            call str%append(" pi ")
+            call str%append(to_string(this%get_marker_frequency()))
+            call str%append(" pt ")
+            call str%append(to_string(this%get_marker_style()))
+            call str%append(" ps ")
+            call str%append(to_string(this%get_marker_scaling()))
+        end if
+
+        ! End
+        rst = char(str%to_string())
+    end function
+
+! ******************************************************************************
 ! SCATTER_PLOT_DATA
 ! ------------------------------------------------------------------------------
     function spd_get_cmd(this) result(x)
@@ -409,241 +722,6 @@ contains
         ! End
         x = char(str%to_string())
     end function
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_line_width(this) result(x)
-        !! Gets the width of the line, in pixels.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        real(real32) :: x
-            !! The line width.
-        x = this%m_lineWidth
-    end function
-
-! --------------------
-    subroutine spd_set_line_width(this, x)
-        !! Sets the width of the line, in pixels.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        real(real32), intent(in) :: x
-            !! The line width.
-        this%m_lineWidth = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_line_style(this) result(x)
-        !! Gets the line style.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        integer(int32) :: x
-            !! The line style.  The line style must be one of the following.
-            !!
-            !!  - LINE_DASHED
-            !!
-            !!  - LINE_DASH_DOTTED
-            !!
-            !!  - LINE_DASH_DOT_DOT
-            !!
-            !!  - LINE_DOTTED
-            !!
-            !!  - LINE_SOLID
-        x = this%m_lineStyle
-    end function
-
-! --------------------
-    subroutine spd_set_line_style(this, x)
-        !! Sets the line style.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        integer(int32), intent(in) :: x
-            !! The line style.  The line style must be one of the following.
-            !!
-            !!  - LINE_DASHED
-            !!
-            !!  - LINE_DASH_DOTTED
-            !!
-            !!  - LINE_DASH_DOT_DOT
-            !!
-            !!  - LINE_DOTTED
-            !!
-            !!  - LINE_SOLID
-        if (x == LINE_DASHED .or. &
-            x == LINE_DASH_DOTTED .or. &
-            x == LINE_DASH_DOT_DOT .or. &
-            x == LINE_DOTTED .or. &
-            x == LINE_SOLID) then
-            ! Only reset the line style if it is a valid type.
-            this%m_lineStyle = x
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_draw_line(this) result(x)
-        !! Gets a value determining if a line should be drawn.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        logical :: x
-            !! Returns true if the line should be drawn; else, false.
-        x = this%m_drawLine
-    end function
-
-! --------------------
-    subroutine spd_set_draw_line(this, x)
-        !! Sets a value determining if a line should be drawn.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        logical, intent(in) :: x
-            !! Set to true if the line should be drawn; else, false.
-        this%m_drawLine = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_draw_markers(this) result(x)
-        !! Gets a value determining if data point markers should be drawn.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        logical :: x
-            !! Returns true if the markers should be drawn; else, false.
-        x = this%m_drawMarkers
-    end function
-
-! --------------------
-    subroutine spd_set_draw_markers(this, x)
-        !! Sets a value determining if data point markers should be drawn.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        logical, intent(in) :: x
-            !! Set to true if the markers should be drawn; else, false.
-        this%m_drawMarkers = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_marker_style(this) result(x)
-        !! Gets the marker style.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        integer(int32) :: x
-            !! The marker type.  The marker type must be one of the following:
-            !!
-            !!  - MARKER_ASTERISK
-            !!
-            !!  - MARKER_EMPTY_CIRCLE
-            !!
-            !!  - MARKER_EMPTY_NABLA
-            !!
-            !!  - MARKER_EMPTY_RHOMBUS
-            !!
-            !!  - MARKER_EMPTY_SQUARE
-            !!
-            !!  - MARKER_EMPTY_TRIANGLE
-            !!
-            !!  - MARKER_FILLED_CIRCLE
-            !!
-            !!  - MARKER_FILLED_NABLA
-            !!
-            !!  - MARKER_FILLED_RHOMBUS
-            !!
-            !!  - MARKER_FILLED_SQUARE
-            !!
-            !!  - MARKER_FILLED_TRIANGLE
-            !!
-            !!  - MARKER_PLUS
-            !!
-            !!  - MARKER_X
-        x = this%m_markerType
-    end function
-
-! --------------------
-    subroutine spd_set_marker_style(this, x)
-        !! Sets the marker style.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        integer(int32), intent(in) :: x
-            !! The marker type.  The marker type must be one of the following:
-            !!
-            !!  - MARKER_ASTERISK
-            !!
-            !!  - MARKER_EMPTY_CIRCLE
-            !!
-            !!  - MARKER_EMPTY_NABLA
-            !!
-            !!  - MARKER_EMPTY_RHOMBUS
-            !!
-            !!  - MARKER_EMPTY_SQUARE
-            !!
-            !!  - MARKER_EMPTY_TRIANGLE
-            !!
-            !!  - MARKER_FILLED_CIRCLE
-            !!
-            !!  - MARKER_FILLED_NABLA
-            !!
-            !!  - MARKER_FILLED_RHOMBUS
-            !!
-            !!  - MARKER_FILLED_SQUARE
-            !!
-            !!  - MARKER_FILLED_TRIANGLE
-            !!
-            !!  - MARKER_PLUS
-            !!
-            !!  - MARKER_X
-        if (x == MARKER_ASTERISK .or. &
-            x == MARKER_EMPTY_CIRCLE .or. &
-            x == MARKER_EMPTY_NABLA .or. &
-            x == MARKER_EMPTY_RHOMBUS .or. &
-            x == MARKER_EMPTY_SQUARE .or. &
-            x == MARKER_EMPTY_TRIANGLE .or. &
-            x == MARKER_FILLED_CIRCLE .or. &
-            x == MARKER_FILLED_NABLA .or. &
-            x == MARKER_FILLED_RHOMBUS .or. &
-            x == MARKER_FILLED_SQUARE .or. &
-            x == MARKER_FILLED_TRIANGLE .or. &
-            x == MARKER_PLUS .or. &
-            x == MARKER_X) then
-
-            ! Only alter the value if the marker is a known type
-            this%m_markerType = x
-        end if
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_marker_scaling(this) result(x)
-        !! Gets the marker scaling.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        real(real32) :: x
-            !! The scaling factor.
-        x = this%m_markerSize
-    end function
-
-! --------------------
-    subroutine spd_set_marker_scaling(this, x)
-        !! Sets the marker scaling.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        real(real32), intent(in) :: x
-            !! The scaling factor.
-        this%m_markerSize = x
-    end subroutine
-
-! ------------------------------------------------------------------------------
-    pure function spd_get_marker_frequency(this) result(x)
-        !! Gets the marker frequency.
-        class(scatter_plot_data), intent(in) :: this
-            !! The scatter_plot_data object.
-        integer(int32) :: x
-            !! The marker frequency.
-        x = this%m_markerFrequency
-    end function
-
-! --------------------
-    subroutine spd_set_marker_frequency(this, x)
-        !! Sets the marker frequency.
-        class(scatter_plot_data), intent(inout) :: this
-            !! The scatter_plot_data object.
-        integer(int32), intent(in) :: x
-            !! The marker frequency.
-        this%m_markerFrequency = x
-    end subroutine
 
 ! ------------------------------------------------------------------------------
     pure function spd_get_simplify_data(this) result(x)
