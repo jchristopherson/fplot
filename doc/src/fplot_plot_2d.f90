@@ -302,12 +302,16 @@ contains
             ptr => this%get(i)
             if (.not.associated(ptr)) cycle
             call str%append(new_line('a'))
-            call str%append("$")
-            call str%append(ptr%get_datablock_name())
-            call str%append(" << EOD")
-            call str%append(new_line('a'))
-            call str%append(ptr%get_data_string())
-            call str%append("EOD")
+            if (is_plot_data_function(ptr)) then
+                call str%append(ptr%get_data_string())
+            else
+                call str%append("$")
+                call str%append(ptr%get_datablock_name())
+                call str%append(" << EOD")
+                call str%append(new_line('a'))
+                call str%append(ptr%get_data_string())
+                call str%append("EOD")
+            end if
         end do
 
         ! Define the plot function and data formatting commands
