@@ -1,5 +1,3 @@
-find_package(fstring QUIET)
-
 # Example 1
 add_executable(generic_2d_plot generic_2d_plot.f90)
 target_link_libraries(generic_2d_plot fplot)
@@ -131,7 +129,6 @@ target_link_libraries(arrow_example fplot)
 # Example 33
 add_executable(custom_colormap_example custom_colormap_example.f90)
 target_link_libraries(custom_colormap_example fplot)
-target_link_libraries(custom_colormap_example forcolormap)
 
 # Example 34
 add_executable(variable_point_size_2d_example variable_point_size_2d_example.f90)
@@ -151,7 +148,7 @@ target_link_libraries(margins_example fplot)
 
 # Example 38
 add_executable(box_whisker_example box_whisker_example.f90)
-target_link_libraries(box_whisker_example fplot fstring::fstring)
+target_link_libraries(box_whisker_example fplot)
 
 # Example 39
 add_executable(jitter_plot_example jitter_plot_example.f90)

@@ -125,10 +125,6 @@ target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
     ${FERROR_LIBRARIES}
-)
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
     ${COLLECTIONS_LIBRARIES}
     ${GEOMPACK_LIBRARIES}
     ${FSTRING_LIBRARIES}
