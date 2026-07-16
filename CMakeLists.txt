@@ -6,11 +6,11 @@ project(
     VERSION 1.8.10
 )
 
-# Confgiure everything
-add_subdirectory(configure)
-
 # Source
 add_subdirectory(src)
+
+# Confgiure everything
+add_subdirectory(configure)
 
 # Install
 install(
