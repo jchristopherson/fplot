@@ -1,82 +1,82 @@
 name: fpm
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
 
 jobs:
-  test_fpm:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: ${{ matrix.os }}_${{ matrix.compiler }}_fpm
+  build-and-test:
+    name: ${{ matrix.os }} / ${{ matrix.compiler }} / shared=${{ matrix.shared }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-        - {os: ubuntu-latest,  compiler: gfortran }
-        - {os: ubuntu-latest,  compiler: ifx      }
-        - {os: windows-latest, compiler: gfortran }
-        - {os: windows-latest, compiler: ifx,       fpm-version: "0.12.0"}
-        - {os: macos-latest,   compiler: gfortran }
+          - os: ubuntu-latest
+            compiler: gcc
+            version: '15'
+            shared: false
+          - os: ubuntu-latest
+            compiler: gcc
+            version: '15'
+            shared: true
+          - os: ubuntu-latest
+            compiler: intel
+            version: '2023.2'
+            shared: true
+
     steps:
-      - name: Setup Fortran
-        uses: gha3mi/setup-fortran-conda@latest
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Fortran toolchain
+        uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
         with:
           compiler: ${{ matrix.compiler }}
-          fpm-version: ${{ matrix.fpm-version }}
+          version: ${{ matrix.version }}
+          
+      - name: Show compiler version
+        shell: bash
+        env:
+          FC: ${{ steps.setup-fortran.outputs.fc }}
+          CC: ${{ steps.setup-fortran.outputs.cc }}
+        run: |
+          "$FC" --version
 
-      - name: fpm test (debug)
-        if: always()
-        run: fpm test --profile debug --compiler ${{ matrix.compiler }} --verbose
+      - name: Install fpm
+        uses: fortran-lang/setup-fpm@v5
+        with:
+          fpm-version: 'v0.10.1'
 
-      - name: fpm test (release)
-        if: always()
-        run: fpm test --profile release --compiler ${{ matrix.compiler }} --verbose
+      - name: Build FPLOT
+        shell: bash
+        env:
+          FC: ${{ steps.setup-fortran.outputs.fc }}
+          CC: ${{ steps.setup-fortran.outputs.cc }}
+          FPM_FC: ${{ steps.setup-fortran.outputs.fc }}
+          FPM_CC: ${{ steps.setup-fortran.outputs.cc }}
+          FPM_FLAGS: ${{ matrix.shared && '--flag=-fPIC' || '' }}
+        run: |
+          if [[ -n "$FPM_FLAGS" ]]; then
+            fpm build $FPM_FLAGS
+          else
+            fpm build
+          fi
 
-      - name: fpm example (debug)
-        if: always()
-        run: fpm run --example --all --profile debug --compiler ${{ matrix.compiler }} --verbose
-
-      - name: fpm example (release)
-        if: always()
-        run: fpm run --example --all --profile release --compiler ${{ matrix.compiler }} --verbose
-
-# jobs:
-#   gcc-build:
-#     runs-on: ${{ matrix.os }}
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         os: [ubuntu-latest]
-#         gcc_v: [15] # Version of GFortran we want to use.
-#         include:
-#         - os: ubuntu-latest
-#           os-arch: linux-x86_64
-
-#     env:
-#       FC: gfortran
-#       GCC_V: ${{ matrix.gcc_v }}
-
-#     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v1
-
-#     - name: Install GFortran Linux
-#       if: contains(matrix.os, 'ubuntu')
-#       run: |
-#         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-#         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-#         --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
-        
-#     - name: Install fpm
-#       uses: fortran-lang/setup-fpm@v5
-#       with:
-#         fpm-version: 'v0.10.1'
-
-#     - name: Build FPLOT
-#       run: |
-#         gfortran --version
-#         fpm build
-
-#     - name: Run tests
-#       run: |
-#         gfortran --version
-#         fpm test
+      - name: Run tests
+        shell: bash
+        env:
+          FC: ${{ steps.setup-fortran.outputs.fc }}
+          CC: ${{ steps.setup-fortran.outputs.cc }}
+          FPM_FC: ${{ steps.setup-fortran.outputs.fc }}
+          FPM_CC: ${{ steps.setup-fortran.outputs.cc }}
+          FPM_FLAGS: ${{ matrix.shared && '--flag=-fPIC' || '' }}
+        run: |
+          if [[ -n "$FPM_FLAGS" ]]; then
+            fpm test $FPM_FLAGS
+          else
+            fpm test
+          fi

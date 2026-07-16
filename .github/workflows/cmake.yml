@@ -2,61 +2,102 @@ name: CMake
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 env:
   BUILD_TYPE: Release
 
 jobs:
   test:
+    name: ${{ matrix.os }} / ${{ matrix.compiler }} / shared=${{ matrix.shared }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        toolchain:
-          - {compiler: gcc, version: 15}
-          - {compiler: gcc, version: 16}
-          - {compiler: intel, version: '2021.1'}
-          - {compiler: intel, version: '2022.0'}
-          - {compiler: intel, version: '2023.0'}
-          - {compiler: intel, version: '2024.0'}
-        exclude: 
-          - os: macos-latest
-            toolchain: {compiler: gcc, version: 16}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2022.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2023.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2024.0'}
-          - os: macos-latest
-            toolchain: {compiler: intel, version: '2025.0'}
+        include:
           - os: ubuntu-latest
-            toolchain: {compiler: intel, version: 2021.1}
+            compiler: gcc
+            version: '15'
+            shared: false
+          - os: ubuntu-latest
+            compiler: gcc
+            version: '15'
+            shared: true
+          - os: ubuntu-latest
+            compiler: intel
+            version: '2023.2'
+            shared: false
+          - os: ubuntu-latest
+            compiler: intel
+            version: '2023.2'
+            shared: true
+          - os: macos-latest
+            compiler: gcc
+            version: '15'
+            shared: false
+          - os: macos-latest
+            compiler: gcc
+            version: '15'
+            shared: true
 
     steps:
-      - uses: fortran-lang/setup-fortran@v1.6.1
+      - uses: actions/checkout@v4
+
+      - uses: fortran-lang/setup-fortran@v1
         id: setup-fortran
         with:
-          compiler: ${{ matrix.toolchain.compiler }}
-          version: ${{ matrix.toolchain.version }}
-
-      - run: ${{ env.FC }} --version
+          compiler: ${{ matrix.compiler }}
+          version: ${{ matrix.version }}
+      
+      - name: Show Fortran compiler version
+        run: ${{ env.FC }} --version
         env:
           FC: ${{ steps.setup-fortran.outputs.fc }}
           CC: ${{ steps.setup-fortran.outputs.cc }}
 
-      - uses: actions/checkout@v3
-      
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DBUILD_TESTING=TRUE
-        
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          -DCMAKE_Fortran_COMPILER=${{ env.FC }}
+          -DCMAKE_C_COMPILER=${{ env.CC }}
+          -DBUILD_TESTING=TRUE
+          -DBUILD_SHARED_LIBS=${{ matrix.shared && 'TRUE' || 'FALSE' }}
+        env:
+          FC: ${{ steps.setup-fortran.outputs.fc }}
+          CC: ${{ steps.setup-fortran.outputs.cc }}
+
       - name: Build with CMake
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build build --config ${{ env.BUILD_TYPE }}
 
       - name: Test with CMake
-        working-directory: ${{github.workspace}}/build
-        run: ctest -C ${{env.BUILD_TYPE}}
+        working-directory: build
+        run: ctest --output-on-failure -C ${{ env.BUILD_TYPE }}
+
+      - name: Install with CMake
+        run: cmake --install build --prefix ${{ github.workspace }}/install --config ${{ env.BUILD_TYPE }}
+
+      - name: Verify install with CMake consumer
+        run: |
+          mkdir -p consumer
+          cat > consumer/CMakeLists.txt <<'EOF'
+          cmake_minimum_required(VERSION 3.24)
+          project(fplot_consumer LANGUAGES Fortran)
+
+          find_package(fplot CONFIG REQUIRED)
+
+          add_executable(fplot_consumer main.f90)
+          target_link_libraries(fplot_consumer PRIVATE fplot::fplot)
+          EOF
+
+          cat > consumer/main.f90 <<'EOF'
+          program main
+            use fplot_core
+            print *, "fplot package found"
+          end program main
+          EOF
+
+          cmake -S consumer -B consumer/build -DCMAKE_PREFIX_PATH=${{ github.workspace }}/install
+          cmake --build consumer/build
