@@ -19,14 +19,6 @@ jobs:
         include:
           - os: ubuntu-latest
             compiler: gcc
-            version: '14'
-            shared: false
-          - os: ubuntu-latest
-            compiler: gcc
-            version: '14'
-            shared: true
-          - os: ubuntu-latest
-            compiler: gcc
             version: '15'
             shared: false
           - os: ubuntu-latest
@@ -43,11 +35,11 @@ jobs:
             shared: true
           - os: macos-latest
             compiler: gcc
-            version: '14'
+            version: '15'
             shared: false
           - os: macos-latest
             compiler: gcc
-            version: '14'
+            version: '15'
             shared: true
 
     steps:
@@ -102,7 +94,7 @@ jobs:
 
           cat > consumer/main.f90 <<'EOF'
           program main
-            use fplot
+            use fplot_core
             print *, "fplot package found"
           end program main
           EOF

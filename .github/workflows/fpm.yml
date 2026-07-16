@@ -16,14 +16,6 @@ jobs:
         include:
           - os: ubuntu-latest
             compiler: gcc
-            version: '14'
-            shared: false
-          - os: ubuntu-latest
-            compiler: gcc
-            version: '14'
-            shared: true
-          - os: ubuntu-latest
-            compiler: gcc
             version: '15'
             shared: false
           - os: ubuntu-latest
