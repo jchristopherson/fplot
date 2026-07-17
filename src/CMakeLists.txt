@@ -50,7 +50,7 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 # Dependencies
 include(FetchContent)
 find_package(ferror QUIET)
-find_package(collections QUIET)
+find_package(collections 1.0.9 QUIET)
 find_package(geompack QUIET)
 find_package(fstring QUIET)
 if (NOT ferror_FOUND)
