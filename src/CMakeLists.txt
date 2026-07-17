@@ -50,7 +50,7 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 # Dependencies
 include(FetchContent)
 find_package(ferror QUIET)
-find_package(collections QUIET)
+find_package(collections 1.0.9 QUIET)
 find_package(geompack QUIET)
 find_package(fstring QUIET)
 if (NOT ferror_FOUND)
@@ -164,8 +164,28 @@ install(
 install(DIRECTORY ${FPLOT_MOD_DIR} DESTINATION ${CMAKE_INSTALL_MODULEDIR})
 
 # For static libraries, install dependency libraries
-if(NOT BUILD_SHARED_LIBS)
-    # Install fetched dependency libraries if they were built
+if(${BUILD_SHARED_LIBS})
+    if(${BUILD_FERROR})
+        install(TARGETS ${FERROR_LIBRARIES}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    endif()
+    if(${BUILD_COLLECTIONS})
+        install(TARGETS ${COLLECTIONS_LIBRARIES}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    endif()
+    if(${BUILD_GEOMPACK})
+        install(TARGETS ${GEOMPACK_LIBRARIES}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    endif()
+    if(${BUILD_FSTRING})
+        install(TARGETS ${FSTRING_LIBRARIES}
+                ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
+                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    endif()
+else()
     if(${BUILD_FERROR})
         install(TARGETS ${FERROR_LIBRARIES}
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -186,21 +206,4 @@ if(NOT BUILD_SHARED_LIBS)
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
     endif()
-endif()
-
-# For shared libraries, install runtime artifacts
-if(${BUILD_FERROR} AND ${BUILD_SHARED_LIBS})
-    install(IMPORTED_RUNTIME_ARTIFACTS ${FERROR_LIBRARIES})
-endif()
-
-if(${BUILD_COLLECTIONS} AND ${BUILD_SHARED_LIBS})
-    install(IMPORTED_RUNTIME_ARTIFACTS ${COLLECTIONS_LIBRARIES})
-endif()
-
-if(${BUILD_GEOMPACK} AND ${BUILD_SHARED_LIBS})
-    install(IMPORTED_RUNTIME_ARTIFACTS ${GEOMPACK_LIBRARIES})
-endif()
-
-if(${BUILD_FSTRING} AND ${BUILD_SHARED_LIBS})
-    install(IMPORTED_RUNTIME_ARTIFACTS ${FSTRING_LIBRARIES})
 endif()
