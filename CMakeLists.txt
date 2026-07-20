@@ -3,14 +3,15 @@ cmake_minimum_required(VERSION 3.24)
 project(
     fplot 
     LANGUAGES Fortran
-    VERSION 1.8.10
+    VERSION 1.8.11
 )
 
-# Source
-add_subdirectory(src)
 
 # Confgiure everything
 add_subdirectory(configure)
+
+# Source
+add_subdirectory(src)
 
 # Install
 install(
