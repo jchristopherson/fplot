@@ -323,7 +323,7 @@ contains
         end select
 
         ! Store the object
-        call this%m_data%push(x, err = err)
+        call this%m_data%push(x)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -614,7 +614,7 @@ contains
             !! An error handling object.
 
         ! Process
-        call this%m_labels%push(lbl, err = err)
+        call this%m_labels%push(lbl)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -829,7 +829,7 @@ contains
             !! The plot_arrow object.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
-        call this%m_arrows%push(x, manage = .true., err = err)
+        call this%m_arrows%push(x, manage = .true.)
     end subroutine
 
 ! ------------------------------------------------------------------------------
