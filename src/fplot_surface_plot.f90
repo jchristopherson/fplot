@@ -44,7 +44,7 @@ module fplot_surface_plot
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
         procedure, public :: get_transparency => surf_get_transparency
         procedure, public :: set_transparency => surf_set_transparency
-        procedure, private :: surf_push_data
+        procedure, public :: surf_push_data
         generic, public :: push => surf_push_data, p3d_push_data, plt_push_data
     end type
 

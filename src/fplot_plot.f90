@@ -68,7 +68,7 @@ module fplot_plot
         procedure, public :: is_title_defined => plt_has_title
         procedure, public :: get_legend => plt_get_legend
         procedure, public :: get_count => plt_get_count
-        procedure, private :: plt_push_data
+        procedure, public :: plt_push_data
         generic, public :: push => plt_push_data
         procedure, public :: pop => plt_pop_data
         procedure, public :: clear_all => plt_clear_all

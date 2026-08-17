@@ -54,7 +54,7 @@ module fplot_plot_3d
         procedure, public :: set_x_axis_title => p3d_set_x_axis_title
         procedure, public :: set_y_axis_title => p3d_set_y_axis_title
         procedure, public :: set_z_axis_title => p3d_set_z_axis_title
-        procedure, private :: p3d_push_data
+        procedure, public :: p3d_push_data
         generic, public :: push => p3d_push_data, plt_push_data
     end type
 
