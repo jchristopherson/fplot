@@ -42,9 +42,8 @@ module fplot_plot_polar
         procedure, public :: set_theta_start_position => plr_set_theta_start
         procedure, public :: get_theta_direction => plr_get_theta_direction
         procedure, public :: set_theta_direction => plr_set_theta_direction
-        procedure, public :: plt_push_data
         procedure, public :: plr_push_data
-        generic, public :: push => plr_push_data, plt_push_data
+        generic, public :: push => plr_push_data
     end type
 
 contains
