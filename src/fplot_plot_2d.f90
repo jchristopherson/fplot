@@ -52,9 +52,8 @@ module fplot_plot_2d
         procedure, public :: set_x_axis_title => p2d_set_x_axis_title
         procedure, public :: set_y_axis_title => p2d_set_y_axis_title
         procedure, public :: set_y2_axis_title => p2d_set_y2_axis_title
-        procedure, public :: plt_push_data
         procedure, public :: p2d_push_data
-        generic, public :: push => p2d_push_data, plt_push_data
+        generic, public :: push => p2d_push_data
     end type
 
 contains
