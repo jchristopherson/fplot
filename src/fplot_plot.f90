@@ -113,6 +113,8 @@ module fplot_plot
         procedure, public :: set_top_margin => plt_set_top_margin
         procedure, public :: get_bottom_margin => plt_get_bottom_margin
         procedure, public :: set_bottom_margin => plt_set_bottom_margin
+        procedure, public :: show_legend => plt_show_legend
+        procedure, public :: set_window_size => plt_set_window_size
     end type
 
 contains
@@ -139,7 +141,7 @@ contains
         !! classes are expected to call this routine to free internally held
         !! resources.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         if (associated(this%m_terminal)) then
             deallocate(this%m_terminal)
             nullify(this%m_terminal)
@@ -158,7 +160,7 @@ contains
     subroutine plt_init(this, term, fname, err)
         !! Initializes the plot object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in), optional :: term
             !! An optional input that is used to define the terminal.
             !! The default terminal is a WXT terminal.  The acceptable inputs 
@@ -242,7 +244,7 @@ contains
     function plt_get_title(this) result(txt)
         !! Gets the plot's title.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: txt
             !! The title.
         integer(int32) :: n
@@ -255,7 +257,7 @@ contains
     subroutine plt_set_title(this, txt)
         !! Sets the plot's title.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: txt
             !! The title.
         integer :: n
@@ -274,7 +276,7 @@ contains
         !! Gets a value determining if a title has been defined for the plot 
         !! object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if a title has been defined for this plot; else,
             !! returns false.
@@ -285,7 +287,7 @@ contains
     function plt_get_legend(this) result(x)
         !! Gets the plot's legend object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         type(legend), pointer :: x
             !! A pointer to the legend object.
         x => this%m_legend
@@ -295,7 +297,7 @@ contains
     pure function plt_get_count(this) result(x)
         !! Gets the number of stored plot_data objects.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The number of plot_data objects.
         x = this%m_data%count()
@@ -305,7 +307,7 @@ contains
     subroutine plt_push_data(this, x, err)
         !! Pushes a plot_data object onto the stack.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_data), intent(inout) :: x
             !! The plot_data object.
         class(errors), intent(inout), optional, target :: err
@@ -330,7 +332,7 @@ contains
     subroutine plt_pop_data(this)
         !! Pops the last plot_data object from the stack.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
 
         ! Process
         call this%m_data%pop()
@@ -340,7 +342,7 @@ contains
     subroutine plt_clear_all(this)
         !! Removes all plot_data objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
 
         ! Process
         this%m_colorIndex = 1
@@ -351,7 +353,7 @@ contains
     function plt_get(this, i) result(x)
         !! Gets a pointer to the requested plot_data object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_data object.
         class(plot_data), pointer :: x
@@ -375,7 +377,7 @@ contains
     subroutine plt_set(this, i, x)
         !! Sets the requested plot_data object into the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_data object.
         class(plot_data), intent(in) :: x
@@ -387,7 +389,7 @@ contains
     function plt_get_term(this) result(x)
         !! Gets the GNUPLOT terminal object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(terminal), pointer :: x
             !! A pointer to the GNUPLOT terminal object.
         x => this%m_terminal
@@ -397,7 +399,7 @@ contains
     pure function plt_get_show_grid(this) result(x)
         !! Gets a flag determining if the grid lines should be shown.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the grid lines should be shown; else, false.
         x = this%m_showGrid
@@ -407,7 +409,7 @@ contains
     subroutine plt_set_show_grid(this, x)
         !! Sets a flag determining if the grid lines should be shown.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the grid lines should be shown; else, false.
         this%m_showGrid = x
@@ -418,7 +420,7 @@ contains
         !! Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in), optional :: persist
             !! An optional parameter that can be used to keep GNUPLOT open.  
             !! Set to true to force GNUPLOT to remain open; else, set to false 
@@ -476,7 +478,7 @@ contains
     subroutine plt_save(this, fname, err)
         !! Saves a GNUPLOT command file.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: fname
             !! The filename.
         class(errors), intent(inout), optional, target :: err
@@ -512,7 +514,7 @@ contains
     function plt_get_font(this) result(x)
         !! Gets the name of the font used for plot text.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -524,7 +526,7 @@ contains
     subroutine plt_set_font(this, x)
         !! Sets the name of the font used for plot text.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -536,7 +538,7 @@ contains
     function plt_get_font_size(this) result(x)
         !! Gets the size of the font used by the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The size of the font, in points.
         class(terminal), pointer :: term
@@ -548,7 +550,7 @@ contains
     subroutine plt_set_font_size(this, x)
         !! Sets the size of the font used by the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: x
             !! The font size, in points.  If a value of zero is provided,
             !! the font size is reset to its default value; or, if a negative 
@@ -563,7 +565,7 @@ contains
     pure function plt_get_tics_in(this) result(x)
         !! Gets a value determining if the axis tic marks should point inwards.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the tic marks should point inwards; else, false
             !! if the tic marks should point outwards.
@@ -574,7 +576,7 @@ contains
     subroutine plt_set_tics_in(this, x)
         !! Sets a value determining if the axis tic marks should point inwards.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the tic marks should point inwards; else, false
             !! if the tic marks should point outwards.
@@ -585,7 +587,7 @@ contains
     pure function plt_get_draw_border(this) result(x)
         !! Gets a value determining if the border should be drawn.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the border should be drawn; else, false.
         x = this%m_drawBorder
@@ -595,7 +597,7 @@ contains
     subroutine plt_set_draw_border(this, x)
         !! Sets a value determining if the border should be drawn.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the border should be drawn; else, false.
         this%m_drawBorder = x
@@ -607,7 +609,7 @@ contains
     subroutine plt_push_label(this, lbl, err)
         !! Adds a label to the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_label), intent(in) :: lbl
             !! The plot label.
         class(errors), intent(inout), optional, target :: err
@@ -621,7 +623,7 @@ contains
     subroutine plt_pop_label(this)
         !! Removes the last label from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_labels%pop()
     end subroutine
 
@@ -629,7 +631,7 @@ contains
     function plt_get_label(this, i) result(x)
         !! Gets the requested plot_label from the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_label object to retrieve.
         class(plot_label), pointer :: x
@@ -652,7 +654,7 @@ contains
     subroutine plt_set_label(this, i, x)
         !! Sets the specified plot_label object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_label to replace.
         class(plot_label), intent(in) :: x
@@ -664,7 +666,7 @@ contains
     pure function plt_get_label_count(this) result(x)
         !! Gets the number of plot_label objects belonging to the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The number of plot_label objects.
         x = this%m_labels%count()
@@ -674,7 +676,7 @@ contains
     subroutine plt_clear_labels(this)
         !! Clears all plot_label objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_labels%clear()
     end subroutine
 
@@ -684,7 +686,7 @@ contains
     pure function plt_get_axis_equal(this) result(rst)
         !! Gets a flag determining if the axes should be equally scaled.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: rst
             !! Returns true if the axes should be scaled equally; else, false.
         rst = this%m_axisEqual
@@ -694,7 +696,7 @@ contains
     subroutine plt_set_axis_equal(this, x)
         !! Sets a flag determining if the axes should be equally scaled.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the axes should be scaled equally; else, false.
         this%m_axisEqual = x
@@ -706,7 +708,7 @@ contains
     function plt_get_colormap(this) result(x)
         !! Gets a pointer to the colormap object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(colormap), pointer :: x
             !! A pointer to the colormap object.  If no colormap is defined, a
             !! null pointer is returned.
@@ -717,7 +719,7 @@ contains
     subroutine plt_set_colormap(this, x, err)
         !! Sets the colormap object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(colormap), intent(in) :: x
             !! The colormap object.  Notice, a copy of this object is
             !! stored, and the plot object then manages the lifetime of the
@@ -751,7 +753,7 @@ contains
     pure function plt_get_show_colorbar(this) result(x)
         !! Gets a value determining if the colorbar should be shown.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the colorbar should be drawn; else, false.
         x = this%m_showColorbar
@@ -761,7 +763,7 @@ contains
     subroutine plt_set_show_colorbar(this, x)
         !! Sets a value determining if the colorbar should be shown.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the colorbar should be drawn; else, false.
         this%m_showColorbar = x
@@ -771,7 +773,7 @@ contains
     function plt_get_cmd(this) result(x)
         !! Gets the GNUPLOT command string to represent this plot object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: x
             !! The command string.
 
@@ -824,7 +826,7 @@ contains
     subroutine plt_push_arrow(this, x, err)
         !! Pushes a new @ref plot_arrow object onto the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_arrow), intent(in) :: x
             !! The plot_arrow object.
         class(errors), intent(inout), optional, target :: err
@@ -836,7 +838,7 @@ contains
     subroutine plt_pop_arrow(this)
         !! Pops the last plot_arrow object from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_arrows%pop()
     end subroutine
 
@@ -844,7 +846,7 @@ contains
     function plt_get_arrow(this, i) result(rst)
         !! Gets a pointer to the requested plot_arrow object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_arrow to retrieve.
         class(plot_arrow), pointer :: rst
@@ -864,7 +866,7 @@ contains
     subroutine plt_set_arrow(this, i, x)
         !! Sets a plot_arrow into the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_arrow object to replace.
         class(plot_arrow), intent(in) :: x
@@ -876,7 +878,7 @@ contains
     pure function plt_get_arrow_count(this) result(rst)
         !! Gets the number of plot_arrow objects held by the plot object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: rst
             !! The plot_arrow objects count.
         rst = this%m_arrows%count()
@@ -886,7 +888,7 @@ contains
     subroutine plt_clear_arrows(this)
         !! Clears all plot_arrow objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_arrows%clear()
     end subroutine
 
@@ -896,7 +898,7 @@ contains
     pure function plt_get_left_margin(this) result(x)
         !! Gets the left margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -908,7 +910,7 @@ contains
         !! Sets the left margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -919,7 +921,7 @@ contains
     pure function plt_get_right_margin(this) result(x)
         !! Gets the right margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -931,7 +933,7 @@ contains
         !! Sets the right margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -942,7 +944,7 @@ contains
     pure function plt_get_top_margin(this) result(x)
         !! Gets the top margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -954,7 +956,7 @@ contains
         !! Sets the top margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -965,7 +967,7 @@ contains
     pure function plt_get_bottom_margin(this) result(x)
         !! Gets the bottom margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -977,11 +979,42 @@ contains
         !! Sets the bottom margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
         this%m_bottomMargin = x
+    end subroutine
+
+! ******************************************************************************
+! ADDED AUG. 16, 2026 - V1.9.0
+! ------------------------------------------------------------------------------
+    subroutine plt_show_legend(this, x)
+        !! Sets a value determining the legend should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! Set to true to show the legend; else, set to false.
+
+        if (associated(this%m_legend)) then
+            call this%m_legend%set_is_visible(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine plt_set_window_size(this, width, height)
+        !! Sets the height and width of the plot window.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: width
+            !! The plot window width.
+        integer(int32), intent(in) :: height
+            !! The plot window height.
+
+        if (associated(this%m_terminal)) then
+            call this%m_terminal%set_window_width(width)
+            call this%m_terminal%set_window_height(height)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------

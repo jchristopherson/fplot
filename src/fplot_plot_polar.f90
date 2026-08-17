@@ -8,6 +8,8 @@ module fplot_plot_polar
     use fplot_constants
     use fplot_legend
     use fplot_plot_data
+    use fplot_plot_data_2d
+    use fplot_colors
     use ferror
     use strings
     implicit none
@@ -40,6 +42,8 @@ module fplot_plot_polar
         procedure, public :: set_theta_start_position => plr_set_theta_start
         procedure, public :: get_theta_direction => plr_get_theta_direction
         procedure, public :: set_theta_direction => plr_set_theta_direction
+        procedure, private :: plr_push_data
+        generic, public :: add => plr_push_data
     end type
 
 contains
@@ -369,6 +373,43 @@ contains
         else
             this%m_thetaDirection = x
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine plr_push_data(this, angle, radial, lw, name, ls, lc)
+        !! Adds a data set to the plot.
+        class(plot_polar), intent(inout) :: this
+            !! The [[plot_polar]] object.
+        real(real64), intent(in), dimension(:) :: angle
+            !! The angular values.
+        real(real64), intent(in), dimension(size(angle)) :: radial
+            !! The radial values.
+        real(real32), intent(in), optional :: lw
+            !! The line width.
+        character(len = *), intent(in), optional :: name
+            !! A name to associate with the data set.
+        integer(int32), intent(in), optional :: ls
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        type(color), intent(in), optional :: lc
+            !! The line color.
+
+        type(plot_data_2d) :: pd
+        call pd%define_data(angle, radial)
+        if (present(lw)) call pd%set_line_width(lw)
+        if (present(name)) call pd%set_name(name)
+        if (present(ls)) call pd%set_line_style(ls)
+        if (present(lc)) call pd%set_line_color(lc)
+        call this%push(pd)
     end subroutine
 
 ! ------------------------------------------------------------------------------

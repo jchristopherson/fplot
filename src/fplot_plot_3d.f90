@@ -8,6 +8,8 @@ module fplot_plot_3d
     use fplot_constants
     use fplot_plot_data
     use fplot_legend
+    use fplot_plot_data_3d
+    use fplot_colors
     use ferror
     use strings
     implicit none
@@ -49,6 +51,11 @@ module fplot_plot_3d
         procedure, public :: set_use_map_view => p3d_set_use_map_view
         procedure, public :: get_coordinate_system => p3d_get_csys
         procedure, public :: set_coordinate_system => p3d_set_csys
+        procedure, public :: set_x_axis_title => p3d_set_x_axis_title
+        procedure, public :: set_y_axis_title => p3d_set_y_axis_title
+        procedure, public :: set_z_axis_title => p3d_set_z_axis_title
+        procedure, private :: p3d_push_data
+        generic, public :: add => p3d_push_data
     end type
 
 contains
@@ -474,6 +481,84 @@ contains
         else
             this%m_csys = x
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p3d_set_x_axis_title(this, x)
+        !! Sets the title associated with the plot's x-axis.
+        class(plot_3d), intent(inout) :: this
+            !! The [[plot_3d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_xAxis)) then
+            call this%m_xAxis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p3d_set_y_axis_title(this, x)
+        !! Sets the title associated with the plot's y-axis.
+        class(plot_3d), intent(inout) :: this
+            !! The [[plot_3d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_yAxis)) then
+            call this%m_yAxis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p3d_set_z_axis_title(this, x)
+        !! Sets the title associated with the plot's z-axis.
+        class(plot_3d), intent(inout) :: this
+            !! The [[plot_3d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_zAxis)) then
+            call this%m_zAxis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p3d_push_data(this, x, y, z, lw, name, ls, lc)
+        !! Adds a data set to the plot.
+        class(plot_3d), intent(inout) :: this
+            !! The [[plot_3d]] object.
+        real(real64), intent(in), dimension(:) :: x
+            !! The x-values.
+        real(real64), intent(in), dimension(size(x)) :: y
+            !! The y-values.
+        real(real64), intent(in), dimension(size(x)) :: z
+            !! The z-values.
+        real(real32), intent(in), optional :: lw
+            !! The line width.
+        character(len = *), intent(in), optional :: name
+            !! A name to associate with the data set.
+        integer(int32), intent(in), optional :: ls
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        type(color), intent(in), optional :: lc
+            !! The line color.
+
+        type(plot_data_3d) :: pd
+        call pd%define_data(x, y, z)
+        if (present(lw)) call pd%set_line_width(lw)
+        if (present(name)) call pd%set_name(name)
+        if (present(ls)) call pd%set_line_style(ls)
+        if (present(lc)) call pd%set_line_color(lc)
+        call this%push(pd)
     end subroutine
 
 ! ------------------------------------------------------------------------------
