@@ -47,54 +47,22 @@ program example
     ! Local Variables
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
-    type(plot_data_2d) :: d1, d2
-    class(plot_axis), pointer :: xAxis, yAxis
-    type(legend), pointer :: leg
     
     ! Initialize the plot object
     call plt%initialize()
-
-    ! Define titles
+    call plt%show_legend(.true.)
     call plt%set_title("Example Plot")
-    call plt%set_font_size(14)
-
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
-
-    ! Establish legend properties
-    leg => plt%get_legend()
-    call leg%set_is_visible(.true.)
-    call leg%set_draw_inside_axes(.false.)
-    call leg%set_horizontal_position(LEGEND_CENTER)
-    call leg%set_vertical_position(LEGEND_BOTTOM)
-    call leg%set_draw_border(.false.)
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
 
     ! Define the data, and then add it to the plot
     x = linspace(0.0d0, 10.0d0, n)
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
-    call d1%define_data(x, y1)
-    call d2%define_data(x, y2)
-
-    ! Define properties for each data set
-    call d1%set_name("Data Set 1")
-    call d1%set_draw_markers(.true.)
-    call d1%set_marker_frequency(10)
-    call d1%set_marker_style(MARKER_EMPTY_CIRCLE)
-    call d1%set_marker_scaling(2.0)
-
-    call d2%set_name("Data Set 2")
-    call d2%set_line_style(LINE_DASHED)
-    call d2%set_line_width(2.0)
-
-    ! Add the data sets to the plot
-    call plt%push(d1)
-    call plt%push(d2)
-
+    call plt%push(x, y1, lw = 2.0, name = "Data Set 1")
+    call plt%push(x, y2, lw = 2.0, ls = LINE_DASHED, name = "Data Set 2")
+    
     ! Let GNUPLOT draw the plot
     call plt%draw()
 end program
@@ -103,10 +71,8 @@ This is the plot resulting from the above program.
 ![](images/example_2d_plot_1.png?raw=true)
 
 ## Example 2
-Another example of a similar two-dimensional plot to the plot in example 1 is given below.  This plot shifts the x-axis to the zero point along the y-axis.
+Another example of a similar two-dimensional plot to the plot in example 1 is given below.  This plot shifts the x-axis to the zero point along the y-axis.  Additionally, this example highlights the use of the plot_axis, legend, and plot_data_2d types to gain more control over the plot.
 ```fortran
-! fplot_2d_2.f90
-
 program example
     use, intrinsic :: iso_fortran_env
     use fplot_core
@@ -178,7 +144,7 @@ The following example illustrates how to create a three-dimensional surface plot
 program example
     use fplot_core
     use iso_fortran_env
-    use forcolormap, only : colormaps_list
+    use forcolormap
     implicit none
 
     ! Parameters
@@ -190,8 +156,6 @@ program example
     real(real64), pointer, dimension(:,:) :: x, y
     real(real64), dimension(m, n) :: z
     type(surface_plot) :: plt
-    type(surface_plot_data) :: d1
-    class(plot_axis), pointer :: xAxis, yAxis, zAxis
     type(custom_colormap) :: map
     type(cmap) :: colors
 
@@ -207,6 +171,10 @@ program example
     ! Initialize the plot
     call plt%initialize()
     call plt%set_colormap(map)
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
+    call plt%set_z_axis_title("Z Axis")
+    call plt%set_title("Custom Colormap")
 
     ! Establish lighting
     call plt%set_use_lighting(.true.)
@@ -214,23 +182,10 @@ program example
     ! Set the orientation of the plot
     call plt%set_elevation(20.0d0)
     call plt%set_azimuth(30.0d0)
-    
-    ! Define titles
-    call plt%set_title("Example Plot")
-    
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
-
-    zAxis => plt%get_z_axis()
-    call zAxis%set_title("Z Axis")
 
     ! Define the function to plot
     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
-    call d1%define_data(x, y, z)
-    call plt%push(d1)
+    call plt%push(x, y, z)
 
     ! Draw the plot
     call plt%draw()
@@ -279,7 +234,6 @@ program example
 
     ! Create the plot
     call plt%initialize()
-    call plt%set_font_size(14)
     xAxis => plt%get_x_axis()
     yAxis => plt%get_y_axis()
 
@@ -330,7 +284,6 @@ program example
     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
     real(real64) :: t(npts), x(npts)
     type(plot_polar) :: plt
-    type(plot_data_2d) :: pd
 
     ! Create a function to plot
     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
@@ -342,10 +295,7 @@ program example
     call plt%set_title("Polar Plot Example")
     call plt%set_autoscale(.false.)
     call plt%set_radial_limits([0.0d0, 6.0d0])
-
-    call pd%define_data(t, x)
-    call pd%set_line_width(2.0)
-    call plt%push(pd)
+    call plt%push(t, x, lw = 2.0)
     call plt%draw()
 end program
 ```

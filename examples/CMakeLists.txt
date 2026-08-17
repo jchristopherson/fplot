@@ -158,6 +158,10 @@ target_link_libraries(jitter_plot_example fplot)
 add_executable(function_plot_example function_plot_example.f90)
 target_link_libraries(function_plot_example fplot)
 
+# Example 41
+add_executable(polar_plot_simplified_example polar_plot_simplified_example.f90)
+target_link_libraries(polar_plot_simplified_example fplot)
+
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(
         TARGET generic_2d_plot
