@@ -5,7 +5,6 @@ module fplot_delaunay_tri_surface
     use ieee_arithmetic
     use fplot_triangulations_delaunay_2d
     use fplot_errors
-    use ferror
     implicit none
     private
     public :: delaunay_tri_surface

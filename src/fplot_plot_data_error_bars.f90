@@ -5,7 +5,6 @@ module fplot_plot_data_error_bars
     use fplot_plot_data
     use fplot_errors
     use fplot_colors
-    use ferror
     use strings
     implicit none
     private

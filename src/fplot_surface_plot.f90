@@ -5,7 +5,7 @@ module fplot_surface_plot
     use fplot_plot_3d
     use fplot_errors
     use fplot_legend
-    use ferror
+    use fplot_surface_plot_data
     use strings
     implicit none
     private
@@ -43,6 +43,8 @@ module fplot_surface_plot
         procedure, public :: set_specular_intensity => surf_set_specular_intensity
         procedure, public :: get_transparency => surf_get_transparency
         procedure, public :: set_transparency => surf_set_transparency
+        procedure, public :: surf_push_data
+        generic, public :: push => surf_push_data
     end type
 
 contains
@@ -50,7 +52,7 @@ contains
     subroutine surf_init(this, term, fname, err)
         !! Initializes the surface_plot object.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         integer(int32), intent(in), optional :: term
             !! An optional input that is used to define the terminal.
             !!  The default terminal is a WXT terminal.  The acceptable inputs 
@@ -86,7 +88,7 @@ contains
     pure function surf_get_show_hidden(this) result(x)
         !! Gets a value indicating if hidden lines should be shown.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical :: x
             !! Returns true if hidden lines should be shown; else, false.
         x = this%m_showHidden
@@ -96,7 +98,7 @@ contains
     subroutine surf_set_show_hidden(this, x)
         !! Sets a value indicating if hidden lines should be shown.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical, intent(in) :: x
             !! Set to true if hidden lines should be shown; else, false.
         this%m_showHidden = x
@@ -107,7 +109,7 @@ contains
         !! Gets the GNUPLOT command string to represent this plot_3d
         !! object.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         character(len = :), allocatable :: x
             !! The command string.
 
@@ -219,7 +221,7 @@ contains
         !! Gets a value determining if the plotted surfaces should be
         !! smoothed.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical :: x
             !! Returns true if the surface should be smoothed; else, false.
         x = this%m_smooth
@@ -230,7 +232,7 @@ contains
         !! Sets a value determining if the plotted surfaces should be
         !! smoothed.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical, intent(in) :: x
             !! Set to true if the surface should be smoothed; else, false.
         this%m_smooth = x
@@ -241,7 +243,7 @@ contains
         !! Gets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical :: x
             !! Returns true if the contour plot should be drawn; else, false to
             !! only draw the surface.
@@ -253,7 +255,7 @@ contains
         !! Sets a value determining if a contour plot should be drawn in
         !! conjunction with the surface plot.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical, intent(in) :: x
             !! Set to true if the contour plot should be drawn; else, false to
             !! only draw the surface.
@@ -279,7 +281,7 @@ contains
         !! Gets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical :: x
             !! True if lighting should be used; else, false.
         x = this%m_useLighting
@@ -290,7 +292,7 @@ contains
         !! Sets a value indicating if lighting, beyond the ambient
         !! light source, is to be used.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         logical, intent(in) :: x
             !! True if lighting should be used; else, false.
         this%m_useLighting = x
@@ -301,7 +303,7 @@ contains
         !! Gets the ratio of the strength of the light source relative
         !! to the ambient light.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32) :: x
             !! The light intensity ratio.
         x = this%m_lightIntensity
@@ -312,7 +314,7 @@ contains
         !! Sets the ratio of the strength of the light source relative
         !! to the ambient light.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32), intent(in) :: x
             !! The light intensity ratio.  The value must exist in the
             !! set [0, 1]; else, it will be clipped to lie within the range.
@@ -330,7 +332,7 @@ contains
         !! Gets the ratio of the strength of the specular light source
         !! relative to the ambient light.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32) :: x
             !! The specular light intensity ratio.
         x = this%m_specular
@@ -341,7 +343,7 @@ contains
         !! Sets the ratio of the strength of the specular light source
         !! relative to the ambient light.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32), intent(in) :: x
             !! The specular light intensity ratio.  The value must exist in the 
             !! set [0, 1]; else, it will be clipped to lie within the range.
@@ -358,7 +360,7 @@ contains
     pure function surf_get_transparency(this) result(x)
         !! Gets a factor defining the transparency of plotted surfaces.
         class(surface_plot), intent(in) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32) :: x
             !! A value existing on the set (0 1] defining the level of
             !! transparency.  A value of 1 indicates a fully opaque surface.
@@ -369,7 +371,7 @@ contains
     subroutine surf_set_transparency(this, x)
         !! Sets a factor defining the transparency of plotted surfaces.
         class(surface_plot), intent(inout) :: this
-            !! The surface_plot object.
+            !! The [[surface_plot]] object.
         real(real32), intent(in) :: x
             !! A value existing on the set (0 1] defining the level of
             !! transparency.  A value of 1 indicates a fully opaque surface.  
@@ -382,6 +384,23 @@ contains
         else
             this%m_transparency = x
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine surf_push_data(this, x, y, z)
+        !! Adds a data set to the plot.
+        class(surface_plot), intent(inout) :: this
+            !! The [[surface_plot]] object.
+        real(real64), intent(in), dimension(:,:) :: x
+            !! An M-by-N matrix containing the x-coordinate data.
+        real(real64), intent(in), dimension(size(x,1), size(x,2)) :: y
+            !! An M-by-N matrix containing the y-coordinate data.
+        real(real64), intent(in), dimension(size(x,1), size(x,2)) :: z
+            !! An M-by-N matrix containing the z-coordinate data.
+
+        type(surface_plot_data) :: pd
+        call pd%define_data(x, y, z)
+        call this%push(pd)
     end subroutine
 
 ! ------------------------------------------------------------------------------

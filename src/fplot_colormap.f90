@@ -4,7 +4,6 @@ module fplot_colormap
     use iso_fortran_env
     use fplot_plot_object
     use strings
-    use ferror
     use fplot_errors
     use fplot_colors
     use forcolormap, cmap => Colormap ! avoid conflict with the internally defined colormap type

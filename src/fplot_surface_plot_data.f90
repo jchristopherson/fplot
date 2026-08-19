@@ -1,7 +1,6 @@
 module fplot_surface_plot_data
     use iso_fortran_env
     use fplot_plot_data
-    use ferror
     use fplot_errors
     use strings
     implicit none

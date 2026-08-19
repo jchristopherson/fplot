@@ -6,7 +6,6 @@ module fplot_plot_data
     use fplot_constants
     use fplot_colors
     use strings
-    use ferror
     use fplot_errors
     implicit none
     private

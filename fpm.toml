@@ -1,5 +1,5 @@
 name = "fplot"
-version = "1.8.12"
+version = "1.9.0"
 license = "GPL-3.0"
 author = "Jason Christopherson"
 maintainer = "Jason Christopherson"
@@ -11,7 +11,6 @@ homepage = "https://github.com/jchristopherson/fplot"
 source-dir = "src"
 
 [dependencies]
-ferror = { git = "https://github.com/jchristopherson/ferror" }
 collections = { git = "https://github.com/jchristopherson/collections" }
 fstring = { git = "https://github.com/jchristopherson/fstring" }
 geompack = { git = "https://github.com/jchristopherson/geompack" }
