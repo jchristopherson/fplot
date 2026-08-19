@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectType="typeStaticLibrary" ProjectCreator="Intel Fortran" Keyword="Static Library" Version="11.0" ProjectIdGuid="{7ACA9D75-3AE2-3424-A40E-11C32A8CA930}">
+	<Platforms>
+		<Platform Name="x64"/>
+	</Platforms>
+	<Configurations>
+		<Configuration Name="Debug|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forimage-build\Debug" IntermediateDirectory="forimage.dir\Debug" TargetName="forimage" ConfigurationType="typeStaticLibrary">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="-cpp" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" ModulePath="include\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDebugDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLibrarianTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forimage-build\Debug\forimage.lib"/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="Release|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forimage-build\Release" IntermediateDirectory="forimage.dir\Release" TargetName="forimage" ConfigurationType="typeStaticLibrary">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2 -cpp" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" ModulePath="include\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLibrarianTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forimage-build\Release\forimage.lib"/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="MinSizeRel|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forimage-build\MinSizeRel" IntermediateDirectory="forimage.dir\MinSizeRel" TargetName="forimage" ConfigurationType="typeStaticLibrary">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="-cpp" SuppressStartupBanner="true" Optimization="optimizeMinSpace" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" ModulePath="include\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLibrarianTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forimage-build\MinSizeRel\forimage.lib"/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="RelWithDebInfo|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forimage-build\RelWithDebInfo" IntermediateDirectory="forimage.dir\RelWithDebInfo" TargetName="forimage" ConfigurationType="typeStaticLibrary">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2 -cpp" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" ModulePath="include\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLibrarianTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forimage-build\RelWithDebInfo\forimage.lib"/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter Name="Source Files">
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\src\forimage.f90"/>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\src\forimage_parameters.f90"/>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\src\lut.f90"/></Filter>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt">
+			<FileConfiguration Name="RelWithDebInfo|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forimage-build/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forimage-src/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forimage-build\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTest.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestTargets.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestUseLaunchers.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\DartConfiguration.tcl.in&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\GNUInstallDirs.cmake&quot;;D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\cmake_uninstall.cmake.in;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\helper.cmake;"/></FileConfiguration>
+			<FileConfiguration Name="Release|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forimage-build/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forimage-src/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forimage-build\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTest.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestTargets.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestUseLaunchers.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\DartConfiguration.tcl.in&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\GNUInstallDirs.cmake&quot;;D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\cmake_uninstall.cmake.in;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\helper.cmake;"/></FileConfiguration>
+			<FileConfiguration Name="Debug|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forimage-build/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forimage-src/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forimage-build\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTest.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestTargets.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestUseLaunchers.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\DartConfiguration.tcl.in&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\GNUInstallDirs.cmake&quot;;D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\cmake_uninstall.cmake.in;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\helper.cmake;"/></FileConfiguration>
+			<FileConfiguration Name="MinSizeRel|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forimage-build/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forimage-src/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forimage-build\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTest.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestTargets.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\CTestUseLaunchers.cmake&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\DartConfiguration.tcl.in&quot;;&quot;C:\Program Files\CMake\share\cmake-3.27\Modules\GNUInstallDirs.cmake&quot;;D:\Code\fplot\build-tests\_deps\forimage-src\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\cmake_uninstall.cmake.in;D:\Code\fplot\build-tests\_deps\forimage-src\cmake\helper.cmake;"/></FileConfiguration></File>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\src\forcolor.F90"/>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forimage-src\src\pnm.F90"/>
+	</Files>
+	<Globals/>
+</VisualStudioProject>

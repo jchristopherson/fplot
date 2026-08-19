@@ -18,7 +18,6 @@ module fplot_plot
     use fplot_label
     use fplot_arrow
     use fplot_plot_data_function
-    use ferror
     use strings
     use collections
     implicit none

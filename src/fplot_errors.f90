@@ -1,7 +1,11 @@
 module fplot_errors
     use iso_fortran_env
-    use ferror
     implicit none
+
+    type :: errors
+    contains
+        procedure :: report_error
+    end type
 
 ! ******************************************************************************
 ! ERROR CODES
@@ -20,6 +24,17 @@ module fplot_errors
 
 contains
 ! ------------------------------------------------------------------------------
+subroutine report_error(this, fcn, msg, code)
+    class(errors), intent(inout) :: this
+    character(len = *), intent(in) :: fcn
+    character(len = *), intent(in) :: msg
+    integer(int32), intent(in) :: code
+
+    write(error_unit, '(A)') trim(fcn) // ': ' // trim(msg)
+    error stop code
+end subroutine
+
+! ------------------------------------------------------------------------------
 subroutine report_memory_error(err, fcn, flag)
     !! Reports a memory allocation error.
     class(errors), intent(inout) :: err
@@ -33,7 +48,7 @@ subroutine report_memory_error(err, fcn, flag)
     character(len = 256) :: msg
 
     ! Define the error message
-    write(100, msg) "Memory allocation error returning flag ", flag, "."
+    write(msg, 100) "Memory allocation error returning flag ", flag, "."
     call err%report_error(fcn, trim(msg), PLOT_OUT_OF_MEMORY_ERROR)
 
     ! Formatting
@@ -56,7 +71,7 @@ subroutine report_file_create_error(err, fcn, fname, flag)
     character(len = 2048) :: msg
 
     ! Define the error message
-    write(100, msg) "File ", fname, " could not be created.  The error flag ", &
+    write(msg, 100) "File ", fname, " could not be created.  The error flag ", &
         flag, " was returned."
     call err%report_error(fcn, trim(msg), PLOT_GNUPLOT_FILE_ERROR)
 
@@ -82,7 +97,7 @@ subroutine report_array_size_mismatch_error(err, fcn, name, expected, actual)
     character(len = 256) :: msg
 
     ! Define the message
-    write(100, msg) "Array ", name, " was found to be of length ", actual, &
+    write(msg, 100) "Array ", name, " was found to be of length ", actual, &
         ", but was expected to be of length ", expected, "."
     call err%report_error(fcn, trim(msg), PLOT_ARRAY_SIZE_MISMATCH_ERROR)
 
@@ -113,7 +128,7 @@ subroutine report_matrix_size_mismatch_error(err, fcn, name, mexp, nexp, &
     character(len = 256) :: msg
 
     ! Define the error
-    write(100, msg) "Matrix ", name, " was expected to be of size ", mexp, &
+    write(msg, 100) "Matrix ", name, " was expected to be of size ", mexp, &
         "-by-", nexp, ", but was found to be of size ", mact, "-by-", nact, "."
     call err%report_error(fcn, trim(msg), PLOT_ARRAY_SIZE_MISMATCH_ERROR)
 

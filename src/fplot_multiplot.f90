@@ -13,7 +13,6 @@ module fplot_multiplot
     use fplot_constants
     use fplot_errors
     use collections
-    use ferror
     use strings
     implicit none
     private

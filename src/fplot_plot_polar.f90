@@ -10,7 +10,6 @@ module fplot_plot_polar
     use fplot_plot_data
     use fplot_plot_data_2d
     use fplot_colors
-    use ferror
     use strings
     implicit none
     private
@@ -94,7 +93,6 @@ contains
         ! Initialize the base class
         ! call plt_init(this, term, fname, errmgr)
         call this%plot%initialize(term, fname, errmgr)
-        if (errmgr%has_error_occurred()) return
 
         ! Initialize the rest of the object
         this%m_thetaStart = POLAR_THETA_RIGHT

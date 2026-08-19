@@ -5,7 +5,6 @@ module fplot_surface_plot
     use fplot_plot_3d
     use fplot_errors
     use fplot_legend
-    use ferror
     use strings
     implicit none
     private

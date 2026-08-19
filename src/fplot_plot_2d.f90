@@ -8,7 +8,6 @@ module fplot_plot_2d
     use fplot_legend
     use fplot_plot_data_2d
     use fplot_colors
-    use ferror
     use strings
     implicit none
     private
@@ -117,7 +116,6 @@ contains
         ! Initialize the base class
         ! call plt_init(this, term, fname, errmgr)
         call this%plot%initialize(term, fname, errmgr)
-        if (errmgr%has_error_occurred()) return
 
         ! Process
         flag = 0

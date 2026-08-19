@@ -4,7 +4,6 @@ module fplot_plot_data_histogram
     use iso_fortran_env
     use fplot_plot_data
     use fplot_errors
-    use ferror
     use strings
     use fplot_colors
     implicit none

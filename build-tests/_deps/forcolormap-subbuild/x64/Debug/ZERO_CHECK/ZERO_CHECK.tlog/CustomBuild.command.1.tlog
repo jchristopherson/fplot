@@ -1,0 +1,10 @@
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\B007A1FBD7E332DBA65A9B937E723922\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Code/fplot/build-tests/_deps/forcolormap-subbuild -BD:/Code/fplot/build-tests/_deps/forcolormap-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

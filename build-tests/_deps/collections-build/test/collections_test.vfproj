@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application" Version="11.0" ProjectIdGuid="{8BFA9149-8A5D-32AE-A6A7-49ADF852E58F}">
+	<Platforms>
+		<Platform Name="x64"/>
+	</Platforms>
+	<Configurations>
+		<Configuration Name="Debug|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\collections-build\test\Debug" IntermediateDirectory="collections_test.dir\Debug" TargetName="collections_test">
+			<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files;D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files/$(ConfigurationName)" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDebugDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64 /debug /INCREMENTAL" OutputFile="D:\Code\fplot\build-tests\_deps\collections-build\test\Debug\collections_test.exe" Version="0.0" LinkLibraryDependencies="false" GenerateDebugInformation="true" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\collections-build\test\Debug/collections_test.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\collections-build\test\Debug\collections_test.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\src\Debug\collections.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="Release|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\collections-build\test\Release" IntermediateDirectory="collections_test.dir\Release" TargetName="collections_test">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files;D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\collections-build\test\Release\collections_test.exe" Version="0.0" LinkIncremental="linkIncrementalNo" LinkLibraryDependencies="false" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\collections-build\test\Release/collections_test.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\collections-build\test\Release\collections_test.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\src\Release\collections.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="MinSizeRel|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\collections-build\test\MinSizeRel" IntermediateDirectory="collections_test.dir\MinSizeRel" TargetName="collections_test">
+			<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Optimization="optimizeMinSpace" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files;D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\collections-build\test\MinSizeRel\collections_test.exe" Version="0.0" LinkIncremental="linkIncrementalNo" LinkLibraryDependencies="false" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\collections-build\test\MinSizeRel/collections_test.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\collections-build\test\MinSizeRel\collections_test.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\src\MinSizeRel\collections.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="RelWithDebInfo|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\collections-build\test\RelWithDebInfo" IntermediateDirectory="collections_test.dir\RelWithDebInfo" TargetName="collections_test">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files;D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64 /debug /INCREMENTAL" OutputFile="D:\Code\fplot\build-tests\_deps\collections-build\test\RelWithDebInfo\collections_test.exe" Version="0.0" LinkLibraryDependencies="false" GenerateDebugInformation="true" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\collections-build\test\RelWithDebInfo/collections_test.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\collections-build\test\RelWithDebInfo\collections_test.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\src\RelWithDebInfo\collections.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\collections-build\src\mod_files" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter Name="Source Files">
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\collections-src\test\collections_test.f90"/>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\collections-src\test\linked_list_test.f90"/>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\collections-src\test\list_test.f90"/></Filter>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt">
+			<FileConfiguration Name="RelWithDebInfo|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/collections-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/collections-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\collections-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="Release|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/collections-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/collections-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\collections-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="Debug|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/collections-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/collections-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\collections-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="MinSizeRel|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/collections-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/collections-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\collections-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\collections-src\test\CMakeLists.txt;"/></FileConfiguration></File>
+	</Files>
+	<Globals/>
+</VisualStudioProject>

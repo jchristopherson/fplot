@@ -1,7 +1,6 @@
 module fplot_triangulations_delaunay_2d
     use iso_fortran_env
     use geompack
-    use ferror
     use fplot_errors
     implicit none
     private

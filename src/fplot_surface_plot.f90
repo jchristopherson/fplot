@@ -6,7 +6,6 @@ module fplot_surface_plot
     use fplot_errors
     use fplot_legend
     use fplot_surface_plot_data
-    use ferror
     use strings
     implicit none
     private

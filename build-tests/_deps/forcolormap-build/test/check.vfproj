@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application" Version="11.0" ProjectIdGuid="{2B800E51-2C69-3BED-B7CD-21EFE78C92A7}">
+	<Platforms>
+		<Platform Name="x64"/>
+	</Platforms>
+	<Configurations>
+		<Configuration Name="Debug|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Debug" IntermediateDirectory="check.dir\Debug" TargetName="check">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="-cpp" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forcolormap-build\include/$(ConfigurationName);D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDebugDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64 /debug /INCREMENTAL" OutputFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Debug\check.exe" Version="0.0" LinkLibraryDependencies="false" GenerateDebugInformation="true" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Debug/check.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Debug\check.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\Debug\forcolormap.lib ..\..\forimage-build\Debug\forimage.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";CMAKE_INTDIR=\&quot;Debug\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="Release|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Release" IntermediateDirectory="check.dir\Release" TargetName="check">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2 -cpp" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forcolormap-build\include/$(ConfigurationName);D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Release\check.exe" Version="0.0" LinkIncremental="linkIncrementalNo" LinkLibraryDependencies="false" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Release/check.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\Release\check.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\Release\forcolormap.lib ..\..\forimage-build\Release\forimage.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;Release\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="MinSizeRel|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\MinSizeRel" IntermediateDirectory="check.dir\MinSizeRel" TargetName="check">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="-cpp" SuppressStartupBanner="true" Optimization="optimizeMinSpace" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forcolormap-build\include/$(ConfigurationName);D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64" OutputFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\MinSizeRel\check.exe" Version="0.0" LinkIncremental="linkIncrementalNo" LinkLibraryDependencies="false" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\MinSizeRel/check.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\MinSizeRel\check.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\MinSizeRel\forcolormap.lib ..\..\forimage-build\MinSizeRel\forimage.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+		<Configuration Name="RelWithDebInfo|x64" UseCompiler="ifortCompiler" OutputDirectory="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\RelWithDebInfo" IntermediateDirectory="check.dir\RelWithDebInfo" TargetName="check">
+			<Tool Name="VFFortranCompilerTool" AdditionalOptions="/O2 -cpp" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forcolormap-build\include/$(ConfigurationName);D:\Code\fplot\build-tests\_deps\forimage-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include/$(ConfigurationName)" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" ModulePath=".\$(ConfigurationName)" RuntimeLibrary="rtMultiThreadedDLL" ExceptionHandling="0"/>
+			<Tool Name="VFLinkerTool" AdditionalOptions="/machine:x64 /debug /INCREMENTAL" OutputFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\RelWithDebInfo\check.exe" Version="0.0" LinkLibraryDependencies="false" GenerateDebugInformation="true" ProgramDatabaseFile="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\RelWithDebInfo/check.pdb" SubSystem="subSystemConsole" ImportLibrary="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\RelWithDebInfo\check.lib" AdditionalDependencies="$(NOINHERIT) user32.lib ..\RelWithDebInfo\forcolormap.lib ..\..\forimage-build\RelWithDebInfo\forimage.lib "/>
+			<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions=";NDEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include"/>
+			<Tool Name="VFMidlTool" AdditionalIncludeDirectories="D:\Code\fplot\build-tests\_deps\forcolormap-build\include;D:\Code\fplot\build-tests\_deps\forimage-build\include" GenerateStublessProxies="true" OutputDirectory="$(IntDir)" HeaderFileName="$(InputName).h" DLLDataFileName="" InterfaceIdentifierFileName="$(InputName)_i.c" ProxyFileName="$(InputName)_p.c" TypeLibraryName="$(InputName).tlb"/>
+			<Tool Name="VFCustomBuildTool"/>
+			<Tool Name="VFPreLinkEventTool"/>
+			<Tool Name="VFPreBuildEventTool"/>
+			<Tool Name="VFPostBuildEventTool"/>
+			<Tool Name="VFManifestTool"/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter Name="Source Files">
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\check.f90"/></Filter>
+		<File RelativePath="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt">
+			<FileConfiguration Name="RelWithDebInfo|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forcolormap-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forcolormap-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="Release|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forcolormap-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forcolormap-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="Debug|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forcolormap-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forcolormap-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;"/></FileConfiguration>
+			<FileConfiguration Name="MinSizeRel|x64">
+			<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -SD:/Code/fplot -BD:/Code/fplot/build-tests --check-stamp-file D:/Code/fplot/build-tests/_deps/forcolormap-build/test/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule D:/Code/fplot/build-tests/_deps/forcolormap-src/test/CMakeLists.txt" Outputs="D:\Code\fplot\build-tests\_deps\forcolormap-build\test\CMakeFiles\generate.stamp" AdditionalDependencies="D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;D:\Code\fplot\build-tests\_deps\forcolormap-src\test\CMakeLists.txt;"/></FileConfiguration></File>
+	</Files>
+	<Globals/>
+</VisualStudioProject>

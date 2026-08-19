@@ -1,0 +1,10 @@
+prefix=C:/Program Files (x86)/fplot
+libdir=${prefix}/lib
+includedir=${prefix}/include
+moduledir=${prefix}/include
+
+Name: fortran_test_helper
+Description: 
+Version: 1.0.0
+Libs: -L${libdir} -lfortran_test_helper
+Cflags: -I${includedir} -I${moduledir}

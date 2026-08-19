@@ -1,7 +1,6 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-find_dependency(ferror QUIET)
 find_dependency(collections QUIET)
 find_dependency(geompack QUIET)
 find_dependency(fstring QUIET)

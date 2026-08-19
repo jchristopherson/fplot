@@ -6,7 +6,6 @@ module fplot_plot_data_bar
     use fplot_errors
     use fplot_colors
     use strings
-    use ferror
     implicit none
     private
     public :: plot_data_bar

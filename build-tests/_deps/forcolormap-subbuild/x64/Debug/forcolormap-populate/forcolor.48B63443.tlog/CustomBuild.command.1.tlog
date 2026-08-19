@@ -1,0 +1,150 @@
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-MKDIR.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/tmp/forcolormap-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-DOWNLOAD.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/tmp/forcolormap-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-UPDATE.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forcolormap-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -P D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/tmp/forcolormap-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-PATCH.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-CONFIGURE.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forcolormap-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-BUILD.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forcolormap-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-INSTALL.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forcolormap-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\4530C55B12A71EF1DFCF9E7024FBA3B9\FORCOLORMAP-POPULATE-TEST.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forcolormap-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\F0BEC88A304566994D9A025C697ED4A7\FORCOLORMAP-POPULATE-COMPLETE.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/CMakeFiles/Debug/forcolormap-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/forcolormap-populate-prefix/src/forcolormap-populate-stamp/Debug/forcolormap-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKEFILES\B007A1FBD7E332DBA65A9B937E723922\FORCOLORMAP-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORCOLORMAP-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Code/fplot/build-tests/_deps/forcolormap-subbuild -BD:/Code/fplot/build-tests/_deps/forcolormap-subbuild --check-stamp-file D:/Code/fplot/build-tests/_deps/forcolormap-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

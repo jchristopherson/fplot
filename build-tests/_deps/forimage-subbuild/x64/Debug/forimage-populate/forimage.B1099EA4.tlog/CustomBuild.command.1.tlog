@@ -1,0 +1,150 @@
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-MKDIR.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/tmp/forimage-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-DOWNLOAD.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/tmp/forimage-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-UPDATE.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forimage-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -P D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/tmp/forimage-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-PATCH.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-CONFIGURE.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forimage-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-BUILD.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forimage-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-INSTALL.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forimage-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\7885B82C60135E8A3D65671386EB0366\FORIMAGE-POPULATE-TEST.RULE
+setlocal
+cd D:\Code\fplot\build-tests\_deps\forimage-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\EFDB63C3225E492E8BBBB7E10D1A0733\FORIMAGE-POPULATE-COMPLETE.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/Code/fplot/build-tests/_deps/forimage-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/CMakeFiles/Debug/forimage-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Code/fplot/build-tests/_deps/forimage-subbuild/forimage-populate-prefix/src/forimage-populate-stamp/Debug/forimage-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKEFILES\BC7AEAFF4AD830A54D5F49614A558CFA\FORIMAGE-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\CODE\FPLOT\BUILD-TESTS\_DEPS\FORIMAGE-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Code/fplot/build-tests/_deps/forimage-subbuild -BD:/Code/fplot/build-tests/_deps/forimage-subbuild --check-stamp-file D:/Code/fplot/build-tests/_deps/forimage-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

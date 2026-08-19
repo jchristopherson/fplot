@@ -27,7 +27,6 @@ fplot = { git = "https://github.com/jchristopherson/fplot" }
 
 ## External Libraries
 The FPLOT library depends upon the following libraries.
-- [FERROR](https://github.com/jchristopherson/ferror)
 - [COLLECTIONS](https://github.com/jchristopherson/collections)
 - [FSTRING](https://github.com/jchristopherson/fstring)
 - [GEOMPACK](https://github.com/jchristopherson/geompack)
