@@ -3,7 +3,6 @@ module fplot_plot_data_2d
     use fplot_plot_data
     use fplot_simplify
     use fplot_errors
-    use ferror
     use strings
     implicit none
     private

@@ -13,7 +13,6 @@ module fplot_stats_plots
     use fplot_plot_axis
     use collections
     use strings
-    use ferror
     implicit none
     private
     public :: correlation_plot
@@ -100,7 +99,6 @@ contains
         n = size(x, 2)
         call this%m_plt%initialize(n, n, term = term, width = width, &
             height = height, err = errmgr)
-        if (errmgr%has_error_occurred()) return
         allocate(plts(n * n), stat = flag)
         if (flag /= 0) then
             call report_memory_error(errmgr, "cp_init", flag)
@@ -125,21 +123,17 @@ contains
         call pdata%set_marker_scaling(0.5)
         call mdata%set_line_width(2.0)
         call mdata%set_line_color(CLR_BLACK)
-        if (errmgr%has_error_occurred()) return
         do j = 1, n
             do i = 1, n
                 k = k + 1
                 call plts(k)%initialize(err = errmgr)
-                if (errmgr%has_error_occurred()) return
                 if (i == j) then
                     ! Plot a histogram of the data
                     call hdata%define_data(x(:,i), err = errmgr)
-                    if (errmgr%has_error_occurred()) return
                     call plts(k)%push(hdata)
                 else
                     ! Plot a scatter plot
                     call pdata%define_data(x(:,j), x(:,i), err = errmgr)
-                    if (errmgr%has_error_occurred()) return
                     call plts(k)%push(pdata)
 
                     ! Fit a line to the data
@@ -148,7 +142,6 @@ contains
 
                     ! Plot the fitted line
                     call mdata%define_data(x(:,j), mdl, err = err)
-                    if (errmgr%has_error_occurred()) return
                     call plts(k)%push(mdata)
                 end if
 
