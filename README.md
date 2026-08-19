@@ -12,18 +12,63 @@ This library is tailored to write script files for GNUPLOT.  As such, GNUPLOT is
 ## Documentation
 Documentation can be found [here](https://jchristopherson.github.io/fplot/)
 
-## Building FPLOT
-[CMake](https://cmake.org/)This library can be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).
+## Building
+FPLOT requires a Fortran compiler with Fortran 2003 support and [Gnuplot](http://www.gnuplot.info/) on your `PATH` to render plots. The CMake and FPM builds retrieve the Fortran library dependencies automatically.
 
-[FPM](https://github.com/fortran-lang/fpm) can also be used to build this library using the provided fpm.toml.
-```txt
-fpm build
+### CMake
+Configure and build the library with CMake 3.24 or newer:
+```sh
+cmake -S . -B build -DBUILD_TESTING=ON -DBUILD_FPLOT_EXAMPLES=ON
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
 ```
-The FPLOT library can be used within your FPM project by adding the following to your fpm.toml file.
+
+Install it to a prefix of your choice:
+```sh
+cmake --install build --prefix /path/to/install
+```
+
+To build a shared library, add `-DBUILD_SHARED_LIBS=ON` to the configure command. Set `BUILD_TESTING` or `BUILD_FPLOT_EXAMPLES` to `OFF` when those targets are not needed.
+
+### FPM
+[FPM](https://github.com/fortran-lang/fpm) can build and test the checked-out repository directly:
+```sh
+fpm build
+fpm test
+```
+
+Add FPLOT to another FPM project with:
 ```toml
 [dependencies]
 fplot = { git = "https://github.com/jchristopherson/fplot" }
 ```
+
+## Getting Started
+Import `fplot_core` for the primary types, styling constants, and helper routines such as `linspace` and `meshgrid`. A basic 2D plot follows four steps: initialize a plot object, configure its appearance, add one or more data series, and draw it.
+
+```fortran
+use, intrinsic :: iso_fortran_env
+use fplot_core
+
+type(plot_2d) :: plt
+real(real64) :: x(100), y(100)
+
+x = linspace(0.0_real64, 10.0_real64, size(x))
+y = sin(x)
+
+call plt%initialize()
+call plt%set_title("Sine wave")
+call plt%set_x_axis_title("x")
+call plt%set_y_axis_title("sin(x)")
+call plt%push(x, y, lw = 2.0, name = "sin(x)")
+call plt%draw()
+```
+
+`plot_2d%push` creates a line data series directly from `x` and `y`. For more control, create a `plot_data_2d` object, call `define_data`, set properties such as its name, line style, markers, or color, and then pass it to `plot_2d%push`.
+
+Use `plot_3d` for 3D curves and scatter data, `surface_plot` for gridded surfaces, and `plot_polar` for polar coordinates. `plot_data_error_bars`, `plot_data_histogram`, `plot_data_bar`, and `vector_field_plot_data` provide specialized series types. Axis and legend objects are available through `get_x_axis`, `get_y_axis`, and `get_legend` for detailed layout control. Invalid input and allocation failures print a diagnostic and terminate with an `fplot_errors` error code.
+
+The [examples](examples) directory contains complete programs for 2D and 3D plots, surfaces, histograms, error bars, vector fields, and output terminals.
 
 ## External Libraries
 The FPLOT library depends upon the following libraries.
