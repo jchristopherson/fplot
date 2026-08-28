@@ -37,11 +37,11 @@ module fplot_plot
             !! A collection of plot_data items to plot.
         type(legend), private, pointer :: m_legend => null()
             !! The legend.
-        logical, private :: m_showGrid = .true.
+        logical, private :: m_showGrid = .false.
             !! Show grid lines?
         logical, private :: m_ticsIn = .true.
             !! Point tic marks in?
-        logical, private :: m_drawBorder = .true.
+        logical, private :: m_drawBorder = .false.
             !! Draw the border?
         type(list), private :: m_labels ! Added 6/22/2018, JAC
             !! A collection of plot_label items to draw.
