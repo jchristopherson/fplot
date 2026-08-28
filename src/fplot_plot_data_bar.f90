@@ -27,6 +27,12 @@ module fplot_plot_data_bar
             !! Determines if each bar is filled.
         real(real32), private :: m_alpha = 1.0
             !! The alpha value (transparency) for each bar.
+        type(color), private, allocatable, dimension(:) :: m_barColors
+            !! The color to use for each data series (column).  If not
+            !! set, a default color cycle is used for multi-series data,
+            !! or the base line color is used for single-series data.
+        type(string), private, allocatable, dimension(:) :: m_seriesNames
+            !! The legend title to associate with each data series (column).
     contains
         procedure, public :: get_count => pdb_get_count
         procedure, public :: get => pdb_get_data
@@ -46,14 +52,24 @@ module fplot_plot_data_bar
         procedure, public :: set_is_filled => pdb_set_is_filled
         procedure, public :: get_transparency => pdb_get_alpha
         procedure, public :: set_transparency => pdb_set_alpha
+        procedure, public :: get_bar_color => pdb_get_bar_color
+        procedure, public :: set_bar_color => pdb_set_bar_color
+        procedure, public :: get_series_name => pdb_get_series_name
+        procedure, public :: set_series_name => pdb_set_series_name
         generic, public :: define_data => pdb_set_data_1, pdb_set_data_2, &
-            pdb_set_data_3
+            pdb_set_data_3, pdb_set_data_4, pdb_set_data_5, pdb_set_data_6
         procedure, private :: pdb_set_data_1
         procedure, private :: pdb_set_data_2
         procedure, private :: pdb_set_data_3
+        procedure, private :: pdb_set_data_4
+        procedure, private :: pdb_set_data_5
+        procedure, private :: pdb_set_data_6
         procedure, public :: set_data_1 => pdb_set_data_1_core
         procedure, public :: set_data_2 => pdb_set_data_2_core
         procedure, public :: set_data_3 => pdb_set_data_3_core
+        procedure, public :: set_data_4 => pdb_set_data_4_core
+        procedure, public :: set_data_5 => pdb_set_data_5_core
+        procedure, public :: set_data_6 => pdb_set_data_6_core
         procedure, public :: clear_data => pdb_clear_data
     end type
 
@@ -182,61 +198,65 @@ function pdb_get_cmd(this) result(x)
 
     ! Local Variables
     type(string_builder) :: str
-    integer(int32) :: n, ncols
+    integer(int32) :: j, ncols, offset
+    logical :: uselabels
+    character(len = :), allocatable :: title
     type(color) :: clr
 
     ! Initialization
     call str%initialize()
+    ncols = max(this%get_bar_per_label_count(), 1)
+    uselabels = this%get_use_labels() .and. allocated(this%m_barData) .and. &
+        allocated(this%m_axisLabels)
+    if (uselabels) then
+        offset = 1
+    else
+        offset = 0
+    end if
 
-    ! Data Block
-    call str%append(" $")
-    call str%append(this%get_datablock_name())
+    ! Each data series (column) is drawn with its own "using" clause so
+    ! that multiple bar series stored in a single datablock all appear
+    do j = 1, ncols
+        if (j > 1) call str%append(", ")
 
-    ! Tic Labels
-    if (this%get_use_labels() .and. allocated(this%m_barData) .and. &
-            allocated(this%m_axisLabels)) then
-        ncols = size(this%m_barData, 2)
-        if (ncols == 1) then
-            call str%append(" using 2:xtic(1) ")
+        ! Data Block
+        call str%append(" $")
+        call str%append(this%get_datablock_name())
+        call str%append(" using ")
+        call str%append(to_string(j + offset))
+        if (j == 1 .and. uselabels) call str%append(":xtic(1)")
+
+        ! Filled?
+        if (this%get_is_filled()) then
+            call str%append(" fill solid ")
         else
-            call str%append(" using 2:")
-            call str%append(to_string(ncols))
-            call str%append(":xtic(1) ")
+            call str%append(" fill empty ")
         end if
-    end if
 
-    ! Enforce a box plot
-    call str%append(" with boxes ")
+        ! Transparency
+        call str%append(to_string(this%get_transparency()))
 
-    ! Filled?
-    if (this%get_is_filled()) then
-        call str%append(" fill solid ")
-    else
-        call str%append(" fill empty ")
-    end if
+        ! Title
+        title = this%get_series_name(j)
+        if (len_trim(title) == 0 .and. ncols == 1) title = this%get_name()
+        if (len_trim(title) > 0) then
+            call str%append(' title "')
+            call str%append(title)
+            call str%append('"')
+        else
+            call str%append(' notitle')
+        end if
 
-    ! Transparency
-    call str%append(to_string(this%get_transparency()))
-
-    ! Title
-    n = len_trim(this%get_name())
-    if (n > 0) then
-        call str%append(' title "')
-        call str%append(this%get_name())
+        ! Color
+        clr = this%get_bar_color(j)
+        call str%append(' lc rgb "#')
+        call str%append(clr%to_hex_string())
         call str%append('"')
-    else
-        call str%append(' notitle')
-    end if
 
-    ! Color
-    clr = this%get_line_color()
-    call str%append(' lc rgb "#')
-    call str%append(clr%to_hex_string())
-    call str%append('"')
-
-    ! Define the axes structure
-    call str%append(" ")
-    call str%append(this%get_axes_string())
+        ! Define the axes structure
+        call str%append(" ")
+        call str%append(this%get_axes_string())
+    end do
 
     ! End
     x = char(str%to_string())
@@ -270,7 +290,7 @@ function pdb_get_data_cmd(this) result(x)
             call str%append(delimiter)
             do j = 1, ncols
                 call str%append(to_string(this%get(i, j)))
-                if (j /= nbars) call str%append(delimiter)
+                if (j /= ncols) call str%append(delimiter)
             end do
             call str%append(nl)
         end do
@@ -278,7 +298,7 @@ function pdb_get_data_cmd(this) result(x)
         do i = 1, nbars
             do j = 1, ncols
                 call str%append(to_string(this%get(i, j)))
-                if (j /= nbars) call str%append(delimiter)
+                if (j /= ncols) call str%append(delimiter)
             end do
             call str%append(nl)
         end do
@@ -338,6 +358,115 @@ subroutine pdb_set_use_y2(this, x)
     logical, intent(in) :: x
         !! Set to true to plot against a secondary y-axis; else, false.
     this%m_useY2 = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdb_get_bar_color(this, index) result(x)
+    !! Gets the color to use for the requested data series (column).  If
+    !! no color has been explicitly set, a default color cycle is used
+    !! for multi-series data, or the base line color for single-series
+    !! data.
+    class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The index of the data series (column).
+    type(color) :: x
+        !! The color.
+
+    if (allocated(this%m_barColors)) then
+        if (index >= 1 .and. index <= size(this%m_barColors)) then
+            x = this%m_barColors(index)
+            return
+        end if
+    end if
+
+    if (this%get_bar_per_label_count() <= 1) then
+        x = this%get_line_color()
+    else
+        x = color_list(mod(index - 1, size(color_list)) + 1)
+    end if
+end function
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_bar_color(this, index, x)
+    !! Sets the color to use for the requested data series (column).
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The index of the data series (column).
+    type(color), intent(in) :: x
+        !! The color.
+
+    ! Local Variables
+    type(color), allocatable, dimension(:) :: temp
+    integer(int32) :: i, n
+
+    n = max(index, this%get_bar_per_label_count())
+    if (.not.allocated(this%m_barColors)) then
+        allocate(this%m_barColors(n))
+        do i = 1, n
+            this%m_barColors(i) = this%get_bar_color(i)
+        end do
+    else if (size(this%m_barColors) < n) then
+        allocate(temp(n))
+        do i = 1, n
+            if (i <= size(this%m_barColors)) then
+                temp(i) = this%m_barColors(i)
+            else
+                temp(i) = this%get_bar_color(i)
+            end if
+        end do
+        call move_alloc(temp, this%m_barColors)
+    end if
+    this%m_barColors(index) = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdb_get_series_name(this, index) result(x)
+    !! Gets the legend title associated with the requested data series
+    !! (column).
+    class(plot_data_bar), intent(in) :: this
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The index of the data series (column).
+    character(len = :), allocatable :: x
+        !! The title.
+
+    if (allocated(this%m_seriesNames)) then
+        if (index >= 1 .and. index <= size(this%m_seriesNames)) then
+            x = char(this%m_seriesNames(index))
+            return
+        end if
+    end if
+    x = ""
+end function
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_series_name(this, index, txt)
+    !! Sets the legend title to associate with the requested data series
+    !! (column).
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    integer(int32), intent(in) :: index
+        !! The index of the data series (column).
+    character(len = *), intent(in) :: txt
+        !! The title.
+
+    ! Local Variables
+    type(string), allocatable, dimension(:) :: temp
+    integer(int32) :: i, n
+
+    n = max(index, this%get_bar_per_label_count())
+    if (.not.allocated(this%m_seriesNames)) then
+        allocate(this%m_seriesNames(n))
+    else if (size(this%m_seriesNames) < n) then
+        allocate(temp(n))
+        do i = 1, size(this%m_seriesNames)
+            temp(i) = this%m_seriesNames(i)
+        end do
+        call move_alloc(temp, this%m_seriesNames)
+    end if
+    this%m_seriesNames(index) = txt
 end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -590,6 +719,199 @@ subroutine pdb_clear_data(this)
         !! The plot_data_bar object.
     if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)
     if (allocated(this%m_barData)) deallocate(this%m_barData)
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_4_core(this, x, err)
+    !! Defines the data set.
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data set.
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Local Variables
+    class(errors), pointer :: errmgr
+    type(errors), target :: deferr
+    integer(int32) :: flag
+    
+    ! Initialization
+    if (present(err)) then
+        errmgr => err
+    else
+        errmgr => deferr
+    end if
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
+    ! Process
+    if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)
+    if (allocated(this%m_barData)) deallocate(this%m_barData)
+    allocate(this%m_barData(size(x,1), size(x,2)), stat = flag, source = x)
+    if (flag /= 0) then
+        call report_memory_error(errmgr, "pdb_set_data_4_core", flag)
+        return
+    end if
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_5_core(this, labels, x, err)
+    ! Arguments
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    class(string), intent(in), dimension(:) :: labels
+        !! The axis labels.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data set.
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Local Variables
+    class(errors), pointer :: errmgr
+    type(errors), target :: deferr
+    integer(int32) :: n, flag
+    
+    ! Initialization
+    if (present(err)) then
+        errmgr => err
+    else
+        errmgr => deferr
+    end if
+    n = size(x, 1)
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
+    ! Input Check
+    if (size(labels) /= n) then
+        call report_array_size_mismatch_error(errmgr, "pdb_set_data_5_core", &
+            "labels", n, size(labels))
+        return
+    end if
+
+    ! Process
+    if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)
+    if (allocated(this%m_barData)) deallocate(this%m_barData)
+    allocate(this%m_barData(size(x,1), size(x,2)), stat = flag, source = x)
+    if (flag == 0) allocate(this%m_axisLabels(n), stat = flag)
+    if (flag /= 0) then
+        call report_memory_error(errmgr, "pdb_set_data_5_core", flag)
+        return
+    end if
+    this%m_axisLabels = labels
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_6_core(this, labels, x, fmt, err)
+    ! Arguments
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    real(real64), intent(in), dimension(:) :: labels
+        !! The axis labels.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data set.
+    character(len = *), intent(in), optional :: fmt
+        !! The format string for the labels (e.g. '(I0)', etc.).
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Local Variables
+    class(errors), pointer :: errmgr
+    type(errors), target :: deferr
+    integer(int32) :: i, n, flag
+    type(string), allocatable, dimension(:) :: lbls
+    
+    ! Initialization
+    if (present(err)) then
+        errmgr => err
+    else
+        errmgr => deferr
+    end if
+    n = size(x, 1)
+
+    if (len(this%get_datablock_name()) == 0) then
+        call this%create_unique_datablock_name()
+    end if
+
+    ! Input Check
+    if (size(labels) /= n) then
+        call report_array_size_mismatch_error(errmgr, "pdb_set_data_6_core", &
+            "labels", n, size(labels))
+        return
+    end if
+
+    ! Convert the numeric labels to strings
+    allocate(lbls(n), stat = flag)
+    if (flag /= 0) then
+        call report_memory_error(errmgr, "pdb_set_data_6_core", flag)
+        return
+    end if
+    do i = 1, n
+        lbls(i) = to_string(labels(i), fmt)
+    end do
+
+    ! Store the data
+    if (allocated(this%m_axisLabels)) deallocate(this%m_axisLabels)
+    if (allocated(this%m_barData)) deallocate(this%m_barData)
+    allocate(this%m_barData(size(x,1), size(x,2)), stat = flag, source = x)
+    if (flag == 0) allocate(this%m_axisLabels(n), stat = flag)
+    if (flag /= 0) then
+        call report_memory_error(errmgr, "pdb_set_data_6_core", flag)
+        return
+    end if
+    this%m_axisLabels = lbls
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_4(this, x, err)
+    !! Defines a single data set.
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data to plot.
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Process
+    call this%set_data_4(x, err)
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_5(this, labels, x, err)
+    !! Defines data along with associated axis labels.
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    class(string), intent(in), dimension(:) :: labels
+        !! The axis labels to associate with the data.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data set.
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Process
+    call this%set_data_5(labels, x, err)
+end subroutine
+
+! ------------------------------------------------------------------------------
+subroutine pdb_set_data_6(this, labels, x, fmt, err)
+    !! Defines data along with labels and formatting information.
+    class(plot_data_bar), intent(inout) :: this
+        !! The plot_data_bar object.
+    real(real64), intent(in), dimension(:) :: labels
+        !! The axis labels to associate with the data.
+    real(real64), intent(in), dimension(:,:) :: x
+        !! The data set.
+    character(len = *), intent(in), optional :: fmt
+        !! The format string for the labels (e.g. '(I0)', etc.).
+    class(errors), intent(inout), optional, target :: err
+        !! An error handling object.
+
+    ! Process
+    call this%set_data_6(labels, x, fmt, err)
 end subroutine
 
 ! ------------------------------------------------------------------------------
