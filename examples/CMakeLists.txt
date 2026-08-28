@@ -166,6 +166,10 @@ target_link_libraries(polar_plot_simplified_example fplot)
 add_executable(bar_plot_example bar_plot_example.f90)
 target_link_libraries(bar_plot_example fplot)
 
+# Example 43
+add_executable(impulse_example impulse_example.f90)
+target_link_libraries(impulse_example fplot)
+
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(
         TARGET generic_2d_plot

@@ -92,6 +92,8 @@ module fplot_plot_data
             !! Marker size multiplier.
         integer(int32), private :: m_markerFrequency = 1
             !! Marker frequency.
+        logical, private :: m_impulses = .false.
+            !! Draw the impulse lines?
     contains
         procedure, public :: get_command_string => lpd_get_cmd
         procedure, public :: get_line_width => lpd_get_line_width
@@ -108,6 +110,8 @@ module fplot_plot_data
         procedure, public :: set_marker_scaling => lpd_set_marker_scaling
         procedure, public :: get_marker_frequency => lpd_get_marker_frequency
         procedure, public :: set_marker_frequency => lpd_set_marker_frequency
+        procedure, public :: get_draw_impulses => lpd_get_draw_impulse_lines
+        procedure, public :: set_draw_impulses => lpd_set_draw_impulse_lines
     end type
 
     type, abstract, extends(line_plot_data) :: scatter_plot_data
@@ -564,6 +568,26 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
+    pure function lpd_get_draw_impulse_lines(this) result(x)
+        !! Gets a value determining if impulse lines should be drawn.
+        class(line_plot_data), intent(in) :: this
+            !! The line_plot_data object.
+        logical :: x
+            !! True if impulse lines should be drawn; else, false.
+        x = this%m_impulses
+    end function
+
+! --------------------
+    subroutine lpd_set_draw_impulse_lines(this, x)
+        !! Sets a value determining if impulse lines should be drawn.
+        class(line_plot_data), intent(inout) :: this
+            !! The line_plot_data object.
+        logical, intent(in) :: x
+            !! True if impulse lines should be drawn; else, false.
+        this%m_impulses = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
     function lpd_get_cmd(this) result(rst)
         !! Gets the GNUPLOT command string to represent this line_plot_data
         !! object.
@@ -591,12 +615,16 @@ contains
         end if
 
         ! Lines or points
-        if (this%get_draw_line() .and. this%get_draw_markers()) then
-            call str%append(" with linespoints")
-        else if (.not.this%get_draw_line() .and. this%get_draw_markers()) then
-            call str%append(" with points")
+        if (this%get_draw_impulses()) then
+            call str%append(" with impulses")
         else
-            call str%append(" with lines")
+            if (this%get_draw_line() .and. this%get_draw_markers()) then
+                call str%append(" with linespoints")
+            else if (.not.this%get_draw_line() .and. this%get_draw_markers()) then
+                call str%append(" with points")
+            else
+                call str%append(" with lines")
+            end if
         end if
 
         ! Line Width
@@ -667,6 +695,8 @@ contains
         ! Lines, points, or filled
         if (this%get_fill_curve()) then
             call str%append(" with filledcurves")
+        else if (this%get_draw_impulses()) then
+            call str%append(" with impulses")
         else
             if (this%get_draw_line() .and. this%get_draw_markers()) then
                 call str%append(" with linespoints")
