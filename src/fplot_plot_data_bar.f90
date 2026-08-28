@@ -1,5 +1,8 @@
 ! fplot_plot_data_bar.f90
 
+! TO DO:
+! - Allow naming of each data set at the define_data level as well
+
 module fplot_plot_data_bar
     use iso_fortran_env
     use fplot_plot_data
