@@ -82,13 +82,13 @@ module fplot_plot_data
             !! Draw a line connecting the dots?
         logical, private :: m_drawMarkers = .false.
             !! Draw the markers?
-        real(real32), private :: m_lineWidth = 1.0
+        real(real32), private :: m_lineWidth = 2.0
             !! Line width.
         integer(int32), private :: m_lineStyle = LINE_SOLID
             !! Line style.
         integer(int32), private :: m_markerType = MARKER_FILLED_CIRCLE
             !! Marker type.
-        real(real32), private :: m_markerSize = 0.5
+        real(real32), private :: m_markerSize = 1.0
             !! Marker size multiplier.
         integer(int32), private :: m_markerFrequency = 1
             !! Marker frequency.
