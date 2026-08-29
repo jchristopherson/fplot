@@ -26,7 +26,7 @@ module fplot_plot_data_box_whisker
             !! Use horizontal whisker bar caps?
         real(real32), private :: m_whiskerWidth = 1.0
             !! On a scale of 0 -> 1, the whiskerwidth.
-        real(real32), private :: m_lineWidth = 1.0
+        real(real32), private :: m_lineWidth = 2.0
             !! The line width.
         real(real32), private :: m_boxWidth = 0.05
             !! The box width.
