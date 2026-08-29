@@ -142,7 +142,7 @@ module fplot_constants
         !! The default GNUPLOT window height, in pixels.
     integer(int32), parameter :: GNUPLOT_MAX_LABEL_LENGTH = 128
         !! Defines the maximum number of characters allowed in a graph label.
-    character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Calibri"
+    character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Arial"
         !! Defines the default font used by text on the graph.
     integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 14
         !! Defines the default font size used by text on the graph.

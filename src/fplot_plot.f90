@@ -59,6 +59,8 @@ module fplot_plot
         real(real32), private :: m_rightMargin = -1.0
         real(real32), private :: m_topMargin = -1.0
         real(real32), private :: m_bottomMargin = -1.0
+        real(real32), private :: m_borderLineWidth = 1.2
+            !! Border line width
     contains
         procedure, public :: free_resources => plt_clean_up
         procedure, public :: initialize => plt_init
@@ -115,6 +117,8 @@ module fplot_plot
         procedure, public :: set_bottom_margin => plt_set_bottom_margin
         procedure, public :: show_legend => plt_show_legend
         procedure, public :: set_window_size => plt_set_window_size
+        procedure, public :: get_border_line_width => plt_get_border_line_width
+        procedure, public :: set_border_line_width => plt_set_border_line_width
     end type
 
 contains
@@ -1015,6 +1019,26 @@ contains
             call this%m_terminal%set_window_width(width)
             call this%m_terminal%set_window_height(height)
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_border_line_width(this) result(x)
+        !! Gets the width of the lines used to draw the border.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_borderLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_border_line_width(this, x)
+        !! Sets the width of the lines used to draw the border.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_borderLineWidth = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

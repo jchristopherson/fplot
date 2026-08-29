@@ -209,6 +209,10 @@ contains
             call str%append("set border 0")
         end if
 
+        call str%append(new_line('a'))
+        call str%append("set border linewidth ")
+        call str%append(to_string(this%get_border_line_width()))
+
         ! Legend
         call str%append(new_line('a'))
         leg => this%get_legend()

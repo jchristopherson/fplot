@@ -37,7 +37,7 @@ module fplot_plot_axis
             !! Log scaled?
         logical, private:: m_zeroAxis = .false.
             !! Has a zero axis?
-        real(real32), private :: m_axisWidth = 1.0
+        real(real32), private :: m_axisWidth = 1.5
             !! The width, in pixels, of the zero-axis line.
         logical, private :: m_defaultTicLabels = .true.
             !! Use default tic label format?
