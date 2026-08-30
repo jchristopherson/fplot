@@ -44,6 +44,7 @@ module fplot_core
     use fplot_plot_data_box_whisker
     use fplot_plot_data_function
     use strings
+    use fplot_svg_terminal
     implicit none
     
 end module

@@ -10,6 +10,7 @@ module fplot_plot
     use fplot_wxt_terminal
     use fplot_png_terminal
     use fplot_latex_terminal
+    use fplot_svg_terminal
     use fplot_colormap
     use fplot_colors
     use fplot_errors
@@ -179,6 +180,8 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -194,6 +197,7 @@ contains
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
         type(latex_terminal), pointer :: latex
+        type(svg_terminal), pointer :: svg
 
         ! Initialization
         if (present(err)) then
@@ -225,6 +229,10 @@ contains
             allocate(latex, stat = flag)
             if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
+        case (GNUPLOT_TERMINAL_SVG)
+            allocate(svg, stat = flag)
+            if (present(fname)) call svg%set_filename(fname)
+            this%m_terminal => svg
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
