@@ -8,7 +8,7 @@ program example
     integer(int32), parameter :: n = 3
     integer(int32) :: i
     type(string) :: titles(n)
-    real(real64) :: boxmin(n), boxmax(n), whiskermin(n), whiskermax(n)
+    real(real64) :: boxmin(n), boxmax(n), whiskermin(n), whiskermax(n), mid(n)
     type(plot_2d) :: plt
     type(plot_data_box_whisker) :: pd
     class(plot_axis), pointer :: xAxis
@@ -21,6 +21,7 @@ program example
     boxmax = [7.5d0, 8.0d0, 9.0d0]
     whiskermin = [3.0d0, 4.0d0, 5.0d0]
     whiskermax = [9.0d0, 10.0d0, 11.0d0]
+    mid = 0.5d0 * (boxmax + boxmin)
 
     ! Create the plot
     call plt%initialize()
@@ -28,7 +29,7 @@ program example
     call xAxis%set_autoscale(.false.)
     call xAxis%set_limits(0.0d0, n + 1.0d0)
 
-    call pd%define_data(titles, boxmin, boxmax, whiskermin, whiskermax)
+    call pd%define_data(titles, boxmin, boxmax, whiskermin, whiskermax, mid)
     call pd%set_box_fill_opacity(0.5)
     call pd%set_box_width(0.1)
     call plt%push(pd)
