@@ -48,7 +48,6 @@ program example
 
     ! Plot the triangulation, the point of interest, and highlight the triangle
     call plt%initialize()
-    call plt%set_font_size(14)
 
     call ds%define_data(tri)
     call plt%push(ds)
@@ -66,7 +65,6 @@ program example
     call dpt%set_draw_markers(.true.)
     call dpt%set_marker_style(MARKER_X)
     call dpt%set_marker_scaling(3.0)
-    call dpt%set_line_width(2.0)
     call plt%push(dpt)
 
     call plt%draw()

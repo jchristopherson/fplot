@@ -37,7 +37,6 @@ program example
     call pd%define_data(x, y)
     call pd%set_draw_line(.false.)
     call pd%set_draw_markers(.true.)
-    call pd%set_marker_scaling(1.5)
     call plt%push(pd)
     call plt%draw()
 end program

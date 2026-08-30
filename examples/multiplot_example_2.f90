@@ -10,7 +10,7 @@ program example
     real(real64), allocatable, dimension(:) :: x1, y1, x2, y2, x3, y3, x4, y4
     type(multiplot) :: mplt
     type(plot_2d) :: plt1, plt2, plt3, plt4
-    type(plot_data_2d) :: d1, d2, d3, d4
+    class(terminal), pointer :: term
     
     ! Build the data sets
     x1 = linspace(0.0d0, 1.0d0, n)
@@ -29,26 +29,28 @@ program example
     call plt3%initialize()
     call plt4%initialize()
 
-    call d1%define_data(x1, y1)
-    call d2%define_data(x2, y2)
-    call d3%define_data(x3, y3)
-    call d4%define_data(x4, y4)
-
-    call plt1%push(d1)
     call plt1%set_title("Plot 1 (1, 1)")
+    call plt1%push(x1, y1)
 
-    call plt2%push(d2)
     call plt2%set_title("Plot 2 (2, 1)")
+    call plt2%push(x2, y2)
 
-    call plt3%push(d3)
     call plt3%set_title("Plot 3 (1, 2)")
+    call plt3%push(x3, y3)
 
-    call plt4%push(d4)
     call plt4%set_title("Plot 4 (2, 2)")
+    call plt4%push(x4, y4)
 
     call mplt%set(1, 1, plt1)
     call mplt%set(2, 1, plt2)
     call mplt%set(1, 2, plt3)
     call mplt%set(2, 2, plt4)
+
+    ! Size the plot window a bit larger
+    term => mplt%get_terminal()
+    call term%set_window_height(600)
+    call term%set_window_width(1000)
+
+    ! Draw the plot
     call mplt%draw()
 end program

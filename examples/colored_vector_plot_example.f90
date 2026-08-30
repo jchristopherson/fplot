@@ -46,8 +46,6 @@ program example
     ! Set plot style information
     call xAxis%set_zero_axis(.true.)
     call yAxis%set_zero_axis(.true.)
-    call plt%set_draw_border(.false.)
-    call plt%set_show_gridlines(.false.)
 
     ! Define the colormap
     call plt%set_colormap(map)

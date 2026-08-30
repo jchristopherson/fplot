@@ -8,7 +8,6 @@ program example
     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
     real(real64) :: t(npts), x(npts), y(npts)
     type(plot_2d) :: plt
-    type(plot_data_2d) :: pd
 
     ! Generate the data
     t = linspace(0.0d0, 2.0d0 * pi, npts)
@@ -17,12 +16,8 @@ program example
 
     ! Set up the plot
     call plt%initialize()
-    call plt%set_font_size(14)
     call plt%set_title("Default Settings")
-
-    call pd%define_data(x, y)
-    call plt%push(pd)
-
+    call plt%push(x, y)
     call plt%draw()
 
     ! Now show the effects of square axes

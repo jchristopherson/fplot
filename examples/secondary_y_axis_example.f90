@@ -8,7 +8,6 @@ program example
     real(real64), dimension(npts) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: ds1, ds2
-    class(plot_axis), pointer :: xAxis, yAxis, y2Axis
 
     ! Build a data set
     x = linspace(0.0d0, 10.0d0, npts)
@@ -28,21 +27,13 @@ program example
     ! Draw ds2 against the secondary y axis
     call ds2%set_draw_against_y2(.true.)
 
-    ! Ensure the plot knows it needs a secondary y axis
-    call plt%set_use_y2_axis(.true.)
-
     ! Set up the plot
     call plt%initialize()
+    call plt%set_use_y2_axis(.true.)
     call plt%set_title("Example Plot")
-
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
-
-    y2Axis => plt%get_y2_axis()
-    call y2Axis%set_title("Secondary Y Axis")
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
+    call plt%set_y2_axis_title("Secondary Y Axis")
 
     ! Add the data to the plot
     call plt%push(ds1)

@@ -104,18 +104,18 @@ program example
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
-    call plt%push(x, y1, lw = 2.0, name = "Data Set 1")
-    call plt%push(x, y2, lw = 2.0, ls = LINE_DASHED, name = "Data Set 2")
+    call plt%push(x, y1, name = "Data Set 1")
+    call plt%push(x, y2, ls = LINE_DASHED, name = "Data Set 2")
     
     ! Let GNUPLOT draw the plot
     call plt%draw()
 end program
 ```
 This is the plot resulting from the above program.
-![](images/example_2d_plot_1.png?raw=true)
+![](images/generic_2d_plot_example.png?raw=true)
 
 ## Example 2
-Another example of a similar two-dimensional plot to the plot in example 1 is given below.  This plot shifts the x-axis to the zero point along the y-axis.  Additionally, this example highlights the use of the plot_axis, legend, and plot_data_2d types to gain more control over the plot.
+Another example of a similar two-dimensional plot to the plot in example 1 is given below.  This plot shifts the x-axis to the zero point along the y-axis.  Additionally, this example highlights the use of the plot_axis, and legend types to gain more control over the plot.
 ```fortran
 program example
     use, intrinsic :: iso_fortran_env
@@ -128,16 +128,11 @@ program example
     ! Local Variables
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
-    type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
     type(legend), pointer :: lgnd
     
     ! Initialize the plot object
     call plt%initialize()
-    
-    ! Set plot properties
-    call plt%set_draw_border(.false.)
-    call plt%set_show_gridlines(.false.)
 
     ! Define the legend location
     lgnd => plt%get_legend()
@@ -150,7 +145,6 @@ program example
     xAxis => plt%get_x_axis()
     call xAxis%set_title("X Axis")
     call xAxis%set_zero_axis(.true.)
-    call xAxis%set_zero_axis_line_width(1.0)
 
     yAxis => plt%get_y_axis()
     call yAxis%set_title("Y Axis")
@@ -160,27 +154,15 @@ program example
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
-    call d1%define_data(x, y1)
-    call d2%define_data(x, y2)
-
-    ! Define properties for each data set
-    call d1%set_name("Data Set 1")
-    call d1%set_line_width(1.0)
-
-    call d2%set_name("Data Set 2")
-    call d2%set_line_style(LINE_DASHED)
-    call d2%set_line_width(2.0)
-
-    ! Add the data sets to the plot
-    call plt%push(d1)
-    call plt%push(d2)
+    call plt%push(x, y1, lw = 1.5, name = "Data Set 1")
+    call plt%push(x, y2, lw = 2.5, name = "Data Set 2")
 
     ! Let GNUPLOT draw the plot
     call plt%draw()
 end program
 ```
 This is the plot resulting from the above program.
-![](images/example_2d_plot_2.png?raw=true)
+![](images/zero_axis_example.png?raw=true)
 
 ## Example 3
 The following example illustrates how to create a three-dimensional surface plot.  The plot also leverages the [FORCOLORMAP](https://github.com/vmagnin/forcolormap) library to provide the colormap.
@@ -224,8 +206,8 @@ program example
     call plt%set_use_lighting(.true.)
 
     ! Set the orientation of the plot
-    call plt%set_elevation(20.0d0)
-    call plt%set_azimuth(30.0d0)
+    call plt%set_elevation(40.0d0)
+    call plt%set_azimuth(20.0d0)
 
     ! Define the function to plot
     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
@@ -236,7 +218,7 @@ program example
 end program
 ```
 This is the plot resulting from the above program.
-![](images/custom_colormap.png?raw=true)
+![](images/custom_colormap_example.png?raw=true)
 
 ## Example 4
 The following example illustrates how to create a vector-field plot.  This example illustrates using one of the built-in colormaps to to help illustrate vector magnitude.
@@ -250,7 +232,7 @@ program example
     type(plot_2d) :: plt
     type(vector_field_plot_data) :: ds1
     class(plot_axis), pointer :: xAxis, yAxis
-    type(rainbow_colormap) :: cmap
+    type(rainbow_colormap) :: map
     real(real64), allocatable, dimension(:,:,:) :: pts
     real(real64), allocatable, dimension(:,:) :: dx, dy
     real(real64) :: dxdt(2)
@@ -278,6 +260,7 @@ program example
 
     ! Create the plot
     call plt%initialize()
+    call plt%set_font_size(14)
     xAxis => plt%get_x_axis()
     yAxis => plt%get_y_axis()
 
@@ -288,11 +271,9 @@ program example
     ! Set plot style information
     call xAxis%set_zero_axis(.true.)
     call yAxis%set_zero_axis(.true.)
-    call plt%set_draw_border(.false.)
-    call plt%set_show_gridlines(.false.)
 
     ! Define the colormap
-    call plt%set_colormap(cmap)
+    call plt%set_colormap(map)
 
     ! Add the data to the plot - color by the magnitude of gradient
     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy, sqrt(dx**2 + dy**2))
@@ -314,7 +295,7 @@ contains
 end program
 ```
 This is the plot resulting from the above program.
-![](images/vector_plot_2.png?raw=true)
+![](images/colored_vector_plot_example.png?raw=true)
 
 ## Example 5
 The following example illustrates how to create a polar plot.
@@ -328,6 +309,7 @@ program example
     real(real64), parameter :: pi = 2.0d0 * acos(0.0d0)
     real(real64) :: t(npts), x(npts)
     type(plot_polar) :: plt
+    type(plot_data_2d) :: pd
 
     ! Create a function to plot
     t = linspace(-2.0d0 * pi, 2.0d0 * pi, npts)
@@ -335,14 +317,18 @@ program example
 
     ! Plot the function
     call plt%initialize()
-    call plt%set_font_size(14)
+    call plt%set_show_gridlines(.true.)
+    call plt%set_draw_border(.true.)
     call plt%set_title("Polar Plot Example")
     call plt%set_autoscale(.false.)
     call plt%set_radial_limits([0.0d0, 6.0d0])
-    call plt%push(t, x, lw = 2.0)
+
+    call pd%define_data(t, x)
+    call pd%set_line_width(2.0)
+    call plt%push(pd)
     call plt%draw()
 end program
 ```
 This is the plot resulting from the above program.
-![](images/polar_example_1.png?raw=true)
+![](images/polar_plot_example.png?raw=true)
 

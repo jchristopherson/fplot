@@ -9,7 +9,6 @@ program example
     type(plot_2d) :: plt
     class(terminal), pointer :: term
     type(plot_data_2d) :: d1, d2
-    class(plot_axis), pointer :: xAxis, yAxis
     type(legend), pointer :: leg
 
     ! Build a data set to plot
@@ -23,12 +22,8 @@ program example
     ! Set up the plot
     call plt%initialize(GNUPLOT_TERMINAL_LATEX) ! Save to file directly
     call plt%set_title("Example Plot")
-    
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
 
     ! Put the legend in the upper left corner of the plot
     leg => plt%get_legend()

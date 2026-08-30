@@ -11,7 +11,6 @@ program example
     type(tri_surface_plot_data) :: ds
     type(plot_data_3d) :: di
     type(surface_plot) :: plt
-    class(plot_axis), pointer :: xAxis, yAxis, zAxis
     integer(int32) :: i
 
     ! Initialization
@@ -41,15 +40,9 @@ program example
 
     ! Generate the plot
     call plt%initialize()
-    call plt%set_font_size(14)
-    
-    xAxis => plt%get_x_axis()
-    yAxis => plt%get_y_axis()
-    zAxis => plt%get_z_axis()
-
-    call xAxis%set_title("x")
-    call yAxis%set_title("y")
-    call zAxis%set_title("f(x,y)")
+    call plt%set_x_axis_title("x")
+    call plt%set_y_axis_title("y")
+    call plt%set_z_axis_title("f(x,y)")
 
     call ds%define_data(tri)
     call ds%set_use_wireframe(.true.)

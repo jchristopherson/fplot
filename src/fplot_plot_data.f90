@@ -88,7 +88,7 @@ module fplot_plot_data
             !! Line style.
         integer(int32), private :: m_markerType = MARKER_FILLED_CIRCLE
             !! Marker type.
-        real(real32), private :: m_markerSize = 1.0
+        real(real32), private :: m_markerSize = 1.5
             !! Marker size multiplier.
         integer(int32), private :: m_markerFrequency = 1
             !! Marker frequency.

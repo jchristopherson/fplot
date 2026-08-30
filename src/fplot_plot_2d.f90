@@ -162,7 +162,7 @@ contains
         ! Grid
         if (this%get_show_gridlines()) then
             call str%append(new_line('a'))
-            call str%append("set grid")
+            call str%append('set grid lt 1 lw 1.5 lc rgb "#cccccc"')
         end if
 
         ! Title

@@ -34,7 +34,6 @@ program example
 
     ! Create the plot
     call plt%initialize()
-    call plt%set_font_size(14)
     xAxis => plt%get_x_axis()
     yAxis => plt%get_y_axis()
 
@@ -45,8 +44,6 @@ program example
     ! Set plot style information
     call xAxis%set_zero_axis(.true.)
     call yAxis%set_zero_axis(.true.)
-    call plt%set_draw_border(.false.)
-    call plt%set_show_gridlines(.false.)
 
     ! Add the data to the plot
     call ds1%define_data(pts(:,:,1), pts(:,:,2), dx, dy)

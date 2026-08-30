@@ -29,7 +29,6 @@ program example
     call xAxis%set_limits(0.0d0, n + 1.0d0)
 
     call pd%define_data(titles, boxmin, boxmax, whiskermin, whiskermax)
-    call pd%set_line_width(2.0)
     call pd%set_box_fill_opacity(0.5)
     call pd%set_box_width(0.1)
     call plt%push(pd)

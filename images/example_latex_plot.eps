@@ -1,0 +1,2636 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: example_latex_plot.tex
+%%Creator: gnuplot 6.0 patchlevel 4
+%%CreationDate: Sat Aug 29 16:46:12 2026
+%%DocumentFonts: 
+%%BoundingBox: 50 50 46130 30290
+%%EndComments
+%%BeginProlog
+/gnudict 256 dict def
+gnudict begin
+%
+% The following true/false flags may be edited by hand if desired.
+% The unit line width and grayscale image gamma correction may also be changed.
+%
+/Color true def
+/Blacktext true def
+/Solid false def
+/Dashlength 1 def
+/Landscape false def
+/Level1 false def
+/Level3 false def
+/Rounded false def
+/ClipToBoundingBox false def
+/SuppressPDFMark false def
+/TransparentPatterns false def
+/gnulinewidth 5.000 def
+/userlinewidth gnulinewidth def
+/Gamma 1.0 def
+/BackgroundColor {-1.000 -1.000 -1.000} def
+%
+/vshift -93 def
+/dl1 {
+  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
+  Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
+} def
+/dl2 {
+  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
+  Rounded { currentlinewidth 0.75 mul add } if
+} def
+/hpt_ 31.5 def
+/vpt_ 31.5 def
+/hpt hpt_ def
+/vpt vpt_ def
+/doclip {
+  ClipToBoundingBox {
+    newpath 50 50 moveto 46130 50 lineto 46130 30290 lineto 50 30290 lineto closepath
+    clip
+  } if
+} def
+%
+% Gnuplot Prolog Version 5.2 (Dec 2017)
+%
+%/SuppressPDFMark true def
+%
+/M {moveto} bind def
+/L {lineto} bind def
+/R {rmoveto} bind def
+/V {rlineto} bind def
+/N {newpath moveto} bind def
+/Z {closepath} bind def
+/C {setrgbcolor} bind def
+/f {rlineto fill} bind def
+/g {setgray} bind def
+/Gshow {show} def   % May be redefined later in the file to support UTF-8
+/vpt2 vpt 2 mul def
+/hpt2 hpt 2 mul def
+/Lshow {currentpoint stroke M 0 vshift R 
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+/Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+/Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+/UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
+  /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
+/DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
+ {pop pop pop 0 setgray Solid {pop []} if 0 setdash} ifelse} def
+/BL {stroke userlinewidth 2 mul setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/AL {stroke userlinewidth 2 div setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+/UL {dup gnulinewidth mul /userlinewidth exch def
+	dup 1 lt {pop 1} if 10 mul /udl exch def} def
+/PL {stroke userlinewidth setlinewidth
+	Rounded {1 setlinejoin 1 setlinecap} if} def
+3.8 setmiterlimit
+% Classic Line colors (version 5.0)
+/LCw {1 1 1} def
+/LCb {0 0 0} def
+/LCa {0 0 0} def
+/LC0 {1 0 0} def
+/LC1 {0 1 0} def
+/LC2 {0 0 1} def
+/LC3 {1 0 1} def
+/LC4 {0 1 1} def
+/LC5 {1 1 0} def
+/LC6 {0 0 0} def
+/LC7 {1 0.3 0} def
+/LC8 {0.5 0.5 0.5} def
+% Default dash patterns (version 5.0)
+/LTB {BL [] LCb DL} def
+/LTw {PL [] 1 setgray} def
+/LTb {PL [] LCb DL} def
+/LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
+/LT0 {PL [] LC0 DL} def
+/LT1 {PL [2 dl1 3 dl2] LC1 DL} def
+/LT2 {PL [1 dl1 1.5 dl2] LC2 DL} def
+/LT3 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC3 DL} def
+/LT4 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [4 dl1 2 dl2] LC5 DL} def
+/LT6 {PL [1.5 dl1 1.5 dl2 1.5 dl1 1.5 dl2 1.5 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC8 DL} def
+/SL {[] 0 setdash} def
+/Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
+/Dia {stroke [] 0 setdash 2 copy vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke
+  Pnt} def
+/Pls {stroke [] 0 setdash vpt sub M 0 vpt2 V
+  currentpoint stroke M
+  hpt neg vpt neg R hpt2 0 V stroke
+ } def
+/Box {stroke [] 0 setdash 2 copy exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke
+  Pnt} def
+/Crs {stroke [] 0 setdash exch hpt sub exch vpt add M
+  hpt2 vpt2 neg V currentpoint stroke M
+  hpt2 neg 0 R hpt2 vpt2 V stroke} def
+/TriU {stroke [] 0 setdash 2 copy vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke
+  Pnt} def
+/Star {2 copy Pls Crs} def
+/BoxF {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath fill} def
+/TriUF {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath fill} def
+/TriD {stroke [] 0 setdash 2 copy vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke
+  Pnt} def
+/TriDF {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath fill} def
+/DiaF {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath fill} def
+/Pent {stroke [] 0 setdash 2 copy gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore Pnt} def
+/PentF {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath fill grestore} def
+/Circle {stroke [] 0 setdash 2 copy
+  hpt 0 360 arc stroke Pnt} def
+/CircleF {stroke [] 0 setdash hpt 0 360 arc fill} def
+/C0 {BL [] 0 setdash 2 copy moveto vpt 90 450 arc} bind def
+/C1 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C2 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C3 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C4 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C5 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc
+	2 copy moveto
+	2 copy vpt 180 270 arc closepath fill
+	vpt 0 360 arc} bind def
+/C6 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C7 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 270 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C8 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C9 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 270 450 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C10 {BL [] 0 setdash 2 copy 2 copy moveto vpt 270 360 arc closepath fill
+	2 copy moveto
+	2 copy vpt 90 180 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C11 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 180 arc closepath fill
+	2 copy moveto
+	2 copy vpt 270 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C12 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C13 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 0 90 arc closepath fill
+	2 copy moveto
+	2 copy vpt 180 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/C14 {BL [] 0 setdash 2 copy moveto
+	2 copy vpt 90 360 arc closepath fill
+	vpt 0 360 arc} bind def
+/C15 {BL [] 0 setdash 2 copy vpt 0 360 arc closepath fill
+	vpt 0 360 arc closepath} bind def
+/Rec {newpath 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+	neg 0 rlineto closepath} bind def
+/Square {dup Rec} bind def
+/Bsquare {vpt sub exch vpt sub exch vpt2 Square} bind def
+/S0 {BL [] 0 setdash 2 copy moveto 0 vpt rlineto BL Bsquare} bind def
+/S1 {BL [] 0 setdash 2 copy vpt Square fill Bsquare} bind def
+/S2 {BL [] 0 setdash 2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S3 {BL [] 0 setdash 2 copy exch vpt sub exch vpt2 vpt Rec fill Bsquare} bind def
+/S4 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S5 {BL [] 0 setdash 2 copy 2 copy vpt Square fill
+	exch vpt sub exch vpt sub vpt Square fill Bsquare} bind def
+/S6 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S7 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S8 {BL [] 0 setdash 2 copy vpt sub vpt Square fill Bsquare} bind def
+/S9 {BL [] 0 setdash 2 copy vpt sub vpt vpt2 Rec fill Bsquare} bind def
+/S10 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt Square fill
+	Bsquare} bind def
+/S11 {BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt2 vpt Rec fill
+	Bsquare} bind def
+/S12 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill Bsquare} bind def
+/S13 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy vpt Square fill Bsquare} bind def
+/S14 {BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+	2 copy exch vpt sub exch vpt Square fill Bsquare} bind def
+/S15 {BL [] 0 setdash 2 copy Bsquare fill Bsquare} bind def
+/D0 {gsave translate 45 rotate 0 0 S0 stroke grestore} bind def
+/D1 {gsave translate 45 rotate 0 0 S1 stroke grestore} bind def
+/D2 {gsave translate 45 rotate 0 0 S2 stroke grestore} bind def
+/D3 {gsave translate 45 rotate 0 0 S3 stroke grestore} bind def
+/D4 {gsave translate 45 rotate 0 0 S4 stroke grestore} bind def
+/D5 {gsave translate 45 rotate 0 0 S5 stroke grestore} bind def
+/D6 {gsave translate 45 rotate 0 0 S6 stroke grestore} bind def
+/D7 {gsave translate 45 rotate 0 0 S7 stroke grestore} bind def
+/D8 {gsave translate 45 rotate 0 0 S8 stroke grestore} bind def
+/D9 {gsave translate 45 rotate 0 0 S9 stroke grestore} bind def
+/D10 {gsave translate 45 rotate 0 0 S10 stroke grestore} bind def
+/D11 {gsave translate 45 rotate 0 0 S11 stroke grestore} bind def
+/D12 {gsave translate 45 rotate 0 0 S12 stroke grestore} bind def
+/D13 {gsave translate 45 rotate 0 0 S13 stroke grestore} bind def
+/D14 {gsave translate 45 rotate 0 0 S14 stroke grestore} bind def
+/D15 {gsave translate 45 rotate 0 0 S15 stroke grestore} bind def
+/DiaE {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke} def
+/BoxE {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke} def
+/TriUE {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke} def
+/TriDE {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke} def
+/PentE {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore} def
+/CircE {stroke [] 0 setdash 
+  hpt 0 360 arc stroke} def
+/Opaque {gsave closepath 1 setgray fill grestore 0 setgray closepath} def
+/DiaW {stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V Opaque stroke} def
+/BoxW {stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V Opaque stroke} def
+/TriUW {stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V Opaque stroke} def
+/TriDW {stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V Opaque stroke} def
+/PentW {stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  Opaque stroke grestore} def
+/CircW {stroke [] 0 setdash 
+  hpt 0 360 arc Opaque stroke} def
+/BoxFill {gsave Rec 1 setgray fill grestore} def
+/Density {
+  /Fillden exch def
+  currentrgbcolor
+  /ColB exch def /ColG exch def /ColR exch def
+  /ColR ColR Fillden mul Fillden sub 1 add def
+  /ColG ColG Fillden mul Fillden sub 1 add def
+  /ColB ColB Fillden mul Fillden sub 1 add def
+  ColR ColG ColB setrgbcolor} def
+/BoxColFill {gsave Rec PolyFill} def
+/PolyFill {gsave Density fill grestore grestore} def
+/h {rlineto rlineto rlineto closepath gsave fill grestore stroke} bind def
+%
+% PostScript Level 1 Pattern Fill routine for rectangles
+% Usage: x y w h s a XX PatternFill
+%	x,y = lower left corner of box to be filled
+%	w,h = width and height of box
+%	  a = angle in degrees between lines and x-axis
+%	 XX = 0/1 for no/yes cross-hatch
+%
+/PatternFill {gsave /PFa [ 9 2 roll ] def
+  PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
+  PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+  clip
+  currentlinewidth 0.5 mul setlinewidth
+  /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
+  0 0 M PFa 5 get rotate PFs -2 div dup translate
+  0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 M 0 PFs V} for
+  0 PFa 6 get ne {
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{PFa 4 get mul 0 2 1 roll M PFs 0 V} for
+ } if
+  stroke grestore} def
+%
+/languagelevel where
+ {pop languagelevel} {1} ifelse
+dup 2 lt
+	{/InterpretLevel1 true def
+	 /InterpretLevel3 false def}
+	{/InterpretLevel1 Level1 def
+	 2 gt
+	    {/InterpretLevel3 Level3 def}
+	    {/InterpretLevel3 false def}
+	 ifelse }
+ ifelse
+%
+% PostScript level 2 pattern fill definitions
+%
+/Level2PatternFill {
+/Tile8x8 {/PaintType 2 /PatternType 1 /TilingType 1 /BBox [0 0 8 8] /XStep 8 /YStep 8}
+	bind def
+/KeepColor {currentrgbcolor [/Pattern /DeviceRGB] setcolorspace} bind def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke} 
+>> matrix makepattern
+/Pat1 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 8 8 L 0 8 M 8 0 L stroke
+	0 4 M 4 8 L 8 4 L 4 0 L 0 4 L stroke}
+>> matrix makepattern
+/Pat2 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 0 M 0 8 L
+	8 8 L 8 0 L 0 0 L fill}
+>> matrix makepattern
+/Pat3 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 8 M 8 -4 L
+	0 12 M 12 0 L stroke}
+>> matrix makepattern
+/Pat4 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -4 0 M 8 12 L
+	0 -4 M 12 8 L stroke}
+>> matrix makepattern
+/Pat5 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 8 M 4 -4 L
+	0 12 M 8 -4 L 4 12 M 10 0 L stroke}
+>> matrix makepattern
+/Pat6 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop -2 0 M 4 12 L
+	0 -4 M 8 12 L 4 -4 M 10 8 L stroke}
+>> matrix makepattern
+/Pat7 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 8 -2 M -4 4 L
+	12 0 M -4 8 L 12 4 M 0 10 L stroke}
+>> matrix makepattern
+/Pat8 exch def
+<< Tile8x8
+ /PaintProc {0.5 setlinewidth pop 0 -2 M 12 4 L
+	-4 0 M 12 8 L -4 4 M 8 10 L stroke}
+>> matrix makepattern
+/Pat9 exch def
+/Pattern1 {PatternBgnd KeepColor Pat1 setpattern} bind def
+/Pattern2 {PatternBgnd KeepColor Pat2 setpattern} bind def
+/Pattern3 {PatternBgnd KeepColor Pat3 setpattern} bind def
+/Pattern4 {PatternBgnd KeepColor Landscape {Pat5} {Pat4} ifelse setpattern} bind def
+/Pattern5 {PatternBgnd KeepColor Landscape {Pat4} {Pat5} ifelse setpattern} bind def
+/Pattern6 {PatternBgnd KeepColor Landscape {Pat9} {Pat6} ifelse setpattern} bind def
+/Pattern7 {PatternBgnd KeepColor Landscape {Pat8} {Pat7} ifelse setpattern} bind def
+} def
+%
+%
+%End of PostScript Level 2 code
+%
+/PatternBgnd {
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+} def
+%
+% Substitute for Level 2 pattern fill codes with
+% grayscale if Level 2 support is not selected.
+%
+/Level1PatternFill {
+/Pattern1 {0.250 Density} bind def
+/Pattern2 {0.500 Density} bind def
+/Pattern3 {0.750 Density} bind def
+/Pattern4 {0.125 Density} bind def
+/Pattern5 {0.375 Density} bind def
+/Pattern6 {0.625 Density} bind def
+/Pattern7 {0.875 Density} bind def
+} def
+%
+% Now test for support of Level 2 code
+%
+Level1 {Level1PatternFill} {Level2PatternFill} ifelse
+%
+/Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
+dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
+currentdict end definefont pop
+%
+Level1 SuppressPDFMark or 
+{} {
+/SDict 10 dict def
+systemdict /pdfmark known not {
+  userdict /pdfmark systemdict /cleartomark get put
+} if
+SDict begin [
+  /Title (example_latex_plot.tex)
+  /Subject (gnuplot plot)
+  /Creator (gnuplot 6.0 patchlevel 4)
+%  /Producer (gnuplot)
+%  /Keywords ()
+  /CreationDate (Sat Aug 29 16:46:12 2026)
+  /DOCINFO pdfmark
+end
+} ifelse
+%
+% Support for boxed text - Ethan A Merritt Sep 2016
+%
+/InitTextBox { userdict /TBy2 3 -1 roll put userdict /TBx2 3 -1 roll put
+           userdict /TBy1 3 -1 roll put userdict /TBx1 3 -1 roll put
+	   /Boxing true def } def
+/ExtendTextBox { dup type /stringtype eq
+    { Boxing { gsave dup false charpath pathbbox
+      dup TBy2 gt {userdict /TBy2 3 -1 roll put} {pop} ifelse
+      dup TBx2 gt {userdict /TBx2 3 -1 roll put} {pop} ifelse
+      dup TBy1 lt {userdict /TBy1 3 -1 roll put} {pop} ifelse
+      dup TBx1 lt {userdict /TBx1 3 -1 roll put} {pop} ifelse
+      grestore } if }
+    {} ifelse} def
+/PopTextBox { newpath TBx1 TBxmargin sub TBy1 TBymargin sub M
+               TBx1 TBxmargin sub TBy2 TBymargin add L
+	       TBx2 TBxmargin add TBy2 TBymargin add L
+	       TBx2 TBxmargin add TBy1 TBymargin sub L closepath } def
+/DrawTextBox { PL PopTextBox stroke /Boxing false def} def
+/FillTextBox { gsave PopTextBox fill grestore /Boxing false def} def
+0 0 0 0 InitTextBox
+/TBxmargin 20 def
+/TBymargin 20 def
+/Boxing false def
+/textshow { ExtendTextBox Gshow } def
+%
+end
+%%EndProlog
+%%Page: 1 1
+gnudict begin
+gsave
+doclip
+50 50 translate
+0.050 0.050 scale
+0 setgray
+newpath
+1.200 UL
+LTb
+LCb setrgbcolor
+[] 0 setdash
+1372 896 M
+63 0 V
+stroke
+LTb
+1372 55720 M
+63 0 V
+stroke
+1372 110544 M
+63 0 V
+stroke
+1372 165368 M
+63 0 V
+stroke
+1372 220192 M
+63 0 V
+stroke
+1372 275016 M
+63 0 V
+stroke
+1372 329839 M
+63 0 V
+stroke
+1372 384663 M
+63 0 V
+stroke
+1372 439487 M
+63 0 V
+stroke
+1372 494311 M
+63 0 V
+stroke
+1372 549135 M
+63 0 V
+stroke
+1372 603959 M
+63 0 V
+stroke
+1372 896 M
+0 63 V
+stroke
+185317 896 M
+0 63 V
+stroke
+369261 896 M
+0 63 V
+stroke
+553206 896 M
+0 63 V
+stroke
+737150 896 M
+0 63 V
+stroke
+921095 896 M
+0 63 V
+stroke
+1.200 UL
+LTb
+1372 603959 M
+1372 896 L
+919723 0 V
+0 603063 R
+-919723 0 R
+1.000 UP
+stroke
+1.000 UL
+LTb
+1540 603336 N
+0 560 V
+2751 0 V
+0 -560 V
+-2751 0 V
+Z stroke
+% Begin plot #1
+2.000 UL
+LTb
+0.00 0.00 1.00 C
+1372 275016 M
+921 1097 V
+920 1097 V
+921 1096 V
+921 1095 V
+920 1093 V
+921 1091 V
+921 1088 V
+920 1086 V
+921 1081 V
+920 1078 V
+921 1073 V
+921 1069 V
+920 1063 V
+921 1058 V
+921 1052 V
+920 1045 V
+921 1038 V
+921 1031 V
+920 1023 V
+921 1015 V
+920 1007 V
+921 997 V
+921 988 V
+920 978 V
+921 969 V
+921 957 V
+920 947 V
+921 935 V
+921 924 V
+920 912 V
+921 899 V
+921 886 V
+920 874 V
+921 859 V
+920 846 V
+921 832 V
+921 818 V
+920 802 V
+921 787 V
+921 772 V
+920 757 V
+921 740 V
+921 723 V
+920 707 V
+921 690 V
+921 673 V
+920 655 V
+921 638 V
+920 620 V
+921 601 V
+921 583 V
+921 564 V
+920 545 V
+921 526 V
+920 506 V
+921 487 V
+921 468 V
+920 447 V
+921 427 V
+921 406 V
+920 387 V
+921 365 V
+921 345 V
+920 324 V
+921 303 V
+921 281 V
+920 261 V
+921 238 V
+920 218 V
+921 196 V
+921 174 V
+920 152 V
+921 131 V
+921 109 V
+920 87 V
+921 65 V
+921 43 V
+920 21 V
+921 -1 V
+921 -23 V
+920 -44 V
+921 -67 V
+920 -89 V
+921 -110 V
+921 -133 V
+920 -154 V
+921 -176 V
+921 -197 V
+920 -219 V
+921 -241 V
+921 -262 V
+920 -283 V
+921 -305 V
+921 -325 V
+920 -346 V
+921 -368 V
+920 -387 V
+921 -409 V
+921 -428 V
+920 -449 V
+921 -469 V
+921 -488 V
+920 -508 V
+921 -528 V
+920 -546 V
+921 -566 V
+921 -584 V
+920 -603 V
+921 -621 V
+921 -639 V
+920 -656 V
+921 -675 V
+921 -691 V
+920 -708 V
+921 -725 V
+921 -741 V
+920 -758 V
+921 -773 V
+920 -789 V
+921 -803 V
+921 -819 V
+920 -833 V
+921 -847 V
+921 -861 V
+920 -874 V
+921 -887 V
+921 -901 V
+920 -912 V
+921 -925 V
+921 -936 V
+920 -948 V
+921 -958 V
+920 -969 V
+921 -979 V
+921 -989 V
+920 -998 V
+921 -1007 V
+921 -1016 V
+920 -1023 V
+921 -1032 V
+921 -1039 V
+920 -1045 V
+921 -1053 V
+921 -1058 V
+920 -1063 V
+921 -1069 V
+920 -1074 V
+921 -1078 V
+921 -1082 V
+920 -1086 V
+921 -1088 V
+921 -1091 V
+920 -1094 V
+921 -1095 V
+921 -1096 V
+920 -1097 V
+921 -1097 V
+921 -1098 V
+920 -1097 V
+921 -1096 V
+920 -1095 V
+921 -1093 V
+921 -1090 V
+920 -1089 V
+921 -1084 V
+921 -1082 V
+920 -1077 V
+921 -1073 V
+921 -1069 V
+920 -1063 V
+921 -1057 V
+921 -1051 V
+920 -1045 V
+921 -1037 V
+920 -1031 V
+921 -1022 V
+921 -1014 V
+920 -1006 V
+921 -997 V
+921 -987 V
+920 -978 V
+921 -967 V
+921 -957 V
+920 -946 V
+921 -934 V
+921 -923 V
+920 -911 V
+921 -898 V
+920 -885 V
+921 -873 V
+921 -858 V
+920 -845 V
+921 -831 V
+921 -816 V
+920 -802 V
+921 -786 V
+921 -770 V
+920 -755 V
+921 -739 V
+921 -722 V
+920 -706 V
+921 -689 V
+920 -671 V
+921 -654 V
+921 -637 V
+920 -618 V
+921 -600 V
+921 -581 V
+920 -563 V
+921 -543 V
+921 -525 V
+920 -505 V
+921 -485 V
+921 -466 V
+920 -445 V
+921 -426 V
+920 -405 V
+921 -385 V
+921 -364 V
+920 -343 V
+921 -322 V
+921 -301 V
+920 -280 V
+921 -259 V
+921 -237 V
+920 -216 V
+921 -194 V
+921 -172 V
+920 -151 V
+921 -129 V
+920 -107 V
+921 -86 V
+921 -63 V
+920 -41 V
+921 -20 V
+921 3 V
+920 24 V
+921 47 V
+921 68 V
+920 91 V
+921 112 V
+921 134 V
+920 156 V
+921 177 V
+920 199 V
+921 221 V
+921 242 V
+920 264 V
+921 285 V
+stroke 230612 222216 M
+921 306 V
+920 327 V
+921 348 V
+921 369 V
+920 389 V
+921 410 V
+921 430 V
+920 451 V
+921 470 V
+920 490 V
+921 509 V
+921 529 V
+920 548 V
+921 567 V
+921 586 V
+920 604 V
+921 623 V
+921 640 V
+920 658 V
+921 676 V
+921 692 V
+920 710 V
+921 726 V
+920 743 V
+921 758 V
+921 775 V
+920 789 V
+921 805 V
+921 820 V
+920 834 V
+921 848 V
+921 862 V
+920 875 V
+921 889 V
+921 901 V
+920 913 V
+921 926 V
+920 937 V
+921 948 V
+921 960 V
+920 969 V
+921 980 V
+921 990 V
+920 999 V
+921 1008 V
+921 1016 V
+920 1024 V
+921 1032 V
+921 1040 V
+920 1046 V
+921 1052 V
+920 1059 V
+921 1064 V
+921 1069 V
+920 1075 V
+921 1078 V
+921 1082 V
+920 1086 V
+921 1089 V
+921 1091 V
+920 1093 V
+921 1096 V
+921 1096 V
+920 1097 V
+921 1098 V
+920 1097 V
+921 1097 V
+921 1096 V
+920 1095 V
+921 1092 V
+921 1091 V
+920 1088 V
+921 1084 V
+921 1082 V
+920 1077 V
+921 1072 V
+921 1068 V
+920 1063 V
+921 1057 V
+920 1050 V
+921 1044 V
+921 1037 V
+920 1030 V
+921 1022 V
+921 1014 V
+920 1005 V
+921 996 V
+921 986 V
+920 977 V
+921 967 V
+921 956 V
+920 945 V
+921 933 V
+920 922 V
+921 910 V
+921 897 V
+920 884 V
+921 872 V
+921 857 V
+920 844 V
+921 830 V
+921 815 V
+920 800 V
+921 785 V
+921 770 V
+920 753 V
+921 738 V
+920 721 V
+921 704 V
+921 688 V
+920 670 V
+921 652 V
+921 635 V
+920 617 V
+921 598 V
+921 580 V
+920 561 V
+921 543 V
+921 523 V
+920 503 V
+921 484 V
+920 464 V
+921 444 V
+921 424 V
+920 404 V
+921 383 V
+921 362 V
+920 342 V
+921 320 V
+921 300 V
+920 278 V
+921 257 V
+921 236 V
+920 214 V
+921 192 V
+920 171 V
+921 149 V
+921 127 V
+920 106 V
+921 83 V
+921 62 V
+920 40 V
+921 17 V
+921 -4 V
+920 -26 V
+921 -48 V
+921 -70 V
+920 -92 V
+921 -114 V
+920 -136 V
+921 -158 V
+921 -179 V
+920 -201 V
+921 -222 V
+921 -244 V
+920 -265 V
+921 -287 V
+921 -308 V
+920 -328 V
+921 -350 V
+921 -370 V
+920 -391 V
+921 -412 V
+920 -431 V
+921 -452 V
+921 -472 V
+920 -492 V
+921 -511 V
+921 -530 V
+920 -550 V
+921 -568 V
+921 -587 V
+920 -606 V
+921 -623 V
+921 -642 V
+920 -660 V
+921 -677 V
+920 -694 V
+921 -710 V
+921 -728 V
+920 -744 V
+921 -760 V
+921 -775 V
+920 -791 V
+921 -806 V
+921 -821 V
+920 -835 V
+921 -849 V
+921 -863 V
+920 -876 V
+921 -890 V
+920 -902 V
+921 -915 V
+921 -926 V
+920 -938 V
+921 -949 V
+921 -960 V
+920 -971 V
+921 -981 V
+921 -990 V
+920 -999 V
+921 -1009 V
+921 -1017 V
+920 -1025 V
+921 -1032 V
+920 -1040 V
+921 -1047 V
+921 -1053 V
+920 -1059 V
+921 -1065 V
+921 -1069 V
+920 -1075 V
+921 -1079 V
+921 -1082 V
+920 -1086 V
+921 -1089 V
+921 -1092 V
+920 -1093 V
+921 -1095 V
+920 -1097 V
+921 -1097 V
+921 -1097 V
+920 -1098 V
+921 -1097 V
+921 -1096 V
+920 -1094 V
+921 -1093 V
+921 -1090 V
+920 -1088 V
+921 -1084 V
+921 -1081 V
+920 -1077 V
+921 -1072 V
+920 -1068 V
+921 -1062 V
+921 -1056 V
+920 -1050 V
+921 -1044 V
+921 -1036 V
+920 -1029 V
+921 -1022 V
+921 -1013 V
+920 -1004 V
+921 -995 V
+921 -986 V
+920 -976 V
+921 -966 V
+920 -955 V
+921 -944 V
+stroke 459852 246585 M
+921 -933 V
+921 -921 V
+921 -909 V
+921 -896 V
+920 -883 V
+921 -870 V
+920 -857 V
+921 -843 V
+921 -828 V
+920 -814 V
+921 -799 V
+921 -784 V
+920 -768 V
+921 -753 V
+921 -736 V
+920 -720 V
+921 -703 V
+921 -686 V
+920 -669 V
+921 -651 V
+920 -634 V
+921 -615 V
+921 -597 V
+920 -578 V
+921 -560 V
+921 -541 V
+920 -521 V
+921 -502 V
+921 -483 V
+920 -462 V
+921 -443 V
+921 -422 V
+920 -402 V
+921 -381 V
+920 -361 V
+921 -340 V
+921 -319 V
+920 -298 V
+921 -277 V
+921 -255 V
+920 -234 V
+921 -212 V
+921 -191 V
+920 -169 V
+921 -148 V
+921 -125 V
+920 -104 V
+921 -82 V
+920 -60 V
+921 -38 V
+921 -16 V
+920 6 V
+921 28 V
+921 50 V
+920 72 V
+921 94 V
+921 115 V
+920 138 V
+921 159 V
+921 181 V
+920 202 V
+921 224 V
+920 246 V
+921 267 V
+921 288 V
+920 309 V
+921 331 V
+921 351 V
+920 372 V
+921 392 V
+921 414 V
+920 433 V
+921 453 V
+921 473 V
+920 494 V
+921 512 V
+920 532 V
+921 551 V
+921 570 V
+920 588 V
+921 607 V
+921 626 V
+920 643 V
+921 661 V
+921 678 V
+920 695 V
+921 712 V
+921 729 V
+920 745 V
+921 761 V
+920 777 V
+921 792 V
+921 807 V
+920 822 V
+921 836 V
+921 851 V
+920 864 V
+921 877 V
+921 890 V
+920 904 V
+921 915 V
+921 927 V
+920 939 V
+921 950 V
+920 961 V
+921 972 V
+921 981 V
+920 991 V
+921 1000 V
+921 1009 V
+920 1018 V
+921 1026 V
+921 1033 V
+920 1040 V
+921 1047 V
+921 1054 V
+920 1059 V
+921 1065 V
+920 1071 V
+921 1074 V
+921 1079 V
+920 1083 V
+921 1086 V
+921 1090 V
+920 1091 V
+921 1094 V
+921 1095 V
+920 1097 V
+921 1097 V
+921 1098 V
+920 1097 V
+921 1097 V
+920 1096 V
+921 1094 V
+921 1092 V
+920 1091 V
+921 1087 V
+921 1084 V
+920 1081 V
+921 1076 V
+921 1072 V
+920 1067 V
+921 1062 V
+921 1056 V
+920 1049 V
+921 1043 V
+920 1036 V
+921 1029 V
+921 1021 V
+920 1012 V
+921 1004 V
+921 994 V
+920 985 V
+921 975 V
+921 965 V
+920 955 V
+921 943 V
+921 932 V
+920 920 V
+921 908 V
+920 895 V
+921 882 V
+921 869 V
+920 856 V
+921 842 V
+921 827 V
+920 813 V
+921 798 V
+921 782 V
+920 767 V
+921 751 V
+921 736 V
+920 718 V
+921 702 V
+920 685 V
+921 667 V
+921 650 V
+920 632 V
+921 614 V
+921 595 V
+920 577 V
+921 559 V
+921 539 V
+920 520 V
+921 500 V
+921 481 V
+920 461 V
+921 441 V
+920 421 V
+921 400 V
+921 380 V
+920 359 V
+921 339 V
+921 317 V
+920 296 V
+921 275 V
+921 254 V
+920 232 V
+921 211 V
+921 189 V
+920 167 V
+921 146 V
+920 124 V
+921 102 V
+921 80 V
+920 59 V
+921 36 V
+921 14 V
+920 -7 V
+921 -30 V
+921 -52 V
+920 -73 V
+921 -96 V
+921 -117 V
+920 -139 V
+921 -161 V
+920 -183 V
+921 -204 V
+921 -225 V
+920 -248 V
+921 -268 V
+921 -290 V
+920 -311 V
+921 -332 V
+921 -353 V
+920 -374 V
+921 -394 V
+921 -414 V
+920 -435 V
+921 -455 V
+920 -475 V
+921 -495 V
+921 -514 V
+920 -533 V
+921 -552 V
+921 -572 V
+920 -590 V
+921 -608 V
+921 -627 V
+920 -644 V
+921 -662 V
+921 -680 V
+920 -697 V
+921 -713 V
+920 -730 V
+921 -746 V
+921 -763 V
+920 -778 V
+921 -793 V
+stroke 689093 312506 M
+921 -808 V
+920 -823 V
+921 -838 V
+921 -851 V
+920 -865 V
+921 -878 V
+921 -892 V
+920 -904 V
+921 -916 V
+920 -929 V
+921 -939 V
+921 -951 V
+920 -962 V
+921 -972 V
+921 -982 V
+920 -992 V
+921 -1001 V
+921 -1010 V
+920 -1018 V
+921 -1026 V
+921 -1034 V
+920 -1041 V
+921 -1048 V
+920 -1054 V
+921 -1060 V
+921 -1065 V
+920 -1071 V
+921 -1075 V
+921 -1079 V
+920 -1083 V
+921 -1087 V
+921 -1089 V
+920 -1092 V
+921 -1094 V
+921 -1095 V
+920 -1097 V
+921 -1097 V
+920 -1097 V
+921 -1098 V
+921 -1097 V
+920 -1095 V
+921 -1095 V
+921 -1092 V
+920 -1090 V
+921 -1087 V
+921 -1084 V
+920 -1080 V
+921 -1076 V
+921 -1072 V
+920 -1066 V
+921 -1062 V
+920 -1055 V
+921 -1049 V
+921 -1043 V
+920 -1035 V
+921 -1028 V
+921 -1020 V
+920 -1012 V
+921 -1003 V
+921 -994 V
+920 -984 V
+921 -974 V
+921 -965 V
+920 -953 V
+921 -942 V
+920 -931 V
+921 -919 V
+921 -907 V
+920 -895 V
+921 -881 V
+921 -868 V
+920 -855 V
+921 -840 V
+921 -826 V
+920 -812 V
+921 -797 V
+921 -781 V
+920 -766 V
+921 -750 V
+920 -734 V
+921 -717 V
+921 -700 V
+920 -684 V
+921 -666 V
+921 -648 V
+920 -631 V
+921 -613 V
+921 -594 V
+920 -575 V
+921 -557 V
+921 -538 V
+920 -518 V
+921 -499 V
+920 -480 V
+921 -459 V
+921 -439 V
+920 -420 V
+921 -398 V
+921 -379 V
+920 -357 V
+921 -337 V
+921 -315 V
+920 -295 V
+921 -274 V
+921 -251 V
+920 -231 V
+921 -209 V
+920 -188 V
+921 -165 V
+921 -145 V
+920 -122 V
+921 -100 V
+921 -79 V
+920 -56 V
+921 -35 V
+921 -12 V
+920 9 V
+921 31 V
+921 54 V
+920 75 V
+921 97 V
+920 119 V
+921 141 V
+921 162 V
+920 185 V
+921 206 V
+921 227 V
+920 249 V
+921 270 V
+921 292 V
+920 312 V
+921 334 V
+921 354 V
+920 375 V
+921 396 V
+920 416 V
+921 437 V
+921 456 V
+920 477 V
+921 496 V
+921 515 V
+920 535 V
+921 554 V
+921 573 V
+920 591 V
+921 610 V
+921 628 V
+920 646 V
+921 663 V
+920 681 V
+921 698 V
+921 715 V
+920 731 V
+921 748 V
+921 763 V
+920 780 V
+921 794 V
+921 809 V
+920 825 V
+921 838 V
+921 852 V
+920 867 V
+921 879 V
+920 893 V
+921 905 V
+921 917 V
+920 929 V
+921 941 V
+921 951 V
+920 963 V
+921 973 V
+921 983 V
+920 992 V
+921 1002 V
+921 1010 V
+920 1019 V
+921 1027 V
+920 1034 V
+921 1042 V
+921 1048 V
+920 1055 V
+921 1060 V
+921 1066 V
+920 1071 V
+921 1075 V
+921 1080 V
+920 1083 V
+921 1087 V
+921 1090 V
+920 1092 V
+921 1094 V
+920 1095 V
+921 1097 V
+921 1097 V
+920 1098 V
+921 1097 V
+921 1097 V
+920 1095 V
+921 1094 V
+921 1092 V
+920 1090 V
+921 1087 V
+921 1084 V
+920 1080 V
+921 1075 V
+920 1072 V
+921 1066 V
+921 1061 V
+920 1055 V
+921 1048 V
+921 1042 V
+920 1035 V
+921 1028 V
+921 1019 V
+920 1011 V
+921 1002 V
+921 993 V
+920 984 V
+921 974 V
+920 963 V
+921 953 V
+921 941 V
+920 930 V
+921 918 V
+921 906 V
+920 893 V
+921 881 V
+921 867 V
+920 853 V
+921 840 V
+921 825 V
+920 810 V
+921 796 V
+920 780 V
+921 765 V
+921 748 V
+920 733 V
+921 716 V
+921 699 V
+920 682 V
+921 665 V
+921 647 V
+920 629 V
+921 611 V
+921 593 V
+920 574 V
+921 555 V
+920 537 V
+921 517 V
+stroke 918333 323634 M
+921 497 V
+920 478 V
+921 458 V
+stroke
+LTw
+% End plot #1
+% Begin plot #2
+2.000 UL
+LTb
+LCb setrgbcolor
+[] 0 setdash
+0.00 0.50 0.00 C
+1372 275016 M
+921 109 V
+920 201 V
+921 260 V
+921 308 V
+920 349 V
+921 385 V
+921 420 V
+920 450 V
+921 478 V
+920 506 V
+921 532 V
+921 555 V
+920 579 V
+921 601 V
+921 622 V
+920 643 V
+921 662 V
+921 680 V
+920 699 V
+921 717 V
+920 734 V
+921 750 V
+921 766 V
+920 781 V
+921 796 V
+921 811 V
+920 825 V
+921 838 V
+921 852 V
+920 865 V
+921 877 V
+921 889 V
+920 900 V
+921 912 V
+920 923 V
+921 934 V
+921 944 V
+920 954 V
+921 964 V
+921 973 V
+920 982 V
+921 991 V
+921 999 V
+920 1008 V
+921 1015 V
+921 1023 V
+920 1030 V
+921 1037 V
+920 1044 V
+921 1050 V
+921 1057 V
+921 1062 V
+920 1068 V
+921 1074 V
+920 1078 V
+921 1084 V
+921 1088 V
+920 1092 V
+921 1096 V
+921 1100 V
+920 1104 V
+921 1107 V
+921 1110 V
+920 1113 V
+921 1115 V
+921 1118 V
+920 1120 V
+921 1121 V
+920 1123 V
+921 1124 V
+921 1126 V
+920 1126 V
+921 1127 V
+921 1128 V
+920 1127 V
+921 1127 V
+921 1127 V
+920 1127 V
+921 1125 V
+921 1125 V
+920 1123 V
+921 1122 V
+920 1120 V
+921 1119 V
+921 1116 V
+920 1113 V
+921 1111 V
+921 1108 V
+920 1105 V
+921 1102 V
+921 1098 V
+920 1095 V
+921 1091 V
+921 1086 V
+920 1082 V
+921 1078 V
+920 1072 V
+921 1068 V
+921 1062 V
+920 1057 V
+921 1052 V
+921 1045 V
+920 1040 V
+921 1033 V
+920 1027 V
+921 1020 V
+921 1013 V
+920 1006 V
+921 999 V
+921 992 V
+920 984 V
+921 975 V
+921 968 V
+920 960 V
+921 951 V
+921 943 V
+920 933 V
+921 925 V
+920 916 V
+921 905 V
+921 897 V
+920 887 V
+921 878 V
+921 867 V
+920 856 V
+921 847 V
+921 835 V
+920 825 V
+921 813 V
+921 803 V
+920 792 V
+921 779 V
+920 769 V
+921 756 V
+921 745 V
+920 732 V
+921 721 V
+921 707 V
+920 695 V
+921 682 V
+921 670 V
+920 657 V
+921 642 V
+921 631 V
+920 616 V
+921 603 V
+920 589 V
+921 576 V
+921 561 V
+920 547 V
+921 533 V
+921 518 V
+920 504 V
+921 489 V
+921 474 V
+920 459 V
+921 444 V
+921 430 V
+920 413 V
+921 398 V
+920 384 V
+921 366 V
+921 352 V
+920 336 V
+921 320 V
+921 304 V
+920 287 V
+921 271 V
+921 255 V
+920 238 V
+921 223 V
+921 205 V
+920 189 V
+921 171 V
+920 155 V
+921 138 V
+921 121 V
+920 103 V
+921 87 V
+921 70 V
+920 51 V
+921 36 V
+921 16 V
+920 0 V
+921 -19 V
+921 -35 V
+920 -53 V
+921 -72 V
+920 -89 V
+921 -106 V
+921 -125 V
+920 -142 V
+921 -162 V
+921 -178 V
+920 -197 V
+921 -214 V
+921 -234 V
+920 -251 V
+921 -269 V
+921 -288 V
+920 -306 V
+921 -324 V
+920 -343 V
+921 -360 V
+921 -379 V
+920 -398 V
+921 -415 V
+921 -435 V
+920 -451 V
+921 -472 V
+921 -489 V
+920 -507 V
+921 -526 V
+921 -544 V
+920 -562 V
+921 -581 V
+920 -599 V
+921 -617 V
+921 -636 V
+920 -654 V
+921 -672 V
+921 -691 V
+920 -708 V
+921 -726 V
+921 -744 V
+920 -763 V
+921 -781 V
+921 -798 V
+920 -817 V
+921 -835 V
+920 -852 V
+921 -869 V
+921 -888 V
+920 -906 V
+921 -922 V
+921 -941 V
+920 -958 V
+921 -976 V
+921 -992 V
+920 -1010 V
+921 -1028 V
+921 -1045 V
+920 -1061 V
+921 -1078 V
+920 -1095 V
+921 -1113 V
+921 -1128 V
+920 -1146 V
+921 -1162 V
+stroke 230612 379654 M
+921 -1178 V
+920 -1195 V
+921 -1211 V
+921 -1228 V
+920 -1243 V
+921 -1259 V
+921 -1275 V
+920 -1291 V
+921 -1307 V
+920 -1322 V
+921 -1337 V
+921 -1353 V
+920 -1368 V
+921 -1382 V
+921 -1398 V
+920 -1413 V
+921 -1427 V
+921 -1442 V
+920 -1456 V
+921 -1470 V
+921 -1485 V
+920 -1498 V
+921 -1513 V
+920 -1526 V
+921 -1539 V
+921 -1553 V
+920 -1567 V
+921 -1579 V
+921 -1592 V
+920 -1606 V
+921 -1618 V
+921 -1630 V
+920 -1643 V
+921 -1654 V
+921 -1667 V
+920 -1679 V
+921 -1690 V
+920 -1702 V
+921 -1714 V
+921 -1724 V
+920 -1735 V
+921 -1747 V
+921 -1756 V
+920 -1768 V
+921 -1778 V
+921 -1787 V
+920 -1798 V
+921 -1807 V
+921 -1817 V
+920 -1827 V
+921 -1835 V
+920 -1845 V
+921 -1853 V
+921 -1862 V
+920 -1870 V
+921 -1879 V
+921 -1886 V
+920 -1894 V
+921 -1902 V
+921 -1909 V
+920 -1917 V
+921 -1923 V
+921 -1931 V
+920 -1937 V
+921 -1943 V
+920 -1949 V
+921 -1956 V
+921 -1961 V
+920 -1966 V
+921 -1972 V
+921 -1977 V
+920 -1982 V
+921 -1987 V
+921 -1991 V
+920 -1995 V
+921 -2000 V
+921 -2003 V
+920 -2006 V
+921 -2010 V
+920 -2014 V
+921 -2016 V
+921 -2018 V
+920 -2022 V
+921 -2023 V
+921 -2025 V
+920 -2028 V
+921 -2028 V
+921 -2030 V
+920 -2031 V
+921 -2032 V
+921 -2033 V
+920 -2033 V
+921 -2033 V
+920 -2033 V
+921 -2033 V
+921 -2032 V
+920 -2032 V
+921 -2030 V
+921 -2029 V
+920 -2028 V
+921 -2026 V
+921 -2024 V
+920 -2022 V
+921 -2020 V
+921 -2017 V
+920 -2014 V
+921 -2011 V
+920 -2007 V
+921 -2004 V
+921 -2000 V
+920 -1996 V
+921 -1992 V
+921 -1987 V
+920 -1983 V
+921 -1977 V
+921 -1973 V
+920 -1966 V
+921 -1961 V
+921 -1956 V
+920 -1948 V
+921 -1943 V
+920 -1936 V
+921 -1929 V
+921 -1921 V
+920 -1916 V
+921 -1907 V
+921 -1899 V
+920 -1891 V
+921 -1883 V
+921 -1874 V
+920 -1866 V
+921 -1856 V
+921 -1848 V
+920 -1838 V
+921 -1829 V
+920 -1818 V
+921 -1809 V
+921 -1798 V
+920 -1787 V
+921 -1776 V
+921 -1767 V
+920 -1754 V
+921 -1744 V
+921 -1731 V
+920 -1719 V
+921 -1709 V
+921 -1695 V
+920 -1682 V
+921 -1670 V
+920 -1658 V
+921 -1643 V
+921 -1631 V
+920 -1616 V
+921 -1603 V
+921 -1590 V
+920 -1574 V
+921 -1561 V
+921 -1546 V
+920 -1530 V
+921 -1516 V
+921 -1501 V
+920 -1484 V
+921 -1471 V
+920 -1454 V
+921 -1437 V
+921 -1421 V
+920 -1406 V
+921 -1388 V
+921 -1372 V
+920 -1354 V
+921 -1338 V
+921 -1320 V
+920 -1302 V
+921 -1285 V
+921 -1268 V
+920 -1249 V
+921 -1230 V
+920 -1213 V
+921 -1194 V
+921 -1174 V
+920 -1156 V
+921 -1137 V
+921 -1118 V
+920 -1098 V
+921 -1079 V
+921 -1059 V
+920 -1038 V
+921 -1019 V
+921 -999 V
+920 -978 V
+921 -958 V
+920 -937 V
+921 -916 V
+921 -896 V
+920 -874 V
+921 -853 V
+921 -831 V
+920 -811 V
+921 -788 V
+921 -766 V
+920 -746 V
+921 -723 V
+921 -700 V
+920 -678 V
+921 -657 V
+920 -632 V
+921 -611 V
+921 -589 V
+920 -565 V
+921 -542 V
+921 -519 V
+920 -497 V
+921 -472 V
+921 -450 V
+920 -425 V
+921 -403 V
+921 -378 V
+920 -355 V
+921 -331 V
+920 -308 V
+921 -283 V
+921 -259 V
+920 -236 V
+921 -210 V
+921 -187 V
+920 -162 V
+921 -138 V
+921 -113 V
+920 -90 V
+921 -64 V
+921 -39 V
+920 -15 V
+921 9 V
+920 36 V
+921 59 V
+921 84 V
+920 110 V
+921 134 V
+921 159 V
+920 184 V
+921 209 V
+921 235 V
+920 260 V
+921 284 V
+921 310 V
+920 334 V
+921 361 V
+920 385 V
+921 410 V
+stroke 459852 39243 M
+921 437 V
+921 460 V
+921 486 V
+921 512 V
+920 536 V
+921 561 V
+920 587 V
+921 612 V
+921 637 V
+920 662 V
+921 687 V
+921 712 V
+920 737 V
+921 762 V
+921 787 V
+920 812 V
+921 838 V
+921 861 V
+920 886 V
+921 912 V
+920 936 V
+921 960 V
+921 985 V
+920 1010 V
+921 1034 V
+921 1058 V
+920 1083 V
+921 1107 V
+921 1131 V
+920 1155 V
+921 1180 V
+921 1202 V
+920 1227 V
+921 1252 V
+920 1274 V
+921 1298 V
+921 1321 V
+920 1344 V
+921 1369 V
+921 1391 V
+920 1414 V
+921 1437 V
+921 1461 V
+920 1482 V
+921 1505 V
+921 1528 V
+920 1550 V
+921 1573 V
+920 1595 V
+921 1616 V
+921 1638 V
+920 1660 V
+921 1682 V
+921 1703 V
+920 1725 V
+921 1746 V
+921 1766 V
+920 1787 V
+921 1808 V
+921 1829 V
+920 1849 V
+921 1869 V
+920 1890 V
+921 1909 V
+921 1928 V
+920 1949 V
+921 1968 V
+921 1987 V
+920 2006 V
+921 2024 V
+921 2044 V
+920 2063 V
+921 2080 V
+921 2098 V
+920 2117 V
+921 2133 V
+920 2152 V
+921 2169 V
+921 2186 V
+920 2203 V
+921 2219 V
+921 2237 V
+920 2252 V
+921 2269 V
+921 2284 V
+920 2300 V
+921 2316 V
+921 2330 V
+920 2346 V
+921 2361 V
+920 2375 V
+921 2389 V
+921 2404 V
+920 2417 V
+921 2431 V
+921 2445 V
+920 2457 V
+921 2471 V
+921 2483 V
+920 2496 V
+921 2508 V
+921 2520 V
+920 2532 V
+921 2543 V
+920 2555 V
+921 2565 V
+921 2576 V
+920 2587 V
+921 2597 V
+921 2607 V
+920 2616 V
+921 2626 V
+921 2635 V
+920 2644 V
+921 2653 V
+921 2661 V
+920 2670 V
+921 2677 V
+920 2685 V
+921 2692 V
+921 2699 V
+920 2706 V
+921 2712 V
+921 2719 V
+920 2725 V
+921 2730 V
+921 2736 V
+920 2741 V
+921 2746 V
+921 2750 V
+920 2755 V
+921 2758 V
+920 2763 V
+921 2766 V
+921 2769 V
+920 2772 V
+921 2774 V
+921 2777 V
+920 2779 V
+921 2780 V
+921 2782 V
+920 2783 V
+921 2784 V
+921 2785 V
+920 2785 V
+921 2785 V
+920 2785 V
+921 2783 V
+921 2784 V
+920 2782 V
+921 2780 V
+921 2779 V
+920 2777 V
+921 2774 V
+921 2772 V
+920 2769 V
+921 2765 V
+921 2762 V
+920 2759 V
+921 2754 V
+920 2750 V
+921 2745 V
+921 2740 V
+920 2735 V
+921 2729 V
+921 2724 V
+920 2717 V
+921 2711 V
+921 2705 V
+920 2697 V
+921 2690 V
+921 2682 V
+920 2674 V
+921 2667 V
+920 2658 V
+921 2648 V
+921 2640 V
+920 2630 V
+921 2622 V
+921 2611 V
+920 2601 V
+921 2590 V
+921 2580 V
+920 2569 V
+921 2557 V
+921 2546 V
+920 2532 V
+921 2522 V
+920 2509 V
+921 2497 V
+921 2483 V
+920 2471 V
+921 2456 V
+921 2443 V
+920 2428 V
+921 2415 V
+921 2399 V
+920 2385 V
+921 2369 V
+921 2354 V
+920 2338 V
+921 2322 V
+920 2307 V
+921 2290 V
+921 2272 V
+920 2256 V
+921 2238 V
+921 2222 V
+920 2203 V
+921 2185 V
+921 2166 V
+920 2148 V
+921 2130 V
+921 2111 V
+920 2091 V
+921 2071 V
+920 2051 V
+921 2032 V
+921 2012 V
+920 1991 V
+921 1971 V
+921 1949 V
+920 1928 V
+921 1907 V
+921 1884 V
+920 1864 V
+921 1841 V
+921 1818 V
+920 1798 V
+921 1773 V
+920 1751 V
+921 1727 V
+921 1704 V
+920 1680 V
+921 1657 V
+921 1633 V
+920 1608 V
+921 1585 V
+921 1559 V
+920 1535 V
+921 1510 V
+921 1485 V
+920 1459 V
+921 1433 V
+920 1408 V
+921 1383 V
+921 1356 V
+920 1329 V
+921 1304 V
+stroke 689093 553846 M
+921 1277 V
+920 1250 V
+921 1223 V
+921 1196 V
+920 1169 V
+921 1141 V
+921 1114 V
+920 1087 V
+921 1058 V
+920 1029 V
+921 1003 V
+921 974 V
+920 945 V
+921 917 V
+921 889 V
+920 859 V
+921 831 V
+921 802 V
+920 772 V
+921 743 V
+921 714 V
+920 684 V
+921 655 V
+920 625 V
+921 594 V
+921 566 V
+920 535 V
+921 504 V
+921 475 V
+920 444 V
+921 414 V
+921 384 V
+920 353 V
+921 323 V
+921 291 V
+920 261 V
+921 230 V
+920 200 V
+921 168 V
+921 137 V
+920 106 V
+921 76 V
+921 44 V
+920 13 V
+921 -19 V
+921 -49 V
+920 -81 V
+921 -112 V
+921 -144 V
+920 -174 V
+921 -207 V
+920 -237 V
+921 -270 V
+921 -300 V
+920 -333 V
+921 -362 V
+921 -396 V
+920 -426 V
+921 -458 V
+921 -489 V
+920 -521 V
+921 -553 V
+921 -583 V
+920 -615 V
+921 -646 V
+920 -677 V
+921 -709 V
+921 -740 V
+920 -771 V
+921 -802 V
+921 -834 V
+920 -865 V
+921 -896 V
+921 -926 V
+920 -957 V
+921 -988 V
+921 -1020 V
+920 -1049 V
+921 -1080 V
+920 -1112 V
+921 -1142 V
+921 -1171 V
+920 -1203 V
+921 -1232 V
+921 -1262 V
+920 -1293 V
+921 -1322 V
+921 -1353 V
+920 -1382 V
+921 -1412 V
+921 -1441 V
+920 -1471 V
+921 -1500 V
+920 -1529 V
+921 -1558 V
+921 -1587 V
+920 -1617 V
+921 -1644 V
+921 -1674 V
+920 -1700 V
+921 -1731 V
+921 -1757 V
+920 -1786 V
+921 -1814 V
+921 -1841 V
+920 -1869 V
+921 -1896 V
+920 -1923 V
+921 -1951 V
+921 -1977 V
+920 -2004 V
+921 -2030 V
+921 -2057 V
+920 -2082 V
+921 -2110 V
+921 -2134 V
+920 -2160 V
+921 -2185 V
+921 -2210 V
+920 -2236 V
+921 -2261 V
+920 -2285 V
+921 -2309 V
+921 -2334 V
+920 -2357 V
+921 -2380 V
+921 -2406 V
+920 -2428 V
+921 -2450 V
+921 -2474 V
+920 -2497 V
+921 -2518 V
+921 -2542 V
+920 -2562 V
+921 -2586 V
+920 -2605 V
+921 -2628 V
+921 -2648 V
+920 -2669 V
+921 -2690 V
+921 -2709 V
+920 -2729 V
+921 -2750 V
+921 -2769 V
+920 -2787 V
+921 -2807 V
+921 -2826 V
+920 -2843 V
+921 -2862 V
+920 -2879 V
+921 -2898 V
+921 -2915 V
+920 -2931 V
+921 -2948 V
+921 -2965 V
+920 -2980 V
+921 -2997 V
+921 -3012 V
+920 -3027 V
+921 -3043 V
+921 -3057 V
+920 -3071 V
+921 -3086 V
+920 -3099 V
+921 -3113 V
+921 -3126 V
+920 -3139 V
+921 -3152 V
+921 -3163 V
+920 -3176 V
+921 -3187 V
+921 -3199 V
+920 -3209 V
+921 -3221 V
+921 -3230 V
+920 -3241 V
+921 -3250 V
+920 -3260 V
+921 -3269 V
+921 -3278 V
+920 -3286 V
+921 -3294 V
+921 -3302 V
+920 -3310 V
+921 -3317 V
+921 -3323 V
+920 -3330 V
+921 -3336 V
+921 -3341 V
+920 -3348 V
+921 -3352 V
+920 -3357 V
+921 -3362 V
+921 -3365 V
+920 -3370 V
+921 -3372 V
+921 -3376 V
+920 -3379 V
+921 -3381 V
+921 -3383 V
+920 -3385 V
+921 -3386 V
+921 -3387 V
+920 -3388 V
+921 -3388 V
+920 -3388 V
+921 -3388 V
+921 -3387 V
+920 -3386 V
+921 -3385 V
+921 -3383 V
+920 -3381 V
+921 -3378 V
+921 -3375 V
+920 -3373 V
+921 -3369 V
+921 -3365 V
+920 -3361 V
+921 -3356 V
+920 -3352 V
+921 -3346 V
+921 -3340 V
+920 -3335 V
+921 -3329 V
+921 -3322 V
+920 -3315 V
+921 -3307 V
+921 -3300 V
+920 -3292 V
+921 -3284 V
+921 -3275 V
+920 -3266 V
+921 -3257 V
+920 -3247 V
+921 -3236 V
+921 -3226 V
+920 -3216 V
+921 -3205 V
+921 -3193 V
+920 -3182 V
+921 -3169 V
+921 -3158 V
+920 -3143 V
+921 -3132 V
+921 -3117 V
+920 -3104 V
+921 -3090 V
+920 -3076 V
+921 -3061 V
+stroke 918333 95474 M
+921 -3045 V
+920 -3031 V
+921 -3015 V
+stroke
+LTw
+% End plot #2
+LCw setrgbcolor
+1.000 1540 603336 2751 560 BoxColFill
+1.000 UL
+LTb
+LCb setrgbcolor
+[] 0 setdash
+1540 603336 N
+0 560 V
+2751 0 V
+0 -560 V
+-2751 0 V
+Z stroke
+% Begin plot #3
+2.000 UL
+LTb
+0.00 0.00 1.00 C
+LCb setrgbcolor
+2.000 UL
+LTb
+0.00 0.00 1.00 C
+3388 603756 M
+735 0 V
+stroke
+LTw
+% End plot #3
+% Begin plot #4
+2.000 UL
+LTb
+LCb setrgbcolor
+[] 0 setdash
+0.00 0.50 0.00 C
+LCb setrgbcolor
+2.000 UL
+LTb
+0.00 0.50 0.00 C
+3388 603476 M
+735 0 V
+stroke
+LTw
+% End plot #4
+2.000 UL
+LTb
+LCb setrgbcolor
+[] 0 setdash
+LTb
+1.000 UP
+1.200 UL
+LTb
+stroke
+grestore
+end
+showpage
+%%Trailer

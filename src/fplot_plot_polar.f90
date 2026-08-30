@@ -189,7 +189,7 @@ contains
         ! Grid
         if (this%get_show_gridlines()) then
             call str%append(new_line('a'))
-            call str%append("set grid r polar")
+            call str%append('set grid r polar lt 1 lw 1.5 lc rgb "#cccccc"')
         end if
 
         ! Title
