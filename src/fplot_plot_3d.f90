@@ -33,6 +33,14 @@ module fplot_plot_3d
             !! Set map projection.
         integer(int32), private :: m_csys = COORDINATES_CARTESIAN
             !! Plot coordinate system.
+        logical, private :: m_showZMajorGrid = .false.
+        logical, private :: m_showZMinorGrid = .false.
+        type(color), private :: m_zMajorGridColor = color(204, 204, 204, 0)
+        type(color), private :: m_zMinorGridColor = color(230, 230, 230, 0)
+        integer(int32), private :: m_zMajorGridLineStyle = LINE_SOLID
+        integer(int32), private :: m_zMinorGridLineStyle = LINE_DASHED
+        real(real32), private :: m_zMajorGridLineWidth = 1.2
+        real(real32), private :: m_zMinorGridLineWidth = 0.7
     contains
         final :: p3d_clean_up
         procedure, public :: initialize => p3d_init
@@ -53,6 +61,30 @@ module fplot_plot_3d
         procedure, public :: set_x_axis_title => p3d_set_x_axis_title
         procedure, public :: set_y_axis_title => p3d_set_y_axis_title
         procedure, public :: set_z_axis_title => p3d_set_z_axis_title
+        procedure, public :: get_show_z_major_grid => p3d_get_show_z_major_grid
+        procedure, public :: set_show_z_major_grid => p3d_set_show_z_major_grid
+        procedure, public :: get_show_z_minor_grid => p3d_get_show_z_minor_grid
+        procedure, public :: set_show_z_minor_grid => p3d_set_show_z_minor_grid
+        procedure, public :: get_z_major_grid_color => p3d_get_z_major_grid_color
+        procedure, public :: set_z_major_grid_color => p3d_set_z_major_grid_color
+        procedure, public :: get_z_minor_grid_color => p3d_get_z_minor_grid_color
+        procedure, public :: set_z_minor_grid_color => p3d_set_z_minor_grid_color
+        procedure, public :: get_z_major_grid_line_style => &
+            p3d_get_z_major_grid_line_style
+        procedure, public :: set_z_major_grid_line_style => &
+            p3d_set_z_major_grid_line_style
+        procedure, public :: get_z_minor_grid_line_style => &
+            p3d_get_z_minor_grid_line_style
+        procedure, public :: set_z_minor_grid_line_style => &
+            p3d_set_z_minor_grid_line_style
+        procedure, public :: get_z_major_grid_line_width => &
+            p3d_get_z_major_grid_line_width
+        procedure, public :: set_z_major_grid_line_width => &
+            p3d_set_z_major_grid_line_width
+        procedure, public :: get_z_minor_grid_line_width => &
+            p3d_get_z_minor_grid_line_width
+        procedure, public :: set_z_minor_grid_line_width => &
+            p3d_set_z_minor_grid_line_width
         procedure, public :: p3d_push_data
         generic, public :: push => p3d_push_data
     end type
@@ -99,6 +131,8 @@ contains
             !!  - GNUPLOT_TERMINAL_LATEX
             !!
             !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -155,6 +189,7 @@ contains
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: xAxis, yAxis, zAxis
         type(legend), pointer :: leg
+        type(color) :: clr
         ! class(plot_label), pointer :: lbl
 
         ! Initialization
@@ -164,9 +199,115 @@ contains
         call str%append(this%plot%get_command_string())
 
         ! Grid
-        if (this%get_show_gridlines()) then
+        if (this%get_show_x_major_grid()) then
             call str%append(new_line('a'))
-            call str%append('set grid lt 1 lw 1.5 lc rgb "#cccccc"')
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_x_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mxtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_major_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_z_major_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid ztics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_z_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_z_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_z_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_z_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mztics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_z_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_z_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_z_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+
+        if (this%get_show_gridlines()) then
+            ! X
+            call str%append(new_line('a'))
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+
+            ! Y
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+
+            ! Z
+            call str%append(new_line('a'))
+            call str%append('set grid ztics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_z_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_z_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_z_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
         end if
 
         ! Title
@@ -524,6 +665,220 @@ contains
         if (associated(this%m_zAxis)) then
             call this%m_zAxis%set_title(x)
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_show_z_major_grid(this) result(x)
+        !! Gets a value determining if the z-axis major grid should be shown.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showZMajorGrid
+    end function
+
+! --------------------
+    subroutine p3d_set_show_z_major_grid(this, x)
+        !! Sets a value determining if the z-axis major grid should be shown.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showZMajorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_show_z_minor_grid(this) result(x)
+        !! Gets a value determining if the z-axis minor grid should be shown.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showZMinorGrid
+    end function
+
+! --------------------
+    subroutine p3d_set_show_z_minor_grid(this, x)
+        !! Sets a value determining if the z-axis minor grid should be shown.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showZMinorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_major_grid_color(this) result(x)
+        !! Gets the color of the z-axis major grid lines.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        type(color) :: x
+            !! The color.
+        x = this%m_zMajorGridColor
+    end function
+
+! --------------------
+    subroutine p3d_set_z_major_grid_color(this, x)
+        !! Sets the color of the z-axis major grid lines.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_zMajorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_minor_grid_color(this) result(x)
+        !! Gets the color of the z-axis minor grid lines.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        type(color) :: x
+            !! The color.
+        x = this%m_zMinorGridColor
+    end function
+
+! --------------------
+    subroutine p3d_set_z_minor_grid_color(this, x)
+        !! Sets the color of the z-axis minor grid lines.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_zMinorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_major_grid_line_style(this) result(x)
+        !! Gets the line style used for the z-axis major grid lines.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_zMajorGridLineStyle
+    end function
+
+! --------------------
+    subroutine p3d_set_z_major_grid_line_style(this, x)
+        !! Sets the line style used for the z-axis major grid lines.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_zMajorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_minor_grid_line_style(this) result(x)
+        !! Gets the line style used for the z-axis minor grid lines.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_zMinorGridLineStyle
+    end function
+
+! --------------------
+    subroutine p3d_set_z_minor_grid_line_style(this, x)
+        !! Sets the line style used for the z-axis minor grid lines.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_zMinorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_major_grid_line_width(this) result(x)
+        !! Gets the width of the z-axis major grid lines, in pixels.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_zMajorGridLineWidth
+    end function
+
+! --------------------
+    subroutine p3d_set_z_major_grid_line_width(this, x)
+        !! Sets the width of the z-axis major grid lines, in pixels.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_zMajorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function p3d_get_z_minor_grid_line_width(this) result(x)
+        !! Gets the width of the z-axis minor grid lines, in pixels.
+        class(plot_3d), intent(in) :: this
+            !! The plot_3d object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_zMinorGridLineWidth
+    end function
+
+! --------------------
+    subroutine p3d_set_z_minor_grid_line_width(this, x)
+        !! Sets the width of the z-axis minor grid lines, in pixels.
+        class(plot_3d), intent(inout) :: this
+            !! The plot_3d object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_zMinorGridLineWidth = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

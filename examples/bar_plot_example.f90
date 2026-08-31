@@ -21,8 +21,8 @@ program example
 
     call plt%initialize()
     call plt%set_bar_width(0.9)
-    call plt%set_show_gridlines(.false.)
     call plt%set_draw_border(.false.)
+    call plt%set_show_y_major_grid(.true.)
     call plt%set_spacing(3)
 
     lgnd => plt%get_legend()

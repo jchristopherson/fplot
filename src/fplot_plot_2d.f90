@@ -97,6 +97,8 @@ contains
             !!  - GNUPLOT_TERMINAL_LATEX
             !!
             !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -153,6 +155,7 @@ contains
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: axis, xAxis, yAxis
         type(legend), pointer :: leg
+        type(color) :: clr
         ! class(plot_label), pointer :: lbl
 
         ! Initialization
@@ -162,9 +165,79 @@ contains
         call str%append(this%plot%get_command_string())
 
         ! Grid
-        if (this%get_show_gridlines()) then
+        if (this%get_show_x_major_grid()) then
             call str%append(new_line('a'))
-            call str%append('set grid lt 1 lw 1.5 lc rgb "#cccccc"')
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_x_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mxtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_major_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+
+        if (this%get_show_gridlines()) then
+            ! X
+            call str%append(new_line('a'))
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+
+            ! Y
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
         end if
 
         ! Title

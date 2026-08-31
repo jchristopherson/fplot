@@ -18,6 +18,8 @@ module fplot_constants
         !! Defines a LATEX terminal.
     integer(int32), parameter :: GNUPLOT_TERMINAL_SVG = 6
         !! Defines an SVG terminal.
+    integer(int32), parameter :: GNUPLOT_TERMINAL_PDF = 7
+        !! Defines a PDF terminal.
 
 ! ******************************************************************************
 ! MARKER CONSTANTS

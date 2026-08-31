@@ -174,6 +174,10 @@ target_link_libraries(impulse_example fplot)
 add_executable(svg_plot_example svg_plot_example.f90)
 target_link_libraries(svg_plot_example fplot)
 
+# Example 45
+add_executable(pdf_plot_example pdf_plot_example.f90)
+target_link_libraries(pdf_plot_example fplot)
+
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(
         TARGET generic_2d_plot

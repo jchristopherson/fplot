@@ -45,6 +45,7 @@ module fplot_core
     use fplot_plot_data_function
     use strings
     use fplot_svg_terminal
+    use fplot_pdf_terminal
     implicit none
     
 end module

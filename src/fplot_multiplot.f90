@@ -10,6 +10,8 @@ module fplot_multiplot
     use fplot_wxt_terminal
     use fplot_png_terminal
     use fplot_latex_terminal
+    use fplot_svg_terminal
+    use fplot_pdf_terminal
     use fplot_constants
     use fplot_errors
     use collections
@@ -105,7 +107,7 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine mp_init(this, m, n, term, width, height, err)
+    subroutine mp_init(this, m, n, term, width, height, fname, err)
         !! Initializes the multiplot object.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
@@ -128,10 +130,14 @@ contains
             !!  - GNUPLOT_TERMINAL_LATEX
             !!
             !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         integer(int32), intent(in), optional :: width
             !! Optionally, the width of the plot window.
         integer(int32), intent(in), optional :: height
             !! Optionally, the height of the plot window.
+        character(len = *), intent(in), optional :: fname
+            !! A filename to associate with terminals that print to file.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
 
@@ -144,6 +150,8 @@ contains
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
         type(latex_terminal), pointer :: latex
+        type(svg_terminal), pointer :: svg
+        type(pdf_terminal), pointer :: pdf
 
         ! Initialization
         if (present(err)) then
@@ -175,6 +183,7 @@ contains
         select case (t)
         case (GNUPLOT_TERMINAL_PNG)
             allocate(png, stat = flag)
+            if (present(fname)) call png%set_filename(fname)
             this%m_terminal => png
         case (GNUPLOT_TERMINAL_QT)
             allocate(qt, stat = flag)
@@ -184,7 +193,16 @@ contains
             this%m_terminal => win
         case (GNUPLOT_TERMINAL_LATEX)
             allocate(latex, stat = flag)
+            if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
+        case (GNUPLOT_TERMINAL_SVG)
+            allocate(svg)
+            if (present(fname)) call svg%set_filename(fname)
+            this%m_terminal => svg
+        case (GNUPLOT_TERMINAL_PDF)
+            allocate(pdf, stat = flag)
+            if (present(fname)) call pdf%set_filename(fname)
+            this%m_terminal => pdf
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt

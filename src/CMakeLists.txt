@@ -45,6 +45,7 @@ set(FPLOT_SOURCES
     ${dir}/fplot_plot_data_box_whisker.f90
     ${dir}/fplot_plot_data_function.f90
     ${dir}/fplot_svg_terminal.f90
+    ${dir}/fplot_pdf_terminal.f90
 )
 set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 

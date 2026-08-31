@@ -75,6 +75,8 @@ contains
             !!  - GNUPLOT_TERMINAL_LATEX
             !!
             !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -117,6 +119,7 @@ contains
         real(real64) :: lim(2)
         ! class(plot_label), pointer :: lbl
         class(plot_data), pointer :: ptr
+        type(color) :: clr
 
         ! Initialization
         call str%initialize()
@@ -191,7 +194,15 @@ contains
         ! Grid
         if (this%get_show_gridlines()) then
             call str%append(new_line('a'))
-            call str%append('set grid r polar lt 1 lw 1.5 lc rgb "#cccccc"')
+            call str%append('set grid r polar')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
         end if
 
         ! Title

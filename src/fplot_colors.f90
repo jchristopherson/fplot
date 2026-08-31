@@ -39,6 +39,7 @@ module fplot_colors
             !! Notice, 0 is fully opaque and 255 is fully transparent.
     contains
         procedure, public, pass :: to_hex_string => clr_to_hex_string
+        procedure, public, pass :: rgb_to_hex_string => clr_rgb_to_hex_string
         procedure, public, pass :: copy_from => clr_copy_from
     end type
 
@@ -145,6 +146,49 @@ contains
 
         ! Convert the integer to a hexadecimal string
         write(txt, '(Z8.8)') clr
+    end function
+
+! ------------------------------------------------------------------------------
+    pure function clr_rgb_to_hex_string(this) result(txt)
+        !! Returns the color in hexadecimal format ignoring any alpha channel.
+        class(color), intent(in) :: this
+            !! The color object.
+        character(6) :: txt
+            !! A string containing the hexadecimal equivalent.
+
+        ! Local Variables
+        integer(int32) :: r, g, b, clr
+
+        ! Clip each color if necessary
+        if (this%red < 0) then
+            r = 0
+        else if (this%red > 255) then
+            r = 255
+        else
+            r = this%red
+        end if
+
+        if (this%green < 0) then
+            g = 0
+        else if (this%green > 255) then
+            g = 255
+        else
+            g = this%green
+        end if
+
+        if (this%blue < 0) then
+            b = 0
+        else if (this%blue > 255) then
+            b = 255
+        else
+            b = this%blue
+        end if
+
+        ! Build the color information
+        clr = ishft(r, 16) + ishft(g, 8) + b
+
+        ! Convert the integer to a hexadecimal string
+        write(txt, '(Z6.6)') clr
     end function
 
 ! ------------------------------------------------------------------------------
