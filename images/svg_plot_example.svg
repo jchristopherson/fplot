@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"  standalone="no"?>
-<svg 
- width="640" height="420"
+<svg  onload="if (typeof(gnuplot_svg)!='undefined') gnuplot_svg.Init(evt)" 
  viewBox="0 0 640 420"
  xmlns="http://www.w3.org/2000/svg"
  xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -9,9 +8,15 @@
 <title>Gnuplot</title>
 <desc>Produced by GNUPLOT 6.0 patchlevel 4 </desc>
 
-<g id="gnuplot_canvas">
+<script type="text/javascript" xlink:href="C:\Program Files\gnuplot\share/js/gnuplot_svg.js"/>
 
-<rect x="0" y="0" width="640" height="420" fill="#ffffff"/>
+<!-- Tie mousing to entire bounding box of the plot -->
+<rect x="0" y="0" width="640" height="420" fill="#ffffff" stroke="black" stroke-width="1"
+onclick="gnuplot_svg.toggleCoordBox(evt)"  onmousemove="gnuplot_svg.moveCoordBox(evt)"/>
+
+<!-- Also track mouse when it is on a plot element -->
+<g id="gnuplot_canvas" onclick="gnuplot_svg.toggleCoordBox(evt)" onmousemove="gnuplot_svg.moveCoordBox(evt)">
+
 <defs>
 
 	<circle id='gpDot' r='0.5' stroke-width='0.5' stroke='currentColor'/>
@@ -414,21 +419,25 @@
 <g fill="none" color="#FFFFFF" stroke="black" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_1_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_1')">
 	<g transform="translate(192.32,88.56)" stroke="none" fill="black" font-family="Arial" font-size="14.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Data Set 1</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0,   0, 255)'  d='M202.11,84.01 L251.77,84.01  '/></g>
+	<path stroke='rgb(  0,   0, 255)'  d='M202.11,84.01 L251.77,84.01  '/>	</g>
+</g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>Data Set 2</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_2_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_2')">
 	<g transform="translate(192.32,109.56)" stroke="none" fill="black" font-family="Arial" font-size="14.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Data Set 2</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0, 128,   0)'  d='M202.11,105.01 L251.77,105.01  '/></g>
+	<path stroke='rgb(  0, 128,   0)'  d='M202.11,105.01 L251.77,105.01  '/>	</g>
+</g>
 	</g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(22.38,207.91) rotate(270.00)" stroke="none" fill="black" font-family="Arial" font-size="14.00"  text-anchor="middle">
@@ -451,6 +460,51 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.20" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
+
+<script type="text/javascript"><![CDATA[
+// plot boundaries and axis scaling information for mousing 
+gnuplot_svg.plot_term_xmax = 640;
+gnuplot_svg.plot_term_ymax = 420;
+gnuplot_svg.plot_xmin = 84.6;
+gnuplot_svg.plot_xmax = 610.6;
+gnuplot_svg.plot_ybot = 352.8;
+gnuplot_svg.plot_ytop = 63.0;
+gnuplot_svg.plot_width = 526.0;
+gnuplot_svg.plot_height = 289.8;
+gnuplot_svg.plot_is_not_2D = false;
+gnuplot_svg.plot_axis_xmin = 0;
+gnuplot_svg.plot_axis_xmax = 10;
+gnuplot_svg.plot_axis_ymin = -2.5;
+gnuplot_svg.plot_axis_ymax = 3;
+gnuplot_svg.polar_mode = false;
+gnuplot_svg.plot_axis_x2min = "none";
+gnuplot_svg.plot_axis_y2min = "none";
+gnuplot_svg.plot_logaxis_x = 0;
+gnuplot_svg.plot_logaxis_y = 0;
+gnuplot_svg.plot_timeaxis_x = "";
+gnuplot_svg.plot_timeaxis_y = "";
+gnuplot_svg.hypertext_fontSize = 0;
+gnuplot_svg.hypertext_fontFamily = null;
+gnuplot_svg.hypertext_fontStyle = null;
+gnuplot_svg.hypertext_fontWeight = null;
+]]>
+</script>
 </g>
+
+  <text id="coord_text" text-anchor="start" pointer-events="none"
+  font-size="12" font-family="Arial"
+  visibility="hidden"> </text>
+
+  <rect id="hypertextbox" class="hypertextbox" pointer-events="none"
+  fill="white" stroke="black" opacity="0.8"
+  height="16" visibility="hidden" />
+
+  <text id="hypertext" class="hypertext" pointer-events="none"
+  font-size="12" font-family="Arial"
+  visibility="hidden"> </text>
+
+  <image id="hyperimage" class="hyperimage" pointer-events="none"
+  fill="white" stroke="black" opacity="0.8"
+  height="200" width="300" visibility="hidden" />
 </svg>
 
