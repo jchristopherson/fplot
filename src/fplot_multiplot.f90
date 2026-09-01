@@ -10,6 +10,8 @@ module fplot_multiplot
     use fplot_wxt_terminal
     use fplot_png_terminal
     use fplot_latex_terminal
+    use fplot_svg_terminal
+    use fplot_pdf_terminal
     use fplot_constants
     use fplot_errors
     use collections
@@ -51,6 +53,7 @@ module fplot_multiplot
         procedure, public :: set_font_name => mp_set_font
         procedure, public :: get_font_size => mp_get_font_size
         procedure, public :: set_font_size => mp_set_font_size
+        procedure, public :: set_window_size => mp_set_window_size
     end type
 
 contains
@@ -58,7 +61,7 @@ contains
     function mp_get_command(this) result(x)
         !! Gets the GNUPLOT commands for this object.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = :), allocatable :: x
             !! The command string.
 
@@ -104,10 +107,10 @@ contains
     end function
 
 ! ------------------------------------------------------------------------------
-    subroutine mp_init(this, m, n, term, width, height, err)
+    subroutine mp_init(this, m, n, term, width, height, fname, err)
         !! Initializes the multiplot object.
         class(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32), intent(in) :: m
             !! The number of rows of plots.
         integer(int32), intent(in) :: n
@@ -125,10 +128,16 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         integer(int32), intent(in), optional :: width
             !! Optionally, the width of the plot window.
         integer(int32), intent(in), optional :: height
             !! Optionally, the height of the plot window.
+        character(len = *), intent(in), optional :: fname
+            !! A filename to associate with terminals that print to file.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
 
@@ -141,6 +150,8 @@ contains
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
         type(latex_terminal), pointer :: latex
+        type(svg_terminal), pointer :: svg
+        type(pdf_terminal), pointer :: pdf
 
         ! Initialization
         if (present(err)) then
@@ -172,6 +183,7 @@ contains
         select case (t)
         case (GNUPLOT_TERMINAL_PNG)
             allocate(png, stat = flag)
+            if (present(fname)) call png%set_filename(fname)
             this%m_terminal => png
         case (GNUPLOT_TERMINAL_QT)
             allocate(qt, stat = flag)
@@ -181,7 +193,16 @@ contains
             this%m_terminal => win
         case (GNUPLOT_TERMINAL_LATEX)
             allocate(latex, stat = flag)
+            if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
+        case (GNUPLOT_TERMINAL_SVG)
+            allocate(svg)
+            if (present(fname)) call svg%set_filename(fname)
+            this%m_terminal => svg
+        case (GNUPLOT_TERMINAL_PDF)
+            allocate(pdf, stat = flag)
+            if (present(fname)) call pdf%set_filename(fname)
+            this%m_terminal => pdf
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
@@ -206,7 +227,7 @@ contains
     subroutine mp_clean(this)
         !! Cleans up resources held by the multiplot object.
         type(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         if (associated(this%m_terminal)) deallocate(this%m_terminal)
         nullify(this%m_terminal)
     end subroutine
@@ -215,7 +236,7 @@ contains
     pure function mp_get_rows(this) result(x)
         !! Gets the number of rows of plots.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32) :: x
             !! The row count.
         x = this%m_rows
@@ -225,7 +246,7 @@ contains
     pure function mp_get_cols(this) result(x)
         !! Gets the number of columns of plots.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32) :: x
             !! The column count.
         x = this%m_cols
@@ -235,7 +256,7 @@ contains
     pure function mp_get_count(this) result(x)
         !! Gets the total number of plots.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32) :: x
             !! The plot count.
         x = this%m_plots%count()
@@ -245,7 +266,7 @@ contains
     function mp_get_title(this) result(x)
         !! Gets the multiplot's title.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = :), allocatable :: x
             !! The title.
         x = this%m_title
@@ -255,7 +276,7 @@ contains
     subroutine mp_set_title(this, x)
         !! Sets the multiplot's title.
         class(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = *), intent(in) :: x
             !! The title.
 
@@ -278,7 +299,7 @@ contains
         !! Launches GNUPLOT and draws the multiplot per the current state of
         !! the command list.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         logical, intent(in), optional :: persist
             !! An optional parameter that can be used to keep GNUPLOT open.  
             !! Set to true to force GNUPLOT to remain open; else, set to false
@@ -336,7 +357,7 @@ contains
     function mp_get(this, i, j) result(x)
         !! Gets the requested plot object.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32), intent(in) :: i
             !! The row index of the plot to retrieve.
         integer(int32), intent(in) :: j
@@ -363,7 +384,7 @@ contains
     subroutine mp_set(this, i, j, x)
         !! Replaces the specified plot.
         class(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32), intent(in) :: i
             !! The row index of the plot to replace.
         integer(int32), intent(in) :: j
@@ -384,7 +405,7 @@ contains
         !! Gets a value determining if a title has been defined for the
         !! multiplot object.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         logical :: x
             !! Returns true if a title has been defined for this multiplot; 
             !! else, returns false.
@@ -395,7 +416,7 @@ contains
     function mp_get_term(this) result(x)
         !! Gets the GNUPLOT terminal object.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         class(terminal), pointer :: x
             !! A pointer to the terminal object.
         x => this%m_terminal
@@ -405,7 +426,7 @@ contains
     subroutine mp_save(this, fname, err)
         !! Saves a GNUPLOT command file.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = *), intent(in) :: fname
             !! The filename.
         class(errors), intent(inout), optional, target :: err
@@ -441,7 +462,7 @@ contains
     function mp_get_font(this) result(x)
         !! Gets the name of the font used for plot text.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = :), allocatable :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -453,7 +474,7 @@ contains
     subroutine mp_set_font(this, x)
         !! Sets the name of the font used for plot text.
         class(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         character(len = *), intent(in) :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -465,7 +486,7 @@ contains
     function mp_get_font_size(this) result(x)
         !! Gets the size of the font used by the plot.
         class(multiplot), intent(in) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32) :: x
             !! The font size.
         class(terminal), pointer :: term
@@ -477,12 +498,30 @@ contains
     subroutine mp_set_font_size(this, x)
         !! Sets the size of the font used by the plot.
         class(multiplot), intent(inout) :: this
-            !! The multiplot object.
+            !! The [[multiplot]] object.
         integer(int32), intent(in) :: x
             !! The font size.
         class(terminal), pointer :: term
         term => this%get_terminal()
         call term%set_font_size(x)
+    end subroutine
+
+! ******************************************************************************
+! ADDED AUG. 16, 2026 - V1.9.0
+! ------------------------------------------------------------------------------
+    subroutine mp_set_window_size(this, width, height)
+        !! Sets the height and width of the plot window.
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        integer(int32), intent(in) :: width
+            !! The plot window width.
+        integer(int32), intent(in) :: height
+            !! The plot window height.
+
+        if (associated(this%m_terminal)) then
+            call this%m_terminal%set_window_width(width)
+            call this%m_terminal%set_window_height(height)
+        end if
     end subroutine
 
 ! ------------------------------------------------------------------------------

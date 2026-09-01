@@ -16,6 +16,10 @@ module fplot_constants
         !! Defines a PNG terminal.
     integer(int32), parameter :: GNUPLOT_TERMINAL_LATEX = 5
         !! Defines a LATEX terminal.
+    integer(int32), parameter :: GNUPLOT_TERMINAL_SVG = 6
+        !! Defines an SVG terminal.
+    integer(int32), parameter :: GNUPLOT_TERMINAL_PDF = 7
+        !! Defines a PDF terminal.
 
 ! ******************************************************************************
 ! MARKER CONSTANTS
@@ -142,7 +146,7 @@ module fplot_constants
         !! The default GNUPLOT window height, in pixels.
     integer(int32), parameter :: GNUPLOT_MAX_LABEL_LENGTH = 128
         !! Defines the maximum number of characters allowed in a graph label.
-    character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Calibri"
+    character(len = *), parameter :: GNUPLOT_DEFAULT_FONTNAME = "Arial"
         !! Defines the default font used by text on the graph.
     integer(int32), parameter :: GNUPLOT_DEFAULT_FONT_SIZE = 14
         !! Defines the default font size used by text on the graph.
