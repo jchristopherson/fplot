@@ -20,7 +20,7 @@ module fplot_arrow
             !! The arrow color.
         integer(int32), private :: m_linestyle = LINE_SOLID
             !! The line style.
-        real(real32), private :: m_linewidth = 1.0
+        real(real32), private :: m_linewidth = 1.5
             !! The line width.
         integer(int32), private :: m_head_type = ARROW_HEAD
             !! The head configuration.

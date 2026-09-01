@@ -12,7 +12,6 @@ program example
     real(real64), dimension(n) :: t, x, y, z
     type(plot_3d) :: plt
     type(plot_data_3d) :: d1
-    class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Initialize the plot object
     call plt%initialize()
@@ -20,15 +19,13 @@ program example
 
     ! Define titles
     call plt%set_title("Example Plot")
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
+    call plt%set_z_axis_title("Z Axis")
 
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
-
-    zAxis => plt%get_z_axis()
-    call zAxis%set_title("Z Axis")
+    ! Adjust plot orientation
+    call plt%set_elevation(40.0d0)
+    call plt%set_azimuth(25.0d0)
 
     ! Define the data
     t = linspace(0.0d0, 10.0d0, n)
@@ -37,9 +34,6 @@ program example
     z = 2.0d0 * t
 
     call d1%define_data(x, y, z, x * y)
-
-    ! Set up the data set
-    call d1%set_line_width(2.0)
 
     ! Add the data to the plot
     call plt%push(d1)

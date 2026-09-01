@@ -10,6 +10,8 @@ module fplot_plot
     use fplot_wxt_terminal
     use fplot_png_terminal
     use fplot_latex_terminal
+    use fplot_svg_terminal
+    use fplot_pdf_terminal
     use fplot_colormap
     use fplot_colors
     use fplot_errors
@@ -37,11 +39,11 @@ module fplot_plot
             !! A collection of plot_data items to plot.
         type(legend), private, pointer :: m_legend => null()
             !! The legend.
-        logical, private :: m_showGrid = .true.
+        logical, private :: m_showGrid = .false.
             !! Show grid lines?
         logical, private :: m_ticsIn = .true.
             !! Point tic marks in?
-        logical, private :: m_drawBorder = .true.
+        logical, private :: m_drawBorder = .false.
             !! Draw the border?
         type(list), private :: m_labels ! Added 6/22/2018, JAC
             !! A collection of plot_label items to draw.
@@ -59,6 +61,24 @@ module fplot_plot
         real(real32), private :: m_rightMargin = -1.0
         real(real32), private :: m_topMargin = -1.0
         real(real32), private :: m_bottomMargin = -1.0
+        real(real32), private :: m_borderLineWidth = 1.2
+            !! Border line width
+        logical, private :: m_showXMajorGrid = .false.
+        logical, private :: m_showXMinorGrid = .false.
+        logical, private :: m_showYMajorGrid = .false.
+        logical, private :: m_showYMinorGrid = .false.
+        type(color), private :: m_xMajorGridColor = color(204, 204, 204, 0)
+        type(color), private :: m_xMinorGridColor = color(230, 230, 230, 0)
+        type(color), private :: m_yMajorGridColor = color(204, 204, 204, 0)
+        type(color), private :: m_yMinorGridColor = color(230, 230, 230, 0)
+        integer(int32), private :: m_xMajorGridLineStyle = LINE_SOLID
+        integer(int32), private :: m_xMinorGridLineStyle = LINE_DASHED
+        integer(int32), private :: m_yMajorGridLineStyle = LINE_SOLID
+        integer(int32), private :: m_yMinorGridLineStyle = LINE_DASHED
+        real(real32), private :: m_xMajorGridLineWidth = 1.2
+        real(real32), private :: m_xMinorGridLineWidth = 0.7
+        real(real32), private :: m_yMajorGridLineWidth = 1.2
+        real(real32), private :: m_yMinorGridLineWidth = 0.7
     contains
         procedure, public :: free_resources => plt_clean_up
         procedure, public :: initialize => plt_init
@@ -115,6 +135,56 @@ module fplot_plot
         procedure, public :: set_bottom_margin => plt_set_bottom_margin
         procedure, public :: show_legend => plt_show_legend
         procedure, public :: set_window_size => plt_set_window_size
+        procedure, public :: get_border_line_width => plt_get_border_line_width
+        procedure, public :: set_border_line_width => plt_set_border_line_width
+        procedure, public :: get_show_x_major_grid => plt_get_show_x_major_grid
+        procedure, public :: set_show_x_major_grid => plt_set_show_x_major_grid
+        procedure, public :: get_show_x_minor_grid => plt_get_show_x_minor_grid
+        procedure, public :: set_show_x_minor_grid => plt_set_show_x_minor_grid
+        procedure, public :: get_show_y_major_grid => plt_get_show_y_major_grid
+        procedure, public :: set_show_y_major_grid => plt_set_show_y_major_grid
+        procedure, public :: get_show_y_minor_grid => plt_get_show_y_minor_grid
+        procedure, public :: set_show_y_minor_grid => plt_set_show_y_minor_grid
+        procedure, public :: get_x_major_grid_color => plt_get_x_major_grid_color
+        procedure, public :: set_x_major_grid_color => plt_set_x_major_grid_color
+        procedure, public :: get_x_minor_grid_color => plt_get_x_minor_grid_color
+        procedure, public :: set_x_minor_grid_color => plt_set_x_minor_grid_color
+        procedure, public :: get_y_major_grid_color => plt_get_y_major_grid_color
+        procedure, public :: set_y_major_grid_color => plt_set_y_major_grid_color
+        procedure, public :: get_y_minor_grid_color => plt_get_y_minor_grid_color
+        procedure, public :: set_y_minor_grid_color => plt_set_y_minor_grid_color
+        procedure, public :: get_x_major_grid_line_style => &
+            plt_get_x_major_grid_line_style
+        procedure, public :: set_x_major_grid_line_style => &
+            plt_set_x_major_grid_line_style
+        procedure, public :: get_x_minor_grid_line_style => &
+            plt_get_x_minor_grid_line_style
+        procedure, public :: set_x_minor_grid_line_style => &
+            plt_set_x_minor_grid_line_style
+        procedure, public :: get_y_major_grid_line_style => &
+            plt_get_y_major_grid_line_style
+        procedure, public :: set_y_major_grid_line_style => &
+            plt_set_y_major_grid_line_style
+        procedure, public :: get_y_minor_grid_line_style => &
+            plt_get_y_minor_grid_line_style
+        procedure, public :: set_y_minor_grid_line_style => &
+            plt_set_y_minor_grid_line_style
+        procedure, public :: get_x_major_grid_line_width => &
+            plt_get_x_major_grid_line_width
+        procedure, public :: set_x_major_grid_line_width => &
+            plt_set_x_major_grid_line_width
+        procedure, public :: get_x_minor_grid_line_width => &
+            plt_get_x_minor_grid_line_width
+        procedure, public :: set_x_minor_grid_line_width => &
+            plt_set_x_minor_grid_line_width
+        procedure, public :: get_y_major_grid_line_width => &
+            plt_get_y_major_grid_line_width
+        procedure, public :: set_y_major_grid_line_width => &
+            plt_set_y_major_grid_line_width
+        procedure, public :: get_y_minor_grid_line_width => &
+            plt_get_y_minor_grid_line_width
+        procedure, public :: set_y_minor_grid_line_width => &
+            plt_set_y_minor_grid_line_width
     end type
 
 contains
@@ -175,6 +245,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -190,6 +264,8 @@ contains
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
         type(latex_terminal), pointer :: latex
+        type(svg_terminal), pointer :: svg
+        type(pdf_terminal), pointer :: pdf
 
         ! Initialization
         if (present(err)) then
@@ -221,6 +297,14 @@ contains
             allocate(latex, stat = flag)
             if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
+        case (GNUPLOT_TERMINAL_SVG)
+            allocate(svg, stat = flag)
+            if (present(fname)) call svg%set_filename(fname)
+            this%m_terminal => svg
+        case (GNUPLOT_TERMINAL_PDF)
+            allocate(pdf, stat = flag)
+            if (present(fname)) call pdf%set_filename(fname)
+            this%m_terminal => pdf
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
@@ -1016,6 +1100,458 @@ contains
             call this%m_terminal%set_window_height(height)
         end if
     end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_border_line_width(this) result(x)
+        !! Gets the width of the lines used to draw the border.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_borderLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_border_line_width(this, x)
+        !! Sets the width of the lines used to draw the border.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_borderLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_x_major_grid(this) result(x)
+        !! Gets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showXMajorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_x_major_grid(this, x)
+        !! Sets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showXMajorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_x_minor_grid(this) result(x)
+        !! Gets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showXMinorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_x_minor_grid(this, x)
+        !! Sets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showXMinorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_y_major_grid(this) result(x)
+        !! Gets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showYMajorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_y_major_grid(this, x)
+        !! Sets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showYMajorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_y_minor_grid(this) result(x)
+        !! Gets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showYMinorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_y_minor_grid(this, x)
+        !! Sets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showYMinorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_color(this) result(x)
+        !! Gets the color of the x-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_xMajorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_color(this, x)
+        !! Sets the color of the x-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_xMajorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_color(this) result(x)
+        !! Gets the color of the x-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_xMinorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_color(this, x)
+        !! Sets the color of the x-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_xMinorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_color(this) result(x)
+        !! Gets the color of the y-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_yMajorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_color(this, x)
+        !! Sets the color of the y-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_yMajorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_color(this) result(x)
+        !! Gets the color of the y-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_yMinorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_color(this, x)
+        !! Sets the color of the y-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_yMinorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_line_style(this) result(x)
+        !! Gets the line style used for the x-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_xMajorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_line_style(this, x)
+        !! Sets the line style used for the x-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_xMajorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_line_style(this) result(x)
+        !! Gets the line style used for the x-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_xMinorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_line_style(this, x)
+        !! Sets the line style used for the x-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_xMinorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_line_style(this) result(x)
+        !! Gets the line style used for the y-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_yMajorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_line_style(this, x)
+        !! Sets the line style used for the y-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_yMajorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_line_style(this) result(x)
+        !! Gets the line style used for the y-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_yMinorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_line_style(this, x)
+        !! Sets the line style used for the y-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_yMinorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_line_width(this) result(x)
+        !! Gets the width of the x-axis major grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_xMajorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_line_width(this, x)
+        !! Sets the width of the x-axis major grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_xMajorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_line_width(this) result(x)
+        !! Gets the width of the x-axis minor grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_xMinorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_line_width(this, x)
+        !! Sets the width of the x-axis minor grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_xMinorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_line_width(this) result(x)
+        !! Gets the width of the y-axis major grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_yMajorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_line_width(this, x)
+        !! Sets the width of the y-axis major grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_yMajorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_line_width(this) result(x)
+        !! Gets the width of the y-axis minor grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_yMinorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_line_width(this, x)
+        !! Sets the width of the y-axis minor grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_yMinorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+
+! --------------------
 
 ! ------------------------------------------------------------------------------
 end module

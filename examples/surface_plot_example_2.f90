@@ -20,7 +20,6 @@ program example
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
     type(rainbow_colormap) :: map
-    class(plot_axis), pointer :: xAxis, yAxis, zAxis
 
     ! Define the data
     xdata = linspace(xMin, xMax, n)
@@ -38,18 +37,13 @@ program example
     ! Create the plot
     call plt%initialize()
     call plt%set_colormap(map)
+    call plt%set_azimuth(20.0d0)
 
     ! Define titles
     call plt%set_title("Example Plot")
-
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
-
-    zAxis => plt%get_z_axis()
-    call zAxis%set_title("Z Axis")
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
+    call plt%set_z_axis_title("Z Axis")
 
     ! Define the data set
     call d1%define_data(x, y, z)

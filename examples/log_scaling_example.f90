@@ -52,7 +52,6 @@ program example
     complex(real64), dimension(npts) :: s, z1, z2
     real(real64), dimension(npts) :: freq, omega
     type(plot_2d) :: plt
-    type(plot_data_2d) :: d1, d2
     class(plot_axis), pointer :: xAxis, yAxis
     class(legend), pointer :: lgnd
 
@@ -89,16 +88,8 @@ program example
     call yAxis%set_use_default_tic_label_format(.false.)
     call yAxis%set_tic_label_format("%0.0e")
 
-    call d1%set_name("X1")
-    call d1%set_line_width(2.0)
-    call d1%define_data(freq, abs(z1))
+    call plt%push(freq, abs(z1), name = "X1")
+    call plt%push(freq, abs(z2), name = "X2", ls = LINE_DASHED)
 
-    call d2%set_name("X2")
-    call d2%set_line_width(2.0)
-    call d2%set_line_style(LINE_DASHED)
-    call d2%define_data(freq, abs(z2))
-
-    call plt%push(d1)
-    call plt%push(d2)
     call plt%draw()
 end program

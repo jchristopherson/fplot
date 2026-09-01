@@ -20,13 +20,16 @@ module fplot_plot_data_box_whisker
             !! The minimum y-values for each whisker.
         real(real64), private, allocatable, dimension(:) :: m_whiskerMax
             !! The maximum y-values for each whisker.
+        real(real64), private, allocatable, dimension(:) :: m_mid
+            !! The mid-range y-values for each whisker.  Typically the mean
+            !! or median.
         logical, private :: m_useY2 = .false.
             !! Plot against the secondary y-axis?
         logical, private :: m_whiskerbars = .true.
             !! Use horizontal whisker bar caps?
-        real(real32), private :: m_whiskerWidth = 1.0
+        real(real32), private :: m_whiskerWidth = 1.5
             !! On a scale of 0 -> 1, the whiskerwidth.
-        real(real32), private :: m_lineWidth = 1.0
+        real(real32), private :: m_lineWidth = 2.0
             !! The line width.
         real(real32), private :: m_boxWidth = 0.05
             !! The box width.
@@ -36,6 +39,10 @@ module fplot_plot_data_box_whisker
             !! Box opacity [0, 1.0].
         logical, private :: m_drawBorder = .true.
             !! Draw the box border?
+        real(real32), private :: m_midLineWidth = 2.0
+            !! The mid-line width.
+        type(color), private :: m_midLineColor = CLR_BLACK
+            !! The mid-line color.
     contains
         procedure, public :: define_data => pdbw_define_data_xstring
         procedure, public :: get_command_string => pdbw_get_cmd
@@ -55,12 +62,16 @@ module fplot_plot_data_box_whisker
         procedure, public :: get_box_fill_opacity => pdbw_get_opacity
         procedure, public :: set_box_fill_opacity => pdbw_set_opacity
         procedure, public :: clear_data => pdbw_clear_data
+        procedure, public :: get_midline_width => pdbw_get_midline_width
+        procedure, public :: set_midline_width => pdbw_set_midline_width
+        procedure, public :: get_midline_color => pdbw_get_midline_color
+        procedure, public :: set_midline_color => pdbw_set_midline_color
     end type
 
 contains
 ! ------------------------------------------------------------------------------
 subroutine pdbw_define_data_xstring(this, x, boxmin, boxmax, whiskermin, &
-    whiskermax, err)
+    whiskermax, mid, err)
     !! Defines the data set to plot.
     class(plot_data_box_whisker), intent(inout) :: this
         !! The plot_data_box_whisker object.
@@ -74,6 +85,9 @@ subroutine pdbw_define_data_xstring(this, x, boxmin, boxmax, whiskermin, &
         !! The minimum y-values for each whisker.
     real(real64), intent(in), dimension(size(x)) :: whiskermax
         !! The maximum y-values for each whisker.
+    real(real64), intent(in), optional, dimension(size(x)) :: mid
+        !! The mid-range values for each whisker.  Typically the mean or
+        !! median of the data set.
     class(errors), intent(inout), optional, target :: err
         !! An error handling object.
 
@@ -100,12 +114,14 @@ subroutine pdbw_define_data_xstring(this, x, boxmin, boxmax, whiskermin, &
     if (allocated(this%m_boxMax)) deallocate(this%m_boxMax)
     if (allocated(this%m_whiskerMin)) deallocate(this%m_whiskerMin)
     if (allocated(this%m_whiskerMax)) deallocate(this%m_whiskerMax)
+    if (allocated(this%m_mid)) deallocate(this%m_mid)
 
     allocate(this%m_x(n), source = x, stat = flag)
     if (flag == 0) allocate(this%m_boxMin(n), source = boxmin, stat = flag)
     if (flag == 0) allocate(this%m_boxMax(n), source = boxmax, stat = flag)
     if (flag == 0) allocate(this%m_whiskerMin(n), source = whiskermin, stat = flag)
     if (flag == 0) allocate(this%m_whiskerMax(n), source = whiskermax, stat = flag)
+    if (flag == 0 .and. present(mid)) allocate(this%m_mid(n), source = mid, stat = flag)
     if (flag /= 0) then
         call report_memory_error(errmgr, "pdbw_define_data_xstring", flag)
         return
@@ -167,6 +183,23 @@ function pdbw_get_cmd(this) result(rst)
         call str%append(" border")
     end if
 
+    ! Mid Values
+    if (allocated(this%m_mid)) then
+        call str%append(", $")
+        call str%append(this%get_datablock_name())
+        call str%append(' using ($0+1):6:6:6:6:(')
+        call str%append(to_string(this%get_box_width()))
+        call str%append("):xtic(1) with candlesticks")
+        call str%append(" lt -1")
+        call str%append(" lw ")
+        call str%append(to_string(this%get_midline_width()))
+        clr = this%get_midline_color()
+        call str%append(' lc rgb "#')
+        call str%append(clr%to_hex_string())
+        call str%append('"')
+        call str%append(" notitle")
+    end if
+
     ! End
     rst = char(str%to_string())
 end function
@@ -200,6 +233,10 @@ function pdbw_get_data_cmd(this) result(rst)
         call str%append(to_string(this%m_whiskerMax(i)))
         call str%append(delimiter)
         call str%append(to_string(this%m_boxMax(i)))
+        if (allocated(this%m_mid)) then
+            call str%append(delimiter)
+            call str%append(to_string(this%m_mid(i)))
+        end if
         call str%append(nl)
     end do
 
@@ -389,6 +426,47 @@ subroutine pdbw_clear_data(this)
     if (allocated(this%m_boxMax)) deallocate(this%m_boxMax)
     if (allocated(this%m_whiskerMin)) deallocate(this%m_whiskerMin)
     if (allocated(this%m_whiskerMin)) deallocate(this%m_whiskerMin)
+    if (allocated(this%m_mid)) deallocate(this%m_mid)
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdbw_get_midline_width(this) result(rst)
+    !! Gets the width of the midline.
+    class(plot_data_box_whisker), intent(in) :: this
+        !! The plot_data_box_whisker object.
+    real(real32) :: rst
+        !! The line width.
+    rst = this%m_midLineWidth
+end function
+
+! --------------------
+subroutine pdbw_set_midline_width(this, x)
+    !! Sets the width of the midline.
+    class(plot_data_box_whisker), intent(inout) :: this
+        !! The plot_data_box_whisker object.
+    real(real32), intent(in) :: x
+        !! The line width.
+    this%m_midLineWidth = x
+end subroutine
+
+! ------------------------------------------------------------------------------
+pure function pdbw_get_midline_color(this) result(rst)
+    !! Gets the color of the midline.
+    class(plot_data_box_whisker), intent(in) :: this
+        !! The plot_data_box_whisker object.
+    type(color) :: rst
+        !! The line color.
+    rst = this%m_midLineColor
+end function
+
+! --------------------
+subroutine pdbw_set_midline_color(this, x)
+    !! Sets the color of the midline.
+    class(plot_data_box_whisker), intent(inout) :: this
+        !! The plot_data_box_whisker object.
+    type(color) , intent(in) :: x
+        !! The line color.
+    this%m_midLineColor = x
 end subroutine
 
 ! ------------------------------------------------------------------------------

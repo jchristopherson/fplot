@@ -6,6 +6,8 @@ module fplot_plot_2d
     use fplot_errors
     use fplot_plot_axis
     use fplot_legend
+    use fplot_plot_data_2d
+    use fplot_colors
     use strings
     implicit none
     private
@@ -46,6 +48,11 @@ module fplot_plot_2d
         procedure, public :: set_jitter_overlap => p2d_set_jitter_overlap
         procedure, public :: get_jitter_spread => p2d_get_jitter_spread
         procedure, public :: set_jitter_spread => p2d_set_jitter_spread
+        procedure, public :: set_x_axis_title => p2d_set_x_axis_title
+        procedure, public :: set_y_axis_title => p2d_set_y_axis_title
+        procedure, public :: set_y2_axis_title => p2d_set_y2_axis_title
+        procedure, public :: p2d_push_data
+        generic, public :: push => p2d_push_data
     end type
 
 contains
@@ -53,7 +60,7 @@ contains
     subroutine p2d_clean_up(this)
         !! Cleans up resources held by the plot_2d object.
         type(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         call this%free_resources()
         if (associated(this%m_xAxis)) then
             deallocate(this%m_xAxis)
@@ -73,7 +80,7 @@ contains
     subroutine p2d_init(this, term, fname, err)
         !! Initializes the plot_2d object.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         integer(int32), intent(in), optional :: term
             !! An optional input that is used to define the terminal.
             !!  The default terminal is a WXT terminal.  The acceptable inputs 
@@ -88,6 +95,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -133,7 +144,7 @@ contains
     function p2d_get_cmd(this) result(x)
         !! Gets the GNUPLOT command string to represent this plot_2d object.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         character(len = :), allocatable :: x
             !! The command string.
 
@@ -144,6 +155,7 @@ contains
         class(plot_data), pointer :: ptr
         class(plot_axis), pointer :: axis, xAxis, yAxis
         type(legend), pointer :: leg
+        type(color) :: clr
         ! class(plot_label), pointer :: lbl
 
         ! Initialization
@@ -153,9 +165,79 @@ contains
         call str%append(this%plot%get_command_string())
 
         ! Grid
-        if (this%get_show_gridlines()) then
+        if (this%get_show_x_major_grid()) then
             call str%append(new_line('a'))
-            call str%append("set grid")
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_x_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mxtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_major_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+        if (this%get_show_y_minor_grid()) then
+            call str%append(new_line('a'))
+            call str%append('set grid mytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_minor_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_minor_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_minor_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+        end if
+
+        if (this%get_show_gridlines()) then
+            ! X
+            call str%append(new_line('a'))
+            call str%append('set grid xtics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
+
+            ! Y
+            call str%append(new_line('a'))
+            call str%append('set grid ytics')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_y_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_y_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_y_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
         end if
 
         ! Title
@@ -258,6 +340,10 @@ contains
         else
             call str%append("unset border")
         end if
+        
+        call str%append(new_line('a'))
+        call str%append("set border linewidth ")
+        call str%append(to_string(this%get_border_line_width()))
 
         ! Scaling
         if (this%get_axis_equal()) then
@@ -330,7 +416,7 @@ contains
     function p2d_get_x_axis(this) result(ptr)
         !! Gets the x-axis object.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         class(plot_axis), pointer :: ptr
             !! A pointer to the x-axis object.
         ptr => this%m_xAxis
@@ -340,7 +426,7 @@ contains
     function p2d_get_y_axis(this) result(ptr)
         !! Gets the y-axis object.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         class(plot_axis), pointer :: ptr
             !! A pointer to the y-axis object.
         ptr => this%m_yAxis
@@ -350,7 +436,7 @@ contains
     function p2d_get_y2_axis(this) result(ptr)
         !! Gets the secondary y-axis object.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         class(plot_axis), pointer :: ptr
             !! A pointer to the secondary y-axis object.
         ptr => this%m_y2Axis
@@ -361,7 +447,7 @@ contains
         !! Gets a flag determining if the secondary y-axis should be
         !! displayed.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical :: x
             !! Returns true if the axis should be displayed; else, false.
         x = this%m_useY2
@@ -372,7 +458,7 @@ contains
         !! Sets a flag determining if the secondary y-axis should be
         !! displayed.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical, intent(in) :: x
             !! Set to true if the axis should be displayed; else, false.
         this%m_useY2 = x
@@ -383,7 +469,7 @@ contains
         !! Gets a logical flag determining if the axes size should be squared
         !! off.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical :: rst
             !! Returns true if the axes are to be sized to a square; else,
             !! false.
@@ -395,7 +481,7 @@ contains
         !! Sets a logical flag determining if the axes size should be
         !! squared off.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical, intent(in) :: x
             !! Set to true if the axes are to be sized to a square; else,
             !! false.
@@ -406,7 +492,7 @@ contains
     pure function p2d_get_use_jitter(this) result(rst)
         !! Gets a logical value determining if jittering should be used.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical :: rst
             !! True if jittering should be used; else, false.
         rst = this%m_useJitter
@@ -416,7 +502,7 @@ contains
     subroutine p2d_set_use_jitter(this, x)
         !! Sets a logical value determining if jittering should be used.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         logical, intent(in) :: x
             !! Set to true if jittering should be used; else, false.
         this%m_useJitter = x
@@ -426,7 +512,7 @@ contains
     pure function p2d_get_jitter_overlap(this) result(rst)
         !! Gets the jitter overalp.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         real(real32) :: rst
             !! The jitter overlap.
         rst = this%m_jitterOverlap
@@ -436,7 +522,7 @@ contains
     subroutine p2d_set_jitter_overlap(this, x)
         !! Sets the jitter overlap.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         real(real32), intent(in) :: x
             !! The jitter overlap.
         this%m_jitterOverlap = x
@@ -446,7 +532,7 @@ contains
     pure function p2d_get_jitter_spread(this) result(rst)
         !! Gets the jitter horizontal spread.
         class(plot_2d), intent(in) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         real(real32) :: rst
             !! The jitter horizontal spread.
         rst = this%m_jitterSpread
@@ -456,10 +542,86 @@ contains
     subroutine p2d_set_jitter_spread(this, x)
         !! Sets the jitter horizontal spread.
         class(plot_2d), intent(inout) :: this
-            !! The plot_2d object.
+            !! The [[plot_2d]] object.
         real(real32), intent(in) :: x
             !! The jitter horizontal spread.
         this%m_jitterSpread = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p2d_set_x_axis_title(this, x)
+        !! Sets the title associated with the plot's x-axis.
+        class(plot_2d), intent(inout) :: this
+            !! The [[plot_2d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_xAxis)) then
+            call this%m_xAxis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p2d_set_y_axis_title(this, x)
+        !! Sets the title associated with the plot's y-axis.
+        class(plot_2d), intent(inout) :: this
+            !! The [[plot_2d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_yAxis)) then
+            call this%m_yAxis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p2d_set_y2_axis_title(this, x)
+        !! Sets the title associated with the plot's secondary y-axis.
+        class(plot_2d), intent(inout) :: this
+            !! The [[plot_2d]] object.
+        character(len = *), intent(in) :: x
+            !! The title.
+
+        if (associated(this%m_y2Axis)) then
+            call this%m_y2Axis%set_title(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine p2d_push_data(this, x, y, lw, name, ls, lc)
+        !! Adds a data set to the plot.
+        class(plot_2d), intent(inout) :: this
+            !! The [[plot_2d]] object.
+        real(real64), intent(in), dimension(:) :: x
+            !! The x-values.
+        real(real64), intent(in), dimension(size(x)) :: y
+            !! The y-values.
+        real(real32), intent(in), optional :: lw
+            !! The line width.
+        character(len = *), intent(in), optional :: name
+            !! A name to associate with the data set.
+        integer(int32), intent(in), optional :: ls
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        type(color), intent(in), optional :: lc
+            !! The line color.
+
+        type(plot_data_2d) :: pd
+        call pd%define_data(x, y)
+        if (present(lw)) call pd%set_line_width(lw)
+        if (present(name)) call pd%set_name(name)
+        if (present(ls)) call pd%set_line_style(ls)
+        if (present(lc)) call pd%set_line_color(lc)
+        call this%push(pd)
     end subroutine
 
 ! ------------------------------------------------------------------------------

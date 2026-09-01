@@ -37,8 +37,8 @@ program example
     call plt%set_use_lighting(.true.)
 
     ! Set the orientation of the plot
-    call plt%set_elevation(20.0d0)
-    call plt%set_azimuth(30.0d0)
+    call plt%set_elevation(40.0d0)
+    call plt%set_azimuth(20.0d0)
 
     ! Define the function to plot
     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)

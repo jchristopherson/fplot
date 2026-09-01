@@ -1,5 +1,9 @@
 ! fplot_plot_data_histogram.f90
 
+! TO DO:
+! - Allow naming of each data set at the define_data level as well as at the
+!   get/set level
+
 module fplot_plot_data_histogram
     use iso_fortran_env
     use fplot_plot_data

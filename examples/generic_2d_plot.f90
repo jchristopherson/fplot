@@ -22,8 +22,8 @@ program example
     y1 = sin(5.0d0 * x)
     y2 = 2.0d0 * cos(2.0d0 * x)
 
-    call plt%push(x, y1, lw = 2.0, name = "Data Set 1")
-    call plt%push(x, y2, lw = 2.0, ls = LINE_DASHED, name = "Data Set 2")
+    call plt%push(x, y1, name = "Data Set 1")
+    call plt%push(x, y2, ls = LINE_DASHED, name = "Data Set 2")
     
     ! Let GNUPLOT draw the plot
     call plt%draw()

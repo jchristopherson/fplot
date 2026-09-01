@@ -25,6 +25,8 @@ module fplot_plot_data_error_bars
             !! defined.
         logical, private :: m_range = .false.
             !! Plot error bars using a defined range vs. a +/- value.
+        real(real32), private :: m_lineWidth = 2.0
+            !! Line width
     contains
         procedure, public :: get_command_string => pde_get_cmd
         procedure, public :: get_data_string => pde_get_data_cmd
@@ -47,6 +49,8 @@ module fplot_plot_data_error_bars
         procedure :: pde_define_x_err_lim
         procedure :: pde_define_y_err_lim
         procedure :: pde_define_xy_err_lim
+        procedure, public :: get_line_width => pde_get_line_width
+        procedure, public :: set_line_width => pde_set_line_width
     end type
 
 contains
@@ -85,6 +89,10 @@ contains
         call str%append(' lc rgb "#')
         call str%append(clr%to_hex_string())
         call str%append('"')
+
+        ! Line Width
+        call str%append(" lw ")
+        call str%append(to_string(this%get_line_width()))
 
         ! Error Bars
         if (this%get_plot_x_error_bars() .and. this%get_plot_y_error_bars()) then
@@ -720,6 +728,26 @@ contains
         class(plot_data_error_bars), intent(inout) :: this
             !! The plot_data_error_bars object.
         if (allocated(this%m_data)) deallocate(this%m_data)
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pde_get_line_width(this) result(x)
+        !! Gets the line width.
+        class(plot_data_error_bars), intent(in) :: this
+            !! The plot_data_error_bars object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_lineWidth
+    end function
+
+! --------------------
+    subroutine pde_set_line_width(this, x)
+        !! Sets the line width.
+        class(plot_data_error_bars), intent(inout) :: this
+            !! The plot_data_error_bars object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_lineWidth = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

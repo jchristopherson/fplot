@@ -72,6 +72,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         integer(int32), intent(in), optional :: width
             !! Optionally, the width of the plot window.
         integer(int32), intent(in), optional :: height

@@ -8,7 +8,6 @@ program example
     real(real64), dimension(npts) :: x, y
     type(plot_2d) :: plt
     type(plot_data_2d) :: dataset
-    class(plot_axis), pointer :: xAxis, yAxis
     type(plot_label) :: lbl
 
     ! Build a data set
@@ -24,17 +23,11 @@ program example
     ! Set up the plot
     call plt%initialize()
     call plt%set_title("Example Plot")
-    call plt%set_font_size(14)
-    call plt%set_show_gridlines(.false.)
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
 
     ! Add the label to the plot
     call plt%push_label(lbl)
-
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
 
     ! Add the data to the plot
     call plt%push(dataset)

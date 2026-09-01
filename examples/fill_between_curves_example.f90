@@ -1,5 +1,3 @@
-! fplot_fill_2.f90
-
 program example
     use iso_fortran_env
     use fplot_core

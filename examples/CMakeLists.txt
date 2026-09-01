@@ -162,6 +162,22 @@ target_link_libraries(function_plot_example fplot)
 add_executable(polar_plot_simplified_example polar_plot_simplified_example.f90)
 target_link_libraries(polar_plot_simplified_example fplot)
 
+# Example 42
+add_executable(bar_plot_example bar_plot_example.f90)
+target_link_libraries(bar_plot_example fplot)
+
+# Example 43
+add_executable(impulse_example impulse_example.f90)
+target_link_libraries(impulse_example fplot)
+
+# Example 44
+add_executable(svg_plot_example svg_plot_example.f90)
+target_link_libraries(svg_plot_example fplot)
+
+# Example 45
+add_executable(pdf_plot_example pdf_plot_example.f90)
+target_link_libraries(pdf_plot_example fplot)
+
 if (${BUILD_SHARED_LIBS} AND WIN32)
     add_custom_command(
         TARGET generic_2d_plot

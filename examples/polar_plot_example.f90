@@ -15,7 +15,8 @@ program example
 
     ! Plot the function
     call plt%initialize()
-    call plt%set_font_size(14)
+    call plt%set_show_gridlines(.true.)
+    call plt%set_draw_border(.true.)
     call plt%set_title("Polar Plot Example")
     call plt%set_autoscale(.false.)
     call plt%set_radial_limits([0.0d0, 6.0d0])

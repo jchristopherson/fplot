@@ -33,10 +33,7 @@ program example
 
     ! Plot the triangulation
     call plt%initialize()
-    call plt%set_font_size(14)
-
     call ds%define_data(tri)
     call plt%push(ds)
-
     call plt%draw()
 end program

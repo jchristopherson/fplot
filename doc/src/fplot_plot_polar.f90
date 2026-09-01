@@ -8,6 +8,8 @@ module fplot_plot_polar
     use fplot_constants
     use fplot_legend
     use fplot_plot_data
+    use fplot_plot_data_2d
+    use fplot_colors
     use strings
     implicit none
     private
@@ -39,6 +41,8 @@ module fplot_plot_polar
         procedure, public :: set_theta_start_position => plr_set_theta_start
         procedure, public :: get_theta_direction => plr_get_theta_direction
         procedure, public :: set_theta_direction => plr_set_theta_direction
+        procedure, public :: plr_push_data
+        generic, public :: push => plr_push_data
     end type
 
 contains
@@ -69,6 +73,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -111,6 +119,7 @@ contains
         real(real64) :: lim(2)
         ! class(plot_label), pointer :: lbl
         class(plot_data), pointer :: ptr
+        type(color) :: clr
 
         ! Initialization
         call str%initialize()
@@ -185,7 +194,15 @@ contains
         ! Grid
         if (this%get_show_gridlines()) then
             call str%append(new_line('a'))
-            call str%append("set grid r polar")
+            call str%append('set grid r polar')
+            call str%append(" lt ")
+            call str%append(to_string(this%get_x_major_grid_line_style()))
+            call str%append(" lw ")
+            call str%append(to_string(this%get_x_major_grid_line_width()))
+            call str%append(' lc rgb "#')
+            clr = this%get_x_major_grid_color()
+            call str%append(clr%rgb_to_hex_string())
+            call str%append('"')
         end if
 
         ! Title
@@ -204,6 +221,10 @@ contains
         else
             call str%append("set border 0")
         end if
+
+        call str%append(new_line('a'))
+        call str%append("set border linewidth ")
+        call str%append(to_string(this%get_border_line_width()))
 
         ! Legend
         call str%append(new_line('a'))
@@ -367,6 +388,43 @@ contains
         else
             this%m_thetaDirection = x
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine plr_push_data(this, angle, radial, lw, name, ls, lc)
+        !! Adds a data set to the plot.
+        class(plot_polar), intent(inout) :: this
+            !! The [[plot_polar]] object.
+        real(real64), intent(in), dimension(:) :: angle
+            !! The angular values.
+        real(real64), intent(in), dimension(size(angle)) :: radial
+            !! The radial values.
+        real(real32), intent(in), optional :: lw
+            !! The line width.
+        character(len = *), intent(in), optional :: name
+            !! A name to associate with the data set.
+        integer(int32), intent(in), optional :: ls
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        type(color), intent(in), optional :: lc
+            !! The line color.
+
+        type(plot_data_2d) :: pd
+        call pd%define_data(angle, radial)
+        if (present(lw)) call pd%set_line_width(lw)
+        if (present(name)) call pd%set_name(name)
+        if (present(ls)) call pd%set_line_style(ls)
+        if (present(lc)) call pd%set_line_color(lc)
+        call this%push(pd)
     end subroutine
 
 ! ------------------------------------------------------------------------------

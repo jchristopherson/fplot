@@ -19,7 +19,6 @@ program example
     ! Plot the data set
     call plt%initialize()
     call plt%set_colormap(map)
-    call plt%set_font_size(14)
     call ds%define_data(x, y, y)
     call ds%set_line_width(3.0)
     call plt%push(ds)

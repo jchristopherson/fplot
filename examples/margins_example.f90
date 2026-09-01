@@ -10,7 +10,6 @@ program example
     real(real64), dimension(n) :: x, y1, y2
     type(plot_2d) :: plt
     type(plot_data_2d) :: d1, d2
-    class(plot_axis), pointer :: xAxis, yAxis
     type(legend), pointer :: leg
     
     ! Initialize the plot object
@@ -18,13 +17,8 @@ program example
 
     ! Define titles
     call plt%set_title("Example Plot")
-    call plt%set_font_size(14)
-
-    xAxis => plt%get_x_axis()
-    call xAxis%set_title("X Axis")
-
-    yAxis => plt%get_y_axis()
-    call yAxis%set_title("Y Axis")
+    call plt%set_x_axis_title("X Axis")
+    call plt%set_y_axis_title("Y Axis")
 
     ! Set margins
     call plt%set_left_margin(0.25)
