@@ -8,6 +8,7 @@ module fplot_terminal
     implicit none
     private
     public :: terminal
+    public :: file_terminal
     public :: term_get_string_result
 
     type, abstract, extends(plot_object) :: terminal
@@ -57,6 +58,17 @@ module fplot_terminal
                 !! The string.
         end function
     end interface
+
+    type, abstract, extends(terminal) :: file_terminal
+        !! Defines a terminal meant to save results directly to file 
+        !! (e.g. PNG, SVG, etc.).
+        character(len = GNUPLOT_MAX_PATH_LENGTH), private :: m_fname = "default.plt"
+            !! The filename.
+    contains
+        procedure, public :: get_filename => fterm_get_filename
+        procedure, public :: set_filename => fterm_set_filename
+        procedure, public :: get_command_string => fterm_get_command_string
+    end type
 contains
 ! ------------------------------------------------------------------------------
     pure function term_get_window_width(this) result(x)
@@ -244,6 +256,72 @@ contains
             call str%append(this%get_title())
             call str%append('"')
         end if
+        x = char(str%to_string())
+    end function
+
+! ******************************************************************************
+! FILE_TERMINAL
+! ------------------------------------------------------------------------------
+    pure function fterm_get_filename(this) result(txt)
+        !! Gets the filename for the output file.
+        class(file_terminal), intent(in) :: this
+            !! The file_terminal object.
+        character(len = :), allocatable :: txt
+            !! The filename.
+        integer(int32) :: n
+        n = len_trim(this%m_fname)
+        allocate(character(len = n) :: txt)
+        txt = trim(this%m_fname)
+    end function
+
+! --------------------
+    subroutine fterm_set_filename(this, txt)
+        !! Sets the filename for the output file.
+        class(file_terminal), intent(inout) :: this
+            !! The file_terminal object.
+        character(len = *), intent(in) :: txt
+            !! The filename.
+        integer(int32) :: n
+        n = min(len_trim(txt), GNUPLOT_MAX_PATH_LENGTH)
+        this%m_fname = ""
+        if (n /= 0) then
+            this%m_fname(1:n) = txt(1:n)
+        else
+            this%m_fname = "default.plt"
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    function fterm_get_command_string(this) result(x)
+        !! Returns the appropriate GNUPLOT command string to establish
+        !! appropriate parameters.
+        class(file_terminal), intent(in) :: this
+            !! The file_terminal object.
+        character(len = :), allocatable :: x
+            !! The GNUPLOT command string.
+
+        ! Local Variables
+        type(string_builder) :: str
+
+        ! Process
+        call str%initialize()
+        call str%append("set term ")
+        call str%append(this%get_id_string())
+        call str%append(" font ")
+        call str%append('"')
+        call str%append(this%get_font_name())
+        call str%append(',')
+        call str%append(to_string(this%get_font_size()))
+        call str%append('"')
+        call str%append(" size ")
+        call str%append(to_string(this%get_window_width()))
+        call str%append(",")
+        call str%append(to_string(this%get_window_height()))
+        call str%append(new_line('a'))
+        call str%append("set output ")
+        call str%append('"')
+        call str%append(this%get_filename())
+        call str%append('"')
         x = char(str%to_string())
     end function
 

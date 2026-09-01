@@ -10,6 +10,8 @@ module fplot_plot
     use fplot_wxt_terminal
     use fplot_png_terminal
     use fplot_latex_terminal
+    use fplot_svg_terminal
+    use fplot_pdf_terminal
     use fplot_colormap
     use fplot_colors
     use fplot_errors
@@ -37,11 +39,11 @@ module fplot_plot
             !! A collection of plot_data items to plot.
         type(legend), private, pointer :: m_legend => null()
             !! The legend.
-        logical, private :: m_showGrid = .true.
+        logical, private :: m_showGrid = .false.
             !! Show grid lines?
         logical, private :: m_ticsIn = .true.
             !! Point tic marks in?
-        logical, private :: m_drawBorder = .true.
+        logical, private :: m_drawBorder = .false.
             !! Draw the border?
         type(list), private :: m_labels ! Added 6/22/2018, JAC
             !! A collection of plot_label items to draw.
@@ -59,6 +61,24 @@ module fplot_plot
         real(real32), private :: m_rightMargin = -1.0
         real(real32), private :: m_topMargin = -1.0
         real(real32), private :: m_bottomMargin = -1.0
+        real(real32), private :: m_borderLineWidth = 1.2
+            !! Border line width
+        logical, private :: m_showXMajorGrid = .false.
+        logical, private :: m_showXMinorGrid = .false.
+        logical, private :: m_showYMajorGrid = .false.
+        logical, private :: m_showYMinorGrid = .false.
+        type(color), private :: m_xMajorGridColor = color(204, 204, 204, 0)
+        type(color), private :: m_xMinorGridColor = color(230, 230, 230, 0)
+        type(color), private :: m_yMajorGridColor = color(204, 204, 204, 0)
+        type(color), private :: m_yMinorGridColor = color(230, 230, 230, 0)
+        integer(int32), private :: m_xMajorGridLineStyle = LINE_SOLID
+        integer(int32), private :: m_xMinorGridLineStyle = LINE_DASHED
+        integer(int32), private :: m_yMajorGridLineStyle = LINE_SOLID
+        integer(int32), private :: m_yMinorGridLineStyle = LINE_DASHED
+        real(real32), private :: m_xMajorGridLineWidth = 1.2
+        real(real32), private :: m_xMinorGridLineWidth = 0.7
+        real(real32), private :: m_yMajorGridLineWidth = 1.2
+        real(real32), private :: m_yMinorGridLineWidth = 0.7
     contains
         procedure, public :: free_resources => plt_clean_up
         procedure, public :: initialize => plt_init
@@ -67,7 +87,8 @@ module fplot_plot
         procedure, public :: is_title_defined => plt_has_title
         procedure, public :: get_legend => plt_get_legend
         procedure, public :: get_count => plt_get_count
-        procedure, public :: push => plt_push_data
+        procedure, public :: plt_push_data
+        generic, public :: push => plt_push_data
         procedure, public :: pop => plt_pop_data
         procedure, public :: clear_all => plt_clear_all
         procedure, public :: get => plt_get
@@ -112,6 +133,58 @@ module fplot_plot
         procedure, public :: set_top_margin => plt_set_top_margin
         procedure, public :: get_bottom_margin => plt_get_bottom_margin
         procedure, public :: set_bottom_margin => plt_set_bottom_margin
+        procedure, public :: show_legend => plt_show_legend
+        procedure, public :: set_window_size => plt_set_window_size
+        procedure, public :: get_border_line_width => plt_get_border_line_width
+        procedure, public :: set_border_line_width => plt_set_border_line_width
+        procedure, public :: get_show_x_major_grid => plt_get_show_x_major_grid
+        procedure, public :: set_show_x_major_grid => plt_set_show_x_major_grid
+        procedure, public :: get_show_x_minor_grid => plt_get_show_x_minor_grid
+        procedure, public :: set_show_x_minor_grid => plt_set_show_x_minor_grid
+        procedure, public :: get_show_y_major_grid => plt_get_show_y_major_grid
+        procedure, public :: set_show_y_major_grid => plt_set_show_y_major_grid
+        procedure, public :: get_show_y_minor_grid => plt_get_show_y_minor_grid
+        procedure, public :: set_show_y_minor_grid => plt_set_show_y_minor_grid
+        procedure, public :: get_x_major_grid_color => plt_get_x_major_grid_color
+        procedure, public :: set_x_major_grid_color => plt_set_x_major_grid_color
+        procedure, public :: get_x_minor_grid_color => plt_get_x_minor_grid_color
+        procedure, public :: set_x_minor_grid_color => plt_set_x_minor_grid_color
+        procedure, public :: get_y_major_grid_color => plt_get_y_major_grid_color
+        procedure, public :: set_y_major_grid_color => plt_set_y_major_grid_color
+        procedure, public :: get_y_minor_grid_color => plt_get_y_minor_grid_color
+        procedure, public :: set_y_minor_grid_color => plt_set_y_minor_grid_color
+        procedure, public :: get_x_major_grid_line_style => &
+            plt_get_x_major_grid_line_style
+        procedure, public :: set_x_major_grid_line_style => &
+            plt_set_x_major_grid_line_style
+        procedure, public :: get_x_minor_grid_line_style => &
+            plt_get_x_minor_grid_line_style
+        procedure, public :: set_x_minor_grid_line_style => &
+            plt_set_x_minor_grid_line_style
+        procedure, public :: get_y_major_grid_line_style => &
+            plt_get_y_major_grid_line_style
+        procedure, public :: set_y_major_grid_line_style => &
+            plt_set_y_major_grid_line_style
+        procedure, public :: get_y_minor_grid_line_style => &
+            plt_get_y_minor_grid_line_style
+        procedure, public :: set_y_minor_grid_line_style => &
+            plt_set_y_minor_grid_line_style
+        procedure, public :: get_x_major_grid_line_width => &
+            plt_get_x_major_grid_line_width
+        procedure, public :: set_x_major_grid_line_width => &
+            plt_set_x_major_grid_line_width
+        procedure, public :: get_x_minor_grid_line_width => &
+            plt_get_x_minor_grid_line_width
+        procedure, public :: set_x_minor_grid_line_width => &
+            plt_set_x_minor_grid_line_width
+        procedure, public :: get_y_major_grid_line_width => &
+            plt_get_y_major_grid_line_width
+        procedure, public :: set_y_major_grid_line_width => &
+            plt_set_y_major_grid_line_width
+        procedure, public :: get_y_minor_grid_line_width => &
+            plt_get_y_minor_grid_line_width
+        procedure, public :: set_y_minor_grid_line_width => &
+            plt_set_y_minor_grid_line_width
     end type
 
 contains
@@ -138,7 +211,7 @@ contains
         !! classes are expected to call this routine to free internally held
         !! resources.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         if (associated(this%m_terminal)) then
             deallocate(this%m_terminal)
             nullify(this%m_terminal)
@@ -157,7 +230,7 @@ contains
     subroutine plt_init(this, term, fname, err)
         !! Initializes the plot object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in), optional :: term
             !! An optional input that is used to define the terminal.
             !! The default terminal is a WXT terminal.  The acceptable inputs 
@@ -172,6 +245,10 @@ contains
             !!  - GNUPLOT_TERMINAL_WXT
             !!
             !!  - GNUPLOT_TERMINAL_LATEX
+            !!
+            !!  - GNUPLOT_TERMINAL_SVG
+            !!
+            !! - GNUPLOT_TERMINAL_PDF
         character(len = *), intent(in), optional :: fname
             !! A filename to pass to the terminal in the event the
             !! terminal is a file type (e.g. GNUPLOT_TERMINAL_PNG).
@@ -187,6 +264,8 @@ contains
         type(qt_terminal), pointer :: qt
         type(png_terminal), pointer :: png
         type(latex_terminal), pointer :: latex
+        type(svg_terminal), pointer :: svg
+        type(pdf_terminal), pointer :: pdf
 
         ! Initialization
         if (present(err)) then
@@ -218,6 +297,14 @@ contains
             allocate(latex, stat = flag)
             if (present(fname)) call latex%set_filename(fname)
             this%m_terminal => latex
+        case (GNUPLOT_TERMINAL_SVG)
+            allocate(svg, stat = flag)
+            if (present(fname)) call svg%set_filename(fname)
+            this%m_terminal => svg
+        case (GNUPLOT_TERMINAL_PDF)
+            allocate(pdf, stat = flag)
+            if (present(fname)) call pdf%set_filename(fname)
+            this%m_terminal => pdf
         case default ! WXT is the default
             allocate(wxt, stat = flag)
             this%m_terminal => wxt
@@ -241,7 +328,7 @@ contains
     function plt_get_title(this) result(txt)
         !! Gets the plot's title.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: txt
             !! The title.
         integer(int32) :: n
@@ -254,7 +341,7 @@ contains
     subroutine plt_set_title(this, txt)
         !! Sets the plot's title.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: txt
             !! The title.
         integer :: n
@@ -273,7 +360,7 @@ contains
         !! Gets a value determining if a title has been defined for the plot 
         !! object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if a title has been defined for this plot; else,
             !! returns false.
@@ -284,7 +371,7 @@ contains
     function plt_get_legend(this) result(x)
         !! Gets the plot's legend object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         type(legend), pointer :: x
             !! A pointer to the legend object.
         x => this%m_legend
@@ -294,7 +381,7 @@ contains
     pure function plt_get_count(this) result(x)
         !! Gets the number of stored plot_data objects.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The number of plot_data objects.
         x = this%m_data%count()
@@ -304,7 +391,7 @@ contains
     subroutine plt_push_data(this, x, err)
         !! Pushes a plot_data object onto the stack.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_data), intent(inout) :: x
             !! The plot_data object.
         class(errors), intent(inout), optional, target :: err
@@ -322,14 +409,14 @@ contains
         end select
 
         ! Store the object
-        call this%m_data%push(x, err = err)
+        call this%m_data%push(x)
     end subroutine
 
 ! ------------------------------------------------------------------------------
     subroutine plt_pop_data(this)
         !! Pops the last plot_data object from the stack.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
 
         ! Process
         call this%m_data%pop()
@@ -339,7 +426,7 @@ contains
     subroutine plt_clear_all(this)
         !! Removes all plot_data objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
 
         ! Process
         this%m_colorIndex = 1
@@ -350,7 +437,7 @@ contains
     function plt_get(this, i) result(x)
         !! Gets a pointer to the requested plot_data object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_data object.
         class(plot_data), pointer :: x
@@ -374,7 +461,7 @@ contains
     subroutine plt_set(this, i, x)
         !! Sets the requested plot_data object into the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_data object.
         class(plot_data), intent(in) :: x
@@ -386,7 +473,7 @@ contains
     function plt_get_term(this) result(x)
         !! Gets the GNUPLOT terminal object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(terminal), pointer :: x
             !! A pointer to the GNUPLOT terminal object.
         x => this%m_terminal
@@ -396,7 +483,7 @@ contains
     pure function plt_get_show_grid(this) result(x)
         !! Gets a flag determining if the grid lines should be shown.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the grid lines should be shown; else, false.
         x = this%m_showGrid
@@ -406,7 +493,7 @@ contains
     subroutine plt_set_show_grid(this, x)
         !! Sets a flag determining if the grid lines should be shown.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the grid lines should be shown; else, false.
         this%m_showGrid = x
@@ -417,7 +504,7 @@ contains
         !! Launches GNUPLOT and draws the plot per the current state of
         !! the command list.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in), optional :: persist
             !! An optional parameter that can be used to keep GNUPLOT open.  
             !! Set to true to force GNUPLOT to remain open; else, set to false 
@@ -475,7 +562,7 @@ contains
     subroutine plt_save(this, fname, err)
         !! Saves a GNUPLOT command file.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: fname
             !! The filename.
         class(errors), intent(inout), optional, target :: err
@@ -511,7 +598,7 @@ contains
     function plt_get_font(this) result(x)
         !! Gets the name of the font used for plot text.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -523,7 +610,7 @@ contains
     subroutine plt_set_font(this, x)
         !! Sets the name of the font used for plot text.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = *), intent(in) :: x
             !! The font name.
         class(terminal), pointer :: term
@@ -535,7 +622,7 @@ contains
     function plt_get_font_size(this) result(x)
         !! Gets the size of the font used by the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The size of the font, in points.
         class(terminal), pointer :: term
@@ -547,7 +634,7 @@ contains
     subroutine plt_set_font_size(this, x)
         !! Sets the size of the font used by the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: x
             !! The font size, in points.  If a value of zero is provided,
             !! the font size is reset to its default value; or, if a negative 
@@ -562,7 +649,7 @@ contains
     pure function plt_get_tics_in(this) result(x)
         !! Gets a value determining if the axis tic marks should point inwards.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the tic marks should point inwards; else, false
             !! if the tic marks should point outwards.
@@ -573,7 +660,7 @@ contains
     subroutine plt_set_tics_in(this, x)
         !! Sets a value determining if the axis tic marks should point inwards.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the tic marks should point inwards; else, false
             !! if the tic marks should point outwards.
@@ -584,7 +671,7 @@ contains
     pure function plt_get_draw_border(this) result(x)
         !! Gets a value determining if the border should be drawn.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the border should be drawn; else, false.
         x = this%m_drawBorder
@@ -594,7 +681,7 @@ contains
     subroutine plt_set_draw_border(this, x)
         !! Sets a value determining if the border should be drawn.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the border should be drawn; else, false.
         this%m_drawBorder = x
@@ -606,21 +693,21 @@ contains
     subroutine plt_push_label(this, lbl, err)
         !! Adds a label to the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_label), intent(in) :: lbl
             !! The plot label.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
 
         ! Process
-        call this%m_labels%push(lbl, err = err)
+        call this%m_labels%push(lbl)
     end subroutine
 
 ! ------------------------------------------------------------------------------
     subroutine plt_pop_label(this)
         !! Removes the last label from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_labels%pop()
     end subroutine
 
@@ -628,7 +715,7 @@ contains
     function plt_get_label(this, i) result(x)
         !! Gets the requested plot_label from the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_label object to retrieve.
         class(plot_label), pointer :: x
@@ -651,7 +738,7 @@ contains
     subroutine plt_set_label(this, i, x)
         !! Sets the specified plot_label object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_label to replace.
         class(plot_label), intent(in) :: x
@@ -663,7 +750,7 @@ contains
     pure function plt_get_label_count(this) result(x)
         !! Gets the number of plot_label objects belonging to the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: x
             !! The number of plot_label objects.
         x = this%m_labels%count()
@@ -673,7 +760,7 @@ contains
     subroutine plt_clear_labels(this)
         !! Clears all plot_label objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_labels%clear()
     end subroutine
 
@@ -683,7 +770,7 @@ contains
     pure function plt_get_axis_equal(this) result(rst)
         !! Gets a flag determining if the axes should be equally scaled.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: rst
             !! Returns true if the axes should be scaled equally; else, false.
         rst = this%m_axisEqual
@@ -693,7 +780,7 @@ contains
     subroutine plt_set_axis_equal(this, x)
         !! Sets a flag determining if the axes should be equally scaled.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the axes should be scaled equally; else, false.
         this%m_axisEqual = x
@@ -705,7 +792,7 @@ contains
     function plt_get_colormap(this) result(x)
         !! Gets a pointer to the colormap object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(colormap), pointer :: x
             !! A pointer to the colormap object.  If no colormap is defined, a
             !! null pointer is returned.
@@ -716,7 +803,7 @@ contains
     subroutine plt_set_colormap(this, x, err)
         !! Sets the colormap object.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(colormap), intent(in) :: x
             !! The colormap object.  Notice, a copy of this object is
             !! stored, and the plot object then manages the lifetime of the
@@ -750,7 +837,7 @@ contains
     pure function plt_get_show_colorbar(this) result(x)
         !! Gets a value determining if the colorbar should be shown.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical :: x
             !! Returns true if the colorbar should be drawn; else, false.
         x = this%m_showColorbar
@@ -760,7 +847,7 @@ contains
     subroutine plt_set_show_colorbar(this, x)
         !! Sets a value determining if the colorbar should be shown.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         logical, intent(in) :: x
             !! Set to true if the colorbar should be drawn; else, false.
         this%m_showColorbar = x
@@ -770,7 +857,7 @@ contains
     function plt_get_cmd(this) result(x)
         !! Gets the GNUPLOT command string to represent this plot object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         character(len = :), allocatable :: x
             !! The command string.
 
@@ -823,19 +910,19 @@ contains
     subroutine plt_push_arrow(this, x, err)
         !! Pushes a new @ref plot_arrow object onto the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         class(plot_arrow), intent(in) :: x
             !! The plot_arrow object.
         class(errors), intent(inout), optional, target :: err
             !! An error handling object.
-        call this%m_arrows%push(x, manage = .true., err = err)
+        call this%m_arrows%push(x, manage = .true.)
     end subroutine
 
 ! ------------------------------------------------------------------------------
     subroutine plt_pop_arrow(this)
         !! Pops the last plot_arrow object from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_arrows%pop()
     end subroutine
 
@@ -843,7 +930,7 @@ contains
     function plt_get_arrow(this, i) result(rst)
         !! Gets a pointer to the requested plot_arrow object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_arrow to retrieve.
         class(plot_arrow), pointer :: rst
@@ -863,7 +950,7 @@ contains
     subroutine plt_set_arrow(this, i, x)
         !! Sets a plot_arrow into the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32), intent(in) :: i
             !! The index of the plot_arrow object to replace.
         class(plot_arrow), intent(in) :: x
@@ -875,7 +962,7 @@ contains
     pure function plt_get_arrow_count(this) result(rst)
         !! Gets the number of plot_arrow objects held by the plot object.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         integer(int32) :: rst
             !! The plot_arrow objects count.
         rst = this%m_arrows%count()
@@ -885,7 +972,7 @@ contains
     subroutine plt_clear_arrows(this)
         !! Clears all plot_arrow objects from the plot.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         call this%m_arrows%clear()
     end subroutine
 
@@ -895,7 +982,7 @@ contains
     pure function plt_get_left_margin(this) result(x)
         !! Gets the left margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -907,7 +994,7 @@ contains
         !! Sets the left margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -918,7 +1005,7 @@ contains
     pure function plt_get_right_margin(this) result(x)
         !! Gets the right margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -930,7 +1017,7 @@ contains
         !! Sets the right margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -941,7 +1028,7 @@ contains
     pure function plt_get_top_margin(this) result(x)
         !! Gets the top margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -953,7 +1040,7 @@ contains
         !! Sets the top margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -964,7 +1051,7 @@ contains
     pure function plt_get_bottom_margin(this) result(x)
         !! Gets the bottom margin of the plot.
         class(plot), intent(in) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
@@ -976,12 +1063,495 @@ contains
         !! Sets the bottom margin of the plot.  If the value is negative, the
         !! default margin is used.
         class(plot), intent(inout) :: this
-            !! The plot object.
+            !! The [[plot]] object.
         real(real32), intent(in) :: x
             !! The margin, in percent of screen.  A negative value indicates the
             !! default margin is used.
         this%m_bottomMargin = x
     end subroutine
+
+! ******************************************************************************
+! ADDED AUG. 16, 2026 - V1.9.0
+! ------------------------------------------------------------------------------
+    subroutine plt_show_legend(this, x)
+        !! Sets a value determining the legend should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! Set to true to show the legend; else, set to false.
+
+        if (associated(this%m_legend)) then
+            call this%m_legend%set_is_visible(x)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    subroutine plt_set_window_size(this, width, height)
+        !! Sets the height and width of the plot window.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: width
+            !! The plot window width.
+        integer(int32), intent(in) :: height
+            !! The plot window height.
+
+        if (associated(this%m_terminal)) then
+            call this%m_terminal%set_window_width(width)
+            call this%m_terminal%set_window_height(height)
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_border_line_width(this) result(x)
+        !! Gets the width of the lines used to draw the border.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_borderLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_border_line_width(this, x)
+        !! Sets the width of the lines used to draw the border.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_borderLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_x_major_grid(this) result(x)
+        !! Gets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showXMajorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_x_major_grid(this, x)
+        !! Sets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showXMajorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_x_minor_grid(this) result(x)
+        !! Gets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showXMinorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_x_minor_grid(this, x)
+        !! Sets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showXMinorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_y_major_grid(this) result(x)
+        !! Gets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showYMajorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_y_major_grid(this, x)
+        !! Sets a value determining if the x-axis major grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showYMajorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_show_y_minor_grid(this) result(x)
+        !! Gets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        logical :: x
+            !! True if the grid should be shown; else, false.
+        x = this%m_showYMinorGrid
+    end function
+
+! --------------------
+    subroutine plt_set_show_y_minor_grid(this, x)
+        !! Sets a value determining if the x-axis minor grid should be shown.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        logical, intent(in) :: x
+            !! True if the grid should be shown; else, false.
+        this%m_showYMinorGrid = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_color(this) result(x)
+        !! Gets the color of the x-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_xMajorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_color(this, x)
+        !! Sets the color of the x-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_xMajorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_color(this) result(x)
+        !! Gets the color of the x-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_xMinorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_color(this, x)
+        !! Sets the color of the x-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_xMinorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_color(this) result(x)
+        !! Gets the color of the y-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_yMajorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_color(this, x)
+        !! Sets the color of the y-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_yMajorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_color(this) result(x)
+        !! Gets the color of the y-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        type(color) :: x
+            !! The color.
+        x = this%m_yMinorGridColor
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_color(this, x)
+        !! Sets the color of the y-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        type(color), intent(in) :: x
+            !! The color.
+        this%m_yMinorGridColor = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_line_style(this) result(x)
+        !! Gets the line style used for the x-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_xMajorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_line_style(this, x)
+        !! Sets the line style used for the x-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_xMajorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_line_style(this) result(x)
+        !! Gets the line style used for the x-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_xMinorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_line_style(this, x)
+        !! Sets the line style used for the x-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_xMinorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_line_style(this) result(x)
+        !! Gets the line style used for the y-axis major grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_yMajorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_line_style(this, x)
+        !! Sets the line style used for the y-axis major grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_yMajorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_line_style(this) result(x)
+        !! Gets the line style used for the y-axis minor grid lines.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        integer(int32) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        x = this%m_yMinorGridLineStyle
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_line_style(this, x)
+        !! Sets the line style used for the y-axis minor grid lines.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        integer(int32), intent(in) :: x
+            !! The line style.  The line style must be one of the following.
+            !!
+            !!  - LINE_DASHED
+            !!
+            !!  - LINE_DASH_DOTTED
+            !!
+            !!  - LINE_DASH_DOT_DOT
+            !!
+            !!  - LINE_DOTTED
+            !!
+            !!  - LINE_SOLID
+        if (x == LINE_DASHED .or. &
+            x == LINE_DASH_DOTTED .or. &
+            x == LINE_DASH_DOT_DOT .or. &
+            x == LINE_DOTTED .or. &
+            x == LINE_SOLID) then
+            ! Only reset the line style if it is a valid type.
+            this%m_yMinorGridLineStyle = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_major_grid_line_width(this) result(x)
+        !! Gets the width of the x-axis major grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_xMajorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_x_major_grid_line_width(this, x)
+        !! Sets the width of the x-axis major grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_xMajorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_x_minor_grid_line_width(this) result(x)
+        !! Gets the width of the x-axis minor grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_xMinorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_x_minor_grid_line_width(this, x)
+        !! Sets the width of the x-axis minor grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_xMinorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_major_grid_line_width(this) result(x)
+        !! Gets the width of the y-axis major grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_yMajorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_y_major_grid_line_width(this, x)
+        !! Sets the width of the y-axis major grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_yMajorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function plt_get_y_minor_grid_line_width(this) result(x)
+        !! Gets the width of the y-axis minor grid lines, in pixels.
+        class(plot), intent(in) :: this
+            !! The [[plot]] object.
+        real(real32) :: x
+            !! The line width.
+        x = this%m_yMinorGridLineWidth
+    end function
+
+! --------------------
+    subroutine plt_set_y_minor_grid_line_width(this, x)
+        !! Sets the width of the y-axis minor grid lines, in pixels.
+        class(plot), intent(inout) :: this
+            !! The [[plot]] object.
+        real(real32), intent(in) :: x
+            !! The line width.
+        this%m_yMinorGridLineWidth = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+
+! --------------------
 
 ! ------------------------------------------------------------------------------
 end module
