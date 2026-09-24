@@ -10,7 +10,7 @@
     <meta name="author" content="Jason Christopherson" >
     <link rel="icon" href="../favicon.png">
 
-    <title>fplot_latex_terminal &ndash; FPLOT</title>
+    <title>delaunay &ndash; FPLOT</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -62,7 +62,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>fplot_latex_terminal
+    <h1>delaunay
       <small>Module</small>
       
     </h1>
@@ -74,20 +74,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.2% of total for modules and submodules.">23 statements</a>
+                 title=" 5.9% of total for modules and submodules.">561 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/fplot_latex_terminal.f90"> Source File</a>
+              <a href="../src/delaunay.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='..\sourcefile\fplot_latex_terminal.f90.html'>fplot_latex_terminal.f90</a></li>
-            <li class="breadcrumb-item active" aria-current="page">fplot_latex_terminal</li>
+                <li class="breadcrumb-item"><a href='..\sourcefile\delaunay.f90.html'>delaunay.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">delaunay</li>
           </ol>
         </nav>
       </div>
@@ -115,20 +115,20 @@
   
   
   
+  
+  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#types-0"
-         aria-expanded="false" aria-controls="types-0">
-         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
       </a>
-      <div id="types-0" class="collapse">
+      <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/fplot_latex_terminal.html#type-latex_terminal">latex_terminal</a>
+            <a class="list-group-item" href="../module/delaunay.html#proc-r8tris2">r8tris2</a>
         </div>
       </div>
     </div>
 
-  
-  
   
   
   
@@ -143,17 +143,20 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      
+      <p>Provides a minimal, in-house implementation of the subset of the
+GEOMPACK library used by FPLOT to construct 2D Delaunay
+triangulations.</p>
+<p>Original FORTRAN77 version by Barry Joe.  FORTRAN90 version by
+John Burkardt.  Reference: Barry Joe, GEOMPACK - a software
+package for the generation of meshes using geometric algorithms,
+Advances in Engineering Software, Volume 13, pages 325-331, 1991.</p>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">strings</li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
-                  <li class="list-inline-item"><a href='fplot_terminal.html'>fplot_terminal</a></li>
               </ul>
             </li>
         </ul>
@@ -168,115 +171,122 @@
 
 
 
+
+
         <section>
-          <h2>Derived Types</h2>
+          <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum">
-      <span class="anchor" id="type-latex_terminal"></span>
-      <h3>
-        type, public, extends(<a href='..\type\file_terminal.html'>file_terminal</a>)&nbsp;::&nbsp;
-        <a href='..\type\latex_terminal.html'>latex_terminal</a>
-        
-      </h3>
-    </div>
+    <div class="card-header codesum"><span class="anchor" id="proc-r8tris2"></span> <h3>public  subroutine <a href='..\proc\r8tris2.html'>r8tris2</a>(node_num, node_xy, triangle_num, triangle_node, triangle_neighbor)  
+</h3></div>
     <div class="card-body">
-      <p>A LATEX terminal.</p>
+          
+  <p>Constructs a Delaunay triangulation of 2D vertices.</p><a href="../proc/r8tris2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-node_num"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>node_num</strong></td>
+            <td>
+<p>The number of vertices.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-node_xy"></span>
+              real(kind=real64),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(2, node_num)
+            </td>
+            <td>::</td>
+            <td><strong>node_xy</strong></td>
+            <td>
+<p>The coordinates of the vertices.  On output, the vertices
+have been sorted into dictionary order.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-triangle_num"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>triangle_num</strong></td>
+            <td>
+<p>The number of triangles in the triangulation;
+TRIANGLE_NUM is equal to 2*NODE_NUM - NB - 2, where NB is
+the number of boundary vertices.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-triangle_node"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3, 2 * node_num)
+            </td>
+            <td>::</td>
+            <td><strong>triangle_node</strong></td>
+            <td>
+<p>The nodes that make up each triangle.  The elements are
+indices of the vertex array.  The vertices of the
+triangles are in counter clockwise order.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-triangle_neighbor"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3, 2 * node_num)
+            </td>
+            <td>::</td>
+            <td><strong>triangle_neighbor</strong></td>
+            <td>
+<p>The triangle neighbor list.  Positive elements are
+indices of TRIANGLE_NODE; negative elements are used for
+links of a counter clockwise linked list of boundary
+edges; LINK = -(3*I + J-1) where I, J = triangle, edge
+index; TRIANGLE_NEIGHBOR(J,I) refers to the neighbor
+along the edge from vertex J to J+1 (mod 3).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-
-
-        <h4>Type-Bound Procedures</h4>
-        <table class="table table-striped varlist">
-          <tbody>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\file_terminal.html#boundprocedure-get_command_string~27'>get_command_string</a></strong> => fterm_get_command_string</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\file_terminal.html#boundprocedure-get_filename'>get_filename</a></strong> => fterm_get_filename</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_font_name~4'>get_font_name</a></strong> => term_get_font_name</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_font_size~4'>get_font_size</a></strong> => term_get_font_size</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\latex_terminal.html#boundprocedure-get_id_string~13'>get_id_string</a></strong> => tex_get_term_string</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_plot_window_number'>get_plot_window_number</a></strong> => term_get_plot_window_number</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_title~4'>get_title</a></strong> => term_get_title</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_window_height'>get_window_height</a></strong> => term_get_window_height</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-get_window_width'>get_window_width</a></strong> => term_get_window_width</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\file_terminal.html#boundprocedure-set_filename'>set_filename</a></strong> => fterm_set_filename</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_font_name~4'>set_font_name</a></strong> => term_set_font_name</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_font_size~4'>set_font_size</a></strong> => term_set_font_size</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_plot_window_number'>set_plot_window_number</a></strong> => term_set_plot_window_number</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_title~4'>set_title</a></strong> => term_set_title</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_window_height'>set_window_height</a></strong> => term_set_window_height</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='..\type\terminal.html#boundprocedure-set_window_width'>set_window_width</a></strong> => term_set_window_width</td>
-                <td></td>
-              </tr>
-          </tbody>
-        </table>
     </div>
   </div>
 
         </section>
         <br>
-
-
 
 
 
