@@ -34,6 +34,13 @@ module fplot_multiplot
             !! Has a title?
         class(terminal), pointer :: m_terminal => null()
             !! The GNUPLOT terminal object to target.
+        real(real32), private :: m_leftMargin = 0.12
+        real(real32), private :: m_rightMargin = 0.95
+        real(real32), private :: m_bottomMargin = 0.10
+        real(real32), private :: m_topMargin = 0.95
+        real(real32), private :: m_horizontalSpacing = 0.0
+        real(real32), private :: m_verticalSpacing = 0.0
+        logical, private :: m_useAutoMargins = .true.
     contains
         final :: mp_clean
         procedure, public :: get_command_string => mp_get_command
@@ -54,6 +61,20 @@ module fplot_multiplot
         procedure, public :: get_font_size => mp_get_font_size
         procedure, public :: set_font_size => mp_set_font_size
         procedure, public :: set_window_size => mp_set_window_size
+        procedure, public :: get_left_margin => mp_get_left_margin
+        procedure, public :: set_left_margin => mp_set_left_margin
+        procedure, public :: get_right_margin => mp_get_right_margin
+        procedure, public :: set_right_margin => mp_set_right_margin
+        procedure, public :: get_top_margin => mp_get_top_margin
+        procedure, public :: set_top_margin => mp_set_top_margin
+        procedure, public :: get_bottom_margin => mp_get_bottom_margin
+        procedure, public :: set_bottom_margin => mp_set_bottom_margin
+        procedure, public :: get_horizontal_spacing => mp_get_horizontal_spacing
+        procedure, public :: set_horizontal_spacing => mp_set_horizontal_spacing
+        procedure, public :: get_vertical_spacing => mp_get_vertical_spacing
+        procedure, public :: set_vertical_spacing => mp_set_vertical_spacing
+        procedure, public :: get_use_auto_generated_margins => mp_get_use_auto_generated_margins
+        procedure, public :: set_use_auto_generated_margins => mp_set_use_auto_generated_margins
     end type
 
 contains
@@ -87,6 +108,20 @@ contains
             call str%append(this%get_title())
             call str%append('"')
         end if
+        if (.not.this%get_use_auto_generated_margins()) then
+            call str%append(" margins ")
+            call str%append(to_string(this%get_left_margin()))
+            call str%append(",")
+            call str%append(to_string(this%get_right_margin()))
+            call str%append(",")
+            call str%append(to_string(this%get_bottom_margin()))
+            call str%append(",")
+            call str%append(to_string(this%get_top_margin()))
+        end if
+        call str%append(" spacing ")
+        call str%append(to_string(this%get_horizontal_spacing()))
+        call str%append(",")
+        call str%append(to_string(this%get_vertical_spacing()))
         call str%append(new_line('a'))
 
         ! Write commands for each plot object
@@ -506,8 +541,6 @@ contains
         call term%set_font_size(x)
     end subroutine
 
-! ******************************************************************************
-! ADDED AUG. 16, 2026 - V1.9.0
 ! ------------------------------------------------------------------------------
     subroutine mp_set_window_size(this, width, height)
         !! Sets the height and width of the plot window.
@@ -522,6 +555,196 @@ contains
             call this%m_terminal%set_window_width(width)
             call this%m_terminal%set_window_height(height)
         end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_left_margin(this) result(rst)
+        !! Gets the left margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The margin value.
+        rst = this%m_leftMargin
+    end function
+
+! --------------------
+    subroutine mp_set_left_margin(this, x)
+        !! Sets the left margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The margin value.  This value will be clamped to the range
+            !! [0, 1].
+        if (x < 0.0) then
+            this%m_leftMargin = 0.0
+        else if (x > 1.0) then
+            this%m_leftMargin = 1.0
+        else
+            this%m_leftMargin = x
+        end if
+        this%m_useAutoMargins = .false.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_right_margin(this) result(rst)
+        !! Gets the right margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The margin value.
+        rst = this%m_rightMargin
+    end function
+
+! --------------------
+    subroutine mp_set_right_margin(this, x)
+        !! Sets the right margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The margin value.  This value will be clamped to the range
+            !! [0, 1].
+        if (x < 0.0) then
+            this%m_rightMargin = 0.0
+        else if (x > 1.0) then
+            this%m_rightMargin = 1.0
+        else
+            this%m_rightMargin = x
+        end if
+        this%m_useAutoMargins = .false.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_top_margin(this) result(rst)
+        !! Gets the top margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The margin value.
+        rst = this%m_topMargin
+    end function
+
+! --------------------
+    subroutine mp_set_top_margin(this, x)
+        !! Sets the top margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The margin value.  This value will be clamped to the range
+            !! [0, 1].
+        if (x < 0.0) then
+            this%m_topMargin = 0.0
+        else if (x > 1.0) then
+            this%m_topMargin = 1.0
+        else
+            this%m_topMargin = x
+        end if
+        this%m_useAutoMargins = .false.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_bottom_margin(this) result(rst)
+        !! Gets the bottom margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The margin value.
+        rst = this%m_bottomMargin
+    end function
+
+! --------------------
+    subroutine mp_set_bottom_margin(this, x)
+        !! Sets the bottom margin.  The value exists in the range [0, 1].
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The margin value.  This value will be clamped to the range
+            !! [0, 1].
+        if (x < 0.0) then
+            this%m_bottomMargin = 0.0
+        else if (x > 1.0) then
+            this%m_bottomMargin = 1.0
+        else
+            this%m_bottomMargin = x
+        end if
+        this%m_useAutoMargins = .false.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_horizontal_spacing(this) result(rst)
+        !! Gets the horizontal spacing between plots.  The value must be
+        !! zero or positive.
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The spacing value.
+        rst = this%m_horizontalSpacing
+    end function
+
+! --------------------
+    subroutine mp_set_horizontal_spacing(this, x)
+        !! Sets the horizontal spacing between plots.  The value must be
+        !! zero or positive.
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The spacing value.  This value will be clamped to zero if
+            !! a negative value is supplied.
+        if (x < 0.0) then
+            this%m_horizontalSpacing = 0.0
+        else
+            this%m_horizontalSpacing = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_vertical_spacing(this) result(rst)
+        !! Gets the vertical spacing between plots.  The value must be
+        !! zero or positive.
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        real(real32) :: rst
+            !! The spacing value.
+        rst = this%m_verticalSpacing
+    end function
+
+! --------------------
+    subroutine mp_set_vertical_spacing(this, x)
+        !! Sets the vertical spacing between plots.  The value must be
+        !! zero or positive.
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        real(real32), intent(in) :: x
+            !! The spacing value.  This value will be clamped to zero if
+            !! a negative value is supplied.
+        if (x < 0.0) then
+            this%m_verticalSpacing = 0.0
+        else
+            this%m_verticalSpacing = x
+        end if
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function mp_get_use_auto_generated_margins(this) result(rst)
+        !! Gets a value determining if the margins should be automatically
+        !! calculated.
+        class(multiplot), intent(in) :: this
+            !! The [[multiplot]] object.
+        logical :: rst
+            !! True if the margins should be automatically calculated; else,
+            !! false to use manually defined margins.
+        rst = this%m_useAutoMargins
+    end function
+
+! --------------------
+    subroutine mp_set_use_auto_generated_margins(this, x)
+        !! Sets a value determining if the margins should be automatically
+        !! calculated.
+        class(multiplot), intent(inout) :: this
+            !! The [[multiplot]] object.
+        logical, intent(in) :: x
+            !! True if the margins should be automatically calculated; else,
+            !! false to use manually defined margins.
+        this%m_useAutoMargins = x
     end subroutine
 
 ! ------------------------------------------------------------------------------
