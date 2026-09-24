@@ -13,7 +13,6 @@ source-dir = "src"
 [dependencies]
 collections = { git = "https://github.com/jchristopherson/collections" }
 fstring = { git = "https://github.com/jchristopherson/fstring" }
-geompack = { git = "https://github.com/jchristopherson/geompack" }
 forcolormap = { git = "https://github.com/vmagnin/forcolormap" }
 
 [dev-dependencies]

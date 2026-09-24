@@ -2,7 +2,6 @@
 
 include(CMakeFindDependencyMacro)
 find_dependency(collections QUIET)
-find_dependency(geompack QUIET)
 find_dependency(fstring QUIET)
 
 if(NOT TARGET "@PROJECT_NAME@::@PROJECT_NAME@")

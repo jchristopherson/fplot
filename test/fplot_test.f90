@@ -1,6 +1,7 @@
 program main
     use fplot_3d_test
     use fplot_arrow_test
+    use fplot_delaunay_test
     implicit none
 
     ! Local Variables
@@ -13,4 +14,13 @@ program main
 
     check = test_arrow()
     if (.not.check) stop 2
+
+    check = test_r8tris2_square()
+    if (.not.check) stop 3
+
+    check = test_r8tris2_triangle_count()
+    if (.not.check) stop 4
+
+    check = test_delaunay_tri_2d()
+    if (.not.check) stop 5
 end program

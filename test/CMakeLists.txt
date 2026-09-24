@@ -2,6 +2,7 @@ set(fplot_test_sources
     fplot_test.f90
     fplot_3d_test.f90
     fplot_arrow_test.f90
+    fplot_delaunay_test.f90
 )
 
 find_package(fortran_test_helper QUIET)
