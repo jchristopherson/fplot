@@ -559,7 +559,8 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure function mp_get_left_margin(this) result(rst)
-        !! Gets the left margin.  The value exists in the range [0, 1].
+        !! Gets the left margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(in) :: this
             !! The [[multiplot]] object.
         real(real32) :: rst
@@ -569,7 +570,8 @@ contains
 
 ! --------------------
     subroutine mp_set_left_margin(this, x)
-        !! Sets the left margin.  The value exists in the range [0, 1].
+        !! Sets the left margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
         real(real32), intent(in) :: x
@@ -587,7 +589,8 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure function mp_get_right_margin(this) result(rst)
-        !! Gets the right margin.  The value exists in the range [0, 1].
+        !! Gets the right margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(in) :: this
             !! The [[multiplot]] object.
         real(real32) :: rst
@@ -597,7 +600,8 @@ contains
 
 ! --------------------
     subroutine mp_set_right_margin(this, x)
-        !! Sets the right margin.  The value exists in the range [0, 1].
+        !! Sets the right margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
         real(real32), intent(in) :: x
@@ -615,7 +619,8 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure function mp_get_top_margin(this) result(rst)
-        !! Gets the top margin.  The value exists in the range [0, 1].
+        !! Gets the top margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(in) :: this
             !! The [[multiplot]] object.
         real(real32) :: rst
@@ -625,7 +630,8 @@ contains
 
 ! --------------------
     subroutine mp_set_top_margin(this, x)
-        !! Sets the top margin.  The value exists in the range [0, 1].
+        !! Sets the top margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
         real(real32), intent(in) :: x
@@ -643,7 +649,8 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure function mp_get_bottom_margin(this) result(rst)
-        !! Gets the bottom margin.  The value exists in the range [0, 1].
+        !! Gets the bottom margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(in) :: this
             !! The [[multiplot]] object.
         real(real32) :: rst
@@ -653,7 +660,8 @@ contains
 
 ! --------------------
     subroutine mp_set_bottom_margin(this, x)
-        !! Sets the bottom margin.  The value exists in the range [0, 1].
+        !! Sets the bottom margin.  The value exists in the range [0, 1].  This
+        !! margin is a global margin for the multiplot.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
         real(real32), intent(in) :: x
@@ -725,8 +733,8 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure function mp_get_use_auto_generated_margins(this) result(rst)
-        !! Gets a value determining if the margins should be automatically
-        !! calculated.
+        !! Gets a value determining if the global margins should be 
+        !! automatically calculated.
         class(multiplot), intent(in) :: this
             !! The [[multiplot]] object.
         logical :: rst
@@ -737,8 +745,8 @@ contains
 
 ! --------------------
     subroutine mp_set_use_auto_generated_margins(this, x)
-        !! Sets a value determining if the margins should be automatically
-        !! calculated.
+        !! Sets a value determining if the global margins should be 
+        !! automatically calculated.
         class(multiplot), intent(inout) :: this
             !! The [[multiplot]] object.
         logical, intent(in) :: x
