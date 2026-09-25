@@ -19,6 +19,7 @@ module fplot_colormap
     public :: grey_colormap
     public :: earth_colormap
     public :: custom_colormap
+    public :: spectral_colormap
 
     type, abstract, extends(plot_object) :: colormap
         !! A colormap object for a surface plot.
@@ -26,9 +27,9 @@ module fplot_colormap
             !! The label to associate with the colormap.
         logical, private :: m_horizontal = .false.
             !! The colormap should be drawn horizontally.
-        logical, private :: m_drawBorder = .true.
+        logical, private :: m_drawBorder = .false.
             !! Draw the colormap border.
-        logical, private :: m_showTics = .true.
+        logical, private :: m_showTics = .false.
             !! Show the tic marks.
     contains
         procedure, public :: get_command_string => cm_get_cmd
@@ -109,6 +110,13 @@ module fplot_colormap
     end type
 
 ! ------------------------------------------------------------------------------
+    type, extends(colormap) :: spectral_colormap
+        !! Defines the spectral colormap available at 
+        !! https://github.com/Gnuplotting/gnuplot-palettes/blob/master/spectral.pal.
+    contains
+        procedure, public :: get_color_string => spcm_get_clr
+    end type
+
 contains
 ! ******************************************************************************
 ! COLORMAP MEMBERS
@@ -143,14 +151,21 @@ contains
             call str%append(new_line('a'))
             call str%append("set colorbox horizontal")
             call str%append(new_line('a'))
-            call str%append("set size 0.8,0.8; set origin 0.1,0.2")
+            call str%append("set size 0.9,0.85; set origin 0.05,0.15")
             call str%append(new_line('a'))
-            call str%append("set colorbox user origin 0.1,0.175 size 0.8,0.055")
+            call str%append("set colorbox user origin 0.1,0.1 size 0.8,0.02")
 
             if (len(this%get_label()) > 0) then
                 call str%append(new_line('a'))
                 call str%append("set cblabel offset 0,0.8")
             end if
+        else
+            call str%append(new_line('a'))
+            call str%append("set colorbox vertical")
+            call str%append(new_line('a'))
+            call str%append("set size 0.8,0.9; set origin 0.05,0.05")
+            call str%append(new_line('a'))
+            call str%append("set colorbox user origin 0.9,0.3 size 0.02,0.4")
         end if
 
         ! Border & Tic Marks
@@ -486,6 +501,30 @@ contains
             nullify(this%m_map)
         end if
     end subroutine
+
+! ******************************************************************************
+! SPECTRAL_COLORMAP MEMBERS
+! ------------------------------------------------------------------------------
+    function spcm_get_clr(this) result(x)
+        !! Gets the GNUPLOT string defining the color distribution.
+        class(spectral_colormap), intent(in) :: this
+            !! The spectral_colormap object.
+        character(len = :), allocatable :: x
+            !! The command string.
+
+        type(string_builder) :: str
+
+        call str%append("0 '#D53E4F',")
+        call str%append("1 '#F46D43',")
+        call str%append("2 '#FDAE61',")
+        call str%append("3 '#FEE08B',")
+        call str%append("4 '#E6F598',")
+        call str%append("5 '#ABDDA4',")
+        call str%append("6 '#66C2A5',")
+        call str%append("7 '#3288BD'")
+
+        x = char(str%to_string())
+    end function
 
 ! ------------------------------------------------------------------------------
 end module
