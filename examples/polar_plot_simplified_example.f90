@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 ! Contrast this example to polar_plot_example.f90 to see how the "add" 
 ! procedure simplifies creation of a plot.  The plot_data_2d object is not
 ! needed.  Behind the scenes, the plot_data_2d object is created and can still

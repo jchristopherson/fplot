@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 module fplot_colormap_test
     use iso_fortran_env, only : real32
     use fplot_colormap, only : rainbow_colormap
