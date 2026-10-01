@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 3.6% of total for modules and submodules.">328 statements</a>
+                 title=" 4.8% of total for modules and submodules.">469 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -150,21 +150,21 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='fplot_terminal.html'>fplot_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_windows_terminal.html'>fplot_windows_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_latex_terminal.html'>fplot_latex_terminal</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item"><a href='fplot_wxt_terminal.html'>fplot_wxt_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
-                  <li class="list-inline-item"><a href='fplot_png_terminal.html'>fplot_png_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_svg_terminal.html'>fplot_svg_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_qt_terminal.html'>fplot_qt_terminal</a></li>
-                  <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
-                  <li class="list-inline-item">strings</li>
-                  <li class="list-inline-item"><a href='fplot_pdf_terminal.html'>fplot_pdf_terminal</a></li>
                   <li class="list-inline-item"><a href='fplot_plot.html'>fplot_plot</a></li>
-                  <li class="list-inline-item">collections</li>
+                  <li class="list-inline-item"><a href='fplot_windows_terminal.html'>fplot_windows_terminal</a></li>
+                  <li class="list-inline-item">strings</li>
+                  <li class="list-inline-item"><a href='fplot_latex_terminal.html'>fplot_latex_terminal</a></li>
+                  <li class="list-inline-item"><a href='fplot_qt_terminal.html'>fplot_qt_terminal</a></li>
+                  <li class="list-inline-item"><a href='fplot_wxt_terminal.html'>fplot_wxt_terminal</a></li>
+                  <li class="list-inline-item"><a href='fplot_pdf_terminal.html'>fplot_pdf_terminal</a></li>
+                  <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
+                  <li class="list-inline-item"><a href='fplot_svg_terminal.html'>fplot_svg_terminal</a></li>
                   <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
+                  <li class="list-inline-item"><a href='fplot_png_terminal.html'>fplot_png_terminal</a></li>
+                  <li class="list-inline-item">collections</li>
+                  <li class="list-inline-item"><a href='fplot_terminal.html'>fplot_terminal</a></li>
+                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
@@ -206,7 +206,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m_terminal~2"></span>
+              <span class="anchor" id="variable-m_terminal"></span>
               class(<a href='..\type\terminal.html'>terminal</a>),
             </td>
               <td>public,</td>
@@ -241,12 +241,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-draw~2'>draw</a></strong> => mp_draw</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-draw'>draw</a></strong> => mp_draw</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get~3'>get</a></strong> => mp_get</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get'>get</a></strong> => mp_get</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_bottom_margin'>get_bottom_margin</a></strong> => mp_get_bottom_margin</td>
                 <td></td>
               </tr>
               <tr>
@@ -256,17 +261,27 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get_command_string~11'>get_command_string</a></strong> => mp_get_command</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_command_string~8'>get_command_string</a></strong> => mp_get_command</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get_font_name~2'>get_font_name</a></strong> => mp_get_font</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_font_name'>get_font_name</a></strong> => mp_get_font</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get_font_size~2'>get_font_size</a></strong> => mp_get_font_size</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_font_size'>get_font_size</a></strong> => mp_get_font_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_horizontal_spacing'>get_horizontal_spacing</a></strong> => mp_get_horizontal_spacing</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_left_margin'>get_left_margin</a></strong> => mp_get_left_margin</td>
                 <td></td>
               </tr>
               <tr>
@@ -276,57 +291,112 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_right_margin'>get_right_margin</a></strong> => mp_get_right_margin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\multiplot.html#boundprocedure-get_row_count'>get_row_count</a></strong> => mp_get_rows</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get_terminal~2'>get_terminal</a></strong> => mp_get_term</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_terminal'>get_terminal</a></strong> => mp_get_term</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-get_title~3'>get_title</a></strong> => mp_get_title</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_title'>get_title</a></strong> => mp_get_title</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-initialize~5'>initialize</a></strong> => mp_init</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_top_margin'>get_top_margin</a></strong> => mp_get_top_margin</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-is_title_defined~3'>is_title_defined</a></strong> => mp_has_title</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_use_auto_generated_margins'>get_use_auto_generated_margins</a></strong> => mp_get_use_auto_generated_margins</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-save_file~2'>save_file</a></strong> => mp_save</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-get_vertical_spacing'>get_vertical_spacing</a></strong> => mp_get_vertical_spacing</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-set~2'>set</a></strong> => mp_set</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-initialize~2'>initialize</a></strong> => mp_init</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-set_font_name~2'>set_font_name</a></strong> => mp_set_font</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-is_title_defined'>is_title_defined</a></strong> => mp_has_title</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-set_font_size~2'>set_font_size</a></strong> => mp_set_font_size</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-save_file'>save_file</a></strong> => mp_save</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-set_title~3'>set_title</a></strong> => mp_set_title</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-set'>set</a></strong> => mp_set</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\multiplot.html#boundprocedure-set_window_size~2'>set_window_size</a></strong> => mp_set_window_size</td>
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_bottom_margin'>set_bottom_margin</a></strong> => mp_set_bottom_margin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_font_name'>set_font_name</a></strong> => mp_set_font</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_font_size'>set_font_size</a></strong> => mp_set_font_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_horizontal_spacing'>set_horizontal_spacing</a></strong> => mp_set_horizontal_spacing</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_left_margin'>set_left_margin</a></strong> => mp_set_left_margin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_right_margin'>set_right_margin</a></strong> => mp_set_right_margin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_title'>set_title</a></strong> => mp_set_title</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_top_margin'>set_top_margin</a></strong> => mp_set_top_margin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_use_auto_generated_margins'>set_use_auto_generated_margins</a></strong> => mp_set_use_auto_generated_margins</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_vertical_spacing'>set_vertical_spacing</a></strong> => mp_set_vertical_spacing</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\multiplot.html#boundprocedure-set_window_size'>set_window_size</a></strong> => mp_set_window_size</td>
                 <td></td>
               </tr>
           </tbody>
@@ -356,7 +426,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-09-01 07:22              </p>
+ on 2026-10-01 05:57              </p>
           </div>
         </div>
         <br>

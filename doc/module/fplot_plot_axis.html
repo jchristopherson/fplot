@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 5.2% of total for modules and submodules.">470 statements</a>
+                 title=" 5.1% of total for modules and submodules.">501 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -166,10 +166,10 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
-                  <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item">strings</li>
+                  <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
+                  <li class="list-inline-item"><a href='fplot_constants.html'>fplot_constants</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
@@ -211,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~234"></span>
+              <span class="anchor" id="variable-this~213"></span>
               class(<a href='..\type\plot_axis.html'>plot_axis</a>),
             </td>
 <td>intent(in)</td>
@@ -268,7 +268,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~6"></span>
+              <span class="anchor" id="variable-name~5"></span>
               character(len=:),
             </td>
               <td>public,</td>
@@ -329,12 +329,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale~2'>get_autoscale</a></strong> => pa_get_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_auto_calculate_title_angle'>get_auto_calculate_title_angle</a></strong> => pa_get_auto_calc_title_angle</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~9'>get_command_string</a></strong> => pa_get_cmd_string</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale'>get_autoscale</a></strong> => pa_get_autoscale</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~13'>get_command_string</a></strong> => pa_get_cmd_string</td>
                 <td></td>
               </tr>
               <tr>
@@ -404,6 +409,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_angle'>get_title_angle</a></strong> => pa_get_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong> => pa_get_title_x_offset</td>
                 <td></td>
               </tr>
@@ -439,7 +449,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale~2'>set_autoscale</a></strong> => pa_set_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_auto_calculate_title_angle'>set_auto_calculate_title_angle</a></strong> => pa_set_auto_calc_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale'>set_autoscale</a></strong> => pa_set_autoscale</td>
                 <td></td>
               </tr>
               <tr>
@@ -504,6 +519,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_angle'>set_title_angle</a></strong> => pa_set_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong> => pa_set_title_x_offset</td>
                 <td></td>
               </tr>
@@ -557,12 +577,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale~2'>get_autoscale</a></strong> => pa_get_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_auto_calculate_title_angle'>get_auto_calculate_title_angle</a></strong> => pa_get_auto_calc_title_angle</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~9'>get_command_string</a></strong> => pa_get_cmd_string</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale'>get_autoscale</a></strong> => pa_get_autoscale</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~13'>get_command_string</a></strong> => pa_get_cmd_string</td>
                 <td></td>
               </tr>
               <tr>
@@ -632,6 +657,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_angle'>get_title_angle</a></strong> => pa_get_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong> => pa_get_title_x_offset</td>
                 <td></td>
               </tr>
@@ -667,7 +697,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale~2'>set_autoscale</a></strong> => pa_set_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_auto_calculate_title_angle'>set_auto_calculate_title_angle</a></strong> => pa_set_auto_calc_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale'>set_autoscale</a></strong> => pa_set_autoscale</td>
                 <td></td>
               </tr>
               <tr>
@@ -732,6 +767,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_angle'>set_title_angle</a></strong> => pa_set_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong> => pa_set_title_x_offset</td>
                 <td></td>
               </tr>
@@ -785,12 +825,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale~2'>get_autoscale</a></strong> => pa_get_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_auto_calculate_title_angle'>get_auto_calculate_title_angle</a></strong> => pa_get_auto_calc_title_angle</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~9'>get_command_string</a></strong> => pa_get_cmd_string</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale'>get_autoscale</a></strong> => pa_get_autoscale</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~13'>get_command_string</a></strong> => pa_get_cmd_string</td>
                 <td></td>
               </tr>
               <tr>
@@ -860,6 +905,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_angle'>get_title_angle</a></strong> => pa_get_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong> => pa_get_title_x_offset</td>
                 <td></td>
               </tr>
@@ -895,7 +945,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale~2'>set_autoscale</a></strong> => pa_set_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_auto_calculate_title_angle'>set_auto_calculate_title_angle</a></strong> => pa_set_auto_calc_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale'>set_autoscale</a></strong> => pa_set_autoscale</td>
                 <td></td>
               </tr>
               <tr>
@@ -960,6 +1015,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_angle'>set_title_angle</a></strong> => pa_set_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong> => pa_set_title_x_offset</td>
                 <td></td>
               </tr>
@@ -1013,12 +1073,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale~2'>get_autoscale</a></strong> => pa_get_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_auto_calculate_title_angle'>get_auto_calculate_title_angle</a></strong> => pa_get_auto_calc_title_angle</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~9'>get_command_string</a></strong> => pa_get_cmd_string</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale'>get_autoscale</a></strong> => pa_get_autoscale</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~13'>get_command_string</a></strong> => pa_get_cmd_string</td>
                 <td></td>
               </tr>
               <tr>
@@ -1088,6 +1153,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_angle'>get_title_angle</a></strong> => pa_get_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong> => pa_get_title_x_offset</td>
                 <td></td>
               </tr>
@@ -1123,7 +1193,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale~2'>set_autoscale</a></strong> => pa_set_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_auto_calculate_title_angle'>set_auto_calculate_title_angle</a></strong> => pa_set_auto_calc_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale'>set_autoscale</a></strong> => pa_set_autoscale</td>
                 <td></td>
               </tr>
               <tr>
@@ -1188,6 +1263,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_angle'>set_title_angle</a></strong> => pa_set_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong> => pa_set_title_x_offset</td>
                 <td></td>
               </tr>
@@ -1241,12 +1321,17 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale~2'>get_autoscale</a></strong> => pa_get_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_auto_calculate_title_angle'>get_auto_calculate_title_angle</a></strong> => pa_get_auto_calc_title_angle</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~9'>get_command_string</a></strong> => pa_get_cmd_string</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_autoscale'>get_autoscale</a></strong> => pa_get_autoscale</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_command_string~13'>get_command_string</a></strong> => pa_get_cmd_string</td>
                 <td></td>
               </tr>
               <tr>
@@ -1316,6 +1401,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_angle'>get_title_angle</a></strong> => pa_get_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-get_title_x_offset'>get_title_x_offset</a></strong> => pa_get_title_x_offset</td>
                 <td></td>
               </tr>
@@ -1351,7 +1441,12 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale~2'>set_autoscale</a></strong> => pa_set_autoscale</td>
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_auto_calculate_title_angle'>set_auto_calculate_title_angle</a></strong> => pa_set_auto_calc_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_autoscale'>set_autoscale</a></strong> => pa_set_autoscale</td>
                 <td></td>
               </tr>
               <tr>
@@ -1416,6 +1511,11 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_angle'>set_title_angle</a></strong> => pa_set_title_angle</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\plot_axis.html#boundprocedure-set_title_x_offset'>set_title_x_offset</a></strong> => pa_set_title_x_offset</td>
                 <td></td>
               </tr>
@@ -1471,7 +1571,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-09-01 07:22              </p>
+ on 2026-10-01 05:57              </p>
           </div>
         </div>
         <br>

@@ -1,5 +1,5 @@
 name = "fplot"
-version = "1.10.0"
+version = "1.11.0"
 license = "GPL-3.0"
 author = "Jason Christopherson"
 maintainer = "Jason Christopherson"
@@ -13,7 +13,6 @@ source-dir = "src"
 [dependencies]
 collections = { git = "https://github.com/jchristopherson/collections" }
 fstring = { git = "https://github.com/jchristopherson/fstring" }
-geompack = { git = "https://github.com/jchristopherson/geompack" }
 forcolormap = { git = "https://github.com/vmagnin/forcolormap" }
 
 [dev-dependencies]

@@ -3,6 +3,7 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Define the source files
 set(FPLOT_SOURCES
+    ${dir}/delaunay/delaunay.f90
     ${dir}/fplot_core.f90
     ${dir}/fplot_core_routines.f90
     ${dir}/fplot_colors.f90
@@ -51,8 +52,8 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 
 # Dependencies
 include(FetchContent)
+set(BUILD_TESTING OFF)
 find_package(collections 1.1.0 QUIET)
-find_package(geompack QUIET)
 find_package(fstring QUIET)
 
 if (NOT collections_FOUND)
@@ -68,21 +69,6 @@ if (NOT collections_FOUND)
 else()
     set(COLLECTIONS_LIBRARIES collections::collections)
     set(BUILD_COLLECTIONS FALSE)
-endif()
-
-if (NOT geompack_FOUND)
-    message(STATUS "GEOMPACK could not be found.  A reference version will be employed.")
-    FetchContent_Declare(
-        geompack
-        GIT_REPOSITORY "https://github.com/jchristopherson/geompack"
-        GIT_TAG main
-    )
-    FetchContent_MakeAvailable(geompack)
-    set(GEOMPACK_LIBRARIES geompack)
-    set(BUILD_GEOMPACK TRUE)
-else()
-    set(GEOMPACK_LIBRARIES geompack::geompack)
-    set(BUILD_GEOMPACK FALSE)
 endif()
 
 if (NOT fstring_FOUND)
@@ -113,7 +99,6 @@ target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
     ${COLLECTIONS_LIBRARIES}
-    ${GEOMPACK_LIBRARIES}
     ${FSTRING_LIBRARIES}
     $<BUILD_INTERFACE:forcolormap>
 )
@@ -157,11 +142,6 @@ if(${BUILD_SHARED_LIBS})
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
     endif()
-    if(${BUILD_GEOMPACK})
-        install(TARGETS ${GEOMPACK_LIBRARIES}
-                ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
-                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    endif()
     if(${BUILD_FSTRING})
         install(TARGETS ${FSTRING_LIBRARIES}
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -170,11 +150,6 @@ if(${BUILD_SHARED_LIBS})
 else()
     if(${BUILD_COLLECTIONS})
         install(TARGETS ${COLLECTIONS_LIBRARIES}
-                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    endif()
-    if(${BUILD_GEOMPACK})
-        install(TARGETS ${GEOMPACK_LIBRARIES}
                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
     endif()

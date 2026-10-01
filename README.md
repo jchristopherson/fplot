@@ -74,7 +74,6 @@ The [examples](examples) directory contains complete programs for 2D and 3D plot
 The FPLOT library depends upon the following libraries.
 - [COLLECTIONS](https://github.com/jchristopherson/collections)
 - [FSTRING](https://github.com/jchristopherson/fstring)
-- [GEOMPACK](https://github.com/jchristopherson/geompack)
 - [FORCOLORMAP](https://github.com/vmagnin/forcolormap)
 
 ## Example 1

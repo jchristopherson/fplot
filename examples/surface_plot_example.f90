@@ -14,6 +14,7 @@ program example
     type(surface_plot) :: plt
     type(surface_plot_data) :: d1
     type(rainbow_colormap) :: map
+    class(plot_axis), pointer :: zAxis
 
     ! Define the data
     xy = meshgrid(linspace(-5.0d0, 5.0d0, n), linspace(-5.0d0, 5.0d0, m))
@@ -36,6 +37,10 @@ program example
     call plt%set_x_axis_title("X Axis")
     call plt%set_y_axis_title("Y Axis")
     call plt%set_z_axis_title("Z Axis")
+
+    ! Rotate the z-axis title
+    zAxis => plt%get_z_axis()
+    call zAxis%set_title_angle(90.0)
 
     ! Define the function to plot
     z = sqrt(x**2 + y**2) * sin(x**2 + y**2)
