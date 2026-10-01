@@ -79,6 +79,11 @@ module fplot_plot_axis
             !! Use manual (user-defined) tic labels?
         type(name_value_pair), private, allocatable, dimension(:) :: m_ticLabels
             !! A list of user-defined tic labels.
+        real(real32), private :: m_titleAngle = 0.0
+            !! The angle at which to rotate the axis title.
+        logical, private :: m_autoCalcTitleAngle = .true.
+            !! True if GNUPLOT should automatically rotate the title; else,
+            !! false if the m_titleAngle property should determine the angle.
     contains
         procedure, public :: get_title => pa_get_title
         procedure, public :: set_title => pa_set_title
@@ -123,6 +128,12 @@ module fplot_plot_axis
         procedure, public :: set_title_x_offset => pa_set_title_x_offset
         procedure, public :: get_title_y_offset => pa_get_title_y_offset
         procedure, public :: set_title_y_offset => pa_set_title_y_offset
+        procedure, public :: get_title_angle => pa_get_title_angle
+        procedure, public :: set_title_angle => pa_set_title_angle
+        procedure, public :: get_auto_calculate_title_angle => &
+            pa_get_auto_calc_title_angle
+        procedure, public :: set_auto_calculate_title_angle => &
+            pa_set_auto_calc_title_angle
         procedure, public :: get_use_manual_tic_labels => &
             pa_get_use_manual_tic_labels
         procedure, public :: set_use_manual_tic_labels => &
@@ -386,6 +397,12 @@ contains
             call str%append('"')
             call str%append(this%get_title())
             call str%append('"')
+
+            ! Rotation
+            if (.not.this%get_auto_calculate_title_angle()) then
+                call str%append(" rotate by ")
+                call str%append(to_string(this%get_title_angle()))
+            end if
 
             ! Offsets
             if (this%get_title_x_offset() /= 0 .or. &
@@ -748,6 +765,51 @@ contains
         integer(int32), intent(in) :: x
             !! The axis title y-offset, in characters.
         this%m_titleYOffset = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_title_angle(this) result(x)
+        !! Gets the axis title angle, in degrees.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        real(real32) :: x
+            !! The axis title angle, in degrees.
+        x = this%m_titleAngle
+    end function
+
+! --------------------
+    subroutine pa_set_title_angle(this, x)
+        !! Sets the axis title angle, in degrees.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        real(real32), intent(in) :: x
+            !! The axis title angle, in degrees.
+        this%m_titleAngle = x
+        this%m_autoCalcTitleAngle = .false.
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function pa_get_auto_calc_title_angle(this) result(x)
+        !! Gets whether GNUPLOT should automatically calculate the axis
+        !! title angle.
+        class(plot_axis), intent(in) :: this
+            !! The plot_axis object.
+        logical :: x
+            !! True if GNUPLOT should automatically calculate the title
+            !! angle; else, false.
+        x = this%m_autoCalcTitleAngle
+    end function
+
+! --------------------
+    subroutine pa_set_auto_calc_title_angle(this, x)
+        !! Sets whether GNUPLOT should automatically calculate the axis
+        !! title angle.
+        class(plot_axis), intent(inout) :: this
+            !! The plot_axis object.
+        logical, intent(in) :: x
+            !! Set to true to automatically calculate the title angle;
+            !! else, set to false.
+        this%m_autoCalcTitleAngle = x
     end subroutine
 
 ! ------------------------------------------------------------------------------

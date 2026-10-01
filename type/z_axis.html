@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.5% of total for derived types.</p>Including implementation: 349 statements,  2.2% of total for derived types.">5 statements</a>
+                 title="<p> 0.5% of total for derived types.</p>Including implementation: 374 statements,  2.2% of total for derived types.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -130,8 +130,9 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_autoscale~2">get_autoscale</a>
-            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_command_string~9">get_command_string</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_auto_calculate_title_angle">get_auto_calculate_title_angle</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_autoscale">get_autoscale</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_command_string~13">get_command_string</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_id_string~8">get_id_string</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_is_log_scaled">get_is_log_scaled</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_limits">get_limits</a>
@@ -145,6 +146,7 @@
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_tic_label_x_offset">get_tic_label_x_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_tic_label_y_offset">get_tic_label_y_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_title~2">get_title</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_title_angle">get_title_angle</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_title_x_offset">get_title_x_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_title_y_offset">get_title_y_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_use_default_tic_label_format">get_use_default_tic_label_format</a>
@@ -152,7 +154,8 @@
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_zero_axis">get_zero_axis</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-get_zero_axis_line_width">get_zero_axis_line_width</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-is_title_defined~2">is_title_defined</a>
-            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_autoscale~2">set_autoscale</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_auto_calculate_title_angle">set_auto_calculate_title_angle</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_autoscale">set_autoscale</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_is_log_scaled">set_is_log_scaled</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_limits">set_limits</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_manual_tic_labels">set_manual_tic_labels</a>
@@ -165,6 +168,7 @@
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_tic_label_x_offset">set_tic_label_x_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_tic_label_y_offset">set_tic_label_y_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_title~2">set_title</a>
+            <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_title_angle">set_title_angle</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_title_x_offset">set_title_x_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_title_y_offset">set_title_y_offset</a>
             <a class="list-group-item" href="../type/z_axis.html#boundprocedure-set_use_default_tic_label_format">set_use_default_tic_label_format</a>
@@ -197,7 +201,67 @@
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_autoscale~2"></span>
+      <span class="anchor" id="boundprocedure-get_auto_calculate_title_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_auto_calculate_title_angle</strong> => pa_get_auto_calc_title_angle
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pa_get_auto_calc_title_angle(this) result(x)  
+</h3>
+
+  <p>Gets whether GNUPLOT should automatically calculate the axis
+title angle.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    <p>True if GNUPLOT should automatically calculate the title
+angle; else, false.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_autoscale"></span>
       <h3>
           procedure, public ::
   <strong>get_autoscale</strong> => pa_get_autoscale
@@ -257,7 +321,7 @@ false.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-get_command_string~9"></span>
+      <span class="anchor" id="boundprocedure-get_command_string~13"></span>
       <h3>
           procedure, public ::
   <strong>get_command_string</strong> => pa_get_cmd_string
@@ -1098,6 +1162,64 @@ must be one of the following:</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_title_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_title_angle</strong> => pa_get_title_angle
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private pure function pa_get_title_angle(this) result(x)  
+</h3>
+
+  <p>Gets the axis title angle, in degrees.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real32)</small>
+    </h4>
+    <p>The axis title angle, in degrees.</p>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-get_title_x_offset"></span>
       <h3>
           procedure, public ::
@@ -1508,7 +1630,77 @@ active.</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-set_autoscale~2"></span>
+      <span class="anchor" id="boundprocedure-set_auto_calculate_title_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_auto_calculate_title_angle</strong> => pa_set_auto_calc_title_angle
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pa_set_auto_calc_title_angle(this, x)  
+</h3>
+
+  <p>Sets whether GNUPLOT should automatically calculate the axis
+title angle.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>Set to true to automatically calculate the title angle;
+else, set to false.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_autoscale"></span>
       <h3>
           procedure, public ::
   <strong>set_autoscale</strong> => pa_set_autoscale
@@ -2438,6 +2630,74 @@ must be one of the following:</p>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_title_angle"></span>
+      <h3>
+          procedure, public ::
+  <strong>set_title_angle</strong> => pa_set_title_angle
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  subroutine pa_set_title_angle(this, x)  
+</h3>
+
+  <p>Sets the axis title angle, in degrees.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='plot_axis.html'>plot_axis</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>this</strong></td>
+            <td>
+                <p>The plot_axis object.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=real32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                <p>The axis title angle, in degrees.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-set_title_x_offset"></span>
       <h3>
           procedure, public ::
@@ -2865,7 +3125,7 @@ active.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-09-01 07:22              </p>
+ on 2026-10-01 05:57              </p>
           </div>
         </div>
         <br>
