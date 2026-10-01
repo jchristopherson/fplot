@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 module fplot_core
     !! FPLOT is a Fortran library providing a means of interacting with
     !! [GNUPLOT](http://www.gnuplot.info/) from a Fortran program.  The library

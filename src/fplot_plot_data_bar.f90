@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 ! fplot_plot_data_bar.f90
 
 ! TO DO:

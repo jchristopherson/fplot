@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 module delaunay
     !! Provides a minimal, in-house implementation of the subset of the
     !! GEOMPACK library used by FPLOT to construct 2D Delaunay

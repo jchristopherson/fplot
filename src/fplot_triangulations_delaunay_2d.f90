@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 module fplot_triangulations_delaunay_2d
     use iso_fortran_env
     use delaunay

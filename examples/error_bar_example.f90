@@ -1,3 +1,6 @@
+! Copyright (c) 2017-2026 Jason Christopherson
+! Licensed under the MIT License. See the LICENSE file in the project root.
+
 ! fplot_err_1.f90
 
 program example
