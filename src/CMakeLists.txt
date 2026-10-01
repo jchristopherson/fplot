@@ -52,6 +52,7 @@ set(FPLOT_SOURCES ${FPLOT_SOURCES} PARENT_SCOPE)
 
 # Dependencies
 include(FetchContent)
+set(BUILD_TESTING OFF)
 find_package(collections 1.1.0 QUIET)
 find_package(fstring QUIET)
 
