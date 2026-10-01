@@ -31,6 +31,20 @@ module fplot_colormap
             !! Draw the colormap border.
         logical, private :: m_showTics = .false.
             !! Show the tic marks.
+        real(real32), private :: m_colorbarThickness = 0.02
+            !! The relative thickness of the colorbar itself.  A value of 0
+            !! allows GNUPLOT to use it's defaults.  This value is clamped to
+            !! the range [0.0, 1.0].
+        real(real32), private :: m_colorbarLength = 0.4
+            !! The relative length of the colorbar itself.  A value of 0
+            !! allows GNUPLOT to use it's defaults.  This value is clamped to
+            !! the range [0.0, 1.0].
+        real(real32), private :: m_axesSize(2) = [0.85, 0.85]
+            !! The size of the axes size defined as [width, height] 
+            !! clamped to the interval [0.0, 1.0].
+        real(real32), private :: m_axesOrigin(2) = [0.05, 0.05]
+            !! The x-y coordinates of the axes clamped to the interval
+            !! [0.0, 1.0].
     contains
         procedure, public :: get_command_string => cm_get_cmd
         procedure(cm_get_string_result), deferred, public :: get_color_string
@@ -42,6 +56,14 @@ module fplot_colormap
         procedure, public :: set_draw_border => cm_set_draw_border
         procedure, public :: get_show_tics => cm_get_show_tics
         procedure, public :: set_show_tics => cm_set_show_tics
+        procedure, public :: get_colorbar_thickness => cm_get_colorbar_thickness
+        procedure, public :: set_colorbar_thickness => cm_set_colorbar_thickness
+        procedure, public :: get_colorbar_length => cm_get_colorbar_length
+        procedure, public :: set_colorbar_length => cm_set_colorbar_length
+        procedure, public :: get_axes_size => cm_get_axes_size
+        procedure, public :: set_axes_size => cm_set_axes_size
+        procedure, public :: get_axes_origin => cm_get_axes_origin
+        procedure, public :: set_axes_origin => cm_set_axes_origin
     end type
 
     interface
@@ -130,9 +152,14 @@ contains
 
         ! Local Variables
         type(string_builder) :: str
+        real(real32) :: sz(2), origin(2), length, thickness
 
         ! Initialization
         call str%initialize()
+        sz = this%get_axes_size()
+        origin = this%get_axes_origin()
+        length = this%get_colorbar_length()
+        thickness = this%get_colorbar_thickness()
 
         ! Palette Definition
         call str%append("set palette defined (")
@@ -151,9 +178,19 @@ contains
             call str%append(new_line('a'))
             call str%append("set colorbox horizontal")
             call str%append(new_line('a'))
-            call str%append("set size 0.9,0.85; set origin 0.05,0.15")
+            call str%append("set size ")
+            call str%append(to_string(sz(1)))
+            call str%append(",")
+            call str%append(to_string(sz(2)))
+            call str%append("; set origin ")
+            call str%append(to_string(origin(1)))
+            call str%append(",")
+            call str%append(to_string(origin(2)))
             call str%append(new_line('a'))
-            call str%append("set colorbox user origin 0.1,0.1 size 0.8,0.02")
+            call str%append("set colorbox user origin 0.1,0.1 size ")
+            call str%append(to_string(length))
+            call str%append(",")
+            call str%append(to_string(thickness))
 
             if (len(this%get_label()) > 0) then
                 call str%append(new_line('a'))
@@ -163,9 +200,19 @@ contains
             call str%append(new_line('a'))
             call str%append("set colorbox vertical")
             call str%append(new_line('a'))
-            call str%append("set size 0.8,0.9; set origin 0.05,0.05")
+            call str%append("set size ")
+            call str%append(to_string(sz(1)))
+            call str%append(",")
+            call str%append(to_string(sz(2)))
+            call str%append("; set origin ")
+            call str%append(to_string(origin(1)))
+            call str%append(",")
+            call str%append(to_string(origin(2)))
             call str%append(new_line('a'))
-            call str%append("set colorbox user origin 0.9,0.3 size 0.02,0.4")
+            call str%append("set colorbox user origin 0.9,0.3 size ")
+            call str%append(to_string(thickness))
+            call str%append(",")
+            call str%append(to_string(length))
         end if
 
         ! Border & Tic Marks
@@ -275,6 +322,86 @@ contains
         logical, intent(in) :: x
             !! Set to true if the tic marks should be drawn; else, false.
         this%m_showTics = x
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function cm_get_colorbar_thickness(this) result(rst)
+        !! Gets the relative thickness of the colorbar.
+        class(colormap), intent(in) :: this
+            !! The colormap object.
+        real(real32) :: rst
+            !! The thickness in [0.0, 1.0]; 0 uses GNUPLOT's default.
+        rst = this%m_colorbarThickness
+    end function
+
+! --------------------
+    subroutine cm_set_colorbar_thickness(this, x)
+        !! Sets the relative colorbar thickness, clamped to [0.0, 1.0].
+        class(colormap), intent(inout) :: this
+            !! The colormap object.
+        real(real32), intent(in) :: x
+            !! The requested thickness; 0 uses GNUPLOT's default.
+        this%m_colorbarThickness = max(0.0, min(1.0, x))
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function cm_get_colorbar_length(this) result(rst)
+        !! Gets the relative length of the colorbar.
+        class(colormap), intent(in) :: this
+            !! The colormap object.
+        real(real32) :: rst
+            !! The length in [0.0, 1.0]; 0 uses GNUPLOT's default.
+        rst = this%m_colorbarLength
+    end function
+
+! --------------------
+    subroutine cm_set_colorbar_length(this, x)
+        !! Sets the relative colorbar length, clamped to [0.0, 1.0].
+        class(colormap), intent(inout) :: this
+            !! The colormap object.
+        real(real32), intent(in) :: x
+            !! The requested length; 0 uses GNUPLOT's default.
+        this%m_colorbarLength = max(0.0, min(1.0, x))
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function cm_get_axes_size(this) result(rst)
+        !! Gets the relative width and height of the axes.
+        class(colormap), intent(in) :: this
+            !! The colormap object.
+        real(real32), dimension(2) :: rst
+            !! The [width, height], each in [0.0, 1.0].
+        rst = this%m_axesSize
+    end function
+
+! --------------------
+    subroutine cm_set_axes_size(this, x)
+        !! Sets the axes width and height, each clamped to [0.0, 1.0].
+        class(colormap), intent(inout) :: this
+            !! The colormap object.
+        real(real32), dimension(2), intent(in) :: x
+            !! The requested [width, height].
+        this%m_axesSize = max(0.0, min(1.0, x))
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    pure function cm_get_axes_origin(this) result(rst)
+        !! Gets the relative x-y coordinates of the axes origin.
+        class(colormap), intent(in) :: this
+            !! The colormap object.
+        real(real32), dimension(2) :: rst
+            !! The [x, y] coordinates, each in [0.0, 1.0].
+        rst = this%m_axesOrigin
+    end function
+
+! --------------------
+    subroutine cm_set_axes_origin(this, x)
+        !! Sets the axes origin coordinates, each clamped to [0.0, 1.0].
+        class(colormap), intent(inout) :: this
+            !! The colormap object.
+        real(real32), dimension(2), intent(in) :: x
+            !! The requested [x, y] coordinates.
+        this%m_axesOrigin = max(0.0, min(1.0, x))
     end subroutine
 
 ! ------------------------------------------------------------------------------
