@@ -1,4 +1,7 @@
-! Copyright (c) 2017-2026 Jason Christopherson
+! Copyright (c) 2017-2026 Jason Christopherson for local modifications.
+! Original FORTRAN77 version by Barry Joe.
+! FORTRAN90 version by John Burkardt.
+! This code is distributed under the MIT license.
 ! Licensed under the MIT License. See the LICENSE file in the project root.
 
 module delaunay
