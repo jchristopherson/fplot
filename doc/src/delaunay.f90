@@ -7,7 +7,7 @@ module delaunay
     !! John Burkardt.  Reference: Barry Joe, GEOMPACK - a software
     !! package for the generation of meshes using geometric algorithms,
     !! Advances in Engineering Software, Volume 13, pages 325-331, 1991.
-    use iso_fortran_env, only : int32, real64, error_unit
+    use iso_fortran_env, only : int32, real64
     implicit none
     private
     public :: r8tris2
@@ -48,13 +48,12 @@ contains
 
         ! Local Variables
         real(real64) :: cmax, tol
-        integer(int32) :: e, i, ierr, j, k, l, ledg, lr, ltri, m, m1, m2, &
+        integer(int32) :: e, i, j, k, l, ledg, lr, ltri, m, m1, m2, &
             n, redg, rtri, t, top
         integer(int32), dimension(node_num) :: indx, stack
 
         ! Initialization
         tol = 100.0d0 * epsilon(tol)
-        ierr = 0
 
         ! Sort the vertices by increasing (x,y)
         call r82vec_sort_heap_index_a(node_num, node_xy, indx)
@@ -75,10 +74,8 @@ contains
                 end if
             end do
             if (k == 0) then
-                write(error_unit, '(A)') &
+                error stop &
                     "R8TRIS2 - Fatal error!  Two points are too close together."
-                ierr = 224
-                return
             end if
         end do
 
@@ -89,9 +86,8 @@ contains
         j = 3
         do
             if (node_num < j) then
-                write(error_unit, '(A)') "R8TRIS2 - Fatal error!"
-                ierr = 225
-                return
+                error stop &
+                    "R8TRIS2 - Fatal error!  Could not find a non-collinear point."
             end if
 
             m = j
@@ -209,10 +205,7 @@ contains
                 top = top + 1
 
                 if (node_num < top) then
-                    ierr = 8
-                    write(error_unit, '(A)') &
-                        "R8TRIS2 - Fatal error!  Stack overflow."
-                    return
+                    error stop "R8TRIS2 - Fatal error!  Stack overflow."
                 end if
 
                 stack(top) = triangle_num
@@ -227,14 +220,7 @@ contains
             ledg = 2
 
             call swapec(m, top, ltri, ledg, node_num, node_xy, &
-                triangle_num, triangle_node, triangle_neighbor, stack, &
-                ierr)
-
-            if (ierr /= 0) then
-                write(error_unit, '(A)') &
-                    "R8TRIS2 - Fatal error!  Error return from SWAPEC."
-                return
-            end if
+                triangle_num, triangle_node, triangle_neighbor, stack)
         end do
 
         ! Now account for the sorting that was done
@@ -717,7 +703,7 @@ contains
 
 ! ------------------------------------------------------------------------------
     pure subroutine swapec(i, top, btri, bedg, node_num, node_xy, &
-            triangle_num, triangle_node, triangle_neighbor, stack, ierr)
+            triangle_num, triangle_node, triangle_neighbor, stack)
         !! Swaps diagonal edges until all triangles are Delaunay.
         !!
         !! The routine swaps diagonal edges in a 2D triangulation, based
@@ -757,15 +743,12 @@ contains
             !! initial triangles (involving vertex I) put in the stack;
             !! the edges opposite I should be in the interior; entries
             !! TOP+1 through NODE_NUM are used as a stack.
-        integer(int32), intent(out) :: ierr
-            !! Set to 8 for an abnormal return.
 
         ! Local Variables
         integer(int32) :: a, b, c, e, ee, em1, ep1, f, fm1, fp1, l, r, s, &
             swap, t, tt, u
         real(real64) :: x, y
 
-        ierr = 0
         x = node_xy(1, i)
         y = node_xy(2, i)
 
@@ -835,8 +818,7 @@ contains
 
                     top = top + 1
                     if (node_num < top) then
-                        ierr = 8
-                        return
+                        error stop "SWAPEC - Fatal error!  Stack overflow."
                     end if
                     stack(top) = t
                 else

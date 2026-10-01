@@ -74,7 +74,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 3.0% of total for modules and submodules.">283 statements</a>
+                 title=" 4.0% of total for modules and submodules.">390 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -141,6 +141,7 @@
             <a class="list-group-item" href="../module/fplot_colormap.html#type-hot_colormap">hot_colormap</a>
             <a class="list-group-item" href="../module/fplot_colormap.html#type-parula_colormap">parula_colormap</a>
             <a class="list-group-item" href="../module/fplot_colormap.html#type-rainbow_colormap">rainbow_colormap</a>
+            <a class="list-group-item" href="../module/fplot_colormap.html#type-spectral_colormap">spectral_colormap</a>
         </div>
       </div>
     </div>
@@ -168,12 +169,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='fplot_colors.html'>fplot_colors</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
-                  <li class="list-inline-item">forcolormap</li>
                   <li class="list-inline-item">strings</li>
-                  <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
+                  <li class="list-inline-item">forcolormap</li>
+                  <li class="list-inline-item"><a href='fplot_colors.html'>fplot_colors</a></li>
                   <li class="list-inline-item"><a href='fplot_plot_object.html'>fplot_plot_object</a></li>
+                  <li class="list-inline-item"><a href='fplot_errors.html'>fplot_errors</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
         </ul>
@@ -215,7 +216,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~562"></span>
+              <span class="anchor" id="variable-this~407"></span>
               class(<a href='..\type\colormap.html'>colormap</a>),
             </td>
 <td>intent(in)</td>
@@ -266,18 +267,38 @@
         <table class="table table-striped varlist">
           <tbody>
               <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>  procedure(<a href='..\interface\cm_get_string_result.html'>cm_get_string_result</a>), public, deferred ::
   <strong><a href='..\type\colormap.html#boundprocedure-get_color_string'>get_color_string</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -287,7 +308,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -297,7 +318,27 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -307,7 +348,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -340,17 +381,37 @@
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\cool_colormap.html#boundprocedure-get_color_string~4'>get_color_string</a></strong> => ccm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -360,7 +421,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -370,7 +431,27 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -380,7 +461,7 @@
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -423,22 +504,42 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\custom_colormap.html#boundprocedure-get_color_string~8'>get_color_string</a></strong> => custom_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\custom_colormap.html#boundprocedure-get_colormap~2'>get_colormap</a></strong> => custom_get</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\custom_colormap.html#boundprocedure-get_colormap'>get_colormap</a></strong> => custom_get</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -448,7 +549,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -458,12 +559,32 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\custom_colormap.html#boundprocedure-set_colormap~2'>set_colormap</a></strong> => custom_set</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\custom_colormap.html#boundprocedure-set_colormap'>set_colormap</a></strong> => custom_set</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -473,7 +594,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -506,17 +627,37 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\earth_colormap.html#boundprocedure-get_color_string~7'>get_color_string</a></strong> => ecm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -526,7 +667,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -536,7 +677,27 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -546,7 +707,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -579,17 +740,37 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\grey_colormap.html#boundprocedure-get_color_string~6'>get_color_string</a></strong> => gcm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -599,7 +780,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -609,7 +790,27 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -619,7 +820,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -652,17 +853,37 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\hot_colormap.html#boundprocedure-get_color_string~3'>get_color_string</a></strong> => hcm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -672,7 +893,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -682,7 +903,27 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -692,7 +933,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -725,17 +966,37 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\parula_colormap.html#boundprocedure-get_color_string~5'>get_color_string</a></strong> => pcm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -745,7 +1006,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -755,7 +1016,27 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -765,7 +1046,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -798,17 +1079,37 @@ to provide the map.</p>
           <tbody>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='..\type\rainbow_colormap.html#boundprocedure-get_color_string~2'>get_color_string</a></strong> => rcm_get_clr</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~28'>get_command_string</a></strong> => cm_get_cmd</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~3'>get_draw_border</a></strong> => cm_get_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -818,7 +1119,7 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-get_label~3'>get_label</a></strong> => cm_get_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -828,7 +1129,27 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~3'>set_draw_border</a></strong> => cm_set_draw_border</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
                 <td></td>
               </tr>
               <tr>
@@ -838,7 +1159,121 @@ to provide the map.</p>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='..\type\colormap.html#boundprocedure-set_label~3'>set_label</a></strong> => cm_set_label</td>
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_show_tics'>set_show_tics</a></strong> => cm_set_show_tics</td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-spectral_colormap"></span>
+      <h3>
+        type, public, extends(<a href='..\type\colormap.html'>colormap</a>)&nbsp;::&nbsp;
+        <a href='..\type\spectral_colormap.html'>spectral_colormap</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Defines the spectral colormap available at 
+https://github.com/Gnuplotting/gnuplot-palettes/blob/master/spectral.pal.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_origin'>get_axes_origin</a></strong> => cm_get_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_axes_size'>get_axes_size</a></strong> => cm_get_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\spectral_colormap.html#boundprocedure-get_color_string~9'>get_color_string</a></strong> => spcm_get_clr</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_length'>get_colorbar_length</a></strong> => cm_get_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_colorbar_thickness'>get_colorbar_thickness</a></strong> => cm_get_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_command_string~21'>get_command_string</a></strong> => cm_get_cmd</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_draw_border~2'>get_draw_border</a></strong> => cm_get_draw_border</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_horizontal'>get_horizontal</a></strong> => cm_get_horizontal</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_label'>get_label</a></strong> => cm_get_label</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-get_show_tics'>get_show_tics</a></strong> => cm_get_show_tics</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_origin'>set_axes_origin</a></strong> => cm_set_axes_origin</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_axes_size'>set_axes_size</a></strong> => cm_set_axes_size</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_length'>set_colorbar_length</a></strong> => cm_set_colorbar_length</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_colorbar_thickness'>set_colorbar_thickness</a></strong> => cm_set_colorbar_thickness</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_draw_border~2'>set_draw_border</a></strong> => cm_set_draw_border</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_horizontal'>set_horizontal</a></strong> => cm_set_horizontal</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='..\type\colormap.html#boundprocedure-set_label'>set_label</a></strong> => cm_set_label</td>
                 <td></td>
               </tr>
               <tr>
@@ -873,7 +1308,7 @@ to provide the map.</p>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-09-24 05:54              </p>
+ on 2026-10-01 05:57              </p>
           </div>
         </div>
         <br>
